@@ -22,17 +22,17 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Customer extends Scriptable implements Person {
 
-  private final float waitHeight;
-  private final float waitWidth;
+  Sprite sprite;
+  private float waitHeight, waitWidth;
   private int currentSpriteAnimation;
-  private final int MAX_ANIMATION = 4;
+  private int MAX_ANIMATION = 4;
   private TextureAtlas customerAtlas;
   private float stateTime = 0;
-
+  private float posX, posY;
   private int size;
   private String spriteOrientation, spriteState;
-  private final String lastOrientation;
-  private final int customerNumber;
+  private String lastOrientation;
+  private int customerNumber;
   private boolean idle;   // customer will be invisible during idle because out of map
   private boolean waitingAtCounter;   // customer will be waiting at the counter for their dish
   private boolean eaten;
@@ -77,8 +77,9 @@ public class Customer extends Scriptable implements Person {
   }
 
   /**
-   * Updates the sprite to follow the correct animation
+   * Updates the sprite to follow the correct animation.
    */
+  @SuppressWarnings("checkstyle:MissingSwitchDefault")
   @Override
   public void updateSpriteFromInput(String newOrientation) {
     if (newOrientation.contains("idle")) {
@@ -120,7 +121,7 @@ public class Customer extends Scriptable implements Person {
   }
 
   /**
-   * Sets the customer teexure for each customer
+   * Sets the customer teexure for each customer.
    */
   @Override
   public void setTexture(String texture) {
@@ -128,7 +129,7 @@ public class Customer extends Scriptable implements Person {
   }
 
   /**
-   * Gets the move of the customer and direction and sets the animations accordingly
+   * Gets the move of the customer and direction and sets the animations accordingly.
    *
    * @return currentDirection direction of the customer
    */
@@ -144,7 +145,7 @@ public class Customer extends Scriptable implements Person {
   }
 
   /**
-   * Spawns the customer and sets it course
+   * Spawns the customer and sets it course.
    *
    * @return if customer waiting or moving
    */
@@ -183,7 +184,7 @@ public class Customer extends Scriptable implements Person {
   }
 
   /**
-   * Returns the x of the customer
+   * Returns the x of the customer.
    *
    * @return int posX the x position of the customer
    */
@@ -264,7 +265,12 @@ public class Customer extends Scriptable implements Person {
    *
    * @param batch the batch in which we draw onto
    */
-
+  //  @Override
+  //  public void draw(Batch batch) {
+  //    if (!idle) {
+  //      sprite.draw(batch);
+  //    }
+  //  }
 
   /**
    * Checks if the customer has successfully been fed.
