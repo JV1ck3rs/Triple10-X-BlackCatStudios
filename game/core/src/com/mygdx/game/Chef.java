@@ -31,7 +31,7 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public class Chef extends Scriptable implements Person {
 
-  float speed = 2000;
+  float speed = 5000;
 
   private String spriteOrientation, spriteState;
   private int currentSpriteAnimation;
@@ -58,6 +58,7 @@ public class Chef extends Scriptable implements Person {
   int currentTimerFrame = 0;
   TextureAtlas timerAtlas;
   Sprite timerSprite;
+  public float ppm = 97f;
 
   /**
    * Initialise the chef object and sets its spawn position.
@@ -129,10 +130,10 @@ public class Chef extends Scriptable implements Person {
         currentSpriteAnimation = 1;
         stateTime = 0;
       } else {
-        if (stateTime > 1 / 15.0) {
+        if (stateTime > 1 / 15.0) { // sprite is updated every 15th of a second
           currentSpriteAnimation++;
-          // System.out.println(spriteState);
-          if (currentSpriteAnimation > MAX_ANIMATION) {
+//           System.out.println(spriteState);
+          if (currentSpriteAnimation > MAX_ANIMATION) { // a chef has 4 different animations
             currentSpriteAnimation = 1;
           }
           stateTime = 0;
@@ -167,10 +168,11 @@ public class Chef extends Scriptable implements Person {
         vely = vely;
         break;
     }
-    b2body.setLinearVelocity(velx, vely);
-    //cant figure out how to speed the character up it doesnt want to function
-    gameObject.position.x = (b2body.getPosition().x / 1.6f) - getWidth() / 2;
-    gameObject.position.y = b2body.getPosition().y / 1.2f;
+
+    b2body.setLinearVelocity(velx, vely); // sets the velocity of the chef
+    //cant figure out how to speed the character up it doesn't want to function
+    gameObject.position.x = (((b2body.getPosition().x) / 1.6f) - getWidth() / 2);
+    gameObject.position.y = ((b2body.getPosition().y) / 1.2f);
   }
 
   /**
