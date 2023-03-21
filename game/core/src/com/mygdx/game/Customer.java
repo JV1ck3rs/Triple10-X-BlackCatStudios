@@ -9,9 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.Pathfinding;
+import com.mygdx.game.Core.PathfindingAgent;
 import com.mygdx.game.Core.Scriptable;
+import com.mygdx.game.Items.Item;
+import com.mygdx.game.Items.ItemEnum;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -23,10 +28,10 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author Robin Graham
  */
-public class Customer extends Scriptable implements Person {
+public class Customer extends PathfindingAgent implements Person {
 
-  private final float waitHeight;
-  private final float waitWidth;
+  Sprite sprite;
+  private float waitHeight, waitWidth;
   private int currentSpriteAnimation;
   private final int MAX_ANIMATION = 4;
   private TextureAtlas customerAtlas;
@@ -34,15 +39,13 @@ public class Customer extends Scriptable implements Person {
 
   private int size;
   private String spriteOrientation, spriteState;
-  private final String lastOrientation;
-  private final int customerNumber;
+  private String lastOrientation;
+  private int customerNumber;
   private boolean idle;   // customer will be invisible during idle because out of map
   private boolean waitingAtCounter;   // customer will be waiting at the counter for their dish
   private boolean eaten;
-  private int spawnWait;
-  private final String dish;
-  public HashMap<String, String> itemMap = new HashMap<>();
 
+  public ItemEnum dish;
 
   public GameObject foodIcon;
   Random rand = new Random();
@@ -53,27 +56,25 @@ public class Customer extends Scriptable implements Person {
    *
    * @param customerNumber the ID of each individual customer which will be interacted with
    */
-  public Customer(int customerNumber) {
-    itemMap.put("salad", "speech_dish1.png");
-    itemMap.put("burger", "speech_dish2.png");
+  public Customer(int customerNumber, ItemEnum Order) {
+
+    dish = Order;
     currentSpriteAnimation = 1;
     spriteOrientation = "north";
+
     // sprite.setPosition(posX, posY);
-    this.idle = true;
+    this.idle = false;
     this.waitingAtCounter = false;
     this.customerNumber = customerNumber;
     this.lastOrientation = "north";
     this.eaten = false;
     this.waitWidth = 235;
     this.waitHeight = 340 - customerNumber * 32;
-    if (customerNumber == 1) {
-      spawnWait = 1;
-    } else {
-      spawnWait = rand.nextInt(6000) + 3000;
-    }
-    this.dish = pickDish();
+
+
     System.out.println("customer " + customerNumber + ": " + dish);
-    foodIcon = new GameObject(new BlackTexture(itemMap.get(this.dish)));
+    foodIcon = new GameObject(new BlackTexture(Item.GetItemPath(this.dish)));
+
     foodIcon.isVisible = false;
   }
 
@@ -81,13 +82,15 @@ public class Customer extends Scriptable implements Person {
   public void Start() {
     customerAtlas = getCustomerAtlas(GameScreen.getCustomerAtlasArray());
     gameObject.getSprite().setSprite(customerAtlas.createSprite("north1"));
-    gameObject.position.x = 148;
-    gameObject.position.y = 66;
+    gameObject.getSprite().layer = 2;
+    gameObject.image.setSize(25,45);
+  //  gameObject.position.x = 148;
+  //  gameObject.position.y = 66;
 
   }
 
   /**
-   * Updates the sprite to follow the correct animation
+   * Updates the sprite to follow the correct animation.
    */
   @Override
   public void updateSpriteFromInput(String newOrientation) {
@@ -113,87 +116,71 @@ public class Customer extends Scriptable implements Person {
     setTexture(spriteState);
     spriteOrientation = newOrientation;
 
-    switch (spriteOrientation) {
-      case "north":
-        gameObject.position.y += 2;
-        break;
-      case "south":
-        gameObject.position.y -= 2;
-        break;
-      case "east":
-        gameObject.position.x += 2;
-        break;
-      case "west":
-        gameObject.position.x -= 2;
-        break;
-    }
+//    switch (spriteOrientation) {
+//      case "north":
+//        gameObject.position.y += 2;
+//        break;
+//      case "south":
+//        gameObject.position.y -= 2;
+//        break;
+//      case "east":
+//        gameObject.position.x += 2;
+//        break;
+//      case "west":
+//        gameObject.position.x -= 2;
+//        break;
+//    }
   }
 
   /**
-   * Sets the customer teexure for each customer
+   * Sets the customer texture for each customer.
    */
   @Override
   public void setTexture(String texture) {
+
+    if(texture.contains("idle")) {
+      texture = texture.replace("idle", "");
+      texture += "1";
+    }
+    System.out.println(texture);
     gameObject.getSprite().sprite.setRegion(customerAtlas.findRegion(texture));
   }
 
   /**
-   * Gets the move of the customer and direction and sets the animations accordingly
+   * Gets the move of the customer and direction and sets the animations accordingly.
    *
    * @return currentDirection direction of the customer
    */
   @Override
   public String getMove() {
-    String currentDirection = courseSet();
-    if (currentDirection == "waiting") {
-      return "idleeast";
-    } else if (currentDirection == "complete") {
-      System.out.println("customer served and completed animation");
+    Vector2 dir = GetMoveDir().nor();
+    String newOrientation;
+    System.out.println(dir);
+    if(dir.dot(dir)<=0)
+      newOrientation = "idle" + spriteOrientation.replace("idle","");
+    else {
+      if (Math.abs(dir.dot(new Vector2(1, 0))) < Math.abs(dir.dot(new Vector2(0, 1)))) {
+        //North prefered
+
+        if (dir.dot(new Vector2(0, 1)) > 0)
+          newOrientation = "north";
+        else
+          newOrientation = "south";
+
+
+      } else {
+        if (dir.dot(new Vector2(1, 0)) > 0)
+          newOrientation = "east";
+        else
+          newOrientation = "west";
+      }
     }
-    return currentDirection;
+      return newOrientation;
   }
 
-  /**
-   * Spawns the customer and sets it course
-   *
-   * @return if customer waiting or moving
-   */
-  public String courseSet() {
-    if (this.spawnWait > 0) {
-      if (this.spawnWait == 1) {   // final waiting frame, sprite becomes visible
-        idle = false;
-      }
-      this.spawnWait--;
-      return "waiting";
-    }
-
-    String direction = "waiting";
-    // customer is walking to counter
-    if (!idle && !eaten) {
-      if (gameObject.position.y < waitHeight) {
-        direction = "north";
-      } else if (gameObject.position.x < waitWidth) {
-        direction = "east";
-      } else {
-        waitingAtCounter = true;
-      }
-    }
-    // customer is walking away from counter
-    if (!idle && eaten) {
-      if (gameObject.position.x > 148) {
-        direction = "west";
-      } else if (gameObject.position.y > 66) {
-        direction = "south";
-      } else {
-        idle = true;
-      }
-    }
-
-    return direction;
-  }
 
   /**
-   * Returns the x of the customer
+   * Returns the x of the customer.
    *
    * @return int posX the x position of the customer
    */
@@ -230,7 +217,7 @@ public class Customer extends Scriptable implements Person {
     if (choice) {
       return "burger";
     } else {
-      return "burger";
+      return "salad";
     }
   }
 
@@ -247,7 +234,7 @@ public class Customer extends Scriptable implements Person {
     */
     int randomIndex = (int) (Math.random() * customerAtlasArray.size());
     TextureAtlas atlas = customerAtlasArray.get(randomIndex);
-    customerAtlasArray.remove(randomIndex);
+//    customerAtlasArray.remove(randomIndex);
     return atlas;
   }
 
@@ -265,7 +252,7 @@ public class Customer extends Scriptable implements Person {
    *
    * @return Dish dish which is the object the customer has
    */
-  public String getDish() {
+  public ItemEnum getDish() {
     return dish;
   }
 

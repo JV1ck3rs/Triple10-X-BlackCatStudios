@@ -5,12 +5,16 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.mygdx.game.Core.*;
 import com.mygdx.game.Core.Interactions.Interactable;
+import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
+import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -43,6 +47,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.mygdx.game.RecipeAndComb.CombinationDict;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.Stations.*;
 
 /**
  * This is the main class of the game which runs all the logic and rendering Here all the outside
@@ -65,8 +72,10 @@ public class GameScreen implements Screen {
   private final int TILE_HEIGHT = 32;
 
   // box2d
-  static World world;
+  public static World world;
   private final Box2DDebugRenderer b2dr;
+
+  private CustomerController customerController;
 
 
 
@@ -84,8 +93,10 @@ public class GameScreen implements Screen {
   Texture dish1, dish2;
   Texture spaceTexture, ctrlTexture, shiftTexture, rTexture, mTexture;
 
+  List<GameObject> Stations = new LinkedList();
+  List<GameObject> customerCounters = new LinkedList();
+  List<GameObject> assemblyStations = new LinkedList();
 
-  public CustomerCounters[] customerCounters;
   public Texture menu = new Texture("recipeSheet.png");
   private final int x = 3;
 
@@ -111,8 +122,8 @@ public class GameScreen implements Screen {
   private float seconds = 0f;
   private int timer = 0;
   private final Label timerLabel;
+  private final Label moneyLabel;
   private final BitmapFont timerFont;
-  public
 
   Music gameMusic;
 
@@ -168,33 +179,40 @@ public class GameScreen implements Screen {
     masterChef = new MasterChef(2,world,camera,pathfinding);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
+    CustomerControllerParams CCParams = new CustomerControllerParams();
+    CCParams.MaxMoney = 1000;
+    CCParams.Reputation = 3;
+    CCParams.MoneyStart = 20;
+    customerController = new CustomerController(new Vector2(200,100), new Vector2(360,180), pathfinding, (EndOfGameValues vals) -> EndGame(vals),CCParams, new Vector2(190,390),new Vector2(190,290),new Vector2(290,290));
+    customerController.SetWaveAmount(5);//Demonstration on how to do waves, -1 for endless
 
-    customerCounters = new CustomerCounters[5];
-    for (int i = 0; i < customerCounters.length; i++) {
-      customerCounters[i] = new CustomerCounters("customerCounter" + i);
-    }
+    GameObjectManager.objManager.AppendLooseScript(customerController);
+
+    new CombinationDict();
+    CombinationDict.combinations.implementItems();
+    new RecipeDict();
+    RecipeDict.recipes.implementRecipes();
 
     // generate customer sprites to be used by customer class
     customerAtlasArray = new ArrayList<TextureAtlas>();
     generateCustomerArray();
-
-
-    for (int i = 0; i < customers.length; i++) {
-
-      GameObject CustomerGameObject = new GameObject(new BlackSprite());
-      customers[i] = new Customer(i + 1);
-      CustomerGameObject.attachScript(customers[i]);
-      CustomerGameObject.image.setSize(18, 40);
-
-    }
+//
+//    for (int i = 0; i < customers.length; i++) {
+//
+//      GameObject CustomerGameObject = new GameObject(new BlackSprite());
+//      customers[i] = new Customer(i + 1);
+//      CustomerGameObject.attachScript(customers[i]);
+//      CustomerGameObject.image.setSize(18, 40);
+//
+//    }
 
     createCollisionListener();
     int[] objectLayers = {3, 4, 6, 9, 11, 13, 16, 18, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32,
         33, 34, 35, 36, 37, 38, 39};
 
     //Fixed the hideous mechanism for creating collidable objects
-    for (int n = 0; n < objectLayers.length; n++) {
-      MapLayer layer = map.getLayers().get(objectLayers[n]);
+    for (int n = 0; n < 17; n++) {
+      MapLayer layer = map.getLayers().get(n);
       String name = layer.getName();
 
       for (MapObject object : layer.getObjects()
@@ -203,15 +221,133 @@ public class GameScreen implements Screen {
         Rectangle rect = ((RectangleMapObject) object).getRectangle();
         buildObject(world, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), "Static",
             name);
+
+        switch (name) {
+          case "bin":
+            CreateBin(rect);
+            break;
+          case "counter":
+            CreateAssembly(rect);
+            break;
+          case "frying":
+            CreateHobs(rect);
+            break;
+          case "chopping board":
+            CreateChopping(rect);
+            break;
+          case "toaster":
+            CreateToaster(rect);
+            break;
+          case "oven":
+            CreateOven(rect);
+            break;
+          case "customer counter":
+            CreateCustomerCounters(rect);
+            break;
+          case "tomato":
+            CreateFoodCrates(rect, ItemEnum.Tomato);
+            break;
+          case "lettuce":
+            CreateFoodCrates(rect, ItemEnum.Lettuce);
+            break;
+          case "onion":
+            CreateFoodCrates(rect, ItemEnum.Onion);
+            break;
+          case "mince":
+            CreateFoodCrates(rect, ItemEnum.Mince);
+            break;
+          case "buns":
+            CreateFoodCrates(rect, ItemEnum.Buns);
+            break;
+          case "dough":
+            CreateFoodCrates(rect, ItemEnum.Dough);
+            break;
+          case "cheese":
+            CreateFoodCrates(rect, ItemEnum.Cheese);
+            break;
+          case "potato":
+            CreateFoodCrates(rect, ItemEnum.Potato);
+            break;
+        }
       }
     }
+
     timerLabel = new Label("TIME: " + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+    moneyLabel = new Label("Money: ¥" + timer,
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
     timerFont = new BitmapFont();
-
-
-
   }
+
+
+  void CreateBin(Rectangle rect) {
+    GameObject Bin = new GameObject(null);
+    Bin.setPosition(rect.getX(), rect.getY());
+    TrashCan TC = new TrashCan();
+    Bin.attachScript(TC);
+    Stations.add(Bin);
+  }
+
+  void CreateHobs(Rectangle rect) {
+    GameObject Hob = new GameObject(null);
+    Hob.setPosition(rect.getX(), rect.getY());
+    HobStation HS = new HobStation();
+    Hob.attachScript(HS);
+    Stations.add(Hob);
+  }
+
+  void CreateToaster(Rectangle rect) {
+    GameObject Toast = new GameObject(null);
+    Toast.setPosition(rect.getX(), rect.getY());
+    ToasterStation TS = new ToasterStation();
+    Toast.attachScript(TS);
+    Stations.add(Toast);
+  }
+
+  void CreateChopping(Rectangle rect) {
+    GameObject Chop = new GameObject(null);
+    Chop.setPosition(rect.getX(), rect.getY());
+    ChopStation CS = new ChopStation();
+    Chop.attachScript(CS);
+    Stations.add(Chop);
+  }
+
+  void CreateOven(Rectangle rect) {
+    GameObject Oven = new GameObject(null);
+    Oven.setPosition(rect.getX(), rect.getY());
+    OvenStation OS = new OvenStation();
+    Oven.attachScript(OS);
+    Stations.add(Oven);
+  }
+
+  void CreateFoodCrates(Rectangle rect, ItemEnum item) {
+    GameObject Crate = new GameObject(null);
+    Crate.setPosition(rect.getX(), rect.getY());
+    FoodCrate FC = new FoodCrate(item);
+    Crate.attachScript(FC);
+    Stations.add(Crate);
+  }
+
+  void CreateAssembly(Rectangle rect) {
+    GameObject Ass = new GameObject(null);
+    Ass.setPosition(rect.getX(), rect.getY());
+    AssemblyStation AS = new AssemblyStation();
+    Ass.attachScript(AS);
+    assemblyStations.add(Ass);
+    Stations.add(Ass);
+  }
+
+  void CreateCustomerCounters(Rectangle rect) {
+    GameObject Cust = new GameObject(null);
+    Cust.setPosition(rect.getX(), rect.getY());
+    CustomerCounters CC = new CustomerCounters();
+    Cust.attachScript(CC);
+    customerCounters.add(Cust);
+    Stations.add(Cust);
+  }
+
 
   /**
    * A function which builds the world box in Box2d which is used for all the hitboxes;
@@ -265,6 +401,10 @@ public class GameScreen implements Screen {
   }
 
 
+  public void EndGame(EndOfGameValues values){
+
+  }
+
 
   /**
    * Returns the customer array that's been created
@@ -296,6 +436,18 @@ public class GameScreen implements Screen {
     timerFont.draw(game.batch, str, 380, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
     timerLabel.setText(str);
+
+
+    CharSequence str2 = "Money: ¥" + customerController.Money;
+    timerFont.draw(game.batch, str2, 500, 35);
+    timerFont.getData().setScale(1.5f, 1.5f);
+
+    if(customerController.Reputation != -1) {
+      CharSequence str3 = "Reputation: " + customerController.Reputation;
+      timerFont.draw(game.batch, str3, 650, 35);
+      timerFont.getData().setScale(1.5f, 1.5f);
+    }
+
   }
 
   /**
@@ -314,9 +466,9 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
-    for (int i = 0; i < customers.length; i++) {
-      customers[i].updateSpriteFromInput(customers[i].getMove());
-    }
+//    for (int i = 0; i < customers.length; i++) {
+  //    customers[i].updateSpriteFromInput(customers[i].getMove());
+   // }
 
     //Removed and simplified logic
 
@@ -354,34 +506,27 @@ public class GameScreen implements Screen {
     }
 
     // Draws the customers and their orders
-    for (int i = 0; i < customers.length; i++) {
-      //customers[i].gameObject.getSprite().setSize(18, 40);
-      //customers[i].draw(game.batch);
-      GameObject foodIcon = customers[i].foodIcon;
-      if (customers[i].isWaiting()) {
-        Customer customer = customers[i];
-        foodIcon.position = new Vector2(((customer.getX() + customer.gameObject.getSprite().sprite.getWidth() / 2) - 5), ((customer.getY() + customer.gameObject.getSprite().sprite.getHeight()) - 5));
-        foodIcon.isVisible = true;
-        if(foodIcon.isClicked(camera)){
-          recipeScreen.changeInstructionPage(customer.getDish());
-          recipeScreen.makeVisible();
-        }
-      }
-      if(recipeScreen.imageObject.isVisible && exitLogo.isVisible == false){
-        exitLogo.isVisible = true;
-      }
+//    for (int i = 0; i < customers.length; i++) {
+//      //customers[i].gameObject.getSprite().setSize(18, 40);
+//      customers[i].draw(game.batch);
+//      GameObject foodIcon = customers[i].foodIcon;
+//      if (customers[i].isWaiting()) {
+//        Customer customer = customers[i];
+//        foodIcon.position = new Vector2(((customer.getX() + customer.gameObject.getSprite().sprite.getWidth() / 2) - 5), ((customer.getY() + customer.gameObject.getSprite().sprite.getHeight()) - 5));
+//        foodIcon.isVisible = true;
+//        if(foodIcon.isClicked(camera)){
+//          System.out.println(customer.getDish());
+//        }
+//      }
+///* needs to be changed
+//      if (customers[i].getDish() == customerCounters[i].getDish()) {
+//        customers[i].fed();
+//        foodIcon.isVisible = false;
+//        foodIcon = null;
+//      }
+     // */
 
-      if(exitLogo.isVisible && exitLogo.isClicked(camera)){
-        exitLogo.isVisible = false;
-        recipeScreen.makeInvisible();
-      }
-
-      if (customers[i].getDish() == customerCounters[i].getDish()) {
-        customers[i].fed();
-        foodIcon.isVisible = false;
-        foodIcon = null;
-      }
-    }
+  //  }
 
     // Mutes or plays the music
     if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
@@ -405,15 +550,15 @@ public class GameScreen implements Screen {
     gameLogic();
 
     // Checks if all the customers have been fed and the game is over
-    int fedCounter = 0;
-    for (int i = 0; i < customers.length; i++) {
-      if (customers[i].getFed()) {
-        fedCounter++;
-      }
-    }
-    if (fedCounter == 5) {
-      game.setScreen(new VictoryScreen(game, this, timer));
-    }
+//    int fedCounter = 0;
+//    for (int i = 0; i < customers.length; i++) {
+//      if (customers[i].getFed()) {
+//        fedCounter++;
+//      }
+//    }
+//    if (fedCounter == 5) {
+//      game.setScreen(new VictoryScreen(game, this, timer));
+//    }
   }
 
   /**
@@ -513,6 +658,7 @@ public class GameScreen implements Screen {
 
   @Override
   public void pause() {
+
   }
 
   @Override

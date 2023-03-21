@@ -5,12 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.physics.box2d.*;
 
 import com.mygdx.game.Core.BlackTexture;
@@ -21,20 +17,17 @@ import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.Station;
-import com.sun.tools.javac.jvm.Items;
-import java.security.Key;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
-import java.util.Timer;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+
 
 /**
  * Creates the chef object which will interact with every object on the map and assemble dishes to
- * be fed to the customer The class also handles all sprite animations and movement
+ * be fed to the customer The class also handles all sprite animations and movement.
  *
  * @author Robin Graham
  * @author Amy Cross
@@ -78,16 +71,19 @@ public class Chef extends PathfindingAgent implements Person {
 
 
   /**
-   * Initialise the chef object and sets its spawn position
+   * Initialise the chef object and sets its spawn position.
    *
    * @param world the world in which our objects lie
    * @param id    the individual id of each chef i.e 0,1,2....
    */
-  public Chef(World world, int id, ArrayList<TextureAtlas> chefAtlas) {
+  public Chef(World world, int id, TextureAtlas chefAtlas) {
     super();
     this.id = id;
     this.world = world;
-    this.chefAtlas = getChefAtlas(chefAtlas);
+    this.chefAtlas = chefAtlas; // chef now takes a texture atlas so
+    // that the chefs can be created in the test files. Originally,
+    // chefs were given a texture atlas from the getChefAtlasArray function in the GameScreen class.
+    // Gamescreen could not be directly used in the test files as it caused an error.
     this.path = new LinkedList<>();
   }
 
@@ -97,13 +93,13 @@ public class Chef extends PathfindingAgent implements Person {
     gameObject.getSprite().setSprite(chefAtlas.createSprite("south1"));
     currentSpriteAnimation = 1;
     spriteOrientation = "south";
-    gameObject.position.x = 700 + 32 * id;
+    gameObject.position.x = 750 + 32 * id;
     gameObject.position.y = 300;
     isFrozen = false;
     //sprite.setPosition(posX, posY); unnessary now
     //MyGdxGame.buildObject(world, posX, posY, sprite.getWidth(), sprite.getHeight(), "Dynamic");
     this.lastOrientation = "south";
-    inventory = "none";
+
     defineChef();
     ingredient = new Ingredient("none");
     timerAtlas = new TextureAtlas("Timer/timer.txt");
@@ -131,7 +127,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Defines all box2d associated variables for the chef and sets its hitbox to be used for
-   * collisions
+   * collisions.
    */
   public void defineChef() {
     BodyDef bdef = new BodyDef();
@@ -246,10 +242,9 @@ public void OnRender()
         currentSpriteAnimation = 1;
         stateTime = 0;
       } else {
-        if (stateTime > 1 / 15.0) {
+        if (stateTime > 1 / 15.0) { // sprite is updated every 15th of a second
           currentSpriteAnimation++;
-          // System.out.println(spriteState);
-          if (currentSpriteAnimation > MAX_ANIMATION) {
+          if (currentSpriteAnimation > MAX_ANIMATION) { // a chef has 4 different animations
             currentSpriteAnimation = 1;
           }
           stateTime = 0;

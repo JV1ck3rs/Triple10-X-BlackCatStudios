@@ -27,7 +27,9 @@ public class GameObject {
   public GameObject(Renderable renderable) {
 
     image = renderable;
-    GameObjectManager.objManager.SubmitGameObject(this);
+    if (GameObjectManager.objManager != null) {
+      GameObjectManager.objManager.SubmitGameObject(this);
+    }
     position = new Vector2();
 
   }
@@ -72,8 +74,11 @@ public class GameObject {
 
   public void render(SpriteBatch batch) {
 
-    if(!isVisible)
+    if(!isVisible || destroyed)
       return;
+    if(image == null)
+      return;
+
 
 
     doOnRenderUpdate();
@@ -106,5 +111,10 @@ public class GameObject {
       }
     }
     return false;
+  }
+
+  public void Destroy(){
+    GameObjectManager.objManager.DestroyGameObject(this);
+    image.Destroy();
   }
 }
