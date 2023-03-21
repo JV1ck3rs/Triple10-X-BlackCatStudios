@@ -7,6 +7,8 @@ import com.mygdx.game.Core.*;
 import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -53,7 +55,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
  * @author Labib Zabeneh
  */
 public class GameScreen implements Screen {
-
   // game attributes
   private final MyGdxGame game;
 
@@ -115,7 +116,7 @@ public class GameScreen implements Screen {
 
   Music gameMusic;
 
-  public showRecipeInstructions recipeScreen = new showRecipeInstructions();
+  public showRecipeInstructions recipeScreen;
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
@@ -126,7 +127,8 @@ public class GameScreen implements Screen {
   public GameScreen(MyGdxGame game) {
     this.game = game;
     camera = new OrthographicCamera();
-    recipeScreen.showRecipeInstruction();
+    recipeScreen = new showRecipeInstructions();
+    //recipeScreen.showRecipeInstruction();
 
     int viewportWidth = 32 * TILE_WIDTH;
     int viewportHeight = 18 * TILE_HEIGHT;
@@ -139,7 +141,7 @@ public class GameScreen implements Screen {
     // tomatoTexture = new Texture("tomato_2.png");
 
 
-    recipeScreen.createInstructionPage("Empty");
+    recipeScreen.createInstructionPage("empty");
 
     dish1 = new Texture("speech_dish1.png");
     dish2 = new Texture("speech_dish2.png");
@@ -343,6 +345,12 @@ public class GameScreen implements Screen {
       if (masterChef.getChef(i).isFrozen) {  // if frozen, need to update timer and sprite
         masterChef.getChef(i).drawTimer(game.batch);
       }
+    }
+    LeaderBoard x = new LeaderBoard();
+    try {
+      x.readJSONData();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
 
     // Draws the customers and their orders
