@@ -499,6 +499,7 @@ public class GameScreen implements Screen {
       }
     }
     LeaderBoard x = new LeaderBoard();
+    x.createJSONFile();
     try {
       x.readJSONData();
     } catch (IOException e) {
