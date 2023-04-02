@@ -5,20 +5,25 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.physics.box2d.*;
 
+import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.Inputs;
+import com.mygdx.game.Core.PathfindingAgent;
 import com.mygdx.game.Core.Scriptable;
-import java.security.Key;
+import com.mygdx.game.Items.Item;
+import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.Stations.Station;
+
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Stack;
+
 
 /**
  * Creates the chef object which will interact with every object on the map and assemble dishes to
@@ -29,9 +34,13 @@ import java.util.concurrent.ScheduledExecutorService;
  * @author Labib Zabeneh
  * @author Riko Puusepp
  */
-public class Chef extends Scriptable implements Person {
+public class Chef extends PathfindingAgent implements Person {
 
-  float speed = 5000;
+  float speed = 2000;
+
+  Stack<Item> heldItems = new Stack<>();
+  List<GameObject> HeldItemGameObjects = new LinkedList<>();
+  int CarryCapacity = 3;
 
   private String spriteOrientation, spriteState;
   private int currentSpriteAnimation;
@@ -40,7 +49,8 @@ public class Chef extends Scriptable implements Person {
   private TextureAtlas chefAtlas;
   public boolean isFrozen;
   private String lastOrientation;
-  public Body b2body;
+
+  List<Vector2> path;
 
   private Station currentStation;
   Rectangle chefRectangle;
@@ -58,7 +68,7 @@ public class Chef extends Scriptable implements Person {
   int currentTimerFrame = 0;
   TextureAtlas timerAtlas;
   Sprite timerSprite;
-  public float ppm = 97f;
+
 
   /**
    * Initialise the chef object and sets its spawn position.
@@ -67,19 +77,23 @@ public class Chef extends Scriptable implements Person {
    * @param id    the individual id of each chef i.e 0,1,2....
    */
   public Chef(World world, int id, TextureAtlas chefAtlas) {
+    super();
     this.id = id;
     this.world = world;
-    this.chefAtlas = chefAtlas;
+    this.chefAtlas = chefAtlas; // chef now takes a texture atlas so
+    // that the chefs can be created in the test files. Originally,
+    // chefs were given a texture atlas from the getChefAtlasArray function in the GameScreen class.
+    // Gamescreen could not be directly used in the test files as it caused an error.
+    this.path = new LinkedList<>();
   }
 
   @Override
   public void Start() {
     //Reorganised to fit work flow and requires access to data not yet created
-//    chefAtlas = getChefAtlas(GameScreen.getChefAtlasArray());
     gameObject.getSprite().setSprite(chefAtlas.createSprite("south1"));
     currentSpriteAnimation = 1;
     spriteOrientation = "south";
-    gameObject.position.x = 700 + 32 * id;
+    gameObject.position.x = 750 + 32 * id;
     gameObject.position.y = 300;
     isFrozen = false;
     //sprite.setPosition(posX, posY); unnessary now
@@ -88,9 +102,28 @@ public class Chef extends Scriptable implements Person {
 
     defineChef();
     ingredient = new Ingredient("none");
-    timerAtlas = new TextureAtlas("Timer/timer.txt");
+    timerAtlas = new TextureAtlas(Gdx.files.internal("Timer/timer.txt"));
     timerSprite = timerAtlas.createSprite("01");
-    currentStation = new Station("none");
+
+    for (int i = 0; i < CarryCapacity; i++) {
+      HeldItemGameObjects.add(new GameObject(new BlackTexture(Item.GetItemPath(ItemEnum.Buns))));
+      HeldItemGameObjects.get(i).isVisible = false;
+
+    }
+
+  }
+
+  public void MoveAlongPath() {
+    if (path.size() <= 0) {
+      return;
+    }
+
+    gameObject.position.set(
+        path.get(0)); // set the position of the chef to the first position in the path
+    b2body.setTransform(gameObject.position.x, gameObject.position.y, b2body.getAngle());
+    path.remove(0);
+//    path.remove(0);
+
   }
 
   /**
@@ -101,9 +134,11 @@ public class Chef extends Scriptable implements Person {
     BodyDef bdef = new BodyDef();
     bdef.position.set(gameObject.position.x, gameObject.position.y);
     bdef.type = BodyDef.BodyType.DynamicBody;
+    bdef.bullet = true;
     b2body = world.createBody(bdef);
     b2body.setUserData("Chef" + id);
     FixtureDef fdefine = new FixtureDef();
+
     CircleShape shape = new CircleShape();
     shape.setRadius(10);
 
@@ -118,12 +153,89 @@ public class Chef extends Scriptable implements Person {
 
   }
 
+
+  void changeItemVisibilities() {
+
+    int i = -1;
+    for (Item item : heldItems
+    ) {
+      i++;
+
+      GameObject obj = HeldItemGameObjects.get(i);
+      if (!obj.isVisible) {
+        obj.image = item.tex;
+      }
+
+      obj.isVisible = true;
+    }
+
+    for (int j = i + 1; j < CarryCapacity; j++) {
+      GameObject obj = HeldItemGameObjects.get(j);
+      obj.isVisible = false;
+    }
+
+    for (int j = 0; j < CarryCapacity; j++) {
+      GameObject obj = HeldItemGameObjects.get(j);
+      obj.position.x = gameObject.position.x;
+      obj.position.y = gameObject.position.y + j * 5;
+      obj.image.layer = 1 + j;
+
+      //removed multiply by position bc lol whats going on with that
+      if (spriteOrientation.contains("north")) {
+        obj.position.y += obj.image.GetHeight() / 2;
+        obj.image.layer -= CarryCapacity;
+      } else if (spriteOrientation.contains("south")) {
+        obj.position.y -= obj.image.GetHeight() / 2;
+      } else if (spriteOrientation.contains("east")) {
+        obj.position.x += obj.image.GetWidth() / 2;
+      } else if (spriteOrientation.contains("west")) {
+        obj.position.x -= obj.image.GetWidth() / 2 + 5;
+      }
+
+
+    }
+  }
+
+  @Override
+  public void OnRender() {
+
+    changeItemVisibilities();
+  }
+
+
   /**
    * Updates the chef position and shows the animation depending on its direction and speed.
    */
-  @SuppressWarnings("checkstyle:MissingSwitchDefault")
   @Override
   public void updateSpriteFromInput(String newOrientation) {
+
+    Vector2 dir = GetMoveDir().nor();
+
+    System.out.println(dir);
+    if (dir.dot(dir) <= 0) {
+      newOrientation = "idle" + spriteOrientation.replace("idle", "");
+    } else {
+      if (Math.abs(dir.dot(new Vector2(1, 0))) < Math.abs(dir.dot(new Vector2(0, 1)))) {
+        //North prefered
+
+        if (dir.dot(new Vector2(0, 1)) > 0) {
+          newOrientation = "north";
+        } else {
+          newOrientation = "south";
+        }
+
+
+      } else {
+        if (dir.dot(new Vector2(1, 0)) > 0) {
+          newOrientation = "east";
+        } else {
+          newOrientation = "west";
+        }
+      }
+    }
+
+    System.out.println(newOrientation + " : " + spriteOrientation + " : " + lastOrientation);
+
     if (newOrientation.contains("idle")) {
       spriteState = newOrientation;
     } else {
@@ -133,7 +245,6 @@ public class Chef extends Scriptable implements Person {
       } else {
         if (stateTime > 1 / 15.0) { // sprite is updated every 15th of a second
           currentSpriteAnimation++;
-//           System.out.println(spriteState);
           if (currentSpriteAnimation > MAX_ANIMATION) { // a chef has 4 different animations
             currentSpriteAnimation = 1;
           }
@@ -170,10 +281,10 @@ public class Chef extends Scriptable implements Person {
         break;
     }
 
-    b2body.setLinearVelocity(velx, vely); // sets the velocity of the chef
-    //cant figure out how to speed the character up it doesn't want to function
-    gameObject.position.x = (((b2body.getPosition().x) / 1.6f) - getWidth() / 2);
-    gameObject.position.y = ((b2body.getPosition().y) / 1.2f);
+    // b2body.setLinearVelocity(velx, vely);
+    //cant figure out how to speed the character up it doesnt want to function
+    // gameObject.position.x = (b2body.getPosition().x) - getWidth() / 2;
+    //gameObject.position.y = b2body.getPosition().y;
   }
 
   /**
@@ -204,7 +315,7 @@ public class Chef extends Scriptable implements Person {
   }
 
   /**
-   * Returns the width of the chef
+   * Returns the width of the chef.
    *
    * @return int width
    */
@@ -213,7 +324,7 @@ public class Chef extends Scriptable implements Person {
   }
 
   /**
-   * Returns the height of the chef
+   * Returns the height of the chef.
    *
    * @return int height
    */
@@ -231,13 +342,13 @@ public class Chef extends Scriptable implements Person {
       System.out.println("Frozen");
       return "idle" + this.lastOrientation;
     } else {
-      if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+      if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_LEFT)) {
         newOrientation = "west";
-      } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+      } else if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_RIGHT)) {
         newOrientation = "east";
-      } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+      } else if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_UP)) {
         newOrientation = "north";
-      } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+      } else if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_DOWN)) {
         newOrientation = "south";
       } else {
         return "idle" + lastOrientation;
@@ -277,7 +388,7 @@ public class Chef extends Scriptable implements Person {
   public void unfreeze() {
     isFrozen = false;
     currentStation.setLocked(false);
-    this.currentStation = new Station("none");
+    //this.currentStation = new Station("none");
     currentTimerFrame = 1;
   }
 
@@ -294,9 +405,28 @@ public class Chef extends Scriptable implements Person {
    * Gets the inventory of the chef, so the item they are currently holding.
    *
    * @return Ingredient ingredient
+   * @author Jack Vickers
    */
-  public Ingredient getInventory() {
-    return ingredient;
+  public Stack<Item> getInventory() {
+    return heldItems;
+  }
+
+  /**
+   * Gets the inventory count of the chef, so the number of items they are currently holding.
+   *
+   * @return The number of items the chef is holding.
+   */
+  public int getInventoryCount() {
+    return heldItems.size();
+  }
+
+  /**
+   * Gets the inventory of the chef, so the item they are currently holding.
+   *
+   * @return Ingredient ingredient
+   */
+  public int getCarryCapacity() {
+    return CarryCapacity;
   }
 
   /**
@@ -320,6 +450,47 @@ public class Chef extends Scriptable implements Person {
     TextureAtlas atlas = chefAtlasArray.get(randomIndex);
     chefAtlasArray.remove(randomIndex);
     return atlas;
+  }
+
+  public boolean CanFetchItem() {
+    if (heldItems.size() == 0) {
+      return false;
+    }
+
+    return true;
+
+  }
+
+  public boolean CanGiveItem() {
+    return heldItems.size() < CarryCapacity;
+
+  }
+
+  public Optional<Item> FetchItem() {
+
+    if (!CanFetchItem()) {
+      return Optional.empty();
+    }
+
+    return Optional.ofNullable(heldItems.pop());
+  }
+
+  public Boolean GiveItem(Item item) {
+    if (CanGiveItem()) {
+      heldItems.add(item);
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Drops the item from the top of the chef's stack.
+   */
+  public void DropItem() {
+    if (heldItems.size() != 0) {
+      heldItems.pop();
+    }
   }
 
   /**
