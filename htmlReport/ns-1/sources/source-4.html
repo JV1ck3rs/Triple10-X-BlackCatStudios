@@ -51,7 +51,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/193)
+    (0/196)
   </span>
 </td>
 </tr>
@@ -89,7 +89,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/207)
+    (0/210)
   </span>
 </td>
 </tr>
@@ -102,19 +102,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game;
 &nbsp;
-&nbsp;import com.badlogic.gdx.graphics.g2d.Sprite;
 &nbsp;import com.badlogic.gdx.maps.MapLayer;
-&nbsp;import com.badlogic.gdx.maps.MapLayers;
-&nbsp;import com.badlogic.gdx.scenes.scene2d.Actor;
-&nbsp;import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 &nbsp;import com.mygdx.game.Core.*;
-&nbsp;import com.mygdx.game.Core.Interactions.Interactable;
 &nbsp;import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 &nbsp;import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 &nbsp;import com.mygdx.game.Items.Item;
 &nbsp;import com.mygdx.game.Items.ItemEnum;
-&nbsp;import java.util.ArrayList;
-&nbsp;import java.util.HashMap;
 &nbsp;import java.util.LinkedList;
 &nbsp;import java.util.List;
 &nbsp;
@@ -127,13 +120,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.badlogic.gdx.graphics.OrthographicCamera;
 &nbsp;import com.badlogic.gdx.graphics.Texture;
 &nbsp;import com.badlogic.gdx.graphics.g2d.BitmapFont;
-&nbsp;import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-&nbsp;import com.badlogic.gdx.graphics.g2d.TextureRegion;
 &nbsp;import com.badlogic.gdx.maps.MapObject;
 &nbsp;import com.badlogic.gdx.maps.objects.RectangleMapObject;
-&nbsp;import com.badlogic.gdx.maps.tiled.TiledMap;
 &nbsp;import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-&nbsp;import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 &nbsp;import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 &nbsp;import com.badlogic.gdx.math.Rectangle;
 &nbsp;import com.badlogic.gdx.math.Vector2;
@@ -147,7 +136,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.badlogic.gdx.physics.box2d.Manifold;
 &nbsp;import com.badlogic.gdx.physics.box2d.PolygonShape;
 &nbsp;import com.badlogic.gdx.physics.box2d.World;
-&nbsp;import com.badlogic.gdx.scenes.scene2d.Stage;
 &nbsp;import com.badlogic.gdx.scenes.scene2d.ui.Label;
 &nbsp;import com.mygdx.game.RecipeAndComb.CombinationDict;
 &nbsp;import com.mygdx.game.RecipeAndComb.RecipeDict;
@@ -216,7 +204,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;   *
 &nbsp;   * @param game base Object which is used to draw on
 &nbsp;   */
-<b class="nc">&nbsp;  public GameScreen(MyGdxGame game) {</b>
+<b class="nc">&nbsp;  public GameScreen(MyGdxGame game, int numCustomers) {</b>
 <b class="nc">&nbsp;    this.game = game;</b>
 <b class="nc">&nbsp;    camera = new OrthographicCamera();</b>
 <b class="nc">&nbsp;    recipeScreen.showRecipeInstruction();</b>
@@ -226,9 +214,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="nc">&nbsp;    gameMusic = Gdx.audio.newMusic(Gdx.files.internal(&quot;gameMusic.mp3&quot;));</b>
 <b class="nc">&nbsp;    gameMusic.setLooping(true);</b>
-&nbsp;
-&nbsp;    // tomatoTexture = new Texture(&quot;tomato_2.png&quot;);
-&nbsp;
 &nbsp;
 <b class="nc">&nbsp;    recipeScreen.createInstructionPage(&quot;Empty&quot;);</b>
 &nbsp;
@@ -253,8 +238,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;    CCParams.MaxMoney = 1000;</b>
 <b class="nc">&nbsp;    CCParams.Reputation = 3;</b>
 <b class="nc">&nbsp;    CCParams.MoneyStart = 20;</b>
+<b class="nc">&nbsp;    CCParams.MaxCustomersPerWave = 4;</b>
+<b class="nc">&nbsp;    CCParams.MinCustomersPerWave = 1;</b>
+<b class="nc">&nbsp;    CCParams.NoCustomers = numCustomers;</b>
 <b class="nc">&nbsp;    customerController = new CustomerController(new Vector2(200,100), new Vector2(360,180), pathfinding, (EndOfGameValues vals) -&gt; EndGame(vals),CCParams, new Vector2(190,390),new Vector2(190,290),new Vector2(290,290));</b>
-<b class="nc">&nbsp;    customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless</b>
+&nbsp;    // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 &nbsp;
 <b class="nc">&nbsp;    GameObjectManager.objManager.AppendLooseScript(customerController);</b>
 &nbsp;
@@ -469,18 +457,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;  public void EndGame(EndOfGameValues values){
 &nbsp;
 <b class="nc">&nbsp;    VictoryScreen screen = new VictoryScreen(game,this,timer,values);</b>
-&nbsp;
 <b class="nc">&nbsp;    game.setScreen(screen);</b>
 &nbsp;
 &nbsp;  }
 &nbsp;
 &nbsp;
 &nbsp;  /**
-&nbsp;   * Plays the game music
+&nbsp;   * Plays the game music when the screen is shown.
 &nbsp;   */
 &nbsp;  @Override
 &nbsp;  public void show() {
-<b class="nc">&nbsp;    gameMusic.play();</b>
+<b class="nc">&nbsp;    if (!gameMusic.isPlaying()) {</b>
+<b class="nc">&nbsp;      gameMusic.play(); // only play the music if it&#39;s not already playing</b>
+&nbsp;    }
 &nbsp;  }
 &nbsp;
 &nbsp;  /**
@@ -710,7 +699,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-03 22:23</div>
+    <div style="float:right;">generated on 2023-04-06 22:11</div>
 </div>
 </body>
 </html>

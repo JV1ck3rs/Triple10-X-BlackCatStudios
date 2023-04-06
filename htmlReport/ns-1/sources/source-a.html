@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > showRecipeInstructions</title>
+  <title>Coverage Report > WorldContactListener</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.mygdx.game</a>
 </div>
 
-<h1>Coverage Summary for Class: showRecipeInstructions (com.mygdx.game)</h1>
+<h1>Coverage Summary for Class: WorldContactListener (com.mygdx.game)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">showRecipeInstructions</td>
+  <td class="name">WorldContactListener</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/12)
+    (0/9)
   </span>
 </td>
 </tr>
@@ -76,44 +76,93 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game;
 &nbsp;
-&nbsp;import com.badlogic.gdx.graphics.Texture;
-&nbsp;import com.badlogic.gdx.math.Vector2;
-&nbsp;import com.badlogic.gdx.physics.box2d.World;
-&nbsp;import com.mygdx.game.Core.BlackTexture;
-&nbsp;import com.mygdx.game.Core.GameObject;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.physics.box2d.Body;
+&nbsp;import com.badlogic.gdx.physics.box2d.Contact;
+&nbsp;import com.badlogic.gdx.physics.box2d.ContactImpulse;
+&nbsp;import com.badlogic.gdx.physics.box2d.ContactListener;
+&nbsp;import com.badlogic.gdx.physics.box2d.Manifold;
+&nbsp;import com.badlogic.gdx.physics.box2d.Fixture;
 &nbsp;
-&nbsp;import java.util.HashMap;
+&nbsp;/**
+&nbsp; * Enables ability to interact with two object (fixtures) on a map using box2d. Also displays the
+&nbsp; * log to the user so we know what we&#39;re interacting with
+&nbsp; *
+&nbsp; * @author Riko Puusepp
+&nbsp; * @author Robin Graham
+&nbsp; */
+<b class="nc">&nbsp;public class WorldContactListener implements ContactListener {</b>
 &nbsp;
-<b class="nc">&nbsp;public class showRecipeInstructions {</b>
-<b class="nc">&nbsp;    HashMap&lt;String, String&gt; recipeMap = new HashMap&lt;&gt;();</b>
-&nbsp;    public GameObject imageObject;
+&nbsp;  Object objectA, objectB;
 &nbsp;
-&nbsp;    public void showRecipeInstruction(){
-<b class="nc">&nbsp;        recipeMap.put(&quot;Empty&quot;, &quot;Recipes/EmptyRecipe.png&quot;);</b>
-<b class="nc">&nbsp;        recipeMap.put(&quot;salad&quot;, &quot;speech_dish1.png&quot;);</b>
-<b class="nc">&nbsp;        recipeMap.put(&quot;burger&quot;, &quot;Recipes/BurgerRecipe.png&quot;);</b>
-&nbsp;    }
-&nbsp;    public void createInstructionPage(String dish){
-<b class="nc">&nbsp;        imageObject = new GameObject(new BlackTexture(recipeMap.get(dish)));</b>
-<b class="nc">&nbsp;        imageObject.position = new Vector2((32*32/2)-(imageObject.getBlackTexture().width/2),0);</b>
-<b class="nc">&nbsp;        imageObject.isVisible = false;</b>
-&nbsp;    }
+&nbsp;  /**
+&nbsp;   * Beginning of the contact between two objects by getting their user data
+&nbsp;   *
+&nbsp;   * @param contact contact listener object we pass into the class
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void beginContact(Contact contact) {
+<b class="nc">&nbsp;    Gdx.app.log(&quot;Begin Contact&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    Object objectA = contact.getFixtureA().getBody().getUserData();</b>
+<b class="nc">&nbsp;    Object objectB = contact.getFixtureB().getBody().getUserData();</b>
 &nbsp;
-&nbsp;    public void changeInstructionPage(String dish){
-<b class="nc">&nbsp;        imageObject.getBlackTexture().changeTexture(new Texture(recipeMap.get(dish)));</b>
-&nbsp;    }
+&nbsp;    // System.out.println(objectA);
+&nbsp;    // System.out.println(objectB);
+&nbsp;  }
 &nbsp;
-&nbsp;    public void makeVisible(){
-<b class="nc">&nbsp;        imageObject.isVisible = true;</b>
-&nbsp;    }
+&nbsp;  /**
+&nbsp;   * Log onto screen when object has stopped colliding
+&nbsp;   *
+&nbsp;   * @param contact contact listener object after collision
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void endContact(Contact contact) {
+<b class="nc">&nbsp;    Gdx.app.log(&quot;End Contact&quot;, &quot;&quot;);</b>
 &nbsp;
-&nbsp;    public void makeInvisible(){
-<b class="nc">&nbsp;        imageObject.isVisible = false;</b>
-&nbsp;    }
+&nbsp;  }
 &nbsp;
-&nbsp;    public void removeInstructionPage(){
-<b class="nc">&nbsp;        imageObject = null;</b>
-&nbsp;    }
+&nbsp;  /**
+&nbsp;   * How we interact with the objects while colliding
+&nbsp;   *
+&nbsp;   * @param contact     object
+&nbsp;   * @param oldManifold object
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void preSolve(Contact contact, Manifold oldManifold) {
+&nbsp;    // TODO Auto-generated method stub
+&nbsp;
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Similar to pre solve but what we do after collision (not used in our program)
+&nbsp;   *
+&nbsp;   * @param contact object
+&nbsp;   * @param impulse object
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void postSolve(Contact contact, ContactImpulse impulse) {
+&nbsp;    // TODO Auto-generated method stub
+&nbsp;
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns our objectA object, which will either be a chef or an ingredient or counter or walls
+&nbsp;   *
+&nbsp;   * @return Object objectA
+&nbsp;   */
+&nbsp;  public Object getObjectA() {
+<b class="nc">&nbsp;    return objectA;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns our objectB object, which will always be a chef
+&nbsp;   *
+&nbsp;   * @return object objectB
+&nbsp;   */
+&nbsp;  public Object getObjectB() {
+<b class="nc">&nbsp;    return objectB;</b>
+&nbsp;  }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -138,7 +187,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-03 22:23</div>
+    <div style="float:right;">generated on 2023-04-06 22:11</div>
 </div>
 </body>
 </html>
