@@ -1,9 +1,5 @@
 package piazzapanictests.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -26,9 +22,6 @@ import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.AssemblyStation;
 import com.mygdx.game.Stations.ChopStation;
 import java.util.ArrayList;
-import java.util.List;
-import org.junit.runner.RunWith;
-import piazzapanictests.tests.GdxTestRunner;
 
 class MasterTestClass {
 

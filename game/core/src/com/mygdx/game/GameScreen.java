@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.mygdx.game.Core.*;
+import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.Item;
@@ -89,6 +90,7 @@ public class GameScreen implements Screen {
   private final Label moneyLabel;
   private final BitmapFont timerFont;
 
+  boolean Paused = false;
 
  public static final int viewportWidth = 32 * TILE_WIDTH;
   public static  final int viewportHeight = 18 * TILE_HEIGHT;
@@ -430,21 +432,36 @@ public class GameScreen implements Screen {
     //drawIngredients();
 
     // Calls the function to display timer
-    displayTimer();
 
-    //Update Scripts
-    GameObjectManager.objManager.doUpdate(Gdx.graphics.getDeltaTime());
-    //New rendering system
-    RenderManager.renderer.onRender(game.batch);
+    if (!Paused) {
+      displayTimer();
+      //Update Scripts
+      GameObjectManager.objManager.doUpdate(Gdx.graphics.getDeltaTime());
+      //New rendering system
+      RenderManager.renderer.onRender(game.batch);
 
-    // Draws the chefs
-    for (int i = 0; i < masterChef.returnChefCount(); i++) {
-      //chef[i].sprite.setSize(18,40);
-      //chef[i].sprite.draw(game.batch);
-      if (masterChef.getChef(i).isFrozen) {  // if frozen, need to update timer and sprite
-        masterChef.getChef(i).drawTimer(game.batch);
+      // Draws the chefs
+      for (int i = 0; i < masterChef.returnChefCount(); i++) {
+        if (masterChef.getChef(i).isFrozen) {  // if frozen, need to update timer and sprite
+          masterChef.getChef(i).drawTimer(game.batch);
+        }
+      }
+
+      // Mutes or plays the music
+      if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
+        if (gameMusic.isPlaying()) {
+          gameMusic.pause();
+        } else {
+          gameMusic.play();
+        }
       }
     }
+
+
+
+//    for (Customer customer : customerController.getCurrentWaitingCustomerGroup().MembersInLine) {
+//      game.batch.draw(new Texture("Items/" + customer.getDish().name() + ".png"), customer.getX(), customer.getY() + 5);
+//    }
 
     // Draws the customers and their orders
 //    for (int i = 0; i < customers.length; i++) {
@@ -469,13 +486,9 @@ public class GameScreen implements Screen {
 
   //  }
 
-    // Mutes or plays the music
-    if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
-      if (gameMusic.isPlaying()) {
-        gameMusic.pause();
-      } else {
-        gameMusic.play();
-      }
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+      Paused = !Paused;
     }
 
     // Draws the instuctions and menu
@@ -486,8 +499,6 @@ public class GameScreen implements Screen {
     game.batch.draw(mTexture, 534, 413, 90, 53);
     game.batch.draw(menu, 10, 405, 130, 70);*/
     game.batch.end();
-
-
   }
 
 
@@ -555,6 +566,7 @@ public class GameScreen implements Screen {
 
   @Override
   public void pause() {
+
   }
 
   @Override

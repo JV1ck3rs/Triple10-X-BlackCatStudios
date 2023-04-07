@@ -59,7 +59,6 @@ public class ScenarioModeConfigScreen implements Screen {
 
     // Create the stage and add the background image
     stage = new Stage();
-//    stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     if (stage.getViewport().getScreenWidth() > 720) {
       scale = 2.00f;
     }
@@ -102,6 +101,13 @@ public class ScenarioModeConfigScreen implements Screen {
     Drawable drawablePlaybtnUp = new TextureRegionDrawable(new TextureRegion(playbtn));
     Drawable drawablePlaybtnDown = new TextureRegionDrawable(new TextureRegion(playbtnDown));
 
+    Label errorMessage = new Label("",
+        new LabelStyle(new BitmapFont(), Color.WHITE));
+    errorMessage.setFontScale(1.10f*scale);
+    errorMessage.setAlignment(Align.left);
+    table.add(errorMessage).padBottom(20*scale);
+    table.row();
+
     Button.ButtonStyle playbtnStyle = new Button.ButtonStyle();
     Button playbtn = new Button();
     playbtn.setStyle(playbtnStyle);
@@ -114,11 +120,15 @@ public class ScenarioModeConfigScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         int numCustomers = 5;
-        if (textField.getText().matches("[0-9]+")) {
+        if (textField.getText().equals("0")) {
+          errorMessage.setText("Please enter a number greater than 0");
+        } else if (textField.getText().matches("[0-9]+")) {
           numCustomers = Integer.parseInt(textField.getText());
+          gameScreen = new GameScreen(game, numCustomers);
+          game.setScreen(gameScreen);
+        } else {
+          errorMessage.setText("Please enter a valid number");
         }
-        gameScreen = new GameScreen(game, numCustomers);
-        game.setScreen(gameScreen);
       }
     });
   }

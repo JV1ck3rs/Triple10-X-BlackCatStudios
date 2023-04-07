@@ -12,6 +12,7 @@ import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Customer;
 import com.mygdx.game.Items.Item;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import com.badlogic.gdx.math.Vector2;
@@ -25,8 +26,8 @@ import java.util.function.Consumer;
   Last modified: 27/03/2023
  */
 
-public class CustomerController extends Scriptable
-{
+public class CustomerController extends Scriptable {
+
   CustomerGroups currentWaiting = null;
   List<CustomerGroups> SittingCustomers = new LinkedList<>();
   List<CustomerGroups> WalkingBackCustomers = new LinkedList<>();
@@ -48,11 +49,12 @@ public class CustomerController extends Scriptable
 
   Random rand = new Random(System.currentTimeMillis());
 
-  private Vector2 groupSize = new Vector2(2,4);
+  private Vector2 groupSize = new Vector2(2, 4);
   float NextToLeave = EatingTime;
 
   int MaxCustomers;
   int CustomersRemaining;
+  ArrayList<Integer> customersPerWave;
 
   Consumer<CustomerGroups> FrustrationCallBack;
 
@@ -65,18 +67,20 @@ public class CustomerController extends Scriptable
 
   /**
    * Creates the customer controller
-   * @param DoorPosition Customer spawn and exit.
-   * @param OrderArea First position in order line
-   * @param path    Pathfinding Module.
+   *
+   * @param DoorPosition     Customer spawn and exit.
+   * @param OrderArea        First position in order line
+   * @param path             Pathfinding Module.
    * @param CallUpGameFinish Game Finish Function.
-   * @param params Parameter class
-   * @param TablePositions Where the tables are, TEMPORARY
+   * @param params           Parameter class
+   * @param TablePositions   Where the tables are, TEMPORARY
    * @author Felix Seanor
    */
   public CustomerController(Vector2 DoorPosition, Vector2 OrderArea, Pathfinding path,
-      Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params, Vector2... TablePositions){
+      Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params,
+      Vector2... TablePositions) {
     tables = new LinkedList<>();
-    FrustrationCallBack = (CustomerGroups a)   -> FrustrationLeave(a);
+    FrustrationCallBack = (CustomerGroups a) -> FrustrationLeave(a);
     MoneyPerCustomer = params.MoneyPerCustomer;
     CallEndGame = CallUpGameFinish;
     Money = params.MoneyStart;
@@ -84,52 +88,77 @@ public class CustomerController extends Scriptable
     Reputation = params.Reputation;
     MaxReputation = params.Reputation;
 
-    groupSize.y = Math.min(params.MaxCustomersPerWave,groupSize.y);
+    groupSize.y = Math.min(params.MaxCustomersPerWave, groupSize.y);
     groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
 
     CalculateWavesFromNoCustomers(params.NoCustomers);
 
-
     generateCustomerArray();
 
-    for (Vector2 pos: TablePositions
+    for (Vector2 pos : TablePositions
     ) {
-      tables.add(new Table(pos,30));
+      tables.add(new Table(pos, 30));
     }
 
     pathfinding = path;
     OrderAreaTarget = OrderArea;
     DoorTarget = DoorPosition;
 
-
-    menu = new OrderMenu(10,7,3);
+    menu = new OrderMenu(10, 7, 3);
   }
 
-  public void CalculateWavesFromNoCustomers(int NoCustomers){
+  public void CalculateWavesFromNoCustomers(int NoCustomers) {
 
     MaxCustomers = NoCustomers;
     CustomersRemaining = NoCustomers;
 
-    if(NoCustomers==-1)
-    {
+    if (NoCustomers == -1) {
 
       SetWaveAmount(-1);
       return;
     }
-    float averageCustomersPerWave = (groupSize.x + groupSize.y)/2;
+    int numWaves = 0;
+    customersPerWave = new ArrayList<>();
+//    float averageCustomersPerWave = (groupSize.x + groupSize.y) / 2;
+    int tempVal = MaxCustomers;
 
-    int waves = (int)Math.ceil(NoCustomers/averageCustomersPerWave);
+    // the following while loop calculates the number of waves and
+    // the number of customers in each wave
+    // Waves can have 1, 2, or 3 customers. Waves with fewer customers are more likely to occur
+    while (tempVal > 0) {
+      if (tempVal < 6) {
+        if (tempVal <= 3) {
+          numWaves += tempVal; // tempVal * 1
+          for (int i = 0; i < tempVal; i++) {
+            customersPerWave.add(1);
+          }
+          tempVal = 0;
+        } else {
+          tempVal -= 2;
+          numWaves += 1;
+          customersPerWave.add(2);
+        }
+      } else {
+        tempVal -= 5;
+        numWaves += 2;
+        customersPerWave.add(3);
+        customersPerWave.add(2);
+      }
+    }
+    Collections.sort(customersPerWave);
+    int waves = customersPerWave.size();
 
     SetWaveAmount(waves);
 
 
   }
+
   /***
    * Set the maximum number of waves to do, exclusively. Resets currentWave to 0
    * @param amount
    * @author Felix Seanor
    */
-  public void SetWaveAmount(int amount){
+  public void SetWaveAmount(int amount) {
     Waves = amount;
     currentWave = 0;
   }
@@ -151,49 +180,55 @@ public class CustomerController extends Scriptable
       CustomerAtlas.add(customerAtlas);
     }
   }
+
   /**
    * Updates all customers in groups to update their animation.
+   *
    * @param customers
    * @author Felix Seanor
    */
-  public void UpdateCustomerMovements(List<CustomerGroups> customers){
+  public void UpdateCustomerMovements(List<CustomerGroups> customers) {
     for (int i = 0; i < customers.size(); i++) {
       customers.get(i).updateSpriteFromInput();
     }
   }
 
-  public CustomerGroups getCurrentWaitingCustomerGroup()
-  {return currentWaiting;}
+  public CustomerGroups getCurrentWaitingCustomerGroup() {
+    return currentWaiting;
+  }
+
   /**
-   *  Modifiesr the reputation, if reputation + DR <= 0 END GAME.
+   * Modifiesr the reputation, if reputation + DR <= 0 END GAME.
+   *
    * @param DR delta reputation
    * @author Felix Seanor
    */
-  public void ModifyReputation(int DR){
+  public void ModifyReputation(int DR) {
 
     Reputation += DR;
-    Reputation = Math.min(Reputation,MaxReputation);
+    Reputation = Math.min(Reputation, MaxReputation);
 
-    if(Reputation<=0)
+    if (Reputation <= 0) {
       EndGame();
+    }
   }
 
   /**
    * Do check and modify money.
+   *
    * @param DM Delta Money
    * @return decrease in money is allowed.
    * @author Felix Seanor
    */
-  public boolean ChangeMoney(float DM){
-    if(DM>=0)
-    {
+  public boolean ChangeMoney(float DM) {
+    if (DM >= 0) {
       Money += DM;
-      Money = Math.min(MaxMoney,Money);
+      Money = Math.min(MaxMoney, Money);
       return true;
     }
 
-    if(Money-DM>=0){
-      Money  += DM;
+    if (Money - DM >= 0) {
+      Money += DM;
       return true;
     }
 
@@ -207,32 +242,33 @@ public class CustomerController extends Scriptable
   public void Update(float dt) {
     super.Update(dt);
 
-    if(currentWaiting!=null)
-    currentWaiting.updateSpriteFromInput();
+    if (currentWaiting != null) {
+      currentWaiting.updateSpriteFromInput();
+    }
     UpdateCustomerMovements(SittingCustomers);
     UpdateCustomerMovements(WalkingBackCustomers);
-
 
     FrustrationCheck(dt);
 
     RemoveCustomerTest();
-      SeeIfCustomersShouldLeave(dt);
+    SeeIfCustomersShouldLeave(dt);
     CanAcceptNewCustomer();
-
 
 
   }
 
   /**
    * Gets the next avalible Table.
+   *
    * @return next table. NULL if no free
    * @author Felix Seanor
    */
-  public Table GetTable(){
-    for (Table option:tables
+  public Table GetTable() {
+    for (Table option : tables
     ) {
-        if(option.isFree())
-          return option;
+      if (option.isFree()) {
+        return option;
+      }
     }
 
     return null;
@@ -240,26 +276,31 @@ public class CustomerController extends Scriptable
 
   /**
    * Change frustration of the currently waiting customer group
+   *
    * @param dt delta time
    * @author Felix Seanor
    */
-  private void FrustrationCheck(float dt){
-    if(currentWaiting == null)
+  private void FrustrationCheck(float dt) {
+    if (currentWaiting == null) {
       return;
-    currentWaiting.CheckFrustration(dt,FrustrationCallBack);
+    }
+    currentWaiting.CheckFrustration(dt, FrustrationCallBack);
   }
 
   /**
    * See if a currently seated customer should leave to make space for a new customer to enter.
+   *
    * @param dt
    * @author Felix Seanor
    */
-  public void SeeIfCustomersShouldLeave(float dt){
-    if(SittingCustomers.size()>0)
+  public void SeeIfCustomersShouldLeave(float dt) {
+    if (SittingCustomers.size() > 0) {
       NextToLeave -= dt;
+    }
 
-    if(NextToLeave <= 0)
+    if (NextToLeave <= 0) {
       RemoveCurrentlySeatedCustomers();
+    }
 
     TryDeleteCustomers();
 
@@ -268,138 +309,148 @@ public class CustomerController extends Scriptable
   /**
    * Removes the first currently seated customer and makes them walk outside and despawn.
    */
-  void RemoveCurrentlySeatedCustomers(){
-      CustomerGroups groups = SittingCustomers.get(0);
-      groups.table.relinquish();
-      WalkingBackCustomers.add(groups);
-      SittingCustomers.remove(0);
+  void RemoveCurrentlySeatedCustomers() {
+    CustomerGroups groups = SittingCustomers.get(0);
+    groups.table.relinquish();
+    WalkingBackCustomers.add(groups);
+    SittingCustomers.remove(0);
 
-      SetCustomerGroupTarget(groups,DoorTarget);
+    SetCustomerGroupTarget(groups, DoorTarget);
 
-      NextToLeave = EatingTime;
+    NextToLeave = EatingTime;
 
   }
 
   /**
    * Trys to remove customers when they reach the exit.
    */
-  void TryDeleteCustomers(){
+  void TryDeleteCustomers() {
     List<Integer> removals = new LinkedList<>();
-    int r =0;
-    for (CustomerGroups group: WalkingBackCustomers
+    int r = 0;
+    for (CustomerGroups group : WalkingBackCustomers
     ) {
 
-      for (int i = group.Members.size()-1; i >= 0 ; i--) {
+      for (int i = group.Members.size() - 1; i >= 0; i--) {
 
-          if(group.Members.get(i).gameObject.position.dst(DoorTarget.x,DoorTarget.y)<1) {
-            group.Members.get(i).gameObject.Destroy();
-            group.Members.remove(i);
-          }
+        if (group.Members.get(i).gameObject.position.dst(DoorTarget.x, DoorTarget.y) < 1) {
+          group.Members.get(i).gameObject.Destroy();
+          group.Members.remove(i);
+        }
 
       }
 
-      if(group.Members.size()==0)
+      if (group.Members.size() == 0) {
         removals.add(r);
+      }
 
       r++;
 
     }
-    for (Integer i: removals
+    for (Integer i : removals
     ) {
       WalkingBackCustomers.remove(i);
     }
   }
 
-  int WavesLeft(){
-    return  Waves-currentWave;
+  int WavesLeft() {
+    return Waves - currentWave;
   }
 
   /**
    * Creates a new customer group of a random size, and gives them a list of foods to order.
+   *
    * @author Felix Seanor
    */
 
 
-  public int calculateCustomerAmount(){
+  public int calculateCustomerAmount() {
 
-    if(Waves == -1)
-      return rand.nextInt((int)groupSize.y-(int)groupSize.x)+ (int)groupSize.x ;
-    if(WavesLeft() == 0)
+    if (Waves == -1) {
+      return rand.nextInt((int) groupSize.y - (int) groupSize.x) + (int) groupSize.x;
+    }
+    if (WavesLeft() == 0) {
       return CustomersRemaining;
+    }
 
-    int rnd = rand.nextInt((int)groupSize.y-(int)groupSize.x)+ (int)groupSize.x ;
+//    int rnd = rand.nextInt((int) groupSize.y - (int) groupSize.x) + (int) groupSize.x;
+//
+//    int minimumCustomerDraw = WavesLeft() * (int) groupSize.x;
+//    int MaxDraw = (CustomersRemaining - rnd) - WavesLeft() * (int) groupSize.y;
+//
+//    minimumCustomerDraw = CustomersRemaining - minimumCustomerDraw;
+//
+//    return Math.min(minimumCustomerDraw, rnd) + Math.max(0, MaxDraw);
+    return customersPerWave.get(currentWave
+        - 1); // gets the number of customer for the current wave from the list of customers per wave
 
-    int minimumCustomerDraw = WavesLeft() * (int)groupSize.x;
-    int MaxDraw = (CustomersRemaining - rnd)  - WavesLeft() * (int)groupSize.y;
-
-    minimumCustomerDraw = CustomersRemaining - minimumCustomerDraw;
-
-
-    return Math.min(minimumCustomerDraw,rnd) + Math.max(0,MaxDraw);
 
   }
-  void CreateNewCustomer(){
+
+  void CreateNewCustomer() {
     Table table = GetTable();
 
-
-      int customerAmount = calculateCustomerAmount();
+    int customerAmount = calculateCustomerAmount();
     CustomersRemaining -= customerAmount;
 
-
-    currentWaiting = new CustomerGroups(customerAmount,currentCustomer, DoorTarget, CustomerFrustrationStart, menu.CreateNewOrder(customerAmount, Randomisation.Normalised),CustomerAtlas);
+    currentWaiting = new CustomerGroups(customerAmount, currentCustomer, DoorTarget,
+        CustomerFrustrationStart, menu.CreateNewOrder(customerAmount, Randomisation.Normalised),
+        CustomerAtlas);
     currentCustomer += customerAmount;
 
-    currentWaiting.table= table;
-    table.DesignateSeating(customerAmount,rand);
+    currentWaiting.table = table;
+    table.DesignateSeating(customerAmount, rand);
 
     SetWaitingForOrderTarget();
   }
 
   /**
    * Makes the currently waiting customers to queue up dynamically.
+   *
    * @author Felix Seanor
    */
-  void SetWaitingForOrderTarget(){
+  void SetWaitingForOrderTarget() {
     for (int i = 0; i < currentWaiting.MembersInLine.size(); i++) {
-        SetCustomerTarget(currentWaiting.MembersInLine.get(i),new Vector2(0,40*i).add(OrderAreaTarget));
+      SetCustomerTarget(currentWaiting.MembersInLine.get(i),
+          new Vector2(0, 40 * i).add(OrderAreaTarget));
     }
   }
 
   /**
-   * Checks if a new customer can be accepted if so, add a new one in. End the game if the set number of waves has elapsed.
-   * Set Waves to -1 for "endless"
+   * Checks if a new customer can be accepted if so, add a new one in. End the game if the set
+   * number of waves has elapsed. Set Waves to -1 for "endless"
+   *
    * @author Felix Seanor
    */
 
-  public void CanAcceptNewCustomer(){
-    if(DoSatisfactionCheck())
-    {
+  public void CanAcceptNewCustomer() {
+    if (DoSatisfactionCheck()) {
       SittingCustomers.add(currentWaiting);
       currentWaiting = null;
     }
 
-    if(currentWaiting == null && SittingCustomers.size() < tables.size())
-    {
-      if(Waves != currentWave++) //if not the max number of waves increment
-      CreateNewCustomer();
-      else
+    if (currentWaiting == null && SittingCustomers.size() < tables.size()) {
+      if (Waves != currentWave++) //if not the max number of waves increment
+      {
+        CreateNewCustomer();
+      } else {
         EndGame();
+      }
 
 
     }
 
 
-
   }
 
   /**
-   * If the current customer is too frustrated then make all customers in that group leave
-   * decrement Frustration
+   * If the current customer is too frustrated then make all customers in that group leave decrement
+   * Frustration
+   *
    * @param group group to leave
    * @author Felix Seanor
    */
-  public void FrustrationLeave(CustomerGroups group){
-    SetCustomerGroupTarget(group,DoorTarget);
+  public void FrustrationLeave(CustomerGroups group) {
+    SetCustomerGroupTarget(group, DoorTarget);
     group.table.relinquish();
     currentWaiting = null;
     WalkingBackCustomers.add(group);
@@ -408,39 +459,42 @@ public class CustomerController extends Scriptable
 
   /**
    * Sets the pathfinding target of an entire group, making them walk to the location.
+   *
    * @param group
    * @param target
    * @author Felix Seanor
    */
-  public void SetCustomerGroupTarget(CustomerGroups group, Vector2 target){
-    for (Customer customer: group.Members
+  public void SetCustomerGroupTarget(CustomerGroups group, Vector2 target) {
+    for (Customer customer : group.Members
     ) {
-        SetCustomerTarget(customer,target);
+      SetCustomerTarget(customer, target);
     }
   }
 
   /**
    * Sets an individual customers pathfinding target. Begins pathfinding
+   *
    * @param customer
    * @param target
    * @author Felix Seanor
    */
 
-  public void SetCustomerTarget(Customer customer, Vector2 target){
+  public void SetCustomerTarget(Customer customer, Vector2 target) {
     customer.GivePath(pathfinding.FindPath((int) customer.gameObject.position.x,
-        (int) customer.gameObject.position.y, (int) target.x, (int) target.y,DistanceTest.Manhatten));
+        (int) customer.gameObject.position.y, (int) target.x, (int) target.y,
+        DistanceTest.Manhatten));
 
   }
 
   /**
    * Test remove customers.
    */
-  void RemoveCustomerTest(){
-    if(Gdx.input.isKeyJustPressed(
-        Keys.S )&& currentWaiting != null){
+  void RemoveCustomerTest() {
+    if (Gdx.input.isKeyJustPressed(
+        Keys.S) && currentWaiting != null) {
 
       Customer customer = currentWaiting.RemoveFirstCustomer();
-      SetCustomerTarget(customer,currentWaiting.table.GetNextSeat());
+      SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
       ChangeMoney(MoneyPerCustomer);
 
       SetWaitingForOrderTarget();
@@ -450,52 +504,50 @@ public class CustomerController extends Scriptable
 
   /**
    * End the game sequence. Call upper end game sequence.
+   *
    * @author Felix Seanor
    */
-  private void EndGame(){
+  private void EndGame() {
     //calculate win or loss
 
     //Calculate points
     EndOfGameValues values = new EndOfGameValues();
     values.score = Money;
-    values.Won  = Reputation>0;
+    values.Won = Reputation > 0;
     CallEndGame.accept(values);
   }
 
   /**
-   * Interface with the customer from the chefs via customer counters.
-   * Checks to see if the given food is an ordered food
-   * Makes customer sit down if so
+   * Interface with the customer from the chefs via customer counters. Checks to see if the given
+   * food is an ordered food Makes customer sit down if so
+   *
    * @param item
    * @return True if accepted, otherwise false
    * @author Felix Seanor
    */
-  public boolean tryGiveFood(Item item){
+  public boolean tryGiveFood(Item item) {
     int success = currentWaiting.SeeIfDishIsCorrect(item);
 
-
-
-
-
-    if(success != -1) {
+    if (success != -1) {
       currentWaiting.MembersSeatedOrWalking.add(currentWaiting.MembersInLine.remove(success));
       currentWaiting.updateFrustrationOnSucessfulService();
-      SetCustomerTarget(currentWaiting.MembersSeatedOrWalking.get(currentWaiting.MembersSeatedOrWalking.size()-1),currentWaiting.table.GetNextSeat());
+      SetCustomerTarget(currentWaiting.MembersSeatedOrWalking.get(
+          currentWaiting.MembersSeatedOrWalking.size() - 1), currentWaiting.table.GetNextSeat());
       SetWaitingForOrderTarget();
       ChangeMoney(MoneyPerCustomer);
     }
-    return success !=-1;
+    return success != -1;
   }
 
   /**
    * Checks to see if the current customer group can be expelled from the currenly waiting slot
+   *
    * @return True if so, otherwise false
    * @author Felix Seanor
    */
-  boolean DoSatisfactionCheck(){
-    return currentWaiting != null && currentWaiting.MembersInLine.size()==0 ;
+  boolean DoSatisfactionCheck() {
+    return currentWaiting != null && currentWaiting.MembersInLine.size() == 0;
   }
-
 
 
 }
