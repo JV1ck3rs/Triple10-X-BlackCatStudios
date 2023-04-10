@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Core.*;
+import com.mygdx.game.Core.GameState.GameState;
+import com.mygdx.game.Core.GameState.ItemState;
+import com.mygdx.game.Core.GameState.SaveState;
 import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
@@ -75,14 +79,15 @@ public class GameScreen implements Screen {
   static World world;
   private final Box2DDebugRenderer b2dr;
 
-  private CustomerController customerController;
+  public CustomerController customerController;
+
+
 
 
   // map
   private final TiledMapRenderer mapRenderer;
 
-  MasterChef masterChef;
-  Texture spaceTexture, ctrlTexture, shiftTexture, rTexture, mTexture;
+  public MasterChef masterChef;
 
   List<GameObject> Stations = new LinkedList();
   List<GameObject> customerCounters = new LinkedList();
@@ -559,6 +564,7 @@ public class GameScreen implements Screen {
     timerFont.getData().setScale(1.5f, 1.5f);
     timerLabel.setText(str);
 
+
     CharSequence str2 = "Money: ¥" + customerController.Money;
     timerFont.draw(game.batch, str2, 500, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
@@ -587,9 +593,14 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
+    if(Gdx.input.isKeyJustPressed(Keys.B))
+      SaveGame();
+
+    if(Gdx.input.isKeyJustPressed(Keys.V))
+      LoadGame();
 //    for (int i = 0; i < customers.length; i++) {
-    //    customers[i].updateSpriteFromInput(customers[i].getMove());
-    // }
+  //    customers[i].updateSpriteFromInput(customers[i].getMove());
+   // }
 
     //Removed and simplified logic
 
@@ -653,9 +664,9 @@ public class GameScreen implements Screen {
 //        foodIcon.isVisible = false;
 //        foodIcon = null;
 //      }
-    // */
+     // */
 
-    //  }
+  //  }
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
       Paused = !Paused;
@@ -737,6 +748,74 @@ public class GameScreen implements Screen {
     });
   }
 
+  public void SaveGame(){
+    SaveState Saving = new SaveState();
+    Saving.SaveState(this, "SavedData.ser");
+
+  }
+
+  public void LoadGame(){
+    SaveState Saving = new SaveState();
+
+    GameState state = Saving.LoadState("SavedData.ser");
+
+    LoadState(state);
+    masterChef.LoadState(state);
+    customerController.LoadState(state);
+
+
+
+  }
+
+  /**
+   * Loads the state of a previous state of the world, all LoadGame to a full sweep
+   * @param state
+   */
+  public void LoadState(GameState state){
+
+    int i = 0;
+    timer = state.Timer;
+    seconds= state.seconds;
+    for (GameObject station: Stations)
+    {
+      Scriptable scriptable = station.GetScript(0);
+      if(scriptable instanceof Station)
+        ((Station)scriptable).LoadState(state.FoodOnCounters.get(i++));
+
+
+
+    }
+
+    for (GameObject station: customerCounters)
+      ((Station)station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+
+    for (GameObject station: assemblyStations)
+      ((Station)station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+  }
+  public void SaveState(GameState state){
+    List<List<ItemState>> itemsOnCounters = new LinkedList<>();
+
+    state.Timer =timer;
+    state.seconds = seconds;
+    for (GameObject station: Stations)
+    {
+      Scriptable scriptable = station.GetScript(0);
+      if(scriptable instanceof Station)
+        itemsOnCounters.add(((Station)scriptable).SaveState());
+
+    }
+
+    for (GameObject station: customerCounters)
+      itemsOnCounters.add(((Station)station.GetScript(0)).SaveState());
+
+    for (GameObject station: assemblyStations)
+      itemsOnCounters.add( ((Station)station.GetScript(0)).SaveState());
+
+    state.FoodOnCounters = itemsOnCounters;
+
+
+  }
+
   /**
    * Resizes the stage when the window is resized so that the buttons are in the correct place.
    * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
@@ -747,9 +826,9 @@ public class GameScreen implements Screen {
     gameUIStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
   }
 
+
   @Override
   public void pause() {
-
   }
 
   @Override
