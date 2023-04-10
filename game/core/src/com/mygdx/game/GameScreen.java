@@ -1,6 +1,16 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Core.*;
 import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
@@ -68,8 +78,6 @@ public class GameScreen implements Screen {
   private CustomerController customerController;
 
 
-
-
   // map
   private final TiledMapRenderer mapRenderer;
 
@@ -92,11 +100,15 @@ public class GameScreen implements Screen {
 
   boolean Paused = false;
 
- public static final int viewportWidth = 32 * TILE_WIDTH;
-  public static  final int viewportHeight = 18 * TILE_HEIGHT;
+  public static final int viewportWidth = 32 * TILE_WIDTH;
+  public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
 
   public showRecipeInstructions recipeScreen = new showRecipeInstructions();
+
+  Stage pauseStage; // stage for the pause menu
+  Stage gameUIStage; // stage for the game UI
+  float scale;
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
@@ -120,18 +132,17 @@ public class GameScreen implements Screen {
     world = new World(new Vector2(0, 0), true);
     b2dr = new Box2DDebugRenderer();
     exitLogo.isVisible = false;
-    exitLogo.getBlackTexture().height=30;
-    exitLogo.getBlackTexture().width=30;
+    exitLogo.getBlackTexture().height = 30;
+    exitLogo.getBlackTexture().width = 30;
     exitLogo.position = new Vector2(713, 454);
 
     // add map
     mapRenderer = new OrthogonalTiledMapRenderer(game.map);
     mapRenderer.setView(camera);
 
-    pathfinding = new Pathfinding(TILE_WIDTH/4,viewportWidth,viewportWidth);
+    pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-
-    masterChef = new MasterChef(2,world,camera,pathfinding);
+    masterChef = new MasterChef(2, world, camera, pathfinding);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = new CustomerControllerParams();
@@ -141,7 +152,9 @@ public class GameScreen implements Screen {
     CCParams.MaxCustomersPerWave = 4;
     CCParams.MinCustomersPerWave = 1;
     CCParams.NoCustomers = numCustomers;
-    customerController = new CustomerController(new Vector2(200,100), new Vector2(360,180), pathfinding, (EndOfGameValues vals) -> EndGame(vals),CCParams, new Vector2(190,390),new Vector2(190,290),new Vector2(290,290));
+    customerController = new CustomerController(new Vector2(200, 100), new Vector2(360, 180),
+        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, new Vector2(190, 390),
+        new Vector2(190, 290), new Vector2(290, 290));
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     GameObjectManager.objManager.AppendLooseScript(customerController);
@@ -236,7 +249,167 @@ public class GameScreen implements Screen {
     moneyLabel = new Label("Money: ¥" + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
+
+
     timerFont = new BitmapFont();
+    pauseStage = new Stage();
+    scale = 1.00f;
+    // check if the game is in full screen mode
+    // (thus the screen width is greater than 720)
+    if (pauseStage.getViewport().getScreenWidth() > 720) {
+      scale = 2.00f;
+    }
+    setupGameUI();
+    setupPauseMenu();
+  }
+
+  /**
+   * Sets up the UI elements which will be displayed during the game.
+   *
+   * @author Jack Vickers
+   */
+  private void setupGameUI() {
+    gameUIStage = new Stage();
+    Gdx.input.setInputProcessor(gameUIStage);
+    Table gameUITable = new Table();
+    gameUIStage.addActor(gameUITable);
+    gameUITable.setFillParent(true);
+    gameUITable.align(Align.top);
+    TextureRegion pauseBtn = new TextureRegion(new Texture("PauseUp.png"));
+    TextureRegion pauseBtnDown = new TextureRegion(new Texture("PauseDown.png"));
+    Drawable pauseBtnDrawable = new TextureRegionDrawable(pauseBtn);
+    Drawable pauseBtnDrawableDown = new TextureRegionDrawable(pauseBtnDown);
+    Button.ButtonStyle pauseButtonStyle = new Button.ButtonStyle();
+    Button pauseButton = new Button();
+    pauseButton.setStyle(pauseButtonStyle);
+    pauseButtonStyle.up = pauseBtnDrawable;
+    pauseButtonStyle.down = pauseBtnDrawableDown;
+    gameUITable.add(pauseButton).width(48 * scale).height(48 * scale).align(Align.topRight).expandX();
+    gameUITable.row();
+    pauseButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        Paused = true;
+        Gdx.input.setInputProcessor(pauseStage); // set the input processor to the pause stage
+      }
+    });
+    //TODO: Possibly use this function for the powerup menu in the future
+  }
+
+  /**
+   * Creates the pause menu.
+   *
+   * @author Jack Vickers
+   * @date 07/04/2023
+   */
+  private void setupPauseMenu() {
+    Image pauseImage = new Image(new Texture("SemiTransparentBG.png"));
+    pauseImage.setSize(pauseStage.getWidth(), pauseStage.getHeight());
+    pauseImage.setPosition(0, 0);
+    pauseStage.addActor(pauseImage);
+    Table pauseTable = new Table(); // create a table to hold the pause menu
+    pauseStage.addActor(pauseTable); // add the table to the stage
+    pauseTable.setFillParent(true);
+    pauseTable.align(Align.top);
+//    Label title = new Label("PAUSED", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+//    title.setFontScale(scale * 1.50f);
+//    pauseTable.add(title).padBottom(50 * scale).row();
+
+    // The following block of code creates the resume button and adds it to the table
+    TextureRegion resumeBtn = new TextureRegion(new Texture("ResumeUp.png"));
+    TextureRegion resumeBtnDown = new TextureRegion(new Texture("ResumeDown.png"));
+    Drawable drawableResumeBtn = new TextureRegionDrawable(resumeBtn);
+    Drawable drawableResumeBtnDown = new TextureRegionDrawable(resumeBtnDown);
+    Button.ButtonStyle resumeButtonStyle = new Button.ButtonStyle();
+    Button resumeButton = new Button();
+    resumeButton.setStyle(resumeButtonStyle);
+    resumeButtonStyle.up = drawableResumeBtn;
+    resumeButtonStyle.down = drawableResumeBtnDown;
+    pauseTable.add(resumeButton).width(250 * scale).height(50 * scale).padBottom(50 * scale)
+        .padTop(80 * scale);
+    pauseTable.row();
+
+    // The following block of code adds a listener to the resume button
+    resumeButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        Paused = false; // when clicked, the game is no longer paused
+        Gdx.input.setInputProcessor(gameUIStage); // set the input processor to the game UI stage
+      }
+    });
+
+    // The following block of code creates the instruction button and adds it to the table
+    TextureRegion instructionBtn = new TextureRegion(new Texture("HowToPlayUp.png"));
+    TextureRegion instructionBtnDown = new TextureRegion(new Texture("HowToPlayDown.png"));
+    Drawable drawableInstructionBtn = new TextureRegionDrawable(instructionBtn);
+    Drawable drawableInstructionBtnDown = new TextureRegionDrawable(instructionBtnDown);
+    Button.ButtonStyle instructionButtonStyle = new Button.ButtonStyle();
+    Button instructionButton = new Button();
+    instructionButton.setStyle(instructionButtonStyle);
+    instructionButtonStyle.up = drawableInstructionBtn;
+    instructionButtonStyle.down = drawableInstructionBtnDown;
+    pauseTable.add(instructionButton).width(250 * scale).height(50 * scale).padBottom(50 * scale);
+    pauseTable.row();
+
+    // The following block of code adds a listener to the instruction button
+    instructionButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        System.out.println("For now this doesn't do anything");
+      }
+    });
+
+    // The following block of code creates the save button and adds it to the table
+    TextureRegion saveBtn = new TextureRegion(new Texture("SaveUp.png"));
+    TextureRegion saveBtnDown = new TextureRegion(new Texture("SaveDown.png"));
+    Drawable drawableSaveBtn = new TextureRegionDrawable(saveBtn);
+    Drawable drawableSaveBtnDown = new TextureRegionDrawable(saveBtnDown);
+    Button.ButtonStyle saveButtonStyle = new Button.ButtonStyle();
+    Button saveButton = new Button();
+    saveButton.setStyle(saveButtonStyle);
+    saveButtonStyle.up = drawableSaveBtn;
+    saveButtonStyle.down = drawableSaveBtnDown;
+    pauseTable.add(saveButton).width(250 * scale).height(50 * scale).padBottom(10 * scale);
+    pauseTable.row();
+
+    // Creates a label for the save button which will be used to give the user feedback
+    Label saveLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+    saveLabel.setFontScale(scale);
+    saveLabel.setAlignment(Align.right);
+    pauseTable.add(saveLabel).padBottom(20 * scale);
+    pauseTable.row();
+
+    // The following block of code adds a listener to the save button
+    saveButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        saveLabel.setText("This doesn't do anything yet");
+        // TODO: Implement save functionality
+      }
+    });
+
+    // The following block of code creates the quit button and adds it to the table
+    TextureRegion quitBtn = new TextureRegion(new Texture("ExitUp.png"));
+    TextureRegion quitBtnDown = new TextureRegion(new Texture("ExitDown.png"));
+    Drawable drawableQuitBtn = new TextureRegionDrawable(quitBtn);
+    Drawable drawableQuitBtnDown = new TextureRegionDrawable(quitBtnDown);
+    Button.ButtonStyle quitButtonStyle = new Button.ButtonStyle();
+    Button quitButton = new Button();
+    quitButton.setStyle(quitButtonStyle);
+    quitButtonStyle.up = drawableQuitBtn;
+    quitButtonStyle.down = drawableQuitBtnDown;
+    pauseTable.add(quitButton).width(250 * scale).height(50 * scale).padBottom(50 * scale);
+    pauseTable.row();
+
+    // The following block of code adds a listener to the quit button
+    quitButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        gameMusic.stop();
+        game.setScreen(new MenuScreen(game));
+      }
+    });
+    pauseTable.debug();
   }
 
 
@@ -336,7 +509,7 @@ public class GameScreen implements Screen {
     bdef.position.set((x + width / 2), (y + height / 2));
     if (type == "Static") {
       bdef.type = BodyDef.BodyType.StaticBody;
-      pathfinding.addStaticObject((int)x,(int)y,(int)width,(int)height);
+      pathfinding.addStaticObject((int) x, (int) y, (int) width, (int) height);
 
 
     } else if (type == "Dynamic") {
@@ -353,10 +526,9 @@ public class GameScreen implements Screen {
   }
 
 
+  public void EndGame(EndOfGameValues values) {
 
-  public void EndGame(EndOfGameValues values){
-
-    VictoryScreen screen = new VictoryScreen(game,this,timer,values);
+    VictoryScreen screen = new VictoryScreen(game, this, timer, values);
     game.setScreen(screen);
 
   }
@@ -368,6 +540,7 @@ public class GameScreen implements Screen {
   @Override
   public void show() {
     if (!gameMusic.isPlaying()) {
+      gameMusic.setVolume(0.6f);
       gameMusic.play(); // only play the music if it's not already playing
     }
   }
@@ -386,12 +559,11 @@ public class GameScreen implements Screen {
     timerFont.getData().setScale(1.5f, 1.5f);
     timerLabel.setText(str);
 
-
     CharSequence str2 = "Money: ¥" + customerController.Money;
     timerFont.draw(game.batch, str2, 500, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
 
-    if(customerController.Reputation != -1) {
+    if (customerController.Reputation != -1) {
       CharSequence str3 = "Reputation: " + customerController.Reputation;
       timerFont.draw(game.batch, str3, 650, 35);
       timerFont.getData().setScale(1.5f, 1.5f);
@@ -416,8 +588,8 @@ public class GameScreen implements Screen {
     mapRenderer.render();
 
 //    for (int i = 0; i < customers.length; i++) {
-  //    customers[i].updateSpriteFromInput(customers[i].getMove());
-   // }
+    //    customers[i].updateSpriteFromInput(customers[i].getMove());
+    // }
 
     //Removed and simplified logic
 
@@ -446,7 +618,6 @@ public class GameScreen implements Screen {
           masterChef.getChef(i).drawTimer(game.batch);
         }
       }
-
       // Mutes or plays the music
       if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
         if (gameMusic.isPlaying()) {
@@ -455,10 +626,10 @@ public class GameScreen implements Screen {
           gameMusic.play();
         }
       }
+    } else {
+      pauseStage.act(Gdx.graphics.getDeltaTime());
+      pauseStage.draw();
     }
-
-
-
 //    for (Customer customer : customerController.getCurrentWaitingCustomerGroup().MembersInLine) {
 //      game.batch.draw(new Texture("Items/" + customer.getDish().name() + ".png"), customer.getX(), customer.getY() + 5);
 //    }
@@ -482,10 +653,9 @@ public class GameScreen implements Screen {
 //        foodIcon.isVisible = false;
 //        foodIcon = null;
 //      }
-     // */
+    // */
 
-  //  }
-
+    //  }
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
       Paused = !Paused;
@@ -499,6 +669,13 @@ public class GameScreen implements Screen {
     game.batch.draw(mTexture, 534, 413, 90, 53);
     game.batch.draw(menu, 10, 405, 130, 70);*/
     game.batch.end();
+
+    // The following code must occur after the batch is ended.
+    // Otherwise, it causes issues with customer positioning.
+    if (!Paused) { // displays the game UI if the game is not paused
+      gameUIStage.act(Gdx.graphics.getDeltaTime());
+      gameUIStage.draw();
+    }
   }
 
 
@@ -560,8 +737,14 @@ public class GameScreen implements Screen {
     });
   }
 
+  /**
+   * Resizes the stage when the window is resized so that the buttons are in the correct place.
+   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
+   */
   @Override
   public void resize(int width, int height) {
+    pauseStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+    gameUIStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
   }
 
   @Override
