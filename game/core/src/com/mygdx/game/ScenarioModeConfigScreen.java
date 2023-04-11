@@ -90,7 +90,6 @@ public class ScenarioModeConfigScreen implements Screen {
     table.setBackground(new TextureRegionDrawable(scenarioConfigAtlas.findRegion("menuPP")));
     textField = new TextField("", skin);
     textField.getStyle().font.getData().setScale(1.50f*scale);
-    textField.setMessageText("5");
     textField.setAlignment(Align.center);
     stage.addActor(textField); // Adds the text field to the stage
     table.add(textField).width(250*scale).height(50*scale); // Adds the text field to the table
@@ -124,7 +123,7 @@ public class ScenarioModeConfigScreen implements Screen {
           errorMessage.setText("Please enter a number greater than 0");
         } else if (textField.getText().matches("[0-9]+")) {
           numCustomers = Integer.parseInt(textField.getText());
-          gameScreen = new GameScreen(game, numCustomers);
+          gameScreen = new GameScreen(game, numCustomers, false);
           game.setScreen(gameScreen);
         } else {
           errorMessage.setText("Please enter a valid number");

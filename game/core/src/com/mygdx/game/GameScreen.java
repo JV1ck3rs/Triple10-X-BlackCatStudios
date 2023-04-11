@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -82,8 +83,6 @@ public class GameScreen implements Screen {
   public CustomerController customerController;
 
 
-
-
   // map
   private final TiledMapRenderer mapRenderer;
 
@@ -114,14 +113,18 @@ public class GameScreen implements Screen {
   Stage pauseStage; // stage for the pause menu
   Stage gameUIStage; // stage for the game UI
   float scale;
+  boolean isEndlessMode;
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
    * manage the logic of the render as well as setting the camera and map
    *
-   * @param game base Object which is used to draw on
+   * @param game         base Object which is used to draw on
+   * @param numCustomers Integer representing maximum number of customers that can be in the game at
+   *                     once (-1 for infinite)
+   * @param loadSave     boolean representing whether the save game should be loaded
    */
-  public GameScreen(MyGdxGame game, int numCustomers) {
+  public GameScreen(MyGdxGame game, int numCustomers, boolean loadSave) {
     this.game = game;
     camera = new OrthographicCamera();
     recipeScreen.showRecipeInstruction();
@@ -168,19 +171,6 @@ public class GameScreen implements Screen {
     CombinationDict.combinations.implementItems();
     new RecipeDict();
     RecipeDict.recipes.implementRecipes();
-
-    // generate customer sprites to be used by customer class
-    //customerAtlasArray = new ArrayList<TextureAtlas>();
-    //generateCustomerArray();
-//
-//    for (int i = 0; i < customers.length; i++) {
-//
-//      GameObject CustomerGameObject = new GameObject(new BlackSprite());
-//      customers[i] = new Customer(i + 1);
-//      CustomerGameObject.attachScript(customers[i]);
-//      CustomerGameObject.image.setSize(18, 40);
-//
-//    }
 
     createCollisionListener();
     int[] objectLayers = {3, 4, 6, 9, 11, 13, 16, 18, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32,
@@ -254,8 +244,6 @@ public class GameScreen implements Screen {
     moneyLabel = new Label("Money: ¥" + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-
-
     timerFont = new BitmapFont();
     pauseStage = new Stage();
     scale = 1.00f;
@@ -264,6 +252,10 @@ public class GameScreen implements Screen {
     if (pauseStage.getViewport().getScreenWidth() > 720) {
       scale = 2.00f;
     }
+    if (loadSave) { // if the game is being loaded from a save
+      LoadGame();
+    }
+    isEndlessMode = CCParams.NoCustomers == -1;
     setupGameUI();
     setupPauseMenu();
   }
@@ -280,6 +272,15 @@ public class GameScreen implements Screen {
     gameUIStage.addActor(gameUITable);
     gameUITable.setFillParent(true);
     gameUITable.align(Align.top);
+    if (isEndlessMode) {
+      Label modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
+          Color.WHITE));
+      gameUITable.add(modeLabel).align(Align.topLeft).expandX();
+    } else {
+      Label modeLabel = new Label("SCENARIO MODE",
+          new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+      gameUITable.add(modeLabel).align(Align.topLeft).expandX();
+    }
     TextureRegion pauseBtn = new TextureRegion(new Texture("PauseUp.png"));
     TextureRegion pauseBtnDown = new TextureRegion(new Texture("PauseDown.png"));
     Drawable pauseBtnDrawable = new TextureRegionDrawable(pauseBtn);
@@ -289,7 +290,8 @@ public class GameScreen implements Screen {
     pauseButton.setStyle(pauseButtonStyle);
     pauseButtonStyle.up = pauseBtnDrawable;
     pauseButtonStyle.down = pauseBtnDrawableDown;
-    gameUITable.add(pauseButton).width(48 * scale).height(48 * scale).align(Align.topRight).expandX();
+    gameUITable.add(pauseButton).width(48 * scale).height(48 * scale).align(Align.topRight)
+        .expandX();
     gameUITable.row();
     pauseButton.addListener(new ClickListener() {
       @Override
@@ -316,9 +318,6 @@ public class GameScreen implements Screen {
     pauseStage.addActor(pauseTable); // add the table to the stage
     pauseTable.setFillParent(true);
     pauseTable.align(Align.top);
-//    Label title = new Label("PAUSED", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-//    title.setFontScale(scale * 1.50f);
-//    pauseTable.add(title).padBottom(50 * scale).row();
 
     // The following block of code creates the resume button and adds it to the table
     TextureRegion resumeBtn = new TextureRegion(new Texture("ResumeUp.png"));
@@ -374,22 +373,23 @@ public class GameScreen implements Screen {
     saveButton.setStyle(saveButtonStyle);
     saveButtonStyle.up = drawableSaveBtn;
     saveButtonStyle.down = drawableSaveBtnDown;
-    pauseTable.add(saveButton).width(250 * scale).height(50 * scale).padBottom(10 * scale);
+    pauseTable.add(saveButton).width(250 * scale).height(50 * scale).padBottom(20 * scale);
     pauseTable.row();
 
     // Creates a label for the save button which will be used to give the user feedback
-    Label saveLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+    Label saveLabel = new Label("", new LabelStyle(new BitmapFont(), Color.WHITE));
     saveLabel.setFontScale(scale);
+
     saveLabel.setAlignment(Align.right);
-    pauseTable.add(saveLabel).padBottom(20 * scale);
+    pauseTable.add(saveLabel).padBottom(10 * scale);
     pauseTable.row();
 
     // The following block of code adds a listener to the save button
     saveButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        saveLabel.setText("This doesn't do anything yet");
-        // TODO: Implement save functionality
+        SaveGame();
+        saveLabel.setText("Game has successfully been saved");
       }
     });
 
@@ -414,7 +414,6 @@ public class GameScreen implements Screen {
         game.setScreen(new MenuScreen(game));
       }
     });
-    pauseTable.debug();
   }
 
 
@@ -564,7 +563,6 @@ public class GameScreen implements Screen {
     timerFont.getData().setScale(1.5f, 1.5f);
     timerLabel.setText(str);
 
-
     CharSequence str2 = "Money: ¥" + customerController.Money;
     timerFont.draw(game.batch, str2, 500, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
@@ -593,14 +591,12 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
-    if(Gdx.input.isKeyJustPressed(Keys.B))
-      SaveGame();
+//    if(Gdx.input.isKeyJustPressed(Keys.B))
+//      SaveGame();
 
-    if(Gdx.input.isKeyJustPressed(Keys.V))
+    if (Gdx.input.isKeyJustPressed(Keys.V)) {
       LoadGame();
-//    for (int i = 0; i < customers.length; i++) {
-  //    customers[i].updateSpriteFromInput(customers[i].getMove());
-   // }
+    }
 
     //Removed and simplified logic
 
@@ -610,11 +606,6 @@ public class GameScreen implements Screen {
 
     //Begins drawing the game batch
     game.batch.begin();
-
-    // Calls the function to draw all the ingredients
-    //drawIngredients();
-
-    // Calls the function to display timer
 
     if (!Paused) {
       displayTimer();
@@ -641,44 +632,10 @@ public class GameScreen implements Screen {
       pauseStage.act(Gdx.graphics.getDeltaTime());
       pauseStage.draw();
     }
-//    for (Customer customer : customerController.getCurrentWaitingCustomerGroup().MembersInLine) {
-//      game.batch.draw(new Texture("Items/" + customer.getDish().name() + ".png"), customer.getX(), customer.getY() + 5);
-//    }
-
-    // Draws the customers and their orders
-//    for (int i = 0; i < customers.length; i++) {
-//      //customers[i].gameObject.getSprite().setSize(18, 40);
-//      customers[i].draw(game.batch);
-//      GameObject foodIcon = customers[i].foodIcon;
-//      if (customers[i].isWaiting()) {
-//        Customer customer = customers[i];
-//        foodIcon.position = new Vector2(((customer.getX() + customer.gameObject.getSprite().sprite.getWidth() / 2) - 5), ((customer.getY() + customer.gameObject.getSprite().sprite.getHeight()) - 5));
-//        foodIcon.isVisible = true;
-//        if(foodIcon.isClicked(camera)){
-//          System.out.println(customer.getDish());
-//        }
-//      }
-///* needs to be changed
-//      if (customers[i].getDish() == customerCounters[i].getDish()) {
-//        customers[i].fed();
-//        foodIcon.isVisible = false;
-//        foodIcon = null;
-//      }
-     // */
-
-  //  }
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
       Paused = !Paused;
     }
-
-    // Draws the instuctions and menu
-    /*game.batch.draw(spaceTexture, 160, 400, 130, 80);
-    game.batch.draw(ctrlTexture, 280, 410, 90, 60);
-    game.batch.draw(shiftTexture, 360, 415, 90, 50);
-    game.batch.draw(rTexture, 450, 413, 90, 53);
-    game.batch.draw(mTexture, 534, 413, 90, 53);
-    game.batch.draw(menu, 10, 405, 130, 70);*/
     game.batch.end();
 
     // The following code must occur after the batch is ended.
@@ -748,13 +705,13 @@ public class GameScreen implements Screen {
     });
   }
 
-  public void SaveGame(){
+  public void SaveGame() {
     SaveState Saving = new SaveState();
     Saving.SaveState(this, "SavedData.ser");
 
   }
 
-  public void LoadGame(){
+  public void LoadGame() {
     SaveState Saving = new SaveState();
 
     GameState state = Saving.LoadState("SavedData.ser");
@@ -764,52 +721,56 @@ public class GameScreen implements Screen {
     customerController.LoadState(state);
 
 
-
   }
 
   /**
    * Loads the state of a previous state of the world, all LoadGame to a full sweep
+   *
    * @param state
    */
-  public void LoadState(GameState state){
+  public void LoadState(GameState state) {
 
     int i = 0;
     timer = state.Timer;
-    seconds= state.seconds;
-    for (GameObject station: Stations)
-    {
+    seconds = state.seconds;
+    for (GameObject station : Stations) {
       Scriptable scriptable = station.GetScript(0);
-      if(scriptable instanceof Station)
-        ((Station)scriptable).LoadState(state.FoodOnCounters.get(i++));
-
+      if (scriptable instanceof Station) {
+        ((Station) scriptable).LoadState(state.FoodOnCounters.get(i++));
+      }
 
 
     }
 
-    for (GameObject station: customerCounters)
-      ((Station)station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+    for (GameObject station : customerCounters) {
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+    }
 
-    for (GameObject station: assemblyStations)
-      ((Station)station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+    for (GameObject station : assemblyStations) {
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+    }
   }
-  public void SaveState(GameState state){
+
+  public void SaveState(GameState state) {
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
 
-    state.Timer =timer;
+    state.Timer = timer;
     state.seconds = seconds;
-    for (GameObject station: Stations)
-    {
+    for (GameObject station : Stations) {
       Scriptable scriptable = station.GetScript(0);
-      if(scriptable instanceof Station)
-        itemsOnCounters.add(((Station)scriptable).SaveState());
+      if (scriptable instanceof Station) {
+        itemsOnCounters.add(((Station) scriptable).SaveState());
+      }
 
     }
 
-    for (GameObject station: customerCounters)
-      itemsOnCounters.add(((Station)station.GetScript(0)).SaveState());
+    for (GameObject station : customerCounters) {
+      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
+    }
 
-    for (GameObject station: assemblyStations)
-      itemsOnCounters.add( ((Station)station.GetScript(0)).SaveState());
+    for (GameObject station : assemblyStations) {
+      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
+    }
 
     state.FoodOnCounters = itemsOnCounters;
 
