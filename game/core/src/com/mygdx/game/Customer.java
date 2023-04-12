@@ -48,6 +48,7 @@ public class Customer extends PathfindingAgent implements Person {
   public ItemEnum dish;
 
   public GameObject foodIcon;
+  public GameObject foodRecipe;
   Random rand = new Random();
 
   /**
@@ -74,8 +75,14 @@ public class Customer extends PathfindingAgent implements Person {
 
     System.out.println("customer " + customerNumber + ": " + dish);
     foodIcon = new GameObject(new BlackTexture(Item.GetItemPath(this.dish)));
-
     foodIcon.isVisible = false;
+    try{
+      foodRecipe = new GameObject(new BlackTexture(Item.GetRecipePath(this.dish)));
+    } catch (Exception e) {
+      foodRecipe = new GameObject(new BlackTexture(Item.GetItemPath(this.dish)));
+    }
+
+    foodRecipe.isVisible = false;
   }
 
   @Override

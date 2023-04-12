@@ -2,11 +2,13 @@ package com.mygdx.game.Core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.CameraFunctions;
 import com.mygdx.game.GameScreen;
 
 import java.util.LinkedList;
@@ -99,13 +101,15 @@ public class GameObject {
   public void setPosition(float x, float y) {
     position.set(x, y);
   }
-  public boolean isClicked(OrthographicCamera camera){
+  public boolean isClicked(){
+    CameraFunctions camera1 = CameraFunctions.camera;
     Vector3 touchPos = new Vector3();
     if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
       touchPos.set(Gdx.input.getX(), Gdx.input.getY(),0);
-      touchPos = camera.unproject(touchPos);
+      touchPos = camera1.unprojectCamera(touchPos);
       if (touchPos.x > position.x && touchPos.x < position.x + image.GetWidth()) {
         if (touchPos.y > position.y && touchPos.y < position.y + image.GetHeight()) {
+          System.out.println("Clicked");
           return true;
         }
       }

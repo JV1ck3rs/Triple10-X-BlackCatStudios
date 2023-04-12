@@ -24,4 +24,9 @@ public class Item
   public static String GetItemPath(ItemEnum name){
     return "Items/"+name.name()+".png";
   }
+
+  public static String GetRecipePath(ItemEnum name){
+    return "Recipe/"+name.name()+"Recipe.png";
+
+  }
 }

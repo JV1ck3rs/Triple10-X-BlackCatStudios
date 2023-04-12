@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MyGdxGame extends Game {
 
   public SpriteBatch batch;
+  public CameraFunctions cameraFunctions = new CameraFunctions();
 
   /**
    * creates maps and sprites

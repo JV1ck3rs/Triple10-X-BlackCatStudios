@@ -18,6 +18,8 @@ public class PathfindingAgent extends Scriptable
     path = newPath;
   }
 
+  public List<Vector2> getPath(){return path;}
+
   protected PathfindingAgent(){
     path = new LinkedList<>();
   }

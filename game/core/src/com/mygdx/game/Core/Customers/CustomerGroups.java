@@ -42,6 +42,39 @@ public class CustomerGroups {
   }
 
 
+  public void showIcons(){
+    for(int i =0; i<MembersInLine.size(); i++){
+      System.out.println(MembersInLine.get(i));
+      List<Vector2> path = MembersInLine.get(i).getPath();
+      MembersInLine.get(i).foodIcon.getBlackTexture().height = 25;
+      MembersInLine.get(i).foodIcon.getBlackTexture().width = 25;
+      MembersInLine.get(i).foodIcon.setPosition(MembersInLine.get(i).getX()+15, MembersInLine.get(i).getY()+10);
+      MembersInLine.get(i).foodIcon.image.layer = 10;
+      if(path.isEmpty()){
+        MembersInLine.get(i).foodIcon.isVisible = true;
+      }
+    }
+  }
+
+  public void removeIcons(){
+    for(int i = 0; i<Members.size(); i++){
+      System.out.println(Members.get(i).foodIcon.isVisible);
+      if(!MembersInLine.contains(Members.get(i))){
+        MembersSeatedOrWalking.get(i).foodIcon.isVisible = false;
+      }
+    }
+  }
+
+
+  public void checkClicks(){
+    for(int i = 0; i<Members.size(); i++){
+      if(Members.get(i).foodIcon.isClicked() && Members.get(i).foodIcon.isVisible){
+        Members.get(i).foodRecipe.isVisible = true;
+      }
+    }
+  }
+
+
   public Customer RemoveFirstCustomer(){
     MembersSeatedOrWalking.add( MembersInLine.remove(0));
     return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size()-1);

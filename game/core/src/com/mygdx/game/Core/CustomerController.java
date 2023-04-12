@@ -89,6 +89,9 @@ public class CustomerController extends Scriptable
   }
 
 
+
+
+
   public void ModifyReputation(int DR){
 
     Reputation += DR;
@@ -117,15 +120,22 @@ public class CustomerController extends Scriptable
 
   }
 
-
   @Override
   public void Update(float dt) {
     super.Update(dt);
+    if(currentWaiting!=null){
+      currentWaiting.showIcons();
+      currentWaiting.removeIcons();
+      currentWaiting.checkClicks();
+    }
 
     if(currentWaiting!=null)
     currentWaiting.updateSpriteFromInput();
     UpdateCustomerMovements(SittingCustomers);
     UpdateCustomerMovements(WalkingBackCustomers);
+
+
+
 
 
     FrustrationCheck(dt);

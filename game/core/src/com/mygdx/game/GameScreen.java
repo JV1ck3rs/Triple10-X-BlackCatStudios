@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Core.*;
 import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
@@ -136,10 +137,14 @@ public class GameScreen implements Screen {
    * @param game base Object which is used to draw on
    */
   public GameScreen(MyGdxGame game) {
+
+
     this.game = game;
     camera = new OrthographicCamera();
     recipeScreen = new showRecipeInstructions();
     //recipeScreen.showRecipeInstruction();
+    CameraFunctions camera1 = CameraFunctions.camera;
+    camera1.updateCamera(camera);
 
     int viewportWidth = 32 * TILE_WIDTH;
     int viewportHeight = 18 * TILE_HEIGHT;
@@ -403,6 +408,10 @@ public class GameScreen implements Screen {
 
   public void EndGame(EndOfGameValues values){
 
+  }
+
+  public Vector3 transformMap(Vector3 touchPos){
+    return camera.unproject(touchPos);
   }
 
 
