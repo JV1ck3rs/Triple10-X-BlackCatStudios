@@ -1,9 +1,5 @@
 package piazzapanictests.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,16 +18,11 @@ import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Core.MasterChef;
 import com.mygdx.game.Core.Pathfinding;
+import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.AssemblyStation;
 import com.mygdx.game.Stations.ChopStation;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.mygdx.game.Stations.HobStation;
-import com.mygdx.game.Stations.TrashCan;
-import org.junit.runner.RunWith;
-import piazzapanictests.tests.GdxTestRunner;
 
 class MasterTestClass {
 
@@ -47,6 +38,8 @@ class MasterTestClass {
   HobStation hobStation;
   AssemblyStation assemblyStation;
   GameObject assemble;
+
+  TextureDictionary textureDictionary = new TextureDictionary();
   /**
    * Instantiates the world.
    *

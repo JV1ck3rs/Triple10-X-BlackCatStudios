@@ -74,11 +74,41 @@ public class MenuScreen implements Screen {
     exitbtnDown = new TextureRegion(mainMenuAtlas.findRegion("exitButtonDown"));
 
     stage = new Stage();
+    float scale = 1.0f;
+    if (stage.getViewport().getScreenWidth() > 720) {
+      scale = 2.0f;
+    }
     Gdx.input.setInputProcessor(stage);
 
     table = new Table();
     table.setFillParent(true);
     stage.addActor(table);
+
+    // Only creates and adds the load button if there is a save file
+    if (Gdx.files.internal("SavedData.ser").exists()) {
+      TextureRegion loadbtn = new TextureRegion(new Texture("LoadUp.png"));
+      TextureRegion loadbtnDown = new TextureRegion(new Texture("LoadDown.png"));
+      Drawable drawableLoadbtnUp = new TextureRegionDrawable(loadbtn);
+      Drawable drawableLoadbtnDown = new TextureRegionDrawable(loadbtnDown);
+      Button.ButtonStyle loadbtnStyle = new Button.ButtonStyle();
+      Button loadButton = new Button();
+      loadButton.setStyle(loadbtnStyle);
+      loadbtnStyle.up = drawableLoadbtnUp;
+      loadbtnStyle.down = drawableLoadbtnDown;
+      table.add(loadButton).width(250 * scale).height(50 * scale).padTop(90 * scale).row();
+
+      // Adds a click listener to the load button
+      loadButton.addListener(
+          new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) { // if clicked, load the game
+              gameScreen = new GameScreen(root, -1, true);
+              root.setScreen(gameScreen);
+              dispose();
+            }
+          });
+    }
+
     Drawable drawablePlaybtnUp = new TextureRegionDrawable(new TextureRegion(playbtn));
     Drawable drawablePlaybtnDown = new TextureRegionDrawable(new TextureRegion(playbtnDown));
     Drawable drawableScenariobtnUp = new TextureRegionDrawable(new TextureRegion(scenariobtn));
@@ -92,15 +122,19 @@ public class MenuScreen implements Screen {
     playbtn.setStyle(playbtnStyle);
     playbtnStyle.up = drawablePlaybtnUp;
     playbtnStyle.down = drawablePlaybtnDown;
-    table.add(playbtn).width(250).height(50).padTop(75);
-    table.row();
+    if (Gdx.files.internal("SavedData.ser").exists()) {
+      table.add(playbtn).width(250 * scale).height(50 * scale).pad(25 * scale).row();
+    } else {
+      table.add(playbtn).width(250 * scale).height(50 * scale).padTop(75 * scale).padBottom(25 *scale);
+      table.row();
+    }
 
     Button scenariobtn = new Button();
     Button.ButtonStyle scenariobtnStyle = new Button.ButtonStyle();
     scenariobtn.setStyle(scenariobtnStyle);
     scenariobtnStyle.up = drawableScenariobtnUp;
     scenariobtnStyle.down = drawableScenariobtnDown;
-    table.add(scenariobtn).width(250).height(50).pad(25);
+    table.add(scenariobtn).width(250 * scale).height(50 * scale).padBottom(25 * scale);
     table.row();
 
     Button.ButtonStyle exitbtnStyle = new Button.ButtonStyle();
@@ -108,14 +142,14 @@ public class MenuScreen implements Screen {
     exitbtn.setStyle(exitbtnStyle);
     exitbtnStyle.up = drawableExitbtnUp;
     exitbtnStyle.down = drawableExitbtnDown;
-    table.add(exitbtn).width(250).height(50);
+    table.add(exitbtn).width(250 * scale).height(50 * scale);
 
     table.setBackground(new TextureRegionDrawable(mainMenuAtlas.findRegion("menuPP")));
 
     ChangeListener playbtnMouseListener = new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        gameScreen = new GameScreen(root, -1);
+        gameScreen = new GameScreen(root, -1, false);
         root.setScreen(gameScreen);
         dispose();
       }
