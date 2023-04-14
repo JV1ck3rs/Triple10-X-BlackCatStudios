@@ -61,4 +61,42 @@ public class ChopStationTests extends MasterTestClass {
     assertNull("There should be no item on the chopping station", chopStation.returnItem());
   }
 
+  @Test
+  public void testPlaceItemChoppingValid() {
+    if (GameObjectManager.objManager == null) {
+      // creates game object manager which makes sure that the game object manager is not null when it is needed
+      new GameObjectManager();
+    }
+    instantiateWorldAndChoppingStation(); // creates chopping station
+    chopStation.GiveItem(new Item(ItemEnum.Lettuce));
+    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Lettuce), chopStation.RetrieveItem());
+
+    chopStation.GiveItem(new Item(ItemEnum.Tomato));
+    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Tomato), chopStation.RetrieveItem());
+
+    chopStation.GiveItem(new Item(ItemEnum.Onion));
+    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Onion), chopStation.RetrieveItem());
+
+    chopStation.GiveItem(new Item(ItemEnum.Mince));
+    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Mince), chopStation.RetrieveItem());
+
+    chopStation.GiveItem(new Item(ItemEnum.CutTomato));
+    assertEquals("Item can be used in chopping station", new Item (ItemEnum.CutTomato), chopStation.RetrieveItem());
+
+    chopStation.GiveItem(new Item(ItemEnum.Dough));
+    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Dough), chopStation.RetrieveItem());
+  }
+
+  @Test
+  public void testPlaceItemChoppingInvalid(){
+    if (GameObjectManager.objManager == null) {
+      // creates game object manager which makes sure that the game object manager is not null when it is needed
+      new GameObjectManager();
+    }
+    instantiateWorldAndChoppingStation(); // creates chopping station
+    chopStation.GiveItem(new Item(ItemEnum.Buns));
+    assertEquals("Item cannot be put on chopping station", new Item(ItemEnum.Buns), new Item(ItemEnum.Buns));
+
+  }
+
 }
