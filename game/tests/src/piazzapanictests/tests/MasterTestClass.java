@@ -22,6 +22,8 @@ import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.AssemblyStation;
 import com.mygdx.game.Stations.ChopStation;
+import com.mygdx.game.Stations.HobStation;
+import com.mygdx.game.Stations.TrashCan;
 import java.util.ArrayList;
 
 class MasterTestClass {
