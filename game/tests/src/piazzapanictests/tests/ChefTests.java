@@ -324,4 +324,30 @@ public class ChefTests extends MasterTestClass {
     GameObjectManager.objManager.DestroyGameObject(assemble);
   }
 
+  /**
+   * Tests that the chef cannot place item onto empty tile if not stood next to any interaction stations.
+   *
+   * @author Azzam Amirul
+   * @date 02/04/2023
+   */
+  @Test
+  public void testPlaceEmptyTile(){
+    instantiateWorldAndChefs(); // creates world and chefs
+    int chefInventoryCountBefore = chef[0].getInventoryCount();
+    chef[0].DropItem();
+    int chefInventoryCountAfter = chef[0].getInventoryCount();
+    assertEquals("The chef's inventory is still the same after attempting to place an item on an empty tile",
+            chefInventoryCountBefore, chefInventoryCountAfter);
+  }
+
+  @Test
+  public void testItemRemoveFromChefInventory(){
+    instantiateWorldAndChefs();
+    chef[0].GiveItem(new Item(ItemEnum.Lettuce)); // Give the chef an item
+    int inventorySize = chef[0].getInventoryCount(); // Get the size of the inventory
+    chef[0].DropItem(); // Drop the item
+    assertEquals("The chef should have 1 less item in their inventory after dropping it",
+            inventorySize - 1, chef[0].getInventoryCount());
+  }
+
 }
