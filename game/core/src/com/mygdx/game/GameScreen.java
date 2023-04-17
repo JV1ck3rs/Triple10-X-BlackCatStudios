@@ -250,7 +250,7 @@ public class GameScreen implements Screen {
     // check if the game is in full screen mode
     // (thus the screen width is greater than 720)
     if (pauseStage.getViewport().getScreenWidth() > 720) {
-      scale = 2.00f;
+      scale = 2.25f;
     }
     if (loadSave) { // if the game is being loaded from a save
       LoadGame();

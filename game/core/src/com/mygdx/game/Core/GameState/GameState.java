@@ -3,6 +3,7 @@ package com.mygdx.game.Core.GameState;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Items.ItemEnum;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameState implements Serializable
@@ -23,5 +24,6 @@ public class GameState implements Serializable
   public float seconds;
   public int Reputation;
   public int MaxReputation;
+  public ArrayList<Integer> CustomersPerWave;
 }
 

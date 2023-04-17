@@ -30,7 +30,7 @@ public class CustomerGroups {
   /**
    * Creates a customer group with given parameters
    *
-   * @param MemberCount  number of customers in group
+   * @param MemberCount   number of customers in group
    * @param CustomerStart
    * @param Spawn
    * @param frustration
@@ -50,7 +50,7 @@ public class CustomerGroups {
       Customer custLogic = new Customer(CustomerStart + i, OrderMenu.get(i),
           Customer.getCustomerAtlas(customerAtlas));
       GameObject customer = new GameObject(new BlackSprite());
-    //  customer.position.set( new Vector2(0,30*i).sub(Spawn));
+      //  customer.position.set( new Vector2(0,30*i).sub(Spawn));
       customer.position.set(Spawn);
       customer.attachScript(custLogic);
       customer.isVisible = true;
@@ -61,14 +61,14 @@ public class CustomerGroups {
 
   }
 
-  public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas){
+  public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas) {
     Orders = Arrays.asList(state.orders);
     Frustration = state.frustration;
-    RecoveryValue =  FrustrationRecovery * Frustration;
+    RecoveryValue = FrustrationRecovery * Frustration;
     for (int i = 0; i < state.customerPositions.length; i++) {
 
-
-      Customer custLogic = new Customer(state.CustomerStartID + i,state.orders[i], Customer.getCustomerAtlas(customerAtlas));
+      Customer custLogic = new Customer(state.CustomerStartID + i, state.orders[i],
+          Customer.getCustomerAtlas(customerAtlas));
       GameObject customer = new GameObject(new BlackSprite());
       customer.position.set(state.customerPositions[i]);
       customer.attachScript(custLogic);
@@ -145,7 +145,7 @@ public class CustomerGroups {
     }
   }
 
-public CustomerGroupState SaveState(boolean leaving){
+  public CustomerGroupState SaveState(boolean leaving) {
     CustomerGroupState state = new CustomerGroupState();
     state.customerPositions = new Vector2[Members.size()];
     state.customersInGroupOrdering = new int[MembersInLine.size()];
@@ -153,30 +153,33 @@ public CustomerGroupState SaveState(boolean leaving){
     state.Table = table.ID;
     state.frustration = Frustration;
     state.CustomerStartID = Members.get(0).customerNumber;
+    state.NumCustomersWalkingToTable = MembersSeatedOrWalking.size();
 
-  for (int i = 0; i < Members.size(); i++) {
-    state.customerPositions[i] = Members.get(i).gameObject.position;
-    state.orders[i] = Members.get(i).dish;
+    for (int i = 0; i < Members.size(); i++) {
+      state.customerPositions[i] = Members.get(i).gameObject.position;
+      state.orders[i] = Members.get(i).dish;
 
+    }
+
+    for (int i = 0; i < MembersInLine.size(); i++) {
+      state.customersInGroupOrdering[i] = i;
+    }
+
+    state.leaving = leaving;
+
+    return state;
   }
 
-  for (int i = 0; i < MembersInLine.size(); i++) {
-    state.customersInGroupOrdering[i] = i;
+  // get Members
+  public List<Customer> getMembers() {
+    return Members;
   }
 
-  state.leaving = leaving;
-
-  return state;
-
-
-}
-
-public void destroy()
-{
-  for (Customer cust: Members
-  ) {
-    cust.Destroy();
+  public void destroy() {
+    for (Customer cust : Members
+    ) {
+      cust.Destroy();
+    }
   }
-}
 
 }
