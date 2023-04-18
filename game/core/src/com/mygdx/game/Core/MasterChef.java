@@ -61,7 +61,7 @@ World world;
   public void generateChefArray() {
     String filename;
     TextureAtlas chefAtlas;
-    for (int i = 1; i < 4; i++) {
+    for (int i = 1; i < 6; i++) {
       filename = "Chefs/Chef" + i + "/chef" + i + ".txt";
       chefAtlas = new TextureAtlas(Gdx.files.internal(filename));
       chefAtlasArray.add(chefAtlas);
@@ -274,7 +274,7 @@ World world;
   }
 
   public void AddNewChefIn(){
-    if(chefs.size()<10)
+    if(chefs.size()<5)
       CreateNewChef(new Vector2(750,300), chefs.size());
   }
 
