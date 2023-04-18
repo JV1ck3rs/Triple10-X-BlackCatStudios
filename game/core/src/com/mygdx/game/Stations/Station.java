@@ -2,6 +2,7 @@ package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Core.Scriptable;
@@ -31,12 +32,17 @@ public abstract class Station extends Scriptable implements Interactable {
   public int imageSize = 18;
   GameObject bubble;
 
-  public Station() {
+  private float BurnSpeed;
+  float CookingSpeed;
+
+  public Station(CookingParams params) {
     item = null;
     locked = false;
     recipes = RecipeDict.recipes;
     combinations = CombinationDict.combinations;
     currentRecipe = null;
+    BurnSpeed = params.BurnSpeed;
+    CookingSpeed = params.CookSpeed;
   }
 
   public void init() {

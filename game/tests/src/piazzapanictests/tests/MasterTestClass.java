@@ -20,14 +20,19 @@ import com.mygdx.game.Core.BlackSprite;
 import com.mygdx.game.Core.GameObject;
 
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.GameState.Difficaulty;
+import com.mygdx.game.Core.GameState.DifficultyMaster;
+import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.MasterChef;
 import com.mygdx.game.Core.Pathfinding;
 import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.AssemblyStation;
 import com.mygdx.game.Stations.ChopStation;
+import com.mygdx.game.soundFrame;
 import java.util.ArrayList;
 import java.util.List;
+import jdk.internal.org.jline.utils.DiffHelper.Diff;
 import org.junit.runner.RunWith;
 import piazzapanictests.tests.GdxTestRunner;
 
@@ -61,6 +66,8 @@ class MasterTestClass {
   void instantiateWorldAndChefs() {
     world = new World(new Vector2(0, 0), true);
     generateChefArray();
+
+    soundFrame soundFrame = new soundFrame();
     chef = new Chef[2];
     int chefControl = 0;
     for (int i = 0; i < chef.length; i++) {
@@ -83,10 +90,11 @@ class MasterTestClass {
     camera.setToOrtho(false, 1024, 576); // set camera to orthographic mode using values
     // taken from GameScreen class
     camera.update();
+    DifficultyState difficultyState = DifficultyMaster.getDifficulty(Difficaulty.Stressful);
     // Sets up the pathfinding using values taken from GameScreen class
     Pathfinding pathfinding = new Pathfinding(32 / 4, 32 * 32, 18 * 32);
     // Instantiates the MasterChef class
-    masterChef = new MasterChef(2, world, camera, pathfinding);
+    masterChef = new MasterChef(2, world, camera, pathfinding,difficultyState.chefParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
   }
 
@@ -125,6 +133,9 @@ class MasterTestClass {
    */
   void instantiateWorldAndChoppingStation() {
     world = new World(new Vector2(0, 0), true);
+
+DifficultyState state = DifficultyMaster.getStressful();
+
     TiledMap map;
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer chopping = map.getLayers().get(5); // gets chopping layer
@@ -136,7 +147,7 @@ class MasterTestClass {
         rect.getY()); // sets chopping position (this must be done to avoid null pointer exception)
     Chop.setWidthAndHeight(rect.getWidth(),
         rect.getHeight()); // sets chopping width and height (this must be done to avoid null pointer exception)
-    chopStation = new ChopStation(); // creates chopping station
+    chopStation = new ChopStation(state.cookingParams); // creates chopping station
     Chop.attachScript(chopStation); // attaches chopping station to chopping game object
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
@@ -149,6 +160,10 @@ class MasterTestClass {
    */
   AssemblyStation instantiateWorldAndAssemblyStation() {
     world = new World(new Vector2(0, 0), true);
+    DifficultyState state = DifficultyMaster.getStressful();
+
+    soundFrame soundFrame = new soundFrame();
+
     TiledMap map;
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer counter = map.getLayers().get(3); // gets counter layer (layer 3 of the map)
@@ -158,7 +173,7 @@ class MasterTestClass {
     assemble = new GameObject(null);
     assemble.setPosition(0, 0);
     assemble.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    assemblyStation = new AssemblyStation();
+    assemblyStation = new AssemblyStation(state.cookingParams);
     assemble.attachScript(assemblyStation);
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes

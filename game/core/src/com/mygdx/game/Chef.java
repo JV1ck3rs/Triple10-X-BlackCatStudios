@@ -18,6 +18,7 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.Station;
 
+import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,7 +38,6 @@ import java.util.Stack;
  */
 public class Chef extends PathfindingAgent implements Person {
 
-  float speed = 2000;
 
   Stack<Item> heldItems = new Stack<>();
   List<GameObject> HeldItemGameObjects = new LinkedList<>();
@@ -472,12 +472,15 @@ public class Chef extends PathfindingAgent implements Person {
       return Optional.empty();
     }
 
+    soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
+
     return Optional.ofNullable(heldItems.pop());
   }
 
   public Boolean GiveItem(Item item) {
     if (CanGiveItem()) {
       heldItems.add(item);
+      soundFrame.SoundEngine.playSound(soundsEnum.EquipItem);
       return true;
     }
 
@@ -491,6 +494,7 @@ public class Chef extends PathfindingAgent implements Person {
     if (heldItems.size() != 0) {
       heldItems.pop();
     }
+    soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
   }
 
   /**

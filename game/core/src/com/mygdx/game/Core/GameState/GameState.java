@@ -23,5 +23,7 @@ public class GameState implements Serializable
   public float seconds;
   public int Reputation;
   public int MaxReputation;
+
+  public Difficaulty difficaulty;
 }
 

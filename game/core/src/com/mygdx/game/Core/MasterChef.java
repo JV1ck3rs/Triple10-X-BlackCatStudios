@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Chef;
+import com.mygdx.game.Core.GameState.ChefParams;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Interactions.Interactable;
@@ -17,6 +18,7 @@ import com.mygdx.game.Core.Interactions.Interaction;
 import com.mygdx.game.Core.Interactions.Interaction.InteractionType;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.soundFrame;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -32,8 +34,11 @@ World world;
   private Camera camera;
   List<Chef> chefs;
 
+  ChefParams chefParams;
+
   private Pathfinding pathfind;
 
+  private GameObject SelectionArrow;
 
   public int returnChefCount() {
     return chefs.size();
@@ -82,7 +87,10 @@ World world;
    * @param pathfinding pathfinding module
    * @author Felix Seanor
    */
-  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding) {
+  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding, ChefParams params) {
+
+
+    chefParams =  params;
 
     chefs = new LinkedList<>();
     chefAtlasArray = new ArrayList<TextureAtlas>();
@@ -91,6 +99,10 @@ World world;
     this.world = world;
 
     this.camera = camera;
+
+  BlackTexture ArrowTex =   new BlackTexture("Chefs/SelectionArrow.png");
+  ArrowTex.setSize(20,30);
+    SelectionArrow = new GameObject(ArrowTex);
 
     for (int i = 0; i < count; i++) {
       Vector2 pos = new Vector2(0,0);
@@ -108,13 +120,17 @@ World world;
     chefsGameObject.attachScript(chefs.get(i));
     chefsGameObject.image.setSize(18, 40);
     chefsGameObject.position.set(position);
-
+    chefs.get(chefs.size()-1).speed = chefParams.MoveSpeed;
     chefs.get(i).updateSpriteFromInput("idlesouth");
   }
 
   void SelectChef(int i) {
     currentControlledChef = i;
 
+  }
+
+  void MoveArrow(){
+    SelectionArrow.position.set(getCurrentChef().gameObject.position).add(new Vector2(0,45));
   }
 
   /**
@@ -233,6 +249,9 @@ World world;
       chefs.get(currentControlledChef).DropItem();
     }
 
+    if(Gdx.input.isKeyJustPressed(Inputs.SPAWN_NEW_CHEF))
+      AddNewChefIn();
+
     if (Gdx.input.isButtonJustPressed(0)) {
       Vector3 touchpos = new Vector3();
       touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -249,6 +268,14 @@ World world;
       getCurrentChef().MoveAlongPath();
     }
 
+
+    MoveArrow();
+
+  }
+
+  public void AddNewChefIn(){
+    if(chefs.size()<10)
+      CreateNewChef(new Vector2(750,300), chefs.size());
   }
 
   public void LoadState(GameState state){

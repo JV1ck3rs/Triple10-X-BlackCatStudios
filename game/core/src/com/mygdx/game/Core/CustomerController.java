@@ -106,7 +106,7 @@ public class CustomerController extends Scriptable
     DoorTarget = DoorPosition;
 
 
-    menu = new OrderMenu(10,7,3);
+    menu = new OrderMenu(10,7,3,params.OrderTypePermissable);
   }
 
 
@@ -298,7 +298,7 @@ public class CustomerController extends Scriptable
       for (int i = group.Members.size()-1; i >= 0 ; i--) {
 
           if(group.Members.get(i).gameObject.position.dst(DoorTarget.x,DoorTarget.y)<1) {
-            group.Members.get(i).gameObject.Destroy();
+            group.Members.get(i).Destroy();
             group.Members.remove(i);
           }
 
@@ -542,6 +542,7 @@ public class CustomerController extends Scriptable
       for (Customer cust: currentWaiting.MembersSeatedOrWalking
       ) {
         SetCustomerTarget(cust,currentWaiting.table.GetNextSeat());
+
       }
 
       SetWaitingForOrderTarget();

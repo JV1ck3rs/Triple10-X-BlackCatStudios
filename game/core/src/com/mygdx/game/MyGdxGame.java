@@ -20,6 +20,7 @@ public class MyGdxGame extends Game {
   public SpriteBatch batch;
   public MenuScreen menu;
   public TiledMap map;
+  public soundFrame soundFrame;
   public TextureDictionary textureDictionary;
 
   /**
@@ -30,6 +31,7 @@ public class MyGdxGame extends Game {
     batch = new SpriteBatch();
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx");
     textureDictionary = new TextureDictionary();
+    soundFrame = new soundFrame();
     menu = new MenuScreen(this);
     setScreen(menu);
   }
