@@ -109,7 +109,7 @@ public class CustomerController extends Scriptable {
     OrderAreaTarget = OrderArea;
     DoorTarget = DoorPosition;
 
-    menu = new OrderMenu(10, 7, 3);
+    menu = new OrderMenu(10,7,3,params.OrderTypePermissable);
   }
 
   /**
@@ -152,7 +152,6 @@ public class CustomerController extends Scriptable {
     CustomersRemaining = NoCustomers;
 
     if (NoCustomers == -1) {
-
       SetWaveAmount(-1);
       return;
     }
@@ -182,7 +181,6 @@ public class CustomerController extends Scriptable {
     }
     // Sorts the arraylist in ascending order so that waves with fewer customers occur first
     Collections.sort(customersPerWave);
-
 
     Waves = customersPerWave.size();
     SetWaveAmount(Waves);
@@ -371,10 +369,10 @@ public class CustomerController extends Scriptable {
 
       for (int i = group.Members.size() - 1; i >= 0; i--) {
 
-        if (group.Members.get(i).gameObject.position.dst(DoorTarget.x, DoorTarget.y) < 1) {
-          group.Members.get(i).gameObject.Destroy();
-          group.Members.remove(i);
-        }
+          if(group.Members.get(i).gameObject.position.dst(DoorTarget.x,DoorTarget.y)<1) {
+            group.Members.get(i).Destroy();
+            group.Members.remove(i);
+          }
 
       }
 
@@ -473,10 +471,10 @@ public class CustomerController extends Scriptable {
         CreateNewCustomer();
       } else {
         EndGame();
-      }
 
 
     }
+
 
 
   }
@@ -656,6 +654,7 @@ public class CustomerController extends Scriptable {
 
       // set the target of the customers who should be in line to the order point
       SetWaitingForOrderTarget();
+
     }
 
     int i = 0;

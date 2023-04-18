@@ -5,7 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 
 public class Inputs {
-public static int MOVE_CHEF_UP = Keys.W;
+
+  public static final int SPAWN_NEW_CHEF = Keys.MINUS;
+  public static int MOVE_CHEF_UP = Keys.W;
 public static int MOVE_CHEF_DOWN = Keys.S;
 public static int MOVE_CHEF_LEFT = Keys.A;
 public static int MOVE_CHEF_RIGHT = Keys.D;

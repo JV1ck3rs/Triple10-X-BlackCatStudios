@@ -14,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Core.*;
+import com.mygdx.game.Core.GameState.Difficaulty;
+import com.mygdx.game.Core.GameState.DifficultyMaster;
+import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.GameState.SaveState;
@@ -83,6 +86,8 @@ public class GameScreen implements Screen {
   public CustomerController customerController;
 
 
+
+
   // map
   private final TiledMapRenderer mapRenderer;
 
@@ -103,7 +108,8 @@ public class GameScreen implements Screen {
   private final BitmapFont timerFont;
 
   boolean Paused = false;
-
+  DifficultyState difficultyState;
+  Difficaulty difficaulty;
   public static final int viewportWidth = 32 * TILE_WIDTH;
   public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
@@ -135,6 +141,7 @@ public class GameScreen implements Screen {
     gameMusic = Gdx.audio.newMusic(Gdx.files.internal("gameMusic.mp3"));
     gameMusic.setLooping(true);
 
+
     recipeScreen.createInstructionPage("Empty");
 
     world = new World(new Vector2(0, 0), true);
@@ -148,17 +155,16 @@ public class GameScreen implements Screen {
     mapRenderer = new OrthogonalTiledMapRenderer(game.map);
     mapRenderer.setView(camera);
 
-    pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
+    difficultyState = DifficultyMaster.getDifficulty(Difficaulty.Mindbreaking);
 
-    masterChef = new MasterChef(2, world, camera, pathfinding);
+    pathfinding = new Pathfinding(TILE_WIDTH/4,viewportWidth,viewportWidth);
+
+
+    masterChef = new MasterChef(2,world,camera,pathfinding, difficultyState.chefParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
-    CustomerControllerParams CCParams = new CustomerControllerParams();
-    CCParams.MaxMoney = 1000;
-    CCParams.Reputation = 3;
-    CCParams.MoneyStart = 20;
-    CCParams.MaxCustomersPerWave = 4;
-    CCParams.MinCustomersPerWave = 1;
+    CustomerControllerParams CCParams = difficultyState.ccParams;
+
     CCParams.NoCustomers = numCustomers;
     customerController = new CustomerController(new Vector2(200, 100), new Vector2(360, 180),
         pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, new Vector2(190, 390),
@@ -435,7 +441,7 @@ public class GameScreen implements Screen {
     GameObject Hob = new GameObject(null);
     Hob.setPosition(rect.getX(), rect.getY());
     Hob.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    HobStation HS = new HobStation();
+    HobStation HS = new HobStation(difficultyState.cookingParams);
     Hob.attachScript(HS);
     Stations.add(Hob);
     HS.init();
@@ -445,7 +451,7 @@ public class GameScreen implements Screen {
     GameObject Toast = new GameObject(null);
     Toast.setPosition(rect.getX(), rect.getY());
     Toast.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    ToasterStation TS = new ToasterStation();
+    ToasterStation TS = new ToasterStation(difficultyState.cookingParams);
     Toast.attachScript(TS);
     Stations.add(Toast);
     TS.init();
@@ -455,7 +461,7 @@ public class GameScreen implements Screen {
     GameObject Chop = new GameObject(null);
     Chop.setPosition(rect.getX(), rect.getY());
     Chop.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    ChopStation CS = new ChopStation();
+    ChopStation CS = new ChopStation(difficultyState.cookingParams);
     Chop.attachScript(CS);
     Stations.add(Chop);
     CS.init();
@@ -465,7 +471,7 @@ public class GameScreen implements Screen {
     GameObject Oven = new GameObject(null);
     Oven.setPosition(rect.getX(), rect.getY());
     Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    OvenStation OS = new OvenStation();
+    OvenStation OS = new OvenStation(difficultyState.cookingParams);
     Oven.attachScript(OS);
     Stations.add(Oven);
     OS.init();
@@ -484,7 +490,7 @@ public class GameScreen implements Screen {
     GameObject Ass = new GameObject(null);
     Ass.setPosition(rect.getX(), rect.getY());
     Ass.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    AssemblyStation AS = new AssemblyStation();
+    AssemblyStation AS = new AssemblyStation(difficultyState.cookingParams);
     Ass.attachScript(AS);
     assemblyStations.add(Ass);
     Stations.add(Ass);
@@ -494,7 +500,7 @@ public class GameScreen implements Screen {
     GameObject Cust = new GameObject(null);
     Cust.setPosition(rect.getX(), rect.getY());
     Cust.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)));
+    CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)),difficultyState.cookingParams);
     Cust.attachScript(CC);
     customerCounters.add(Cust);
     Stations.add(Cust);
@@ -737,8 +743,10 @@ public class GameScreen implements Screen {
 
     int i = 0;
     timer = state.Timer;
-    seconds = state.seconds;
-    for (GameObject station : Stations) {
+    seconds= state.seconds;
+    difficaulty = state.difficaulty;
+    for (GameObject station: Stations)
+    {
       Scriptable scriptable = station.GetScript(0);
       if (scriptable instanceof Station) {
         ((Station) scriptable).LoadState(state.FoodOnCounters.get(i++));
@@ -758,6 +766,8 @@ public class GameScreen implements Screen {
 
   public void SaveState(GameState state) {
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
+    state.difficaulty = difficaulty;
+    state.Timer =timer;
 
     state.Timer = timer;
     state.seconds = seconds;
@@ -791,7 +801,6 @@ public class GameScreen implements Screen {
     pauseStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     gameUIStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
   }
-
 
   @Override
   public void pause() {

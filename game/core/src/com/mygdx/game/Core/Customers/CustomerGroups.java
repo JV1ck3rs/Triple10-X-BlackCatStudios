@@ -40,7 +40,7 @@ public class CustomerGroups {
   public CustomerGroups(int MemberCount, int CustomerStart, Vector2 Spawn, int frustration,
       List<ItemEnum> OrderMenu, ArrayList<TextureAtlas> customerAtlas) {
     Orders = OrderMenu;
-    Frustration = frustration;
+    Frustration = frustration * MemberCount;
     RecoveryValue = FrustrationRecovery * Frustration;
     for (int i = 0; i < MemberCount; i++) {
       if (OrderMenu.size() < MemberCount) {

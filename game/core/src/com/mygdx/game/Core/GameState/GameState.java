@@ -25,5 +25,6 @@ public class GameState implements Serializable
   public int Reputation;
   public int MaxReputation;
   public ArrayList<Integer> CustomersPerWave;
+  public Difficaulty difficaulty;
 }
 
