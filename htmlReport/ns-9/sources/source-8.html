@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > PathfindingTests</title>
+  <title>Coverage Report > ToasterStation</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">piazzapanictests.tests</a>
+    <a href="../index.html">com.mygdx.game.Stations</a>
 </div>
 
-<h1>Coverage Summary for Class: PathfindingTests (piazzapanictests.tests)</h1>
+<h1>Coverage Summary for Class: ToasterStation (com.mygdx.game.Stations)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">PathfindingTests</td>
+  <td class="name">ToasterStation</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (5/5)
+    (0/13)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (20/20)
+    (0/32)
   </span>
 </td>
 </tr>
@@ -74,83 +74,119 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package piazzapanictests.tests;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Stations;
 &nbsp;
-&nbsp;import static org.junit.Assert.assertEquals;
+&nbsp;import com.mygdx.game.Core.BlackTexture;
+&nbsp;import com.mygdx.game.Items.Item;
+&nbsp;import com.mygdx.game.Items.ItemEnum;
 &nbsp;
-&nbsp;import com.mygdx.game.Core.DistanceTest;
-&nbsp;import com.mygdx.game.Core.Pathfinding;
-&nbsp;import com.mygdx.game.GameScreen;
-&nbsp;import java.util.LinkedList;
-&nbsp;import java.util.List;
-&nbsp;import java.util.Set;
-&nbsp;import java.util.Vector;
-&nbsp;import org.junit.Test;
-&nbsp;import org.junit.runner.RunWith;
-&nbsp;import com.badlogic.gdx.math.Vector2;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
 &nbsp;
+&nbsp;public class ToasterStation extends Station{
 &nbsp;
-&nbsp;
-&nbsp;/**
-&nbsp;Testing pathfinding
-&nbsp;@author Felix Seanor
-&nbsp; **/
-&nbsp;@RunWith(GdxTestRunner.class)
-&nbsp;
-<b class="fc">&nbsp;public class PathfindingTests {</b>
+&nbsp;    boolean interacted;
+&nbsp;    boolean ready;
+&nbsp;    public float maxProgress;
+&nbsp;    public float progress;
+&nbsp;    public static ArrayList&lt;ItemEnum&gt; ItemWhiteList;
 &nbsp;
 &nbsp;
-&nbsp;  Pathfinding pathfinding;
-&nbsp;
-&nbsp;  void SetUpPathfinding(){
-<b class="fc">&nbsp;    pathfinding = new Pathfinding(GameScreen.TILE_WIDTH/4,GameScreen.viewportWidth,GameScreen.viewportWidth);</b>
-&nbsp;
-&nbsp;  }
-&nbsp;
-&nbsp;
-&nbsp;  @Test
-&nbsp;  public void TestPathfindingNullMove(){
-<b class="fc">&nbsp;    SetUpPathfinding();</b>
-<b class="fc">&nbsp;    List&lt;Vector2&gt; path = pathfinding.FindPath(0,0,0,0, DistanceTest.Euclidean);</b>
-&nbsp;
-<b class="fc">&nbsp;    assertEquals(&quot;The path must be empty for a move of zero&quot;,new LinkedList&lt;&gt;(),path);</b>
-&nbsp;  }
-&nbsp;
-&nbsp;  @Test
-&nbsp;  public void TestPathfinding()
-&nbsp;  {
-<b class="fc">&nbsp;    SetUpPathfinding();</b>
-<b class="fc">&nbsp;    int stepSize = GameScreen.TILE_WIDTH/4;</b>
-<b class="fc">&nbsp;    List&lt;Vector2&gt; pathA = pathfinding.FindPath(0,0,stepSize,0, DistanceTest.Euclidean);</b>
-&nbsp;
-<b class="fc">&nbsp;    List&lt;Vector2&gt; PathAActual = new LinkedList&lt;&gt;();</b>
-<b class="fc">&nbsp;    PathAActual.add(new Vector2(stepSize,0));</b>
-<b class="fc">&nbsp;    assertEquals(&quot;The path must be have only one move upwards&quot;, PathAActual, pathA);</b>
-&nbsp;
-<b class="fc">&nbsp;    List&lt;Vector2&gt; pathB = pathfinding.FindPath(0,0,stepSize*5,stepSize*5, DistanceTest.Euclidean);</b>
-<b class="fc">&nbsp;    Vector2 End = pathB.get(pathB.size()-1);</b>
-<b class="fc">&nbsp;    assertEquals(&quot;The path must reach the end goal&quot;, new Vector2(stepSize*5,stepSize*5), End);</b>
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;  }
-&nbsp;
-&nbsp;  @Test
-&nbsp;  public void TestObsticalAvoidance(){
-<b class="fc">&nbsp;    SetUpPathfinding();</b>
-<b class="fc">&nbsp;    int stepSize = GameScreen.TILE_WIDTH/4;</b>
-&nbsp;
-<b class="fc">&nbsp;    pathfinding.addStaticObject(0,5*stepSize,stepSize*2,stepSize*2);</b>
-&nbsp;
-<b class="fc">&nbsp;    List&lt;Vector2&gt; path = pathfinding.FindPath(0,0,0,10*stepSize, DistanceTest.Manhatten);</b>
-&nbsp;
-<b class="fc">&nbsp;    Boolean Fails = path.contains(new Vector2(0,5*stepSize));</b>
-&nbsp;
-<b class="fc">&nbsp;    assertEquals(&quot;The path must avoid the obstical&quot;, false, Fails);</b>
+<b class="nc">&nbsp;    public ToasterStation() {</b>
+<b class="nc">&nbsp;        ready = false;</b>
+<b class="nc">&nbsp;        maxProgress = 8;</b>
+<b class="nc">&nbsp;        if (ItemWhiteList == null) {</b>
+<b class="nc">&nbsp;            ItemWhiteList = new ArrayList&lt;&gt;(Arrays.asList(ItemEnum.Buns));</b>
+&nbsp;        }
 &nbsp;    }
-&nbsp;  }
 &nbsp;
 &nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean GiveItem(Item item) {
+<b class="nc">&nbsp;        bubble.isVisible = true;</b>
+<b class="nc">&nbsp;        changeItem(item);</b>
+<b class="nc">&nbsp;        checkItem();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Item RetrieveItem() {
+<b class="nc">&nbsp;        returnItem = item;</b>
+<b class="nc">&nbsp;        deleteItem();</b>
+<b class="nc">&nbsp;        currentRecipe = null;</b>
+<b class="nc">&nbsp;        bubble.isVisible = false;</b>
+<b class="nc">&nbsp;        return returnItem;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean CanRetrieve() {
+<b class="nc">&nbsp;        return item != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean CanGive() {
+<b class="nc">&nbsp;        return item == null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean CanInteract() {
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean Interact() {
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void checkItem() {
+<b class="nc">&nbsp;        if (ItemWhiteList.contains(item.name))</b>
+<b class="nc">&nbsp;            currentRecipe = recipes.RecipeMap.get(item.name);</b>
+&nbsp;        else
+<b class="nc">&nbsp;            currentRecipe = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void Cook(float dt) {
+<b class="nc">&nbsp;        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (ready) {</b>
+<b class="nc">&nbsp;            changeItem(new Item(currentRecipe.endItem));</b>
+<b class="nc">&nbsp;            checkItem();</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        progressBar();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void progressBar(){
+<b class="nc">&nbsp;        bubble.image = new BlackTexture(&quot;Timer/0&quot;+getProgress()+&quot;.png&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public int getProgress() {
+<b class="nc">&nbsp;        progress = item.progress / maxProgress;</b>
+<b class="nc">&nbsp;        return (int) (progress/0.125) + 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void updatePictures() {
+<b class="nc">&nbsp;        return;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void Update(float dt) {
+<b class="nc">&nbsp;        if (currentRecipe != null) {</b>
+<b class="nc">&nbsp;            Cook(dt);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;}
 </code>
 </pre>
 </div>
@@ -174,7 +210,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-18 15:28</div>
 </div>
 </body>
 </html>

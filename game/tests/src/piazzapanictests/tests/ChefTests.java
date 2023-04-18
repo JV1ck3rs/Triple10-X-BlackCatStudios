@@ -1,18 +1,15 @@
 package piazzapanictests.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameObjectManager;
-import com.mygdx.game.Core.Interactions.Interactable;
-import com.mygdx.game.Core.MasterChef;
-import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.Stations.AssemblyStation;
+import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.Stations.FoodCrate;
 
 import java.util.Stack;
@@ -97,6 +94,63 @@ public class ChefTests extends MasterTestClass {
     Items.push(item1);
     assertTrue("The chef inventory should contain the first 3 items given to it and not the 4th",
         chef[0].getInventory().equals(Items));
+  }
+
+  /**
+   * Tests that the chef can pick up an item from a nearby food crate.
+   *
+   * @author Jack Vickers
+   */
+  @Test
+  public void testChefCanPickupItemFromNearbyFoodCrate() {
+    if (GameObjectManager.objManager == null) {
+      // creates game object manager which makes sure that the game object manager
+      // is not null when it is needed
+      new GameObjectManager();
+    }
+    instantiateMasterChef();
+    instantiateWorldAndFoodCrate();
+
+    // The chef's position is set to close to the tomato crate station (which has position (0,0))
+    // This is done so that the Fetch item function gets the food crate
+    // as the closest interactable object.
+    masterChef.getChef(0).gameObject.position = new Vector2(1, 0);
+    masterChef.FetchItem(); // The chef should pick up a tomato from the pantry food crate
+
+    assertEquals("The chef should have a tomato at the top of inventory", new Item(ItemEnum.Tomato),
+        masterChef.getChef(0).getInventory().peek());
+
+    GameObjectManager.objManager.DestroyGameObject(crate); // Destroys the food crate
+  }
+
+
+  /**
+   * Tests that the chef can't give an item to a food crate.
+   *
+   * @author Jack Vickers
+   */
+  @Test
+  public void testChefCannotGiveItemToFoodCrate() {
+    if (GameObjectManager.objManager == null) {
+      // creates game object manager which makes sure that the game object manager
+      // is not null when it is needed
+      new GameObjectManager();
+    }
+    instantiateMasterChef();
+    instantiateWorldAndFoodCrate();
+
+    // The chef's position is set to close to the tomato crate station (which has position (0,0))
+    // This is done so that the Fetch item function gets the food crate
+    // as the closest interactable object.
+    masterChef.getChef(0).gameObject.position = new Vector2(1, 0);
+    Item item = new Item(ItemEnum.Tomato);
+    masterChef.getCurrentChef().GiveItem(item);
+    assertFalse("Food crate GiveItem() method should return false", FC.GiveItem(item));
+    masterChef.GiveItem(); // Try to give the tomato to the food crate
+    assertEquals("The chef should still have a tomato at the top of inventory",
+        item,
+        masterChef.getChef(0).getInventory().peek());
+    GameObjectManager.objManager.DestroyGameObject(crate); // Destroys the food crate
   }
 
   /**
@@ -293,6 +347,8 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef being controlled can place an item on the assembly station.
+   *
+   * @author Jack Vickers
    */
   @Test
   public void testPlaceItemOnAssemblyStation() {
@@ -325,29 +381,62 @@ public class ChefTests extends MasterTestClass {
   }
 
   /**
-   * Tests that the chef cannot place item onto empty tile if not stood next to any interaction stations.
+   * Tests that the chef being controlled can combine two items on the assembly station.
+   *
+   * @author Jack Vickers
+   */
+  @Test
+  public void testCombineItemsOnAssemblyStation() {
+    if (GameObjectManager.objManager == null) {
+      // creates game object manager which makes sure that the game object manager
+      // is not null when it is needed
+      new GameObjectManager();
+    }
+    new CombinationDict();
+    CombinationDict.combinations.implementItems(); // creates combination dictionary
+    instantiateMasterChef();
+    instantiateWorldAndAssemblyStation(); // world will get overwritten by this but will be the same
+
+    // The chef's position is set to close to the assembly station (which has position (0,0))
+    // This is done so that the Fetch item function gets the assembly
+    // station as the closest interactable object.
+    masterChef.getChef(0).gameObject.position = new Vector2(1, 0);
+    Item item1 = new Item(ItemEnum.CutLettuce);
+    Item item2 = new Item(ItemEnum.CutTomato);
+    assemblyStation.GiveItem(item1);
+    assemblyStation.GiveItem(item2);
+    masterChef.Interact();
+    assertEquals("The lettuce and tomato should be combined into a LettuceTomatoSalad",
+        new Item(ItemEnum.LettuceTomatoSalad), assemblyStation.getIngredients().get(0));
+    GameObjectManager.objManager.DestroyGameObject(assemble);
+  }
+
+  /**
+   * Tests that the chef cannot place item onto empty tile if not stood next to any interaction
+   * stations.
    *
    * @author Azzam Amirul
    * @date 02/04/2023
    */
   @Test
-  public void testPlaceEmptyTile(){
+  public void testPlaceEmptyTile() {
     instantiateWorldAndChefs(); // creates world and chefs
     int chefInventoryCountBefore = chef[0].getInventoryCount();
     chef[0].DropItem();
     int chefInventoryCountAfter = chef[0].getInventoryCount();
-    assertEquals("The chef's inventory is still the same after attempting to place an item on an empty tile",
-            chefInventoryCountBefore, chefInventoryCountAfter);
+    assertEquals(
+        "The chef's inventory is still the same after attempting to place an item on an empty tile",
+        chefInventoryCountBefore, chefInventoryCountAfter);
   }
 
   @Test
-  public void testItemRemoveFromChefInventory(){
+  public void testItemRemoveFromChefInventory() {
     instantiateWorldAndChefs();
     chef[0].GiveItem(new Item(ItemEnum.Lettuce)); // Give the chef an item
     int inventorySize = chef[0].getInventoryCount(); // Get the size of the inventory
     chef[0].DropItem(); // Drop the item
     assertEquals("The chef should have 1 less item in their inventory after dropping it",
-            inventorySize - 1, chef[0].getInventoryCount());
+        inventorySize - 1, chef[0].getInventoryCount());
   }
 
 }

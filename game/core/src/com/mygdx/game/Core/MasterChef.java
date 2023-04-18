@@ -28,7 +28,7 @@ public class MasterChef extends Scriptable {
   public float maxRange = 25;
   public int currentControlledChef = 0;
   private static ArrayList<TextureAtlas> chefAtlasArray;
-World world;
+  World world;
   private Camera camera;
   List<Chef> chefs;
 
@@ -93,15 +93,15 @@ World world;
     this.camera = camera;
 
     for (int i = 0; i < count; i++) {
-      Vector2 pos = new Vector2(0,0);
+      Vector2 pos = new Vector2(0, 0);
       pos.x = 750 + 32 * i;
       pos.y = 300;
-        CreateNewChef(pos,i);
+      CreateNewChef(pos, i);
     }
 
   }
 
-  void CreateNewChef(Vector2 position, int i){
+  void CreateNewChef(Vector2 position, int i) {
     GameObject chefsGameObject = new GameObject(
         new BlackSprite());//passing in null since chef will define it later
     chefs.add(new Chef(world, i, chefAtlasArray.get(i)));
@@ -118,7 +118,7 @@ World world;
   }
 
   /**
-   * The chef tries to put down  an item onto a nearby surface
+   * The chef tries to put down  an item onto a nearby surface.
    *
    * @author Felix Seanor
    * @author Jack Vickers
@@ -197,7 +197,9 @@ World world;
     for (int i = 0; i < chefs.size(); i++) {
       if (Gdx.input.isKeyPressed(Input.Keys.NUM_1
           + i)) // increments to next number for each chef 1,2,3 ect (dont go above 9) {
+      {
         SelectChef(i);
+      }
       for (Chef c : chefs
       ) {
         c.stop();
@@ -217,7 +219,8 @@ World world;
   public void Update(float dt) {
     selectChef();
 
-    chefs.get(currentControlledChef).updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
+    chefs.get(currentControlledChef)
+        .updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
 
     if (Gdx.input.isKeyJustPressed(Inputs.GIVE_ITEM)) {
       GiveItem();
@@ -251,37 +254,38 @@ World world;
 
   }
 
-  public void LoadState(GameState state){
+  public void LoadState(GameState state) {
     for (int i = 0; i < state.ChefPositions.length; i++) {
-      if(i< chefs.size())
+      if (i < chefs.size()) {
         chefs.get(i).gameObject.position = state.ChefPositions[i];
-      else {
-        CreateNewChef(state.ChefPositions[i],i);
+      } else {
+        CreateNewChef(state.ChefPositions[i], i);
       }
     }
 
-    for (Chef chef: chefs
+    for (Chef chef : chefs
     ) {
       for (int i = 0; i < Chef.CarryCapacity; i++) {
         chef.FetchItem();
       }
     }
 
-    int i =0;
+    int i = 0;
     GiveBackFromState(state);
   }
 
-  void GiveBackFromState(GameState state){
-    int i =0;
-    for (Chef chef: chefs
+  void GiveBackFromState(GameState state) {
+    int i = 0;
+    for (Chef chef : chefs
     ) {
 
       for (int j = 0; j < Chef.CarryCapacity; j++) {
 
         ItemState itemState = state.ChefHoldingStacks[i * Chef.CarryCapacity + j];
 
-        if(itemState == null || itemState.item == null)
+        if (itemState == null || itemState.item == null) {
           continue;
+        }
 
         Item item = new Item(itemState);
         chef.GiveItem(item);
@@ -290,33 +294,30 @@ World world;
       i++;
     }
   }
-  public void SaveState(GameState state){
-    state.ChefPositions = new Vector2[chefs.size()];
-    state.ChefHoldingStacks = new ItemState[chefs.size()*Chef.CarryCapacity];
 
+  public void SaveState(GameState state) {
+    state.ChefPositions = new Vector2[chefs.size()];
+    state.ChefHoldingStacks = new ItemState[chefs.size() * Chef.CarryCapacity];
 
     for (int i = 0; i < chefs.size(); i++) {
       state.ChefPositions[i] = chefs.get(i).gameObject.position;
 
-      for (int j = Chef.CarryCapacity-1; j >=0; j--) {
-        Optional<Item> item =chefs.get(i).FetchItem();
+      for (int j = Chef.CarryCapacity - 1; j >= 0; j--) {
+        Optional<Item> item = chefs.get(i).FetchItem();
 
-        if(!item.isPresent())
-        state.ChefHoldingStacks[i*Chef.CarryCapacity+j] = null;
-        else
-          state.ChefHoldingStacks[i*Chef.CarryCapacity+j] = new ItemState(item.get());
+        if (!item.isPresent()) {
+          state.ChefHoldingStacks[i * Chef.CarryCapacity + j] = null;
+        } else {
+          state.ChefHoldingStacks[i * Chef.CarryCapacity + j] = new ItemState(item.get());
+        }
 
 
       }
     }
 
-
-
-
     GiveBackFromState(state);//This exists to make quick saves look nicer
 
   }
-
 
 
 }

@@ -6,6 +6,7 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
 public class FoodCrate extends Scriptable implements Interactable {
+  // TODO: Write more tests for this class
 
   private ItemEnum ingredient;
 

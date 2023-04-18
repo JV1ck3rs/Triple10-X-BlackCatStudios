@@ -301,6 +301,9 @@ public class GameScreen implements Screen {
       }
     });
     //TODO: Possibly use this function for the powerup menu in the future
+
+    //TODO: Add a level which displays the number of customers remaining for the scenario mode
+
   }
 
   /**

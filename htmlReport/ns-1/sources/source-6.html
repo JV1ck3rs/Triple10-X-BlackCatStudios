@@ -51,7 +51,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/61)
+    (0/78)
   </span>
 </td>
 </tr>
@@ -108,6 +108,25 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MenuScreen$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
     (0/3)
   </span>
 </td>
@@ -119,7 +138,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/14)
+    (0/16)
   </span>
 </td>
 <td class="coverageStat">
@@ -127,7 +146,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/72)
+    (0/93)
   </span>
 </td>
 </tr>
@@ -214,11 +233,41 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;    exitbtnDown = new TextureRegion(mainMenuAtlas.findRegion(&quot;exitButtonDown&quot;));</b>
 &nbsp;
 <b class="nc">&nbsp;    stage = new Stage();</b>
+<b class="nc">&nbsp;    float scale = 1.0f;</b>
+<b class="nc">&nbsp;    if (stage.getViewport().getScreenWidth() &gt; 720) {</b>
+<b class="nc">&nbsp;      scale = 2.0f;</b>
+&nbsp;    }
 <b class="nc">&nbsp;    Gdx.input.setInputProcessor(stage);</b>
 &nbsp;
 <b class="nc">&nbsp;    table = new Table();</b>
 <b class="nc">&nbsp;    table.setFillParent(true);</b>
 <b class="nc">&nbsp;    stage.addActor(table);</b>
+&nbsp;
+&nbsp;    // Only creates and adds the load button if there is a save file
+<b class="nc">&nbsp;    if (Gdx.files.internal(&quot;SavedData.ser&quot;).exists()) {</b>
+<b class="nc">&nbsp;      TextureRegion loadbtn = new TextureRegion(new Texture(&quot;LoadUp.png&quot;));</b>
+<b class="nc">&nbsp;      TextureRegion loadbtnDown = new TextureRegion(new Texture(&quot;LoadDown.png&quot;));</b>
+<b class="nc">&nbsp;      Drawable drawableLoadbtnUp = new TextureRegionDrawable(loadbtn);</b>
+<b class="nc">&nbsp;      Drawable drawableLoadbtnDown = new TextureRegionDrawable(loadbtnDown);</b>
+<b class="nc">&nbsp;      Button.ButtonStyle loadbtnStyle = new Button.ButtonStyle();</b>
+<b class="nc">&nbsp;      Button loadButton = new Button();</b>
+<b class="nc">&nbsp;      loadButton.setStyle(loadbtnStyle);</b>
+<b class="nc">&nbsp;      loadbtnStyle.up = drawableLoadbtnUp;</b>
+<b class="nc">&nbsp;      loadbtnStyle.down = drawableLoadbtnDown;</b>
+<b class="nc">&nbsp;      table.add(loadButton).width(250 * scale).height(50 * scale).padTop(90 * scale).row();</b>
+&nbsp;
+&nbsp;      // Adds a click listener to the load button
+<b class="nc">&nbsp;      loadButton.addListener(</b>
+<b class="nc">&nbsp;          new ClickListener() {</b>
+&nbsp;            @Override
+&nbsp;            public void clicked(InputEvent event, float x, float y) { // if clicked, load the game
+<b class="nc">&nbsp;              gameScreen = new GameScreen(root, -1, true);</b>
+<b class="nc">&nbsp;              root.setScreen(gameScreen);</b>
+<b class="nc">&nbsp;              dispose();</b>
+&nbsp;            }
+&nbsp;          });
+&nbsp;    }
+&nbsp;
 <b class="nc">&nbsp;    Drawable drawablePlaybtnUp = new TextureRegionDrawable(new TextureRegion(playbtn));</b>
 <b class="nc">&nbsp;    Drawable drawablePlaybtnDown = new TextureRegionDrawable(new TextureRegion(playbtnDown));</b>
 <b class="nc">&nbsp;    Drawable drawableScenariobtnUp = new TextureRegionDrawable(new TextureRegion(scenariobtn));</b>
@@ -232,15 +281,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;    playbtn.setStyle(playbtnStyle);</b>
 <b class="nc">&nbsp;    playbtnStyle.up = drawablePlaybtnUp;</b>
 <b class="nc">&nbsp;    playbtnStyle.down = drawablePlaybtnDown;</b>
-<b class="nc">&nbsp;    table.add(playbtn).width(250).height(50).padTop(75);</b>
-<b class="nc">&nbsp;    table.row();</b>
+<b class="nc">&nbsp;    if (Gdx.files.internal(&quot;SavedData.ser&quot;).exists()) {</b>
+<b class="nc">&nbsp;      table.add(playbtn).width(250 * scale).height(50 * scale).pad(25 * scale).row();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      table.add(playbtn).width(250 * scale).height(50 * scale).padTop(75 * scale).padBottom(25 *scale);</b>
+<b class="nc">&nbsp;      table.row();</b>
+&nbsp;    }
 &nbsp;
 <b class="nc">&nbsp;    Button scenariobtn = new Button();</b>
 <b class="nc">&nbsp;    Button.ButtonStyle scenariobtnStyle = new Button.ButtonStyle();</b>
 <b class="nc">&nbsp;    scenariobtn.setStyle(scenariobtnStyle);</b>
 <b class="nc">&nbsp;    scenariobtnStyle.up = drawableScenariobtnUp;</b>
 <b class="nc">&nbsp;    scenariobtnStyle.down = drawableScenariobtnDown;</b>
-<b class="nc">&nbsp;    table.add(scenariobtn).width(250).height(50).pad(25);</b>
+<b class="nc">&nbsp;    table.add(scenariobtn).width(250 * scale).height(50 * scale).padBottom(25 * scale);</b>
 <b class="nc">&nbsp;    table.row();</b>
 &nbsp;
 <b class="nc">&nbsp;    Button.ButtonStyle exitbtnStyle = new Button.ButtonStyle();</b>
@@ -248,14 +301,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;    exitbtn.setStyle(exitbtnStyle);</b>
 <b class="nc">&nbsp;    exitbtnStyle.up = drawableExitbtnUp;</b>
 <b class="nc">&nbsp;    exitbtnStyle.down = drawableExitbtnDown;</b>
-<b class="nc">&nbsp;    table.add(exitbtn).width(250).height(50);</b>
+<b class="nc">&nbsp;    table.add(exitbtn).width(250 * scale).height(50 * scale);</b>
 &nbsp;
 <b class="nc">&nbsp;    table.setBackground(new TextureRegionDrawable(mainMenuAtlas.findRegion(&quot;menuPP&quot;)));</b>
 &nbsp;
 <b class="nc">&nbsp;    ChangeListener playbtnMouseListener = new ChangeListener() {</b>
 &nbsp;      @Override
 &nbsp;      public void changed(ChangeEvent event, Actor actor) {
-<b class="nc">&nbsp;        gameScreen = new GameScreen(root, -1);</b>
+<b class="nc">&nbsp;        gameScreen = new GameScreen(root, -1, false);</b>
 <b class="nc">&nbsp;        root.setScreen(gameScreen);</b>
 <b class="nc">&nbsp;        dispose();</b>
 &nbsp;      }
@@ -361,7 +414,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-18 15:28</div>
 </div>
 </body>
 </html>

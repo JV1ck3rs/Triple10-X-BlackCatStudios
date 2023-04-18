@@ -19,9 +19,11 @@ import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Core.MasterChef;
 import com.mygdx.game.Core.Pathfinding;
 import com.mygdx.game.Core.TextureDictionary;
+import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.AssemblyStation;
 import com.mygdx.game.Stations.ChopStation;
+import com.mygdx.game.Stations.FoodCrate;
 import com.mygdx.game.Stations.HobStation;
 import com.mygdx.game.Stations.TrashCan;
 import java.util.ArrayList;
@@ -40,8 +42,11 @@ class MasterTestClass {
   HobStation hobStation;
   AssemblyStation assemblyStation;
   GameObject assemble;
+  GameObject crate;
+  FoodCrate FC;
 
   TextureDictionary textureDictionary = new TextureDictionary();
+
   /**
    * Instantiates the world.
    *
@@ -73,8 +78,8 @@ class MasterTestClass {
   }
 
   /**
-   * Instantiates the masterchef class. This class generates multiple chefs.
-   * This will be used to test interactions between a chef and interactable game object.
+   * Instantiates the masterchef class. This class generates multiple chefs. This will be used to
+   * test interactions between a chef and interactable game object.
    */
   void instantiateMasterChef() {
     world = new World(new Vector2(0, 0), true);
@@ -117,8 +122,27 @@ class MasterTestClass {
   }
 
   /**
-   * Creates the world and chopping station. Also creates the recipe dictionary and
-   * gameobjectmanager.
+   * Instantiates a tomato food crate.
+   *
+   * @author Jack Vickers
+   */
+  void instantiateWorldAndFoodCrate() {
+    world = new World(new Vector2(0, 0), true);
+    TiledMap map;
+    map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
+    MapLayer tomotoLayer = map.getLayers().get(9); // gets tomato crate layer
+    MapObject object = tomotoLayer.getObjects().getByType(RectangleMapObject.class)
+        .get(0); // gets tomato crate object
+    Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets tomato crate rectangle
+    crate = new GameObject(null);
+    crate.setPosition(0, 0);
+    crate.setWidthAndHeight(rect.getWidth(), rect.getHeight());
+    FC = new FoodCrate(ItemEnum.Tomato);
+    crate.attachScript(FC);
+  }
+
+  /**
+   * Creates the world and chopping station. Also creates the recipe dictionary.
    *
    * @author Jack Vickers
    */
@@ -131,8 +155,7 @@ class MasterTestClass {
         .get(0); // gets chopping object
     Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets chopping rectangle
     GameObject Chop = new GameObject(null); // creates chopping game object
-    Chop.setPosition(rect.getX(),
-        rect.getY()); // sets chopping position (this must be done to avoid null pointer exception)
+    Chop.setPosition(0, 0); // sets chopping position (this must be done to avoid null pointer exception)
     Chop.setWidthAndHeight(rect.getWidth(),
         rect.getHeight()); // sets chopping width and height (this must be done to avoid null pointer exception)
     chopStation = new ChopStation(); // creates chopping station
@@ -169,19 +192,18 @@ class MasterTestClass {
    *
    * @author Azzam Amirul Bahri
    */
-  void instantiateWorldAndHobsStation(){
+  void instantiateWorldAndHobsStation() {
     world = new World(new Vector2(0, 0), true);
     TiledMap map;
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer frying = map.getLayers().get(4); // gets fryer layer
     MapObject object = frying.getObjects().getByType(RectangleMapObject.class)
-            .get(0); // gets frying object
+        .get(0); // gets frying object
     Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets frying rectangle
     GameObject Fry = new GameObject(null); // creates frying game object
-    Fry.setPosition(rect.getX(),
-            rect.getY()); // sets frying position (this must be done to avoid null pointer exception)
+    Fry.setPosition(0,0); // sets frying position (this must be done to avoid null pointer exception)
     Fry.setWidthAndHeight(rect.getWidth(),
-            rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
+        rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
     hobStation = new HobStation(); // creates frying station
     Fry.attachScript(hobStation); // attaches frying station to frying game object
     hobStation.init();
@@ -189,26 +211,24 @@ class MasterTestClass {
     RecipeDict.recipes.implementRecipes(); // implements recipes
   }
 
-  void instantiateWorldAndTrashCan(){
+  void instantiateWorldAndTrashCan() {
     world = new World(new Vector2(0, 0), true);
     TiledMap map;
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer trashcan = map.getLayers().get(2); // gets trashcan layer
     MapObject object = trashcan.getObjects().getByType(RectangleMapObject.class)
-            .get(0); // gets trashcan object
+        .get(0); // gets trashcan object
     Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets trashcan rectangle
     GameObject Trash = new GameObject(null); // creates trashcan game object
     Trash.setPosition(rect.getX(),
-            rect.getY()); // sets trashcan position (this must be done to avoid null pointer exception)
+        rect.getY()); // sets trashcan position (this must be done to avoid null pointer exception)
     Trash.setWidthAndHeight(rect.getWidth(),
-            rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
+        rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
     trashCan = new TrashCan(); // creates trashcan
     Trash.attachScript(trashCan); // attaches trashcan to trashcan game object
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
   }
-
-
 
 
 }

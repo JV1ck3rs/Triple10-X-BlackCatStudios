@@ -1,0 +1,288 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AssetTests</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">piazzapanictests.tests</a>
+</div>
+
+<h1>Coverage Summary for Class: AssetTests (piazzapanictests.tests)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AssetTests</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (41/41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package piazzapanictests.tests;
+&nbsp;
+&nbsp;import static org.junit.Assert.assertNotNull;
+&nbsp;import static org.junit.Assert.assertTrue;
+&nbsp;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+&nbsp;import org.junit.Test;
+&nbsp;import org.junit.runner.RunWith;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tests that the assets are present.
+&nbsp; */
+&nbsp;@RunWith(GdxTestRunner.class)
+<b class="fc">&nbsp;public class AssetTests {</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the chef assets are present.
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testChefAssetExists() {
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the chef1.png asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;Chefs/Chef1/chef1.png&quot;).exists());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the skin json asset exists. This is used for the UI on the
+&nbsp;   * scenarioModeConfigScreen.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testSkinJsonExists() {
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the skin.json asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;clean-crispy-ui.json&quot;).exists());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the skin atlas asset exists. This is used for the UI on the
+&nbsp;   * scenarioModeConfigScreen.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testSkinAtlasExists() {
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the skin.atlas asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;clean-crispy-ui.atlas&quot;).exists());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the skin image asset exists. This is used for the UI on the
+&nbsp;   * scenarioModeConfigScreen.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testSkinImageExists() {
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the skin.png asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;clean-crispy-ui.png&quot;).exists());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the skin font asset exists. This is used for the UI on the
+&nbsp;   * scenarioModeConfigScreen.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testSkinFontExists() {
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the skin.fnt asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;font-export.fnt&quot;).exists());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the assets for the load game button are present. This button is displayed on the
+&nbsp;   * title screen.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testLoadGameButtonImagesExist() {
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the LoadUp.png asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;LoadUp.png&quot;).exists());</b>
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the LoadDown.png asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;LoadDown.png&quot;).exists());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the atlas for the main menu exists. Also used for
+&nbsp;   * the scenario mode config screen.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testMainMenuAtlasExists() {
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the mainmenu.atlas asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;mainMenu.atlas&quot;).exists());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the image exists which is referenced by the main menu atlas.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testMainMenuImageExists() {
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the mainMenu.png asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;mainMenu.png&quot;).exists());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the images for the play button on the main menu and scenario config screens
+&nbsp;   * can be found using the texture atlas.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testPlayButtonImagesExist() {
+<b class="fc">&nbsp;    TextureAtlas mainMenuAtlas = new TextureAtlas(Gdx.files.internal(&quot;mainMenu.atlas&quot;));</b>
+<b class="fc">&nbsp;    assertNotNull(&quot;A texture reqion for the playbutton up image should exist&quot;, mainMenuAtlas</b>
+<b class="fc">&nbsp;        .findRegion(&quot;playButton&quot;));</b>
+<b class="fc">&nbsp;    assertNotNull(&quot;A texture reqion for the playbutton down image should exist&quot;, mainMenuAtlas</b>
+<b class="fc">&nbsp;        .findRegion(&quot;playButtonDown&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the images for the scenario mode button on the main menu can be found using the
+&nbsp;   * texture atlas.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testScenarioModeButtonImagesExist() {
+<b class="fc">&nbsp;    TextureAtlas mainMenuAtlas = new TextureAtlas(Gdx.files.internal(&quot;mainMenu.atlas&quot;));</b>
+<b class="fc">&nbsp;    assertNotNull(&quot;A texture reqion for the scenario mode button up image should exist&quot;,</b>
+&nbsp;        mainMenuAtlas
+<b class="fc">&nbsp;            .findRegion(&quot;scenarioButton&quot;));</b>
+<b class="fc">&nbsp;    assertNotNull(&quot;A texture reqion for the scenarioModeButton down image should exist&quot;,</b>
+&nbsp;        mainMenuAtlas
+<b class="fc">&nbsp;            .findRegion(&quot;scenarioButtonDown&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the images for the exit button can be found using the texture atlas.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testExitButtonImagesExist() {
+<b class="fc">&nbsp;    TextureAtlas mainMenuAtlas = new TextureAtlas(Gdx.files.internal(&quot;mainMenu.atlas&quot;));</b>
+<b class="fc">&nbsp;    assertNotNull(&quot;A texture reqion for the exit button up image should exist&quot;,</b>
+<b class="fc">&nbsp;        mainMenuAtlas.findRegion(&quot;exitButton&quot;));</b>
+<b class="fc">&nbsp;    assertNotNull(&quot;A texture reqion for the exit button down image should exist&quot;,</b>
+<b class="fc">&nbsp;        mainMenuAtlas.findRegion(&quot;exitButtonDown&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the image for the main menu background can be found using the texture atlas.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testMainMenuBackgroundExists() {
+<b class="fc">&nbsp;    TextureAtlas mainMenuAtlas = new TextureAtlas(Gdx.files.internal(&quot;mainMenu.atlas&quot;));</b>
+<b class="fc">&nbsp;    assertNotNull(&quot;A texture reqion for the main menu background image should exist&quot;,</b>
+<b class="fc">&nbsp;        mainMenuAtlas.findRegion(&quot;menuPP&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests that the assets for the pause button are present. This button is displayed on the game
+&nbsp;   * screen.
+&nbsp;   *
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Test
+&nbsp;  public void testPauseButtonImagesExist() {
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the PauseUp.png asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;PauseUp.png&quot;).exists());</b>
+<b class="fc">&nbsp;    assertTrue(&quot;This test will only pass when the PauseDown.png asset exists.&quot;,</b>
+<b class="fc">&nbsp;        Gdx.files.internal(&quot;PauseDown.png&quot;).exists());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  //TODO: add tests for pause screen assets
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-17 14:04</div>
+</div>
+</body>
+</html>
