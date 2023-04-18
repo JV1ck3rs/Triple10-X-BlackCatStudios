@@ -35,6 +35,12 @@ public class MasterChef extends Scriptable
     return chefs.length;
   }
 
+  public void upgradeSpeed(){
+    for(int i = 0; i< chefs.length; i++){
+      chefs[i].changeSpeed();
+    }
+  }
+
   public Chef getChef(int i) {
     return chefs[i];
   }

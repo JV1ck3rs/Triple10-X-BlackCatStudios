@@ -79,7 +79,7 @@ public class ChopStation extends Station{
     }
 
     public void Cut(float dt){
-        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);
+        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt-stationTimeDecrease, interacted, maxProgress);
         if(ready){
             changeItem(new Item(currentRecipe.endItem));
             checkItem();

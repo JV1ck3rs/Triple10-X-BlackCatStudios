@@ -78,6 +78,8 @@ public class GameScreen implements Screen {
 
   private CustomerController customerController;
 
+  public Powerup powerup;
+
 
 
 
@@ -145,6 +147,7 @@ public class GameScreen implements Screen {
     //recipeScreen.showRecipeInstruction();
     CameraFunctions camera1 = CameraFunctions.camera;
     camera1.updateCamera(camera);
+    powerup = new Powerup(masterChef, customerController);
 
     int viewportWidth = 32 * TILE_WIDTH;
     int viewportHeight = 18 * TILE_HEIGHT;

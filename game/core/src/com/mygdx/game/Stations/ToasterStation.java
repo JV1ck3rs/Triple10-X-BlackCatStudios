@@ -74,7 +74,7 @@ public class ToasterStation extends Station{
 
 
     public void Cook(float dt) {
-        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);
+        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt-stationTimeDecrease, interacted, maxProgress);
 
         if (ready) {
             changeItem(new Item(currentRecipe.endItem));

@@ -83,7 +83,7 @@ public class HobStation extends Station{
 
 
     public void Cook(float dt){
-        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);
+        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt-stationTimeDecrease, interacted, maxProgress);
 
         if(ready && item.progress == 0){
             item.step++;

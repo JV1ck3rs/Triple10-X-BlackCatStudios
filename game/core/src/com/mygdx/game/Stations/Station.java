@@ -22,6 +22,7 @@ public abstract class Station extends Scriptable implements Interactable {
   public CombinationDict combinations;
   private boolean locked;
   public Recipe currentRecipe;
+  public float stationTimeDecrease;
 
   public Station() {
     item = null;
@@ -29,6 +30,7 @@ public abstract class Station extends Scriptable implements Interactable {
     recipes = RecipeDict.recipes;
     combinations = CombinationDict.combinations;
     currentRecipe = null;
+    stationTimeDecrease = 0;
   }
 
   /**
@@ -71,6 +73,8 @@ public abstract class Station extends Scriptable implements Interactable {
   public void deleteItem(){
     item = null;
   }
+
+  public void decreaseCookTime(){ stationTimeDecrease += 1;}
 
 
 

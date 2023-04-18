@@ -489,4 +489,8 @@ public void OnRender()
       unfreeze();
     }
   }
+
+  public void changeSpeed(){
+    speed = ((250000/speed*speed)+1)*speed;
+  }
 }
