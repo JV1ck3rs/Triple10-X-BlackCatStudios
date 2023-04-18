@@ -246,11 +246,12 @@ public class GameScreen implements Screen {
 
     timerFont = new BitmapFont();
     pauseStage = new Stage();
+    pauseStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     scale = 1.00f;
     // check if the game is in full screen mode
     // (thus the screen width is greater than 720)
     if (pauseStage.getViewport().getScreenWidth() > 720) {
-      scale = 2.25f;
+      scale = 0.5f * ((pauseStage.getViewport().getScreenWidth() / 720f) + (pauseStage.getViewport().getScreenHeight() / 1280f));
     }
     if (loadSave) { // if the game is being loaded from a save
       LoadGame();
@@ -313,6 +314,7 @@ public class GameScreen implements Screen {
    * @date 07/04/2023
    */
   private void setupPauseMenu() {
+
     Image pauseImage = new Image(new Texture("SemiTransparentBG.png"));
     pauseImage.setSize(pauseStage.getWidth(), pauseStage.getHeight());
     pauseImage.setPosition(0, 0);
@@ -320,7 +322,7 @@ public class GameScreen implements Screen {
     Table pauseTable = new Table(); // create a table to hold the pause menu
     pauseStage.addActor(pauseTable); // add the table to the stage
     pauseTable.setFillParent(true);
-    pauseTable.align(Align.top);
+    pauseTable.align(Align.center);
 
     // The following block of code creates the resume button and adds it to the table
     TextureRegion resumeBtn = new TextureRegion(new Texture("ResumeUp.png"));

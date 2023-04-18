@@ -76,7 +76,7 @@ public class MenuScreen implements Screen {
     stage = new Stage();
     float scale = 1.0f;
     if (stage.getViewport().getScreenWidth() > 720) {
-      scale = 2.0f;
+      scale = 0.5f * ((stage.getViewport().getScreenWidth() / 720f) + (stage.getViewport().getScreenHeight() / 1280f));
     }
     Gdx.input.setInputProcessor(stage);
 

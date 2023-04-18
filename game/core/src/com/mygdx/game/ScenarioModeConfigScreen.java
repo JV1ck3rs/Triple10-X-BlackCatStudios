@@ -60,7 +60,7 @@ public class ScenarioModeConfigScreen implements Screen {
     // Create the stage and add the background image
     stage = new Stage();
     if (stage.getViewport().getScreenWidth() > 720) {
-      scale = 2.00f;
+      scale = 0.5f * ((stage.getViewport().getScreenWidth() / 720f) + (stage.getViewport().getScreenHeight() / 1280f));
     }
     image.setSize(stage.getWidth(), stage.getHeight());
     image.setPosition(0, 0);
@@ -69,6 +69,7 @@ public class ScenarioModeConfigScreen implements Screen {
     table = new Table(); // Create a table that fills the screen. Everything will go inside this table.
     stage.addActor(table);
     table.setFillParent(true);
+    table.align(Align.center);
 
     // Creates a skin for the text field using the clean-crispy-ui.json file
     Skin skin = new Skin(Gdx.files.internal("clean-crispy-ui.json"));
@@ -76,19 +77,19 @@ public class ScenarioModeConfigScreen implements Screen {
     // Creates the title and instructions for the scenario mode config screen
     Label title = new Label("Scenario Mode Options", new LabelStyle(new BitmapFont(), Color.WHITE));
     title.setFontScale(1.50f*scale);
-    table.add(title).padBottom(30*scale).padTop(50*scale); // Adds the title to the table
+    table.add(title).padBottom(30*scale).padTop(70*scale); // Adds the title to the table
     table.row(); // Adds a new row to the table
     Label instructions = new Label(
-        "Enter the maximum number of customers for the scenario mode (default is 5):",
+        "Enter the maximum number of customers for the scenario mode: \n The maximum number of customers is 100",
         new LabelStyle(new BitmapFont(), Color.WHITE));
     instructions.setFontScale(1.10f*scale);
-    instructions.setAlignment(Align.left);
+    instructions.setAlignment(Align.center);
     table.add(instructions).padBottom(20*scale);
     table.row();
 
     // Sets the background using a section of the background image used on the main menu screen
     table.setBackground(new TextureRegionDrawable(scenarioConfigAtlas.findRegion("menuPP")));
-    textField = new TextField("", skin);
+    textField = new TextField("5", skin);
     textField.getStyle().font.getData().setScale(1.50f*scale);
     textField.setAlignment(Align.center);
     stage.addActor(textField); // Adds the text field to the stage
@@ -119,14 +120,20 @@ public class ScenarioModeConfigScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         int numCustomers = 5;
-        if (textField.getText().equals("0")) {
-          errorMessage.setText("Please enter a number greater than 0");
+        if (textField.getText().length() > 3) {
+          errorMessage.setText("Please enter a number less than 100");
         } else if (textField.getText().matches("[0-9]+")) {
-          numCustomers = Integer.parseInt(textField.getText());
-          gameScreen = new GameScreen(game, numCustomers, false);
-          game.setScreen(gameScreen);
+          if (Integer.parseInt(textField.getText()) > 100) {
+            errorMessage.setText("The maximum number of customers is 100. Please enter a lower number");
+          } else if (Integer.parseInt(textField.getText()) <= 0) {
+            errorMessage.setText("Please enter a number greater than 0");
+          } else {
+            numCustomers = Integer.parseInt(textField.getText());
+            gameScreen = new GameScreen(game, numCustomers, false);
+            game.setScreen(gameScreen);
+          }
         } else {
-          errorMessage.setText("Please enter a valid number");
+          errorMessage.setText("Please enter a number");
         }
       }
     });
