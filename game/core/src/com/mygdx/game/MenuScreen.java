@@ -29,6 +29,7 @@ import com.mygdx.game.Core.RenderManager;
  *
  * @author Kelvin Chen
  * @author Amy Cross
+ * @author Jack Vickers
  */
 public class MenuScreen implements Screen {
 
