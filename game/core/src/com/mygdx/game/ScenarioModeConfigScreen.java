@@ -42,7 +42,7 @@ public class ScenarioModeConfigScreen implements Screen {
   Label errorMessage;
 
   /**
-   * Constructor for the scenario mode config screen
+   * Constructor for the scenario mode config screen.
    *
    * @param game The MyGdxGame object
    * @author Jack Vickers

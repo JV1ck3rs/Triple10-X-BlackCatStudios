@@ -112,6 +112,7 @@ public class DifficultyMaster {
     CCParams.MaxCustomersPerWave = 2;
     CCParams.MinCustomersPerWave = 1;
     CCParams.MoneyPerCustomer = 40;
+
     CCParams.EatingTime = 15;
     CCParams.OrderTypePermissable = new LinkedList<>();
     CCParams.FrustrationStart = 120;
@@ -121,7 +122,7 @@ public class DifficultyMaster {
 
 
 
-    chefParams.MoveSpeed = 75;
+    chefParams.MoveSpeed = 90;
 
     cookingParams.CookSpeed = .75f;
     cookingParams.ChopSpeed = .75f;
