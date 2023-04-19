@@ -20,7 +20,7 @@ import com.mygdx.game.Core.BlackSprite;
 import com.mygdx.game.Core.GameObject;
 
 import com.mygdx.game.Core.GameObjectManager;
-import com.mygdx.game.Core.GameState.Difficaulty;
+import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
 import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.MasterChef;
@@ -35,10 +35,6 @@ import com.mygdx.game.Stations.HobStation;
 import com.mygdx.game.Stations.TrashCan;
 import com.mygdx.game.soundFrame;
 import java.util.ArrayList;
-import java.util.List;
-import jdk.internal.org.jline.utils.DiffHelper.Diff;
-import org.junit.runner.RunWith;
-import piazzapanictests.tests.GdxTestRunner;
 
 class MasterTestClass {
 
@@ -100,7 +96,7 @@ class MasterTestClass {
     camera.setToOrtho(false, 1024, 576); // set camera to orthographic mode using values
     // taken from GameScreen class
     camera.update();
-    DifficultyState difficultyState = DifficultyMaster.getDifficulty(Difficaulty.Stressful);
+    DifficultyState difficultyState = DifficultyMaster.getDifficulty(Difficulty.Stressful);
     // Sets up the pathfinding using values taken from GameScreen class
     Pathfinding pathfinding = new Pathfinding(32 / 4, 32 * 32, 18 * 32);
     // Instantiates the MasterChef class
@@ -212,6 +208,8 @@ class MasterTestClass {
   void instantiateWorldAndHobsStation() {
     world = new World(new Vector2(0, 0), true);
     TiledMap map;
+    DifficultyState state = DifficultyMaster.getStressful();
+    soundFrame soundFrame = new soundFrame();
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer frying = map.getLayers().get(4); // gets fryer layer
     MapObject object = frying.getObjects().getByType(RectangleMapObject.class)
@@ -221,7 +219,7 @@ class MasterTestClass {
     Fry.setPosition(0,0); // sets frying position (this must be done to avoid null pointer exception)
     Fry.setWidthAndHeight(rect.getWidth(),
         rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
-    hobStation = new HobStation(); // creates frying station
+    hobStation = new HobStation(state.cookingParams); // creates frying station
     Fry.attachScript(hobStation); // attaches frying station to frying game object
     hobStation.init();
     new RecipeDict(); // creates recipe dictionary

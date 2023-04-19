@@ -125,19 +125,16 @@ public class CustomerController extends Scriptable {
     while (loopValue > 0) {
       if (loopValue < 6) {
         if (loopValue <= 3) {
-//          numWaves += loopValue; // tempVal * 1
           for (int i = 0; i < loopValue; i++) {
             customersPerWave.add(1);
           }
           loopValue = 0;
         } else {
           loopValue -= 2;
-//          numWaves += 1;
           customersPerWave.add(2);
         }
       } else {
         loopValue -= 5;
-//        numWaves += 2;
         customersPerWave.add(3);
         customersPerWave.add(2);
       }
@@ -147,7 +144,6 @@ public class CustomerController extends Scriptable {
 
 
   public void CalculateWavesFromNoCustomers(int NoCustomers) {
-
     MaxCustomers = NoCustomers;
     CustomersRemaining = NoCustomers;
 
@@ -155,7 +151,6 @@ public class CustomerController extends Scriptable {
       SetWaveAmount(-1);
       return;
     }
-
 
     customersPerWave = new ArrayList<>();
     int tempVal = MaxCustomers;
@@ -472,7 +467,7 @@ public class CustomerController extends Scriptable {
       } else {
         EndGame();
 
-
+      }
     }
 
 

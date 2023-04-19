@@ -14,13 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Core.*;
-import com.mygdx.game.Core.GameState.Difficaulty;
+import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
 import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.GameState.SaveState;
-import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.Item;
@@ -86,8 +85,6 @@ public class GameScreen implements Screen {
   public CustomerController customerController;
 
 
-
-
   // map
   private final TiledMapRenderer mapRenderer;
 
@@ -109,7 +106,7 @@ public class GameScreen implements Screen {
 
   boolean Paused = false;
   DifficultyState difficultyState;
-  Difficaulty difficaulty;
+  Difficulty difficulty;
   public static final int viewportWidth = 32 * TILE_WIDTH;
   public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
@@ -125,12 +122,19 @@ public class GameScreen implements Screen {
    * Constructor class which initialises all the variables needed to draw the sprites and also
    * manage the logic of the render as well as setting the camera and map
    *
-   * @param game         base Object which is used to draw on
-   * @param numCustomers Integer representing maximum number of customers that can be in the game at
-   *                     once (-1 for infinite)
-   * @param loadSave     boolean representing whether the save game should be loaded
+   * @param game            base Object which is used to draw on
+   * @param numCustomers    Integer representing maximum number of customers that will appear in the
+   *                        game (-1 for infinite customers)
+   * @param loadSave        boolean representing whether the save game should be loaded
+   * @param difficultyLevel Difficulty level of the game
+   *
+   * @author Felix Seanor
+   * @author Jack Hinton
+   * @author Jack Vickers
+   * @author Sam Toner
    */
-  public GameScreen(MyGdxGame game, int numCustomers, boolean loadSave) {
+  public GameScreen(MyGdxGame game, int numCustomers, boolean loadSave,
+      Difficulty difficultyLevel) {
     this.game = game;
     camera = new OrthographicCamera();
     recipeScreen.showRecipeInstruction();
@@ -140,7 +144,6 @@ public class GameScreen implements Screen {
 
     gameMusic = Gdx.audio.newMusic(Gdx.files.internal("gameMusic.mp3"));
     gameMusic.setLooping(true);
-
 
     recipeScreen.createInstructionPage("Empty");
 
@@ -155,12 +158,11 @@ public class GameScreen implements Screen {
     mapRenderer = new OrthogonalTiledMapRenderer(game.map);
     mapRenderer.setView(camera);
 
-    difficultyState = DifficultyMaster.getDifficulty(Difficaulty.Mindbreaking);
+    difficultyState = DifficultyMaster.getDifficulty(difficultyLevel);
 
-    pathfinding = new Pathfinding(TILE_WIDTH/4,viewportWidth,viewportWidth);
+    pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-
-    masterChef = new MasterChef(2,world,camera,pathfinding, difficultyState.chefParams);
+    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = difficultyState.ccParams;
@@ -257,7 +259,8 @@ public class GameScreen implements Screen {
     // check if the game is in full screen mode
     // (thus the screen width is greater than 720)
     if (pauseStage.getViewport().getScreenWidth() > 720) {
-      scale = 0.5f * ((pauseStage.getViewport().getScreenWidth() / 720f) + (pauseStage.getViewport().getScreenHeight() / 1280f));
+      scale = 0.5f * ((pauseStage.getViewport().getScreenWidth() / 720f) + (
+          pauseStage.getViewport().getScreenHeight() / 1280f));
     }
     if (loadSave) { // if the game is being loaded from a save
       LoadGame();
@@ -500,7 +503,8 @@ public class GameScreen implements Screen {
     GameObject Cust = new GameObject(null);
     Cust.setPosition(rect.getX(), rect.getY());
     Cust.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)),difficultyState.cookingParams);
+    CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)),
+        difficultyState.cookingParams);
     Cust.attachScript(CC);
     customerCounters.add(Cust);
     Stations.add(Cust);
@@ -743,10 +747,9 @@ public class GameScreen implements Screen {
 
     int i = 0;
     timer = state.Timer;
-    seconds= state.seconds;
-    difficaulty = state.difficaulty;
-    for (GameObject station: Stations)
-    {
+    seconds = state.seconds;
+    difficulty = state.difficulty;
+    for (GameObject station : Stations) {
       Scriptable scriptable = station.GetScript(0);
       if (scriptable instanceof Station) {
         ((Station) scriptable).LoadState(state.FoodOnCounters.get(i++));
@@ -766,8 +769,8 @@ public class GameScreen implements Screen {
 
   public void SaveState(GameState state) {
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
-    state.difficaulty = difficaulty;
-    state.Timer =timer;
+    state.difficulty = difficulty;
+    state.Timer = timer;
 
     state.Timer = timer;
     state.seconds = seconds;

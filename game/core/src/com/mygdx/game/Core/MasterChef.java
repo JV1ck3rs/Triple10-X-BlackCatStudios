@@ -101,7 +101,7 @@ public class MasterChef extends Scriptable {
     this.camera = camera;
 
   BlackTexture ArrowTex =   new BlackTexture("Chefs/SelectionArrow.png");
-  ArrowTex.setSize(20,30);
+  ArrowTex.setSize(10,15);
     SelectionArrow = new GameObject(ArrowTex);
 
     for (int i = 0; i < count; i++) {
@@ -130,7 +130,7 @@ public class MasterChef extends Scriptable {
   }
 
   void MoveArrow(){
-    SelectionArrow.position.set(getCurrentChef().gameObject.position).add(new Vector2(0,45));
+    SelectionArrow.position.set(getCurrentChef().gameObject.position).add(new Vector2(4,45));
   }
 
   /**

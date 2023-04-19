@@ -1,39 +1,16 @@
 package piazzapanictests.tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;;
-import com.badlogic.gdx.maps.MapLayer;
 import com.mygdx.game.Core.CustomerController;
-import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameObjectManager;
-import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Core.Pathfinding;
 import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.GameScreen;
-import com.mygdx.game.Items.Item;
-import com.mygdx.game.Items.ItemEnum;
-
-import com.mygdx.game.RecipeAndComb.CombinationDict;
-import com.mygdx.game.RecipeAndComb.RecipeDict;
-import com.mygdx.game.Stations.AssemblyStation;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Stack;
-import com.mygdx.game.Core.GameObjectManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -179,8 +156,8 @@ public class ScenarioModeTests {
 
   /**
    * This test checks whether the customer controller is correctly setting up the waves of customers
-   * for the scenario mode when the number of customers is 100. This is to ensure
-   * that the algorithm is working correctly for a large number of customers.
+   * for the scenario mode when the number of customers is 100. This is the maximum
+   * number of customers allowed for the scenario mode.
    *
    * @author Jack Vickers
    */

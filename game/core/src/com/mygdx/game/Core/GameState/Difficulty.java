@@ -1,6 +1,6 @@
 package com.mygdx.game.Core.GameState;
 
-public enum Difficaulty {
+public enum Difficulty {
   Relaxing,
   Stressful,
   Mindbreaking

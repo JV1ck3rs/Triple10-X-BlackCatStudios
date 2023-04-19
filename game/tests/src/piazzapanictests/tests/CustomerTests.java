@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.GameObjectManager;
-import com.mygdx.game.Core.GameState.Difficaulty;
+import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
 import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.Pathfinding;
@@ -37,7 +37,7 @@ public class CustomerTests {
     GameObjectManager.objManager = null;
     TextureDictionary dico = new TextureDictionary();
 
-    DifficultyState difficultyState = DifficultyMaster.getDifficulty(Difficaulty.Stressful);
+    DifficultyState difficultyState = DifficultyMaster.getDifficulty(Difficulty.Stressful);
     pathfinding = new Pathfinding(GameScreen.TILE_WIDTH/4,GameScreen.viewportWidth,GameScreen.viewportWidth);
 
     manager = new GameObjectManager();
