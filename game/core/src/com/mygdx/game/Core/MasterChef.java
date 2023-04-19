@@ -189,6 +189,10 @@ World world;
 
   }
 
+  void CycleItemStack(){
+    getCurrentChef().CycleStack();
+  }
+
   /**
    * The chef attempts to interact with a nearby surface
    *
@@ -221,6 +225,11 @@ World world;
     }
   }
 
+
+  boolean KeyPressedNow(int key){
+    return Gdx.input.isKeyJustPressed(key);
+  }
+
   /**
    * Update method for this class
    *
@@ -235,12 +244,18 @@ World world;
 
     chefs.get(currentControlledChef).updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
 
+
+    if(KeyPressedNow(Inputs.CYCLE_STACK)) {
+      CycleItemStack();
+    }
     if (Gdx.input.isKeyJustPressed(Inputs.GIVE_ITEM)) {
       GiveItem();
     }
     if (Gdx.input.isKeyJustPressed(Inputs.FETCH_ITEM)) {
       FetchItem();
     }
+
+
     if (Gdx.input.isKeyJustPressed(Inputs.INTERACT)) {
       Interact();
     }
