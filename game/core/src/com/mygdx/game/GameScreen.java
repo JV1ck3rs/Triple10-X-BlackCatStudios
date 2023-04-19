@@ -134,7 +134,7 @@ public class GameScreen implements Screen {
     mapRenderer = new OrthogonalTiledMapRenderer(game.map);
     mapRenderer.setView(camera);
 
-    difficultyState = DifficultyMaster.getDifficulty(Difficaulty.Mindbreaking);
+    difficultyState = DifficultyMaster.getDifficulty(Difficaulty.Relaxing);
 
     pathfinding = new Pathfinding(TILE_WIDTH/4,viewportWidth,viewportWidth);
 

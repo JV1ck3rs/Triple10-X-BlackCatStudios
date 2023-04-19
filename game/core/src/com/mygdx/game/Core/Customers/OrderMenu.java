@@ -19,7 +19,7 @@ public class OrderMenu
 
     OrderType burgers = new OrderType(defaultStock, minStock, ItemEnum.Burger,ItemEnum.CheeseBurger);
     OrderType salads =  new OrderType(defaultStock, minStock, ItemEnum.LettuceOnionSalad,ItemEnum.LettuceTomatoSalad,ItemEnum.TomatoOnionLettuceSalad);
-    OrderType potato =  new OrderType(rareStock,    minStock, ItemEnum.BakedPotato, ItemEnum.MeatBake, ItemEnum.CheeseBurger);
+    OrderType potato =  new OrderType(rareStock,    minStock, ItemEnum.BakedPotato, ItemEnum.MeatBake, ItemEnum.CheeseBake);
     OrderType pizza =   new OrderType(rareStock,    minStock, ItemEnum.CheesePizzaCooked, ItemEnum.MeatPizzaCooked, ItemEnum.VegPizzaCooked);
 
     if(OrderTypePerishables.contains(ItemEnum.Burger))

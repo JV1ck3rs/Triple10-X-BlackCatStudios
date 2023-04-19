@@ -50,7 +50,7 @@ public class CustomerController extends Scriptable
 
   Random rand = new Random(System.currentTimeMillis());
 
-  private Vector2 groupSize = new Vector2(2,4);
+  private Vector2 groupSize = new Vector2(1,4);
   float NextToLeave = EatingTime;
 
   int MaxCustomers;
@@ -129,6 +129,10 @@ public class CustomerController extends Scriptable
     SetWaveAmount(waves);
 
 
+  }
+
+  public OrderMenu getMenu(){
+    return menu;
   }
   /***
    * Set the maximum number of waves to do, exclusively. Resets currentWave to 0
