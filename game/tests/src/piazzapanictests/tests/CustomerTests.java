@@ -9,6 +9,8 @@ import static org.junit.Assert.assertTrue;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.Customers.CustomerGroups;
+import com.mygdx.game.Core.Customers.OrderMenu;
+import com.mygdx.game.Core.Customers.Randomisation;
 import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
@@ -20,6 +22,7 @@ import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.GameScreen;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -32,12 +35,12 @@ public class CustomerTests {
   Pathfinding pathfinding;
   EndOfGameValues vals;
   CustomerControllerParams params = new CustomerControllerParams();
-  void InstantiateCustomerScripts(){
+  void InstantiateCustomerScripts(Difficulty difficulty){
 
     GameObjectManager.objManager = null;
     TextureDictionary dico = new TextureDictionary();
 
-    DifficultyState difficultyState = DifficultyMaster.getDifficulty(Difficulty.Stressful);
+    DifficultyState difficultyState = DifficultyMaster.getDifficulty(difficulty);
     pathfinding = new Pathfinding(GameScreen.TILE_WIDTH/4,GameScreen.viewportWidth,GameScreen.viewportWidth);
 
     manager = new GameObjectManager();
@@ -48,6 +51,10 @@ public class CustomerTests {
 
   }
 
+  void InstantiateCustomerScripts(){
+
+   InstantiateCustomerScripts(Difficulty.Stressful);
+  }
 @Test
   public void TestEndGame(){
       InstantiateCustomerScripts();
@@ -68,7 +75,17 @@ public class CustomerTests {
 
 
   }
+  @Test
+  public void TestFrustration(){
+    InstantiateCustomerScripts();
+    cust.SetWaveAmount(1);
+    cust.CanAcceptNewCustomer();
+    float frustration = cust.getCurrentWaitingCustomerGroup().Frustration;
 
+    cust.getCurrentWaitingCustomerGroup().CheckFrustration(1,null);
+    assertNotEquals(frustration,cust.getCurrentWaitingCustomerGroup().Frustration);
+
+  }
   @Test
   public void TestCustomerGroups(){
     InstantiateCustomerScripts();
@@ -97,12 +114,56 @@ public class CustomerTests {
   }
 
 
+  /**
+   * If this test fails rerun it, theres a 1% chance it fails due to probability
+   */
+  @Test
+  public void TestDishCreation(){
+    InstantiateCustomerScripts(Difficaulty.Mindbreaking);
 
+  List<ItemEnum> order =  cust.getMenu().CreateNewOrder(1000, Randomisation.TrueRandom);
+
+    OrderMenu menu = cust.getMenu();
+
+    boolean containsBurger = order.contains(ItemEnum.Burger) && order.contains(ItemEnum.CheeseBurger);
+    boolean containsSalad = order.contains(ItemEnum.TomatoOnionLettuceSalad) && order.contains(ItemEnum.LettuceTomatoSalad) && order.contains(ItemEnum.LettuceOnionSalad);
+    boolean containsPotato = order.contains(ItemEnum.BakedPotato) && order.contains(ItemEnum.MeatBake) && order.contains(ItemEnum.CheeseBake);
+    boolean containsPizza = order.contains(ItemEnum.CheesePizzaCooked) && order.contains(ItemEnum.MeatPizzaCooked) && order.contains(ItemEnum.VegPizzaCooked);
+
+    assertTrue(containsPizza);
+    assertTrue(containsBurger);
+    assertTrue(containsPotato);
+    assertTrue(containsSalad);
+
+
+    order.clear();
+
+    order = cust.getMenu().CreateNewOrder(1000,Randomisation.Normalised);
+
+    containsBurger = order.contains(ItemEnum.Burger) && order.contains(ItemEnum.CheeseBurger);
+    containsSalad = order.contains(ItemEnum.TomatoOnionLettuceSalad) && order.contains(ItemEnum.LettuceTomatoSalad) && order.contains(ItemEnum.LettuceOnionSalad);
+    containsPotato = order.contains(ItemEnum.BakedPotato) && order.contains(ItemEnum.MeatBake) && order.contains(ItemEnum.CheeseBake);
+    containsPizza = order.contains(ItemEnum.CheesePizzaCooked) && order.contains(ItemEnum.MeatPizzaCooked) && order.contains(ItemEnum.VegPizzaCooked);
+
+
+    assertTrue(containsPizza);
+    assertTrue(containsBurger);
+    assertTrue(containsPotato);
+    assertTrue(containsSalad);
+
+
+  }
+
+  @Test
+  public void TryAtlas(){
+    InstantiateCustomerScripts(Difficaulty.Mindbreaking);
+    cust.generateCustomerArray();
+
+  }
 
 
   void EndGame(EndOfGameValues val){
   vals =val;
   }
-
 
 }

@@ -52,7 +52,7 @@ public class CustomerController extends Scriptable {
 
   Random rand = new Random(System.currentTimeMillis());
 
-  private Vector2 groupSize = new Vector2(2, 4);
+  private Vector2 groupSize = new Vector2(1,4);
   float NextToLeave = EatingTime;
 
   int MaxCustomers;
@@ -181,6 +181,10 @@ public class CustomerController extends Scriptable {
     SetWaveAmount(Waves);
   }
 
+  }
+
+  public OrderMenu getMenu(){
+    return menu;
   public ArrayList<Integer> getCustomersPerScenarioWave() {
     return customersPerWave;
   }
@@ -716,10 +720,7 @@ public class CustomerController extends Scriptable {
         savedGroups.add(group.SaveState(true));
       }
     }
-
     state.CustomerGroupsData = savedGroups.toArray(new CustomerGroupState[0]);
-
-
   }
 
 }

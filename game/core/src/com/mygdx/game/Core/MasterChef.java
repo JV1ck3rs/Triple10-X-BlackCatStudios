@@ -189,6 +189,10 @@ public class MasterChef extends Scriptable {
 
   }
 
+  void CycleItemStack(){
+    getCurrentChef().CycleStack();
+  }
+
   /**
    * The chef attempts to interact with a nearby surface
    *
@@ -223,6 +227,11 @@ public class MasterChef extends Scriptable {
     }
   }
 
+
+  boolean KeyPressedNow(int key){
+    return Gdx.input.isKeyJustPressed(key);
+  }
+
   /**
    * Update method for this class
    *
@@ -238,12 +247,18 @@ public class MasterChef extends Scriptable {
     chefs.get(currentControlledChef)
         .updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
 
+
+    if(KeyPressedNow(Inputs.CYCLE_STACK)) {
+      CycleItemStack();
+    }
     if (Gdx.input.isKeyJustPressed(Inputs.GIVE_ITEM)) {
       GiveItem();
     }
     if (Gdx.input.isKeyJustPressed(Inputs.FETCH_ITEM)) {
       FetchItem();
     }
+
+
     if (Gdx.input.isKeyJustPressed(Inputs.INTERACT)) {
       Interact();
     }
