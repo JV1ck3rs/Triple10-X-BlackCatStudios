@@ -2,9 +2,12 @@ package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.soundFrame;
+import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -28,7 +31,9 @@ public class AssemblyStation extends Station {
   public int ingredientSize = 12;
 
 
-  public AssemblyStation() {
+  public AssemblyStation(CookingParams params) {
+
+    super(params);
     if (ingredients == null) {
       ingredients = new ArrayList<Item>();
     }
@@ -166,6 +171,7 @@ public class AssemblyStation extends Station {
       tempIngredients.set(x + 1, temp);
       Collections.sort(tempIngredients);
     }
+    soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
     setDish(tempIngredients.get(tempIngredients.size() - 1));
     clearIngredients();
     clearTempIngredients();

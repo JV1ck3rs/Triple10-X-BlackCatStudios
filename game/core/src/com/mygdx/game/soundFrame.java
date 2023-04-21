@@ -13,14 +13,21 @@ public class soundFrame {
    * Uses an enum containing all the names of the sound effects Uses an array of all the sounds,
    * must have the same index as the enum Uses a hashmap to store the IDs for each sound
    */
-  enum soundsEnum {
-    end;
+   public enum soundsEnum {
+    CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved,end;
   }
 
-  Sound[] Sounds = new Sound[soundsEnum.end.ordinal() - 1];
+  public static soundFrame SoundEngine;
+  Sound[] Sounds = new Sound[soundsEnum.end.ordinal()];
 
   HashMap<soundsEnum, LinkedList<Long>> soundIDsMap = new HashMap<>();
   float currentSystemVolume = 1.0f;
+
+
+  public soundFrame(){
+    LoadSounds.load(this);
+    SoundEngine = this;
+  }
 
   /**
    * @param rinh - Enum value as the name of the sound
@@ -69,13 +76,14 @@ public class soundFrame {
 
 
   /**
-   * @param rinh - Enum value of the name of the sound
-   * @param ID   - The ID required to interact with the sound instance
+   * @param rinh  - Enum value of the name of the sound
+   * @param ID    - The ID required to interact with the sound instance
+   * @param state - The looping state, True = loop - False = stop looping
    *             <p>
    *             Find the sound from the enum, and set it to loop using the sound instance ID
    */
-  public void setLooping(soundsEnum rinh, long ID) {
-    Sounds[rinh.ordinal()].setLooping(ID, true);
+  public void setLooping(soundsEnum rinh, long ID, boolean state) {
+    Sounds[rinh.ordinal()].setLooping(ID, state);
   }
 
 

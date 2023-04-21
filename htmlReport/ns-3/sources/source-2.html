@@ -59,10 +59,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    73%
+    70.3%
   </span>
   <span class="absValue">
-    (27/37)
+    (26/37)
   </span>
 </td>
 </tr>
@@ -137,14 +137,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;    int catagoryID = rand.nextInt(totalStock-1);</b>
 <b class="fc">&nbsp;    for (OrderType catagory:OrderCatagories</b>
 &nbsp;    ) {
-<b class="fc">&nbsp;      totalStock -=  catagory.stock;</b>
+<b class="fc">&nbsp;      catagoryID -=  catagory.stock;</b>
 &nbsp;
-<b class="fc">&nbsp;      if(totalStock&lt;=0)</b>
+<b class="fc">&nbsp;      if(catagoryID&lt;=0)</b>
 &nbsp;      {
 <b class="fc">&nbsp;       orders.add(catagory.GetOrder(rand));</b>
 <b class="fc">&nbsp;       break;</b>
 &nbsp;      }
-<b class="fc">&nbsp;    }</b>
+<b class="nc">&nbsp;    }</b>
 &nbsp;    }
 &nbsp;
 <b class="fc">&nbsp;    return  orders;</b>
@@ -181,7 +181,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-18 15:28</div>
 </div>
 </body>
 </html>

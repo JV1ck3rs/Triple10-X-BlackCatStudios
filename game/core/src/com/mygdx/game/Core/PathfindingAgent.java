@@ -8,7 +8,7 @@ import java.util.List;
 public class PathfindingAgent extends Scriptable {
 
   List<Vector2> path;
-  float speed = 100;
+  public float speed = 100;
 
   Vector2 prev;
   public Body b2body;

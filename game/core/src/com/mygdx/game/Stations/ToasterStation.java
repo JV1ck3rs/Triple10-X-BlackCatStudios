@@ -1,6 +1,7 @@
 package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
@@ -16,7 +17,8 @@ public class ToasterStation extends Station{
     public static ArrayList<ItemEnum> ItemWhiteList;
 
 
-    public ToasterStation() {
+    public ToasterStation(CookingParams params) {
+        super(params);
         ready = false;
         maxProgress = 8;
         if (ItemWhiteList == null) {

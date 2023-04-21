@@ -51,7 +51,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/58)
+    (0/62)
   </span>
 </td>
 </tr>
@@ -70,7 +70,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/6)
+    (0/9)
   </span>
 </td>
   </tr>
@@ -89,7 +89,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/64)
+    (0/71)
   </span>
 </td>
 </tr>
@@ -161,7 +161,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    // Create the stage and add the background image
 <b class="nc">&nbsp;    stage = new Stage();</b>
-&nbsp;//    stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 <b class="nc">&nbsp;    if (stage.getViewport().getScreenWidth() &gt; 720) {</b>
 <b class="nc">&nbsp;      scale = 2.00f;</b>
 &nbsp;    }
@@ -193,7 +192,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;    table.setBackground(new TextureRegionDrawable(scenarioConfigAtlas.findRegion(&quot;menuPP&quot;)));</b>
 <b class="nc">&nbsp;    textField = new TextField(&quot;&quot;, skin);</b>
 <b class="nc">&nbsp;    textField.getStyle().font.getData().setScale(1.50f*scale);</b>
-<b class="nc">&nbsp;    textField.setMessageText(&quot;5&quot;);</b>
 <b class="nc">&nbsp;    textField.setAlignment(Align.center);</b>
 <b class="nc">&nbsp;    stage.addActor(textField); // Adds the text field to the stage</b>
 <b class="nc">&nbsp;    table.add(textField).width(250*scale).height(50*scale); // Adds the text field to the table</b>
@@ -203,6 +201,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;    playbtnDown = new TextureRegion(scenarioConfigAtlas.findRegion(&quot;playButtonDown&quot;));</b>
 <b class="nc">&nbsp;    Drawable drawablePlaybtnUp = new TextureRegionDrawable(new TextureRegion(playbtn));</b>
 <b class="nc">&nbsp;    Drawable drawablePlaybtnDown = new TextureRegionDrawable(new TextureRegion(playbtnDown));</b>
+&nbsp;
+<b class="nc">&nbsp;    Label errorMessage = new Label(&quot;&quot;,</b>
+&nbsp;        new LabelStyle(new BitmapFont(), Color.WHITE));
+<b class="nc">&nbsp;    errorMessage.setFontScale(1.10f*scale);</b>
+<b class="nc">&nbsp;    errorMessage.setAlignment(Align.left);</b>
+<b class="nc">&nbsp;    table.add(errorMessage).padBottom(20*scale);</b>
+<b class="nc">&nbsp;    table.row();</b>
 &nbsp;
 <b class="nc">&nbsp;    Button.ButtonStyle playbtnStyle = new Button.ButtonStyle();</b>
 <b class="nc">&nbsp;    Button playbtn = new Button();</b>
@@ -216,11 +221,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;      @Override
 &nbsp;      public void clicked(InputEvent event, float x, float y) {
 <b class="nc">&nbsp;        int numCustomers = 5;</b>
-<b class="nc">&nbsp;        if (textField.getText().matches(&quot;[0-9]+&quot;)) {</b>
+<b class="nc">&nbsp;        if (textField.getText().equals(&quot;0&quot;)) {</b>
+<b class="nc">&nbsp;          errorMessage.setText(&quot;Please enter a number greater than 0&quot;);</b>
+<b class="nc">&nbsp;        } else if (textField.getText().matches(&quot;[0-9]+&quot;)) {</b>
 <b class="nc">&nbsp;          numCustomers = Integer.parseInt(textField.getText());</b>
+<b class="nc">&nbsp;          gameScreen = new GameScreen(game, numCustomers, false);</b>
+<b class="nc">&nbsp;          game.setScreen(gameScreen);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          errorMessage.setText(&quot;Please enter a valid number&quot;);</b>
 &nbsp;        }
-<b class="nc">&nbsp;        gameScreen = new GameScreen(game, numCustomers);</b>
-<b class="nc">&nbsp;        game.setScreen(gameScreen);</b>
 &nbsp;      }
 &nbsp;    });
 &nbsp;  }
@@ -314,7 +323,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-18 15:28</div>
 </div>
 </body>
 </html>

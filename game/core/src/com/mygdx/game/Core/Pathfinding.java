@@ -302,8 +302,8 @@ public class Pathfinding {
     List<Vector2> path = new LinkedList<>();
 
     if (!Found) {
-      float MaxDistance = DistanceTesting(x, y, goalX, goalY, distanceTest);
-      ;
+      float MaxDistance = DistanceTesting(x, y, goalX, goalY, distanceTest)+1;
+
       for (PathfindingCell tcell : ReachedCells.values()) {
         float distance = DistanceTesting(tcell.x, tcell.y, goalX, goalY, distanceTest);
 

@@ -13,18 +13,23 @@ public class OrderMenu
   Random rand;
   int minStock;
 
-  public OrderMenu(int defaultStock, int rareStock, int minStock){
+  public OrderMenu(int defaultStock, int rareStock, int minStock,List<ItemEnum> OrderTypePerishables){
     rand = new Random();
     this.minStock = minStock;
+
     OrderType burgers = new OrderType(defaultStock, minStock, ItemEnum.Burger,ItemEnum.CheeseBurger);
     OrderType salads =  new OrderType(defaultStock, minStock, ItemEnum.LettuceOnionSalad,ItemEnum.LettuceTomatoSalad,ItemEnum.TomatoOnionLettuceSalad);
-    OrderType potato =  new OrderType(rareStock,    minStock, ItemEnum.BakedPotato, ItemEnum.MeatBake, ItemEnum.CheeseBurger);
+    OrderType potato =  new OrderType(rareStock,    minStock, ItemEnum.BakedPotato, ItemEnum.MeatBake, ItemEnum.CheeseBake);
     OrderType pizza =   new OrderType(rareStock,    minStock, ItemEnum.CheesePizzaCooked, ItemEnum.MeatPizzaCooked, ItemEnum.VegPizzaCooked);
 
-    OrderCatagories.add(burgers);
-    OrderCatagories.add(salads);
-   // OrderCatagories.add(potato);
-    //OrderCatagories.add(pizza);
+    if(OrderTypePerishables.contains(ItemEnum.Burger))
+      OrderCatagories.add(burgers);
+    if(OrderTypePerishables.contains(ItemEnum.TomatoOnionLettuceSalad))
+      OrderCatagories.add(salads);
+    if(OrderTypePerishables.contains(ItemEnum.BakedPotato))
+      OrderCatagories.add(potato);
+    if(OrderTypePerishables.contains(ItemEnum.CheesePizza))
+    OrderCatagories.add(pizza);
   }
 
   public List<ItemEnum> CreateNewOrder(int count, Randomisation random)

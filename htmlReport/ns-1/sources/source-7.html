@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/8)
+    (0/9)
   </span>
 </td>
 </tr>
@@ -80,6 +80,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 &nbsp;import com.badlogic.gdx.maps.tiled.TiledMap;
 &nbsp;import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+&nbsp;import com.mygdx.game.Core.TextureDictionary;
 &nbsp;
 &nbsp;/**
 &nbsp; * Creates the initial base layer and main objects such as sprite batches and screens Also declares
@@ -95,6 +96,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;  public SpriteBatch batch;
 &nbsp;  public MenuScreen menu;
 &nbsp;  public TiledMap map;
+&nbsp;  public TextureDictionary textureDictionary;
 &nbsp;
 &nbsp;  /**
 &nbsp;   * creates maps and sprites
@@ -103,6 +105,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;  public void create() {
 <b class="nc">&nbsp;    batch = new SpriteBatch();</b>
 <b class="nc">&nbsp;    map = new TmxMapLoader().load(&quot;PiazzaPanicMap.tmx&quot;);</b>
+<b class="nc">&nbsp;    textureDictionary = new TextureDictionary();</b>
 <b class="nc">&nbsp;    menu = new MenuScreen(this);</b>
 <b class="nc">&nbsp;    setScreen(menu);</b>
 &nbsp;  }
@@ -149,7 +152,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-18 15:28</div>
 </div>
 </body>
 </html>

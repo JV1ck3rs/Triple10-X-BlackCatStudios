@@ -52,7 +52,7 @@ public class CustomerController extends Scriptable {
 
   Random rand = new Random(System.currentTimeMillis());
 
-  private Vector2 groupSize = new Vector2(2, 4);
+  private Vector2 groupSize = new Vector2(1, 4);
   float NextToLeave = EatingTime;
 
   int MaxCustomers;
@@ -109,35 +109,32 @@ public class CustomerController extends Scriptable {
     OrderAreaTarget = OrderArea;
     DoorTarget = DoorPosition;
 
-    menu = new OrderMenu(10, 7, 3);
+    menu = new OrderMenu(10, 7, 3, params.OrderTypePermissable);
   }
 
   /**
-   * Convenience function which helps to calculate the number of customers
-   * in each wave of the scenario mode.
+   * Convenience function which helps to calculate the number of customers in each wave of the
+   * scenario mode.
    *
-   * @param numCustomersPerWave The arraylist which will store the number of
-   *                            customers per wave
-   * @param loopValue Integer used to limit the number of times the while loop executes
+   * @param numCustomersPerWave The arraylist which will store the number of customers per wave
+   * @param loopValue           Integer used to limit the number of times the while loop executes
    * @return
    */
-  private ArrayList<Integer> calculateNumCustomersPerScenarioWave(ArrayList<Integer> numCustomersPerWave, int loopValue) {
+  private ArrayList<Integer> calculateNumCustomersPerScenarioWave(
+      ArrayList<Integer> numCustomersPerWave, int loopValue) {
     while (loopValue > 0) {
       if (loopValue < 6) {
         if (loopValue <= 3) {
-//          numWaves += loopValue; // tempVal * 1
           for (int i = 0; i < loopValue; i++) {
             customersPerWave.add(1);
           }
           loopValue = 0;
         } else {
           loopValue -= 2;
-//          numWaves += 1;
           customersPerWave.add(2);
         }
       } else {
         loopValue -= 5;
-//        numWaves += 2;
         customersPerWave.add(3);
         customersPerWave.add(2);
       }
@@ -147,25 +144,22 @@ public class CustomerController extends Scriptable {
 
 
   public void CalculateWavesFromNoCustomers(int NoCustomers) {
-
     MaxCustomers = NoCustomers;
     CustomersRemaining = NoCustomers;
 
     if (NoCustomers == -1) {
-
       SetWaveAmount(-1);
       return;
     }
-
 
     customersPerWave = new ArrayList<>();
     int tempVal = MaxCustomers;
 
     /* The following block of code calculates the number of customers that should be
-    * in each wave of the scenario mode.
-    * The number of customers per wave is stored in the customersPerWave arraylist.
-    * Waves can have 1, 2, or 3 customers. Waves with fewer customers are more likely to occur.
-    */
+     * in each wave of the scenario mode.
+     * The number of customers per wave is stored in the customersPerWave arraylist.
+     * Waves can have 1, 2, or 3 customers. Waves with fewer customers are more likely to occur.
+     */
     if (tempVal > 10) {
       double numLoops = Math.floor(tempVal / 10);
       int finalLoopVal = tempVal % 10; // The remainder of tempVal / 10
@@ -183,9 +177,12 @@ public class CustomerController extends Scriptable {
     // Sorts the arraylist in ascending order so that waves with fewer customers occur first
     Collections.sort(customersPerWave);
 
-
     Waves = customersPerWave.size();
     SetWaveAmount(Waves);
+  }
+
+  public OrderMenu getMenu() {
+    return menu;
   }
 
   public ArrayList<Integer> getCustomersPerScenarioWave() {
@@ -193,7 +190,7 @@ public class CustomerController extends Scriptable {
   }
 
   /***
-   * Set the maximum number of waves to do, exclusively. Resets currentWave to 0
+   * Set the maximum number of waves to do, exclusively. Resets currentWave to 0.
    * @param amount
    * @author Felix Seanor
    */
@@ -372,7 +369,7 @@ public class CustomerController extends Scriptable {
       for (int i = group.Members.size() - 1; i >= 0; i--) {
 
         if (group.Members.get(i).gameObject.position.dst(DoorTarget.x, DoorTarget.y) < 1) {
-          group.Members.get(i).gameObject.Destroy();
+          group.Members.get(i).Destroy();
           group.Members.remove(i);
         }
 
@@ -473,9 +470,8 @@ public class CustomerController extends Scriptable {
         CreateNewCustomer();
       } else {
         EndGame();
+
       }
-
-
     }
 
 
@@ -647,8 +643,10 @@ public class CustomerController extends Scriptable {
       if (state.CustomerGroupsData[0].NumCustomersWalkingToTable > 0) {
         for (Customer cust : currentWaiting.Members) {
           // If the customer is not at the order point and is not at the entrance (therefore is moving towards a table)
-          if ((cust.getX() > 360.0f || cust.getX() < 360.0f) && (cust.getX() != 200 && cust.getY() != 100)) {
-            SetCustomerTarget(cust, currentWaiting.table.GetNextSeat()); // set the customer to walk to the table
+          if ((cust.getX() > 360.0f || cust.getX() < 360.0f) && (cust.getX() != 200
+              && cust.getY() != 100)) {
+            SetCustomerTarget(cust,
+                currentWaiting.table.GetNextSeat()); // set the customer to walk to the table
             currentWaiting.MembersInLine.remove(cust); // remove the customer from the line
           }
         }
@@ -656,6 +654,7 @@ public class CustomerController extends Scriptable {
 
       // set the target of the customers who should be in line to the order point
       SetWaitingForOrderTarget();
+
     }
 
     int i = 0;
@@ -722,10 +721,7 @@ public class CustomerController extends Scriptable {
         savedGroups.add(group.SaveState(true));
       }
     }
-
     state.CustomerGroupsData = savedGroups.toArray(new CustomerGroupState[0]);
-
-
   }
 
 }

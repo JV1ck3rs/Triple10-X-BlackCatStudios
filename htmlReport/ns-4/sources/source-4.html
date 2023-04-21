@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SaveState</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Core.GameState</a>
+</div>
+
+<h1>Coverage Summary for Class: SaveState (com.mygdx.game.Core.GameState)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SaveState</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core.GameState;
+&nbsp;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.utils.Json;
+&nbsp;import com.badlogic.gdx.utils.JsonReader;
+&nbsp;import com.mygdx.game.Core.GameObjectManager;
+&nbsp;import com.mygdx.game.GameScreen;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.io.FileOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.ObjectInputStream;
+&nbsp;import java.io.ObjectOutputStream;
+&nbsp;import jdk.javadoc.internal.doclets.toolkit.util.DocFinder.Output;
+&nbsp;
+<b class="nc">&nbsp;public class SaveState {</b>
+&nbsp;
+&nbsp;
+&nbsp;  public void SaveState(GameScreen gameState, String path){
+<b class="nc">&nbsp;    GameState state = new GameState();</b>
+<b class="nc">&nbsp;    gameState.masterChef.SaveState(state);</b>
+<b class="nc">&nbsp;    gameState.customerController.SaveState(state);</b>
+<b class="nc">&nbsp;    gameState.SaveState(state);</b>
+&nbsp;
+&nbsp;    try {
+<b class="nc">&nbsp;      FileOutputStream fileOut = new FileOutputStream(path);</b>
+<b class="nc">&nbsp;      ObjectOutputStream stream = new ObjectOutputStream(fileOut);</b>
+<b class="nc">&nbsp;      stream.writeObject(state);</b>
+<b class="nc">&nbsp;      stream.close();</b>
+<b class="nc">&nbsp;      fileOut.close();</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Game state printed to: &quot; + path);</b>
+&nbsp;
+<b class="nc">&nbsp;    } catch (FileNotFoundException e) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;    } catch (IOException e) {</b>
+<b class="nc">&nbsp;      e.printStackTrace();</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  public GameState LoadState(String ID){
+<b class="nc">&nbsp;    GameState state = null;</b>
+&nbsp;
+<b class="nc">&nbsp;    FileInputStream fileIn = null;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      fileIn = new FileInputStream(ID);</b>
+<b class="nc">&nbsp;      ObjectInputStream in = new ObjectInputStream(fileIn);</b>
+<b class="nc">&nbsp;      state = (GameState) in.readObject();</b>
+<b class="nc">&nbsp;      in.close();</b>
+<b class="nc">&nbsp;      fileIn.close();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    } catch (FileNotFoundException e) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;    } catch (IOException e) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;    } catch (ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    return state;</b>
+&nbsp;
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 15:28</div>
+</div>
+</body>
+</html>

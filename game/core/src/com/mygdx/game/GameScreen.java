@@ -14,10 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Core.*;
+import com.mygdx.game.Core.GameState.Difficulty;
+import com.mygdx.game.Core.GameState.DifficultyMaster;
+import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.GameState.SaveState;
-import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.Item;
@@ -83,6 +85,8 @@ public class GameScreen implements Screen {
   public CustomerController customerController;
 
 
+
+
   // map
   private final TiledMapRenderer mapRenderer;
 
@@ -103,7 +107,8 @@ public class GameScreen implements Screen {
   private final BitmapFont timerFont;
 
   boolean Paused = false;
-
+  DifficultyState difficultyState;
+  Difficulty difficulty;
   public static final int viewportWidth = 32 * TILE_WIDTH;
   public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
@@ -119,12 +124,19 @@ public class GameScreen implements Screen {
    * Constructor class which initialises all the variables needed to draw the sprites and also
    * manage the logic of the render as well as setting the camera and map
    *
-   * @param game         base Object which is used to draw on
-   * @param numCustomers Integer representing maximum number of customers that can be in the game at
-   *                     once (-1 for infinite)
-   * @param loadSave     boolean representing whether the save game should be loaded
+   * @param game            base Object which is used to draw on
+   * @param numCustomers    Integer representing maximum number of customers that will appear in the
+   *                        game (-1 for infinite customers)
+   * @param loadSave        boolean representing whether the save game should be loaded
+   * @param difficultyLevel Difficulty level of the game
+   *
+   * @author Felix Seanor
+   * @author Jack Hinton
+   * @author Jack Vickers
+   * @author Sam Toner
    */
-  public GameScreen(MyGdxGame game, int numCustomers, boolean loadSave) {
+  public GameScreen(MyGdxGame game, int numCustomers, boolean loadSave,
+      Difficulty difficultyLevel) {
     this.game = game;
     camera = new OrthographicCamera();
     recipeScreen.showRecipeInstruction();
@@ -148,17 +160,15 @@ public class GameScreen implements Screen {
     mapRenderer = new OrthogonalTiledMapRenderer(game.map);
     mapRenderer.setView(camera);
 
+    difficultyState = DifficultyMaster.getDifficulty(difficultyLevel);
+
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    masterChef = new MasterChef(2, world, camera, pathfinding);
+    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
-    CustomerControllerParams CCParams = new CustomerControllerParams();
-    CCParams.MaxMoney = 1000;
-    CCParams.Reputation = 3;
-    CCParams.MoneyStart = 20;
-    CCParams.MaxCustomersPerWave = 4;
-    CCParams.MinCustomersPerWave = 1;
+    CustomerControllerParams CCParams = difficultyState.ccParams;
+
     CCParams.NoCustomers = numCustomers;
     customerController = new CustomerController(new Vector2(200, 100), new Vector2(360, 180),
         pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, new Vector2(190, 390),
@@ -246,11 +256,13 @@ public class GameScreen implements Screen {
 
     timerFont = new BitmapFont();
     pauseStage = new Stage();
+    pauseStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     scale = 1.00f;
     // check if the game is in full screen mode
     // (thus the screen width is greater than 720)
     if (pauseStage.getViewport().getScreenWidth() > 720) {
-      scale = 2.25f;
+      scale = 0.5f * ((pauseStage.getViewport().getScreenWidth() / 720f) + (
+          pauseStage.getViewport().getScreenHeight() / 1280f));
     }
     if (loadSave) { // if the game is being loaded from a save
       LoadGame();
@@ -301,6 +313,9 @@ public class GameScreen implements Screen {
       }
     });
     //TODO: Possibly use this function for the powerup menu in the future
+
+    //TODO: Add a level which displays the number of customers remaining for the scenario mode
+
   }
 
   /**
@@ -310,6 +325,7 @@ public class GameScreen implements Screen {
    * @date 07/04/2023
    */
   private void setupPauseMenu() {
+
     Image pauseImage = new Image(new Texture("SemiTransparentBG.png"));
     pauseImage.setSize(pauseStage.getWidth(), pauseStage.getHeight());
     pauseImage.setPosition(0, 0);
@@ -317,7 +333,7 @@ public class GameScreen implements Screen {
     Table pauseTable = new Table(); // create a table to hold the pause menu
     pauseStage.addActor(pauseTable); // add the table to the stage
     pauseTable.setFillParent(true);
-    pauseTable.align(Align.top);
+    pauseTable.align(Align.center);
 
     // The following block of code creates the resume button and adds it to the table
     TextureRegion resumeBtn = new TextureRegion(new Texture("ResumeUp.png"));
@@ -430,7 +446,7 @@ public class GameScreen implements Screen {
     GameObject Hob = new GameObject(null);
     Hob.setPosition(rect.getX(), rect.getY());
     Hob.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    HobStation HS = new HobStation();
+    HobStation HS = new HobStation(difficultyState.cookingParams);
     Hob.attachScript(HS);
     Stations.add(Hob);
     HS.init();
@@ -440,7 +456,7 @@ public class GameScreen implements Screen {
     GameObject Toast = new GameObject(null);
     Toast.setPosition(rect.getX(), rect.getY());
     Toast.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    ToasterStation TS = new ToasterStation();
+    ToasterStation TS = new ToasterStation(difficultyState.cookingParams);
     Toast.attachScript(TS);
     Stations.add(Toast);
     TS.init();
@@ -450,7 +466,7 @@ public class GameScreen implements Screen {
     GameObject Chop = new GameObject(null);
     Chop.setPosition(rect.getX(), rect.getY());
     Chop.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    ChopStation CS = new ChopStation();
+    ChopStation CS = new ChopStation(difficultyState.cookingParams);
     Chop.attachScript(CS);
     Stations.add(Chop);
     CS.init();
@@ -460,7 +476,7 @@ public class GameScreen implements Screen {
     GameObject Oven = new GameObject(null);
     Oven.setPosition(rect.getX(), rect.getY());
     Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    OvenStation OS = new OvenStation();
+    OvenStation OS = new OvenStation(difficultyState.cookingParams);
     Oven.attachScript(OS);
     Stations.add(Oven);
     OS.init();
@@ -479,7 +495,7 @@ public class GameScreen implements Screen {
     GameObject Ass = new GameObject(null);
     Ass.setPosition(rect.getX(), rect.getY());
     Ass.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    AssemblyStation AS = new AssemblyStation();
+    AssemblyStation AS = new AssemblyStation(difficultyState.cookingParams);
     Ass.attachScript(AS);
     assemblyStations.add(Ass);
     Stations.add(Ass);
@@ -489,7 +505,8 @@ public class GameScreen implements Screen {
     GameObject Cust = new GameObject(null);
     Cust.setPosition(rect.getX(), rect.getY());
     Cust.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)));
+    CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)),
+        difficultyState.cookingParams);
     Cust.attachScript(CC);
     customerCounters.add(Cust);
     Stations.add(Cust);
@@ -591,15 +608,11 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
-//    if(Gdx.input.isKeyJustPressed(Keys.B))
-//      SaveGame();
-
     if (Gdx.input.isKeyJustPressed(Keys.V)) {
       LoadGame();
     }
 
     //Removed and simplified logic
-
     world.step(1 / 60f, 6, 2);
 
     game.batch.setProjectionMatrix(camera.combined);
@@ -633,9 +646,6 @@ public class GameScreen implements Screen {
       pauseStage.draw();
     }
 
-    if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-      Paused = !Paused;
-    }
     game.batch.end();
 
     // The following code must occur after the batch is ended.
@@ -733,6 +743,7 @@ public class GameScreen implements Screen {
     int i = 0;
     timer = state.Timer;
     seconds = state.seconds;
+    difficulty = state.difficulty;
     for (GameObject station : Stations) {
       Scriptable scriptable = station.GetScript(0);
       if (scriptable instanceof Station) {
@@ -753,6 +764,8 @@ public class GameScreen implements Screen {
 
   public void SaveState(GameState state) {
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
+    state.difficulty = difficulty;
+    state.Timer = timer;
 
     state.Timer = timer;
     state.seconds = seconds;
@@ -786,7 +799,6 @@ public class GameScreen implements Screen {
     pauseStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     gameUIStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
   }
-
 
   @Override
   public void pause() {

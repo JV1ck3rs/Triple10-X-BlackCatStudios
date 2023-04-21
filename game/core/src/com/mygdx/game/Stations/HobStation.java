@@ -3,12 +3,16 @@ package com.mygdx.game.Stations;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.ContinousSound;
 import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 
 import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.soundFrame;
+import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -21,10 +25,18 @@ public class HobStation extends Station {
   public float maxProgress;
   public int imageSize = 14;
 
-  public HobStation() {
+  private ContinousSound BurnersSFX;
+  private ContinousSound FryingSFX;
+
+  public HobStation(CookingParams params) {
+
+    super(params);
+
     interacted = false;
     ready = false;
     maxProgress = 10;
+    BurnersSFX = new ContinousSound(soundsEnum.GasCooker);
+    FryingSFX = new ContinousSound(soundsEnum.Frying);
     if (ItemWhiteList == null) {
       ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.RawPatty, ItemEnum.CookedPatty));
     }
@@ -98,14 +110,19 @@ public class HobStation extends Station {
 
 
   public void Cook(float dt) {
-    ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);
-
+    ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt * CookingSpeed, interacted, maxProgress);
+    BurnersSFX.ShouldPlay = true;
+    FryingSFX.ShouldPlay = !ready;
     if (ready && item.progress == 0) {
       item.step++;
+
       System.out.println("PRESS SPACE TO FLIP BURGER");
       if (item.step == currentRecipe.RecipeSteps.size()) {
         changeItem(new Item(currentRecipe.endItem));
+        soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
         checkItem();
+      } else {
+        soundFrame.SoundEngine.playSound(soundsEnum.StepAchieved);
       }
       return;
     }
@@ -154,7 +171,8 @@ public class HobStation extends Station {
     if (currentRecipe != null) {
       Cook(dt);
     }
-
+    FryingSFX.DoSoundCheck();
+    BurnersSFX.DoSoundCheck();
     interacted = false;
   }
 }
