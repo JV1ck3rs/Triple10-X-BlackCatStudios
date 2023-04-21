@@ -75,7 +75,7 @@ public class DifficultyMaster {
     CCParams.MaxCustomersPerWave = 4;
     CCParams.MinCustomersPerWave = 2;
     CCParams.MoneyPerCustomer = 20;
-    CCParams.EatingTime = 10;
+    CCParams.EatingTime = 15;
     CCParams.OrderTypePermissable = new LinkedList<>();
     CCParams.FrustrationStart = 90;
 
@@ -111,8 +111,7 @@ public class DifficultyMaster {
     CCParams.MoneyStart = 50;
     CCParams.MaxCustomersPerWave = 2;
     CCParams.MinCustomersPerWave = 1;
-    CCParams.MoneyPerCustomer = 40;
-
+    CCParams.MoneyPerCustomer = 25;
     CCParams.EatingTime = 15;
     CCParams.OrderTypePermissable = new LinkedList<>();
     CCParams.FrustrationStart = 120;

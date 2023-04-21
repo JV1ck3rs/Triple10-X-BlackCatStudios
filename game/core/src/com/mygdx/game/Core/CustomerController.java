@@ -49,6 +49,10 @@ public class CustomerController extends Scriptable {
   int currentCustomer = 0;
   int currentWave = 0;
   private float EatingTime = 7;
+  private int TimerWidth = 50;
+  private int TimerHeight = 10;
+  private GameObject FrustrationTimer;
+  private GameObject FrustrationTimerBackground;
 
   Random rand = new Random(System.currentTimeMillis());
 
@@ -97,6 +101,25 @@ public class CustomerController extends Scriptable {
     CalculateWavesFromNoCustomers(params.NoCustomers);
 
     Reputation = Math.min(Reputation, Waves);
+
+    BlackTexture Black = new BlackTexture("Black.png");
+    BlackTexture FrustBack = new BlackTexture("FrustrationBackground.png");
+
+
+    FrustrationTimerBackground= new GameObject(FrustBack);
+    FrustrationTimerBackground.position.set(298,8);
+    FrustBack.layer = -1;
+    FrustBack.setSize(TimerWidth + 4,TimerHeight + 4);
+
+    FrustrationTimer = new GameObject(Black);
+
+    FrustrationTimer.position.set(300,10);
+
+
+
+
+    if(Waves != -1)
+     Reputation = Math.min(Reputation,Waves);
     generateCustomerArray();
 
     int ID = 0;
@@ -290,6 +313,8 @@ public class CustomerController extends Scriptable {
     SeeIfCustomersShouldLeave(dt);
     CanAcceptNewCustomer();
 
+    ChangeFrustrationTimer();
+
 
   }
 
@@ -310,6 +335,13 @@ public class CustomerController extends Scriptable {
     return null;
   }
 
+
+  public void ChangeFrustrationTimer()
+  {
+    ((BlackTexture)FrustrationTimer.image).setSize((int)((currentWaiting.Frustration/CustomerFrustrationStart)*TimerWidth),TimerHeight);
+
+
+  }
   /**
    * Change frustration of the currently waiting customer group
    *
