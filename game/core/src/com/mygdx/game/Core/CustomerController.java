@@ -49,6 +49,8 @@ public class CustomerController extends Scriptable
   Vector2 OrderAreaTarget;
   private int CustomerFrustrationStart = 80;
 
+  boolean updateFrustration = true;
+
   public CustomerController(Vector2 DoorPosition, Vector2 OrderArea, Pathfinding path,
       Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params, Vector2... TablePositions){
     tables = new LinkedList<>();
@@ -160,7 +162,7 @@ public class CustomerController extends Scriptable
   private void FrustrationCheck(float dt){
     if(currentWaiting == null)
       return;
-    currentWaiting.CheckFrustration(dt,FrustrationCallBack);
+      currentWaiting.CheckFrustration(dt,FrustrationCallBack, updateFrustration);
   }
   public void SeeIfCustomersShouldLeave(float dt){
     if(SittingCustomers.size()>0)
@@ -276,6 +278,19 @@ public class CustomerController extends Scriptable
   void RemoveCustomerTest(){
     if(Gdx.input.isKeyJustPressed(
         Keys.S )&& currentWaiting != null){
+
+      Customer customer = currentWaiting.RemoveFirstCustomer();
+      SetCustomerTarget(customer,currentWaiting.table.GetNextSeat());
+      ChangeMoney(MoneyPerCustomer);
+
+      SetWaitingForOrderTarget();
+    }
+
+  }
+
+  void superFoodUpgrade(){
+    if(Gdx.input.isKeyJustPressed(
+            Keys.S )&& currentWaiting != null){
 
       Customer customer = currentWaiting.RemoveFirstCustomer();
       SetCustomerTarget(customer,currentWaiting.table.GetNextSeat());

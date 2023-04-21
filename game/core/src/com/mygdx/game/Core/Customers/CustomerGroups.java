@@ -92,6 +92,11 @@ public class CustomerGroups {
     return false;
 
   }
+
+  public Customer FeedSpecificCustomer(int i){
+    MembersSeatedOrWalking.add( MembersInLine.remove(i));
+    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size()-1);
+  }
   public void updateSpriteFromInput(){
     for (Customer customer : Members) {
      customer.updateSpriteFromInput(customer.getMove());
@@ -100,8 +105,11 @@ public class CustomerGroups {
 
   }
 
-  public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave){
-        Frustration -= dt;
+  public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave, boolean updateFrustration){
+        if(updateFrustration){
+          Frustration -= dt;
+        }
+
         if(Frustration<=0)
           CauseLeave.accept(this);
   }
