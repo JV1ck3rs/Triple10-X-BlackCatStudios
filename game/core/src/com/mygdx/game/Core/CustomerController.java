@@ -92,7 +92,8 @@ public class CustomerController extends Scriptable
     CalculateWavesFromNoCustomers(params.NoCustomers);
 
 
-    Reputation = Math.min(Reputation,Waves);
+    if(Waves != -1)
+     Reputation = Math.min(Reputation,Waves);
     generateCustomerArray();
 
     int ID = 0;
