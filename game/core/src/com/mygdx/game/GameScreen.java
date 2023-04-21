@@ -401,6 +401,9 @@ public class GameScreen implements Screen {
       timerFont.getData().setScale(1.5f, 1.5f);
     }
 
+    CharSequence str3 = "Patience: ";
+    timerFont.draw(game.batch, str3, 200, 25);
+
   }
 
   /**
