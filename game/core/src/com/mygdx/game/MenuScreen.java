@@ -181,9 +181,8 @@ public class MenuScreen implements Screen {
   }
 
   private void createDifficultyButtons() {
-//    Stage difficultySelectionStage = new Stage();
-//    Table difficultySelectionTable = new Table();
-//    difficultySelectionStage.addActor(difficultySelectionTable);
+    // Need to clear the table so that the difficulty buttons can be added
+    // after the load button
     table.clearChildren();
     if (Gdx.files.internal("SavedData.ser").exists()) {
       table.add(loadButton).width(250 * scale).height(50 * scale).padTop(90 * scale)
@@ -201,7 +200,7 @@ public class MenuScreen implements Screen {
     easyBtnStyle.up = drawableEasyBtnUp;
     easyBtnStyle.down = drawableEasyBtnDown;
     easyBtn.align(Align.left);
-    table.add(easyBtn).width(110 * scale).height(50 * scale).padBottom(25 * scale)
+    table.add(easyBtn).width(100 * scale).height(40 * scale).padBottom(25 * scale)
         .padRight(10 * scale);
 
     // Adds a click listener to the easy button
@@ -227,7 +226,7 @@ public class MenuScreen implements Screen {
     mediumBtn.align(Align.center);
     // The button is added to the same row of the table as the easy button so that they
     // are side by side
-    table.add(mediumBtn).width(110 * scale).height(50 * scale).padBottom(25 * scale)
+    table.add(mediumBtn).width(100 * scale).height(40 * scale).padBottom(25 * scale)
         .padRight(10 * scale);
 
     // Adds a click listener to the medium button
@@ -253,7 +252,7 @@ public class MenuScreen implements Screen {
     hardBtn.align(Align.right);
     // The button is added to the same row of the table as the easy & medium buttons so that they
     // are side by side
-    table.add(hardBtn).width(110 * scale).height(50 * scale).padBottom(25 * scale).row();
+    table.add(hardBtn).width(100 * scale).height(40 * scale).padBottom(25 * scale).row();
 
     // Adds a click listener to the hard button
     hardBtn.addListener(new ClickListener() {

@@ -608,15 +608,11 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
-//    if(Gdx.input.isKeyJustPressed(Keys.B))
-//      SaveGame();
-
     if (Gdx.input.isKeyJustPressed(Keys.V)) {
       LoadGame();
     }
 
     //Removed and simplified logic
-
     world.step(1 / 60f, 6, 2);
 
     game.batch.setProjectionMatrix(camera.combined);
@@ -650,9 +646,6 @@ public class GameScreen implements Screen {
       pauseStage.draw();
     }
 
-    if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-      Paused = !Paused;
-    }
     game.batch.end();
 
     // The following code must occur after the batch is ended.
