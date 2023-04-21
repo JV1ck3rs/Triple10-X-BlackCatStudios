@@ -30,6 +30,13 @@ public class HobStation extends Station {
     }
   }
 
+  /**
+   * Retrieves the interacted attribute which is private for testing.
+   * @return boolean
+   */
+  public boolean GetInteracted() {
+    return interacted;
+  }
 
   @Override
   public boolean GiveItem(Item item) {
@@ -104,6 +111,8 @@ public class HobStation extends Station {
     }
     if (ready) {
       burnItem();
+      checkItem();
+      return;
     }
     progressBar();
   }
