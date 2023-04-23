@@ -60,7 +60,14 @@ public class CustomerGroups {
 
   }
 
-  public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas) {
+
+  /**
+   * Create customer group from saved state
+   * @param state
+   * @param customerAtlas
+   * @author Felix Seanor
+   */
+  public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas){
     Orders = Arrays.asList(state.orders);
     Frustration = state.frustration;
     RecoveryValue = FrustrationRecovery * Frustration;
@@ -116,13 +123,12 @@ public class CustomerGroups {
   }
 
   /**
-   * Try and remove a customer given an item
+   * See if the given dish is correct
    *
    * @param item
-   * @return if removal successful
+   * @return if is able to remove
    * @author Felix Seanor
    */
-
   public int SeeIfDishIsCorrect(ItemEnum item) {
     for (int i = 0; i < MembersInLine.size(); i++) {
       if (MembersInLine.get(i).dish == item) {
@@ -134,10 +140,20 @@ public class CustomerGroups {
 
   }
 
+  /**
+   * Is supplied dish in this group
+   * @param item
+   * @return
+   * @author Felix Seanor
+   */
   public int SeeIfDishIsCorrect(Item item) {
     return SeeIfDishIsCorrect(item.name);
   }
 
+  /**
+   * Increases Frustration after a successful service (adds more time on)
+   * @author Felix Seanor
+   */
   public void updateFrustrationOnSucessfulService() {
     Frustration += RecoveryValue;
   }
@@ -174,7 +190,13 @@ public class CustomerGroups {
     }
   }
 
-  public CustomerGroupState SaveState(boolean leaving) {
+  /**
+   * Save the current state of this group into CustomerGroupState
+   * @param leaving if this group is leaving
+   * @return the current state of this group
+   * @author Felix Seanor
+   */
+  public CustomerGroupState SaveState(boolean leaving){
     CustomerGroupState state = new CustomerGroupState();
     state.customerPositions = new Vector2[Members.size()];
     state.customersInGroupOrdering = new int[MembersInLine.size()];
@@ -204,11 +226,16 @@ public class CustomerGroups {
     return Members;
   }
 
-  public void destroy() {
-    for (Customer cust : Members
-    ) {
-      cust.Destroy();
-    }
+  /**
+   * Destroy this entire group
+   * @author Felix Seanor
+   */
+  public void destroy()
+{
+  for (Customer cust: Members
+  ) {
+    cust.Destroy();
   }
+}
 
 }

@@ -7,6 +7,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Recipe dictionary, given an item input return a recipe
+ * @author Jack Hinton
+ */
 public class RecipeDict {
 
   public static RecipeDict recipes;

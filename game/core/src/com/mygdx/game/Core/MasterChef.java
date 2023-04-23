@@ -30,7 +30,7 @@ public class MasterChef extends Scriptable {
   public float maxRange = 25;
   public int currentControlledChef = 0;
   private static ArrayList<TextureAtlas> chefAtlasArray;
-  World world;
+World world;
   private Camera camera;
   List<Chef> chefs;
 
@@ -107,19 +107,25 @@ public class MasterChef extends Scriptable {
     this.camera = camera;
 
   BlackTexture ArrowTex =   new BlackTexture("Chefs/SelectionArrow.png");
-  ArrowTex.setSize(10,15);
+  ArrowTex.setSize(20,30);
     SelectionArrow = new GameObject(ArrowTex);
 
     for (int i = 0; i < count; i++) {
-      Vector2 pos = new Vector2(0, 0);
+      Vector2 pos = new Vector2(0,0);
       pos.x = 750 + 32 * i;
       pos.y = 300;
-      CreateNewChef(pos, i);
+        CreateNewChef(pos,i);
     }
 
   }
 
-  void CreateNewChef(Vector2 position, int i) {
+  /**
+   * Create a new chef given a position and iD
+   * @param position
+   * @param i
+   * @author Felix Seanor
+   */
+  void CreateNewChef(Vector2 position, int i){
     GameObject chefsGameObject = new GameObject(
         new BlackSprite());//passing in null since chef will define it later
     chefs.add(new Chef(world, i, chefAtlasArray.get(i)));
@@ -130,21 +136,25 @@ public class MasterChef extends Scriptable {
     chefs.get(i).updateSpriteFromInput("idlesouth");
   }
 
+
+  /**
+   * Select a chef
+   * @param i
+   * @author Felix Seanor
+   */
   void SelectChef(int i) {
     currentControlledChef = i;
 
   }
 
   void MoveArrow(){
-    SelectionArrow.position.set(getCurrentChef().gameObject.position).add(new Vector2(4,45));
+    SelectionArrow.position.set(getCurrentChef().gameObject.position).add(new Vector2(0,45));
   }
 
   /**
-   * The chef tries to put down  an item onto a nearby surface.
+   * The chef tries to put down  an item onto a nearby surface
    *
-   * @author Felix Seanor
-   * @author Jack Vickers
-   * @author Jack Hinton
+   * @author Felix Seanor, Jack Vickers, Jack Hinton
    */
   public void GiveItem() {
 
@@ -170,6 +180,7 @@ public class MasterChef extends Scriptable {
 
   /**
    * The chef tries to pick up an item from a nearby surface.
+   * @author Felix Seanor
    */
   public void FetchItem() {
 
@@ -218,14 +229,13 @@ public class MasterChef extends Scriptable {
 
   /**
    * Select a chef from the number keys
+   * @author Felix Seanor
    */
   void selectChef() {
     for (int i = 0; i < chefs.size(); i++) {
       if (Gdx.input.isKeyPressed(Input.Keys.NUM_1
           + i)) // increments to next number for each chef 1,2,3 ect (dont go above 9) {
-      {
         SelectChef(i);
-      }
       for (Chef c : chefs
       ) {
         c.stop();
@@ -250,8 +260,7 @@ public class MasterChef extends Scriptable {
   public void Update(float dt) {
     selectChef();
 
-    chefs.get(currentControlledChef)
-        .updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
+    chefs.get(currentControlledChef).updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
 
 
     if(KeyPressedNow(Inputs.CYCLE_STACK)) {
@@ -291,52 +300,59 @@ public class MasterChef extends Scriptable {
 
     }
 
-    if (Gdx.input.isKeyJustPressed(Keys.B)) {
-      getCurrentChef().MoveAlongPath();
+    MoveArrow();
     }
 
 
-    MoveArrow();
 
-  }
 
+
+
+  /**
+   * Adds in an new chef upto max
+   * @author Felix Seanor
+   */
   public void AddNewChefIn(){
     if(chefs.size()<5)
       CreateNewChef(new Vector2(750,300), chefs.size());
   }
 
-  public void LoadState(GameState state) {
+  public void LoadState(GameState state){
     for (int i = 0; i < state.ChefPositions.length; i++) {
-      if (i < chefs.size()) {
+      if(i< chefs.size())
         chefs.get(i).gameObject.position = state.ChefPositions[i];
-      } else {
-        CreateNewChef(state.ChefPositions[i], i);
+      else {
+        CreateNewChef(state.ChefPositions[i],i);
       }
     }
 
-    for (Chef chef : chefs
+    for (Chef chef: chefs
     ) {
       for (int i = 0; i < Chef.CarryCapacity; i++) {
         chef.FetchItem();
       }
     }
 
-    int i = 0;
+    int i =0;
     GiveBackFromState(state);
   }
 
-  void GiveBackFromState(GameState state) {
-    int i = 0;
-    for (Chef chef : chefs
+  /**
+   * Creates or modifies chefs from a save state.
+   * @param state
+   * @author Felix Seanor
+   */
+  void GiveBackFromState(GameState state){
+    int i =0;
+    for (Chef chef: chefs
     ) {
 
       for (int j = 0; j < Chef.CarryCapacity; j++) {
 
         ItemState itemState = state.ChefHoldingStacks[i * Chef.CarryCapacity + j];
 
-        if (itemState == null || itemState.item == null) {
+        if(itemState == null || itemState.item == null)
           continue;
-        }
 
         Item item = new Item(itemState);
         chef.GiveItem(item);
@@ -346,29 +362,38 @@ public class MasterChef extends Scriptable {
     }
   }
 
-  public void SaveState(GameState state) {
+  /**
+   * Save the current state of the chefs into GameState
+   * @param state
+   * @author Felix Seanor
+   */
+  public void SaveState(GameState state){
     state.ChefPositions = new Vector2[chefs.size()];
-    state.ChefHoldingStacks = new ItemState[chefs.size() * Chef.CarryCapacity];
+    state.ChefHoldingStacks = new ItemState[chefs.size()*Chef.CarryCapacity];
+
 
     for (int i = 0; i < chefs.size(); i++) {
       state.ChefPositions[i] = chefs.get(i).gameObject.position;
 
-      for (int j = Chef.CarryCapacity - 1; j >= 0; j--) {
-        Optional<Item> item = chefs.get(i).FetchItem();
+      for (int j = Chef.CarryCapacity-1; j >=0; j--) {
+        Optional<Item> item =chefs.get(i).FetchItem();
 
-        if (!item.isPresent()) {
-          state.ChefHoldingStacks[i * Chef.CarryCapacity + j] = null;
-        } else {
-          state.ChefHoldingStacks[i * Chef.CarryCapacity + j] = new ItemState(item.get());
-        }
+        if(!item.isPresent())
+        state.ChefHoldingStacks[i*Chef.CarryCapacity+j] = null;
+        else
+          state.ChefHoldingStacks[i*Chef.CarryCapacity+j] = new ItemState(item.get());
 
 
       }
     }
 
+
+
+
     GiveBackFromState(state);//This exists to make quick saves look nicer
 
   }
+
 
 
 }

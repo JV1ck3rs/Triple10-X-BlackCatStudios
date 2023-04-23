@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.*;
 
+/**
+ * This manages references to every gameobject and loose scripts
+ */
 public class GameObjectManager {
 
   public Hashtable<Integer, GameObject> GameObjects = new Hashtable<>();
@@ -65,6 +68,7 @@ public class GameObjectManager {
 
   /**
    * Creates a singleton GameObject Manager
+   * @author Felix Seanor
    */
   public GameObjectManager() {
     if (objManager != null) {
@@ -80,6 +84,7 @@ public class GameObjectManager {
   /**
    * Submits a new gameobject to this manager
    * @param obj
+   * @author Felix Seanor
    */
   public void SubmitGameObject(GameObject obj) {
 
@@ -94,6 +99,7 @@ public class GameObjectManager {
   /**
    * run updates on objects
    * @param dt
+   * @author Felix Seanor
    */
   public void doUpdate(float dt) {
 

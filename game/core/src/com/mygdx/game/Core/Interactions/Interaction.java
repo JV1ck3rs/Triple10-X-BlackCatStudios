@@ -13,7 +13,16 @@ public class Interaction {
     Interact
   }
 
-
+  /**
+   * Find the closest acceptable interactable object. Will not return an object that cannot be interacted given the type
+   * @param pos position to scan from
+   * @param type type of position
+   * @param maxRange max interaction range
+   * @return Scriptable to interact with
+   * @author Felix Seanor
+   * @author Jack Hinton
+   * @author Jack Vickers
+   */
   public static Scriptable FindClosetInteractable(Vector2 pos, InteractionType type,
       float maxRange) {
     List<Scriptable> interactables = GameObjectManager.objManager.returnObjectsWithInterface(

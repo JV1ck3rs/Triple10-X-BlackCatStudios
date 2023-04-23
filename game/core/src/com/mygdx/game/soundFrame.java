@@ -7,12 +7,15 @@ import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * Uses an enum containing all the names of the sound effects Uses an array of all the sounds,
+ * must have the same index as the enum Uses a hashmap to store the IDs for each sound
+ * @author Sam Toner
+ * @author Felix Seanor
+ */
 public class soundFrame {
 
-  /**
-   * Uses an enum containing all the names of the sound effects Uses an array of all the sounds,
-   * must have the same index as the enum Uses a hashmap to store the IDs for each sound
-   */
+
    public enum soundsEnum {
     CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved,end;
   }
@@ -30,85 +33,91 @@ public class soundFrame {
   }
 
   /**
-   * @param rinh - Enum value as the name of the sound
+   * @param ring - Enum value as the name of the sound
    * @return Returns the ID given when a sound is played Retrieves the sound from the array based on
    * the enum Plays the sound getting the ID If the sound already has previous IDs, add the ID to
    * the list If the sound doesnt already have IDs then create a new list and add that to the
    * hashmap under an enum key
+   * @author Sam Toner
    */
-  public long playSound(soundsEnum rinh) {
-    Sound toPlay = Sounds[rinh.ordinal()];
+  public long playSound(soundsEnum ring) {
+    Sound toPlay = Sounds[ring.ordinal()];
     long soundID = toPlay.play();
     LinkedList<Long> soundIDs = new LinkedList<>();
 
-    if (soundIDsMap.get(rinh) == null) {
+    if (soundIDsMap.get(ring) == null) {
       soundIDs.push(soundID);
-      soundIDsMap.put(rinh, soundIDs);
+      soundIDsMap.put(ring, soundIDs);
     } else {
-      soundIDs = soundIDsMap.get(rinh);
+      soundIDs = soundIDsMap.get(ring);
       soundIDs.push(soundID);
-      soundIDsMap.put(rinh, soundIDs);
+      soundIDsMap.put(ring, soundIDs);
     }
     return soundID;
   }
 
 
   /**
-   * @param rinh - Enum value of the name of the sound
+   * @param ring - Enum value of the name of the sound
    * @param ID   - The ID required to interact with the sound instance
    *             <p>
    *             Find the sound from the enum, and pause it using the sound instance ID
+   * @author Sam Toner
    */
-  public void pauseSound(soundsEnum rinh, long ID) {
-    Sounds[rinh.ordinal()].pause(ID);
+  public void pauseSound(soundsEnum ring, long ID) {
+    Sounds[ring.ordinal()].pause(ID);
   }
 
   /**
-   * @param rinh - Enum value of the name of the sound
+   * @param ring - Enum value of the name of the sound
    * @param ID   - The ID required to interact with the sound instance
    *             <p>
    *             Find the sound from the enum, and resume it using the sound instance ID
+   * @author Sam Toner
    */
 
-  public void resumeSound(soundsEnum rinh, long ID) {
-    Sounds[rinh.ordinal()].resume(ID);
+  public void resumeSound(soundsEnum ring, long ID) {
+    Sounds[ring.ordinal()].resume(ID);
   }
 
 
   /**
-   * @param rinh  - Enum value of the name of the sound
+   * @param ring  - Enum value of the name of the sound
    * @param ID    - The ID required to interact with the sound instance
    * @param state - The looping state, True = loop - False = stop looping
    *             <p>
    *             Find the sound from the enum, and set it to loop using the sound instance ID
+   * @author Sam Toner
    */
-  public void setLooping(soundsEnum rinh, long ID, boolean state) {
-    Sounds[rinh.ordinal()].setLooping(ID, state);
+  public void setLooping(soundsEnum ring, long ID, boolean state) {
+    Sounds[ring.ordinal()].setLooping(ID, state);
   }
 
 
   /**
    * @param filepath - The filepath of the sound wanted to be played
-   * @param rinh     - Enum value of the name of the sound
+   * @param ring     - Enum value of the name of the sound
    *                 <p>
    *                 Checks if the sound doesnt exist in the Sound array If it doesnt, create a
    *                 sound and add it to the array
+   * @author Sam Toner
    */
-  public void addSound(String filepath, soundsEnum rinh) {
-    if (Sounds[rinh.ordinal()] == null) {
+  public void addSound(String filepath, soundsEnum ring) {
+    if (Sounds[ring.ordinal()] == null) {
       Sound effect = Gdx.audio.newSound(Gdx.files.internal(filepath));
-      Sounds[rinh.ordinal()] = effect;
+      Sounds[ring.ordinal()] = effect;
     }
   }
 
   /**
-   * @param rinh - Enum value of the name of the sound
+   * @param ring - Enum value of the name of the sound
    *
    *             Removes the sound from the Sound array in the position of the enum value
+   * @author Sam Toner
    */
-  public void removeSound(soundsEnum rinh) {
-    if (Sounds[rinh.ordinal()] != null) {
-      Sounds[rinh.ordinal()] = null;
+  public void removeSound(soundsEnum ring) {
+    if (Sounds[ring.ordinal()] != null) {
+      Sounds[ring.ordinal()] = null;
     }
   }
 
@@ -119,7 +128,8 @@ public class soundFrame {
      * Sets the current system volume variable to the volume set
      * Iterate through all the sounds, and get the sound
      * Iterate through all the IDs of each sound, and set each instace of each sound to the required volume
-     */
+     * @author Sam Toner
+     * */
     if (volume != 0.0f) {
       currentSystemVolume = volume;
     }
@@ -134,6 +144,7 @@ public class soundFrame {
 
   /**
    * Runs setSystemVolume with a sound of 0
+   * @author Sam Toner
    */
   public void muteSound() {
     setSystemVolume(0.0f);
@@ -142,6 +153,7 @@ public class soundFrame {
   /**
    * Sets the volume back to the volume previous to mute, allows return to previous volume after a
    * mute
+   * @author Sam Toner
    */
   public void unmuteSound() {
     setSystemVolume(currentSystemVolume);

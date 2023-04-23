@@ -3,6 +3,12 @@ package com.mygdx.game.Items;
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameState.ItemState;
 
+/**
+ * Item class, instatiates item Enum into a physical item in the game.
+ * stores cooking progress ect.
+ *
+ * Last modified 09/04/23
+ */
 public class Item {
 
   public ItemEnum name;

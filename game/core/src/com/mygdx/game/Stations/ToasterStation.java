@@ -9,7 +9,10 @@ import com.mygdx.game.RecipeAndComb.RecipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ToasterStation extends Station {
+/**
+ * Toasts items such as bun
+ */
+public class ToasterStation extends Station{
 
   boolean interacted;
   boolean ready;

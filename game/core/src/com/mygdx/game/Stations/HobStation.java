@@ -16,6 +16,9 @@ import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Converts some items into their fried forms
+ */
 public class HobStation extends Station {
 
   boolean interacted;

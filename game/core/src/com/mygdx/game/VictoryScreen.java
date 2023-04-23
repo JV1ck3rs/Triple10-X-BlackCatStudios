@@ -24,6 +24,8 @@ import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
  * This class creates and displays the victory screen
  *
  * @author Robin Graham
+ * @author Felix Seanor
+ * @author Jack Vickers
  */
 public class VictoryScreen implements Screen {
 

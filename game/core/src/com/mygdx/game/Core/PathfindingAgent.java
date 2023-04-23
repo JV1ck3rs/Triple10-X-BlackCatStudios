@@ -5,6 +5,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import java.util.LinkedList;
 import java.util.List;
 
+
+/**
+ * A pathfinding agent abstraction
+ * @author Felix Seanor
+ * Last modified 10/04/23
+ */
 public class PathfindingAgent extends Scriptable {
 
   List<Vector2> path;
@@ -13,6 +19,10 @@ public class PathfindingAgent extends Scriptable {
   Vector2 prev;
   public Body b2body;
 
+  /**
+   * Give this agent a new path
+   * @param newPath
+   */
   public void GivePath(List<Vector2> newPath) {
     prev = new Vector2(gameObject.position);
     path = newPath;

@@ -3,7 +3,11 @@ package com.mygdx.game;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * Loads in sound into the game
+ * @author Felix Seanor
+ * Last Modified 18/04/23
+ */
 public class LoadSounds {
 
   static void load(soundFrame frame){

@@ -26,16 +26,27 @@ import java.util.function.Consumer;
   This script controls the customers and handles their logic through a variety of secondary scripts.
   Also handles when the current game should end.
 
-  Last modified: 27/03/2023
+  Last modified: 23/04/2023
  */
 
-public class CustomerController extends Scriptable {
+public class CustomerController extends Scriptable
+{
 
+  /**The current customer group waiting in line*/
   CustomerGroups currentWaiting = null;
+
+  /**List of customers sitting down and eating. Groups only enter this when all members are eating*/
   List<CustomerGroups> SittingCustomers = new LinkedList<>();
+  /**List of all customer groups trying to leave*/
   List<CustomerGroups> WalkingBackCustomers = new LinkedList<>();
+  /**Pathfinding module used*/
   Pathfinding pathfinding;
+
+  /**
+   * List of tables
+   */
   List<Table> tables;
+  /** Call this to start endge game sequence */
   Consumer<EndOfGameValues> CallEndGame;
 
   public int Reputation;
@@ -51,51 +62,66 @@ public class CustomerController extends Scriptable {
   private float EatingTime = 7;
   private int TimerWidth = 50;
   private int TimerHeight = 10;
+
+  /** Frustration Time*/
   private GameObject FrustrationTimer;
   private GameObject FrustrationTimerBackground;
 
+  /** Creates a new randomisation class based on the current time */
   Random rand = new Random(System.currentTimeMillis());
-  private Vector2 groupSize = new Vector2(1, 4);
+
+  /** The minimum and maximum group size for customers groups */
+  private Vector2 groupSize = new Vector2(1,4);
+
+  /** timer defining when the next eating customer will leave */
   float NextToLeave = EatingTime;
   int MaxCustomers;
   int CustomersRemaining;
   ArrayList<Integer> customersPerWave;
+/** this is call back for customer groups who get too frustrated so they need to leave */
   Consumer<CustomerGroups> FrustrationCallBack;
+
+  /** Door position */
   Vector2 DoorTarget;
+  /** where ordering queue should start */
   Vector2 OrderAreaTarget;
+
+  /**
+   * All customer texture atlases
+   */
   private ArrayList<TextureAtlas> CustomerAtlas = new ArrayList<>();
+
+  /** how long it takes for a group to be frustrated and leave without being served*/
   private int CustomerFrustrationStart = 80;
 
   boolean updateFrustration = true;
 
   /**
    * Creates the customer controller
-   *
-   * @param DoorPosition     Customer spawn and exit.
-   * @param OrderArea        First position in order line
-   * @param path             Pathfinding Module.
+   * @param DoorPosition Customer spawn and exit.
+   * @param OrderArea First position in order line
+   * @param path    Pathfinding Module.
    * @param CallUpGameFinish Game Finish Function.
-   * @param params           Parameter class
-   * @param TablePositions   Where the tables are, TEMPORARY
+   * @param params Parameter class
+   * @param TablePositions Where the tables are, TEMPORARY
    * @author Felix Seanor
    */
   public CustomerController(Vector2 DoorPosition, Vector2 OrderArea, Pathfinding path,
-      Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params,
-      Vector2... TablePositions) {
+      Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params, Vector2... TablePositions){
     tables = new LinkedList<>();
-    FrustrationCallBack = (CustomerGroups a) -> FrustrationLeave(a);
+    FrustrationCallBack = (CustomerGroups a)   -> FrustrationLeave(a);
     MoneyPerCustomer = params.MoneyPerCustomer;
     CallEndGame = CallUpGameFinish;
     Money = params.MoneyStart;
     MaxMoney = params.MaxMoney;
     Reputation = params.Reputation;
     MaxReputation = 5; // set the max reputation to 5
+    CustomerFrustrationStart = params.FrustrationStart;
 
     groupSize.y = Math.min(params.MaxCustomersPerWave, groupSize.y);
     groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
-    CustomerFrustrationStart = params.FrustrationStart;
-    CalculateWavesFromNoCustomers(params.NoCustomers);
 
+    CalculateWavesFromNoCustomers(params.NoCustomers);
 
     BlackTexture Black = new BlackTexture("Black.png");
     BlackTexture FrustBack = new BlackTexture("FrustrationBackground.png");
@@ -196,6 +222,10 @@ public class CustomerController extends Scriptable {
     SetWaveAmount(Waves);
   }
 
+  public int SittingCustomerCount() {
+    return SittingCustomers.size();
+  }
+
   public OrderMenu getMenu() {
     return menu;
   }
@@ -249,8 +279,7 @@ public class CustomerController extends Scriptable {
   }
 
   /**
-   * Modifiesr the reputation, if reputation + DR <= 0 END GAME.
-   *
+   *  Modifies the reputation, if reputation + DR <= 0 END GAME.
    * @param DR delta reputation
    * @author Felix Seanor
    */
@@ -286,6 +315,7 @@ public class CustomerController extends Scriptable {
 
   }
 
+
   @Override
   public void Update(float dt) {
     super.Update(dt);
@@ -293,11 +323,9 @@ public class CustomerController extends Scriptable {
       currentWaiting.showIcons();
       currentWaiting.removeIcons();
       currentWaiting.checkClicks();
+      currentWaiting.updateSpriteFromInput()
     }
 
-    if (currentWaiting != null) {
-      currentWaiting.updateSpriteFromInput();
-    }
     UpdateCustomerMovements(SittingCustomers);
     UpdateCustomerMovements(WalkingBackCustomers);
 
@@ -343,7 +371,6 @@ public class CustomerController extends Scriptable {
 
 
   }
-
   /**
    * Change frustration of the currently waiting customer group
    *
@@ -485,9 +512,8 @@ public class CustomerController extends Scriptable {
   }
 
   /**
-   * Checks if a new customer can be accepted if so, add a new one in. End the game if the set
-   * number of waves has elapsed. Set Waves to -1 for "endless"
-   *
+   * Checks if a new customer can be accepted if so, add a new one in. End the game if the set number of waves has elapsed.
+   * Set Waves to -1 for "endless"
    * @author Felix Seanor
    */
 
@@ -756,4 +782,7 @@ public class CustomerController extends Scriptable {
     state.CustomerGroupsData = savedGroups.toArray(new CustomerGroupState[0]);
   }
 
+  public int LeavingCustomerCount() {
+    return WalkingBackCustomers.size();
+  }
 }

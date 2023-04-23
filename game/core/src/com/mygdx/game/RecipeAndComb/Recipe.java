@@ -4,6 +4,10 @@ import com.mygdx.game.Items.ItemEnum;
 
 import java.util.ArrayList;
 
+/**
+ * The recipe class, List of steps -> Item
+ * @author Jack Hinton
+ */
 public class Recipe {
 
     public ArrayList<Step> RecipeSteps = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.mygdx.game.Core.GameState;
 
 
+import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.LinkedList;
@@ -8,9 +9,14 @@ import java.util.LinkedList;
 public class DifficultyMaster {
 
 
-
-  public static DifficultyState getDifficulty(Difficulty difficulty){
-      switch (difficulty)
+  /**
+   * return a difficulty settings
+   * @param difficaulty
+   * @return
+   * @author Felix Seanor
+   */
+  public static DifficultyState getDifficulty(Difficaulty difficaulty){
+      switch (difficaulty)
       {
         case Relaxing:
           return  getRelaxing();
@@ -121,7 +127,7 @@ public class DifficultyMaster {
 
 
 
-    chefParams.MoveSpeed = 90;
+    chefParams.MoveSpeed = 75;
 
     cookingParams.CookSpeed = .75f;
     cookingParams.ChopSpeed = .75f;
