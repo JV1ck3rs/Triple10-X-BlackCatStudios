@@ -108,6 +108,10 @@ public class GameScreen implements Screen {
    * manage the logic of the render as well as setting the camera and map
    *
    * @param game base Object which is used to draw on
+   * @author Amy Cross
+   * @author Felix Seanor
+   * @author Sam Toner
+   * @author Jack Vickers
    */
   public GameScreen(MyGdxGame game, int numCustomers) {
     this.game = game;
@@ -243,7 +247,11 @@ public class GameScreen implements Screen {
     timerFont = new BitmapFont();
   }
 
-
+  /**
+   * Create a bin given a rectangle
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateBin(Rectangle rect) {
     GameObject Bin = new GameObject(null);
     Bin.setPosition(rect.getX(), rect.getY());
@@ -253,6 +261,11 @@ public class GameScreen implements Screen {
     Stations.add(Bin);
   }
 
+  /**
+   * Create a hob
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateHobs(Rectangle rect) {
     GameObject Hob = new GameObject(null);
     Hob.setPosition(rect.getX(), rect.getY());
@@ -263,6 +276,11 @@ public class GameScreen implements Screen {
     HS.init();
   }
 
+  /**
+   * Create a toaster
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateToaster(Rectangle rect) {
     GameObject Toast = new GameObject(null);
     Toast.setPosition(rect.getX(), rect.getY());
@@ -273,6 +291,11 @@ public class GameScreen implements Screen {
     TS.init();
   }
 
+  /**
+   * Create chopping station
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateChopping(Rectangle rect) {
     GameObject Chop = new GameObject(null);
     Chop.setPosition(rect.getX(), rect.getY());
@@ -283,6 +306,11 @@ public class GameScreen implements Screen {
     CS.init();
   }
 
+  /**
+   * Create an oven
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateOven(Rectangle rect) {
     GameObject Oven = new GameObject(null);
     Oven.setPosition(rect.getX(), rect.getY());
@@ -293,6 +321,12 @@ public class GameScreen implements Screen {
     OS.init();
   }
 
+  /**
+   * Create a food create with an item inside
+   * @param rect
+   * @param item
+   * @author Jack Vickers
+   */
   void CreateFoodCrates(Rectangle rect, ItemEnum item) {
     GameObject Crate = new GameObject(null);
     Crate.setPosition(rect.getX(), rect.getY());
@@ -302,6 +336,11 @@ public class GameScreen implements Screen {
     Stations.add(Crate);
   }
 
+  /**
+   * Create an assembly station
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateAssembly(Rectangle rect) {
     GameObject Ass = new GameObject(null);
     Ass.setPosition(rect.getX(), rect.getY());
@@ -312,6 +351,11 @@ public class GameScreen implements Screen {
     Stations.add(Ass);
   }
 
+  /**
+   * Create a customer counter
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateCustomerCounters(Rectangle rect) {
     GameObject Cust = new GameObject(null);
     Cust.setPosition(rect.getX(), rect.getY());
@@ -333,6 +377,8 @@ public class GameScreen implements Screen {
    * @param height the height of the world
    * @param type   the type of the world
    * @param name   the name of the world
+   * @author Amy Cross
+   * @author Felix Seanor
    */
   public void buildObject(World world, float x, float y, float width, float height,
       String type, String name) {
@@ -357,7 +403,10 @@ public class GameScreen implements Screen {
   }
 
 
-
+  /**
+   * End game sequence
+   * @param values
+   */
   public void EndGame(EndOfGameValues values){
 
     VictoryScreen screen = new VictoryScreen(game,this,timer,values);
@@ -368,6 +417,7 @@ public class GameScreen implements Screen {
 
   /**
    * Plays the game music when the screen is shown.
+   * @author Amy Cross, Jack Vickers
    */
   @Override
   public void show() {
@@ -377,7 +427,9 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Displays the timer for the player
+   * Displays the timer for the
+   * @author Amy Cross
+   * @author Felix Seanor
    */
   public void displayTimer() {
     seconds += Gdx.graphics.getDeltaTime();
@@ -410,6 +462,9 @@ public class GameScreen implements Screen {
    * Calls all logic updates and sprite draws as well as checks if game has been completed
    *
    * @param delta The time in seconds since the last render.
+   * @author Felix Seanor
+   * @author Amy Cross
+   * @author Jack Hinton
    */
   @Override
   public void render(float delta) {
@@ -508,6 +563,7 @@ public class GameScreen implements Screen {
   /**
    * Finds all the collisions and assigns the names Also has a convenience function to disregard the
    * chef collision
+   * @author Amy Cross
    */
   public void createCollisionListener() {
     world.setContactListener(new ContactListener() {
@@ -563,13 +619,20 @@ public class GameScreen implements Screen {
     });
   }
 
-
+  /**
+   * Save the game
+   * @author Felix Seanor
+   */
   public void SaveGame(){
     SaveState Saving = new SaveState();
     Saving.SaveState(this, "SavedData.ser");
 
   }
 
+  /**
+   * Load the game from save
+   * @author Felix Seanor
+   */
   public void LoadGame(){
     SaveState Saving = new SaveState();
 
@@ -586,6 +649,7 @@ public class GameScreen implements Screen {
   /**
    * Loads the state of a previous state of the world, all LoadGame to a full sweep
    * @param state
+   * @author Felix Seanor
    */
   public void LoadState(GameState state){
 
@@ -609,6 +673,12 @@ public class GameScreen implements Screen {
     for (GameObject station: assemblyStations)
       ((Station)station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
   }
+
+  /**
+   * Saves the current state of the game screen class
+   * @param state
+   * @author Felix Seanor
+   */
   public void SaveState(GameState state){
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
     state.difficaulty = difficaulty;
@@ -633,6 +703,7 @@ public class GameScreen implements Screen {
 
   }
 
+
   @Override
   public void resize(int width, int height) {
   }
@@ -651,6 +722,7 @@ public class GameScreen implements Screen {
 
   /**
    * Disposes of all sprites from memory to keep it optimised
+   * @author Felix Seanor
    */
   @Override
   public void dispose() {

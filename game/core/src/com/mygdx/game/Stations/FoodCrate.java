@@ -5,6 +5,9 @@ import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
+/**
+ * This lets chef pick up raw ingredients
+ */
 public class FoodCrate extends Scriptable implements Interactable {
 
   private ItemEnum ingredient;

@@ -5,10 +5,22 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * an abstraction for GDX sprite
+ * @author Felix Seanor
+ */
 public class BlackSprite extends Renderable {
 
   public Sprite sprite;
 
+
+  /**
+   * Render the sprite
+   * @param batch batch draw
+   * @param x x pos
+   * @param y y pos
+   * @author Felix Seanor
+   */
 
   @Override
   public void Render(SpriteBatch batch, float x, float y) {
@@ -18,17 +30,31 @@ public class BlackSprite extends Renderable {
 
   }
 
+  /**
+   * Destroy the sprite
+   * @author Felix Seanor
+   */
   @Override
   public void Destroy() {
     sprite = null;
   }
 
-
+  /**
+   * Set the size of the sprite
+   * @param x
+   * @param y
+   * @author Felix Seanor
+   */
   @Override
   public void setSize(int x,int y) {
     sprite.setSize(x, y);
   }
 
+  /**
+   * set the sprite to be any GDX sprite
+   * @param sprite
+   * @author Felix Seanor
+   */
   public void setSprite(Sprite sprite) {
     if (this.sprite == null) {
       this.sprite = sprite;
@@ -37,11 +63,21 @@ public class BlackSprite extends Renderable {
     this.sprite.set(sprite);
   }
 
-
+  /**
+   * returns the width
+   * @return
+   * @author Felix Seanor
+   */
   public int GetWidth()
   {
     return (int)(sprite.getWidth());
   }
+
+  /**
+   * returns the height
+   * @return
+   * @author Felix Seanor
+   */
   public int GetHeight(){
     return  (int)(sprite.getHeight());
   }

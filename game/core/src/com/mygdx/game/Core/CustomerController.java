@@ -24,16 +24,27 @@ import java.util.function.Consumer;
   This script controls the customers and handles their logic through a veriaty of secondary scripts.
   Also handles when the current game should end.
 
-  Last modified: 27/03/2023
+  Last modified: 23/04/2023
  */
 
 public class CustomerController extends Scriptable
 {
+
+  /**The current customer group waiting in line*/
   CustomerGroups currentWaiting = null;
+
+  /**List of customers sitting down and eating. Groups only enter this when all members are eating*/
   List<CustomerGroups> SittingCustomers = new LinkedList<>();
+  /**List of all customer groups trying to leave*/
   List<CustomerGroups> WalkingBackCustomers = new LinkedList<>();
+  /**Pathfinding module used*/
   Pathfinding pathfinding;
+
+  /**
+   * List of tables
+   */
   List<Table> tables;
+  /** Call this to start endge game sequence */
   Consumer<EndOfGameValues> CallEndGame;
 
   public int Reputation;
@@ -49,24 +60,36 @@ public class CustomerController extends Scriptable
   private float EatingTime = 7;
   private int TimerWidth = 50;
   private int TimerHeight = 10;
+
+  /** Frustration Time*/
   private GameObject FrustrationTimer;
   private GameObject FrustrationTimerBackground;
 
+  /** Creates a new randomisation class based on the current time */
   Random rand = new Random(System.currentTimeMillis());
 
+  /** The minimum and maximum group size for customers groups */
   private Vector2 groupSize = new Vector2(1,4);
+
+  /** timer defining when the next eating customer will leave */
   float NextToLeave = EatingTime;
 
   int MaxCustomers;
   int CustomersRemaining;
-
+/** this is call back for customer groups who get too frustrated so they need to leave */
   Consumer<CustomerGroups> FrustrationCallBack;
 
+  /** Door position */
   Vector2 DoorTarget;
+  /** where ordering queue should start */
   Vector2 OrderAreaTarget;
 
-
+  /**
+   * All customer texture atlases
+   */
   private ArrayList<TextureAtlas> CustomerAtlas = new ArrayList<>();
+
+  /** how long it takes for a group to be frustrated and leave without being served*/
   private int CustomerFrustrationStart = 80;
 
   /**
@@ -89,6 +112,7 @@ public class CustomerController extends Scriptable
     MaxMoney = params.MaxMoney;
     Reputation = params.Reputation;
     MaxReputation = params.Reputation;
+    CustomerFrustrationStart = params.FrustrationStart;
 
     groupSize.y = Math.min(params.MaxCustomersPerWave,groupSize.y);
     groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
@@ -196,7 +220,7 @@ public class CustomerController extends Scriptable
   public CustomerGroups getCurrentWaitingCustomerGroup()
   {return currentWaiting;}
   /**
-   *  Modifiesr the reputation, if reputation + DR <= 0 END GAME.
+   *  Modifies the reputation, if reputation + DR <= 0 END GAME.
    * @param DR delta reputation
    * @author Felix Seanor
    */
@@ -613,6 +637,11 @@ public class CustomerController extends Scriptable
 
 
   }
+
+  /**
+   * Save the state of the customer system
+   * @param state
+   */
   public void SaveState(GameState state){
 
 

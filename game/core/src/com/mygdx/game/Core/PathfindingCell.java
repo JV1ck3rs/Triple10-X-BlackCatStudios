@@ -2,15 +2,28 @@ package com.mygdx.game.Core;
 
 import java.nio.file.Path;
 
+/**
+ * Stored A* data for each discorvered cell
+ * @author Felix Seanor
+ */
 public class PathfindingCell implements Comparable<PathfindingCell> {
 
+  /** cost to goal*/
   public float Heuristic;
+
+  /** cost along path */
   public float PathCost;
 
+  /** x position */
   public int x;
+  /** y position */
   public int y;
+
+  /** index */
   public int Index;
 
+
+  /** parent cell, null if root node */
   public PathfindingCell parent;
 
   /**
@@ -34,10 +47,21 @@ public class PathfindingCell implements Comparable<PathfindingCell> {
 
   }
 
+  /**
+   * Heuristics + Pathcost
+   * @return
+   * @author Felix Seanor
+   */
   public float score() {
     return Heuristic + PathCost;
   }
 
+  /**
+   * Allowest for sorting
+   * @param o the object to be compared.
+   * @return
+   * @author Felix Seanor
+   */
   @Override
   public int compareTo(PathfindingCell o) {
     if (score() > o.score()) {

@@ -8,6 +8,9 @@ import com.mygdx.game.Items.ItemEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Bakes potatoes and pizzas
+ */
 public class OvenStation extends Station {
 
     boolean interacted;

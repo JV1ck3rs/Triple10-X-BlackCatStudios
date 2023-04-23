@@ -77,6 +77,7 @@ public class Chef extends PathfindingAgent implements Person {
    *
    * @param world the world in which our objects lie
    * @param id    the individual id of each chef i.e 0,1,2....
+   * @author Felix Seanor
    */
   public Chef(World world, int id, TextureAtlas chefAtlas) {
     super();
@@ -89,6 +90,10 @@ public class Chef extends PathfindingAgent implements Person {
     this.path = new LinkedList<>();
   }
 
+  /**
+   * Initialised the chefs data
+   * @author Felix Seanor
+   */
   @Override
   public void Start() {
     //Reorganised to fit work flow and requires access to data not yet created
@@ -113,18 +118,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   }
 
-  public void MoveAlongPath() {
-    if (path.size() <= 0) {
-      return;
-    }
 
-    gameObject.position.set(
-        path.get(0)); // set the position of the chef to the first position in the path
-    b2body.setTransform(gameObject.position.x, gameObject.position.y, b2body.getAngle());
-    path.remove(0);
-//    path.remove(0);
-
-  }
 
   /**
    * Defines all box2d associated variables for the chef and sets its hitbox to be used for
@@ -153,7 +147,10 @@ public class Chef extends PathfindingAgent implements Person {
 
   }
 
-
+  /**
+   * Makes items in the stack visble and hides stack items that do not have an item
+   * @author Felix Seanor
+   */
   void changeItemVisibilities() {
 
     int i = -1;
@@ -290,6 +287,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Sets the texture of the chef.
+   * @author Felix Seanor
    */
   @Override
   public void setTexture(String texture) {
@@ -301,6 +299,8 @@ public class Chef extends PathfindingAgent implements Person {
    * Returns the x position of the chef.
    *
    * @return int posX
+   * @author Felix Seanor
+   * @author Amy Cross
    */
   public float getX() {
     return gameObject.position.x;
@@ -310,6 +310,8 @@ public class Chef extends PathfindingAgent implements Person {
    * Returns the y position of the chef.
    *
    * @return int posY
+   * @author Felix Seanor
+   * @author Amy Cross
    */
   public float getY() {
     return gameObject.position.y;
@@ -319,6 +321,8 @@ public class Chef extends PathfindingAgent implements Person {
    * Returns the width of the chef.
    *
    * @return int width
+   * @author Felix Seanor
+   * @author Amy Cross
    */
   public float getWidth() {
     return gameObject.getSprite().sprite.getWidth();
@@ -328,6 +332,8 @@ public class Chef extends PathfindingAgent implements Person {
    * Returns the height of the chef.
    *
    * @return int height
+   * @author Felix Seanor
+   * @author Amy Cross
    */
   public float getHeight() {
     return gameObject.getSprite().sprite.getHeight();
@@ -335,6 +341,8 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Gets the input from the user and orientates the chef accordingly.
+   * @author Felix Seanor
+   * @author Amy Cross
    */
   @Override
   public String getMove() {
@@ -363,6 +371,7 @@ public class Chef extends PathfindingAgent implements Person {
    * Returns a boolean value if the user is pressing the ctrl key.
    *
    * @return boolean
+   * @author Amy Cross
    */
   public boolean isCtrl() {
     return Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT);
@@ -373,6 +382,7 @@ public class Chef extends PathfindingAgent implements Person {
    *
    * @param seconds time used to freeze chef
    * @param station station chef is currently on
+   * @author Amy Cross
    */
   public void freeze(int seconds, Station station) {
     this.currentStation = station;
@@ -385,6 +395,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Unfreezes the chef after the timer is finished.
+   * @author Amy Cross
    */
   public void unfreeze() {
     isFrozen = false;
@@ -395,6 +406,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Stops the chef from moving and sets sprite animation to "idle".
+   *    * @author Amy Cross
    */
   public void stop() {
     b2body.setLinearVelocity(0, 0);
@@ -416,6 +428,7 @@ public class Chef extends PathfindingAgent implements Person {
    * Gets the inventory count of the chef, so the number of items they are currently holding.
    *
    * @return The number of items the chef is holding.
+   * @author Jack Vickers
    */
   public int getInventoryCount() {
     return heldItems.size();
@@ -425,6 +438,7 @@ public class Chef extends PathfindingAgent implements Person {
    * Gets the inventory of the chef, so the item they are currently holding.
    *
    * @return Ingredient ingredient
+   * @author Jack Vickers
    */
   public int getCarryCapacity() {
     return CarryCapacity;
@@ -437,6 +451,7 @@ public class Chef extends PathfindingAgent implements Person {
    *
    * @param chefAtlasArray array of chef Atlas's
    * @return Atlas atlas of the chef atlas we are using
+   * @author Amy Cross
    */
   private TextureAtlas getChefAtlas(ArrayList<TextureAtlas> chefAtlasArray) {
     int randomIndex = (int) (Math.random() * chefAtlasArray.size());
@@ -445,6 +460,10 @@ public class Chef extends PathfindingAgent implements Person {
     return atlas;
   }
 
+  /**
+   * Can fetch (take item from chef)
+   * @return heldItems > 0
+   */
   public boolean CanFetchItem() {
     if (heldItems.size() == 0) {
       return false;
@@ -454,11 +473,21 @@ public class Chef extends PathfindingAgent implements Person {
 
   }
 
+  /**
+   * Can an item be given to the chef
+   * @return
+   * @author Felix Seanor
+   */
   public boolean CanGiveItem() {
     return heldItems.size() < CarryCapacity;
 
   }
 
+  /**
+   * Take item from chef
+   * @return
+   * @author Felix Seanor
+   */
   public Optional<Item> FetchItem() {
 
     if (!CanFetchItem()) {
@@ -470,6 +499,12 @@ public class Chef extends PathfindingAgent implements Person {
     return Optional.ofNullable(heldItems.pop());
   }
 
+  /**
+   * Give item to chef
+   * @param item
+   * @return
+   * @author Felix Seanor
+   */
   public Boolean GiveItem(Item item) {
     if (CanGiveItem()) {
       heldItems.add(item);
@@ -482,6 +517,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Drops the item from the top of the chef's stack.
+   * @author Felix Seanor
    */
   public void DropItem() {
     if (heldItems.size() != 0) {
@@ -490,6 +526,10 @@ public class Chef extends PathfindingAgent implements Person {
     soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
   }
 
+  /**
+   * Brings the item at the bottom of the stack to the top
+   * @author Felix Seanor
+   */
   public void CycleStack(){
     if(heldItems.size()==0)
       return;
@@ -508,6 +548,7 @@ public class Chef extends PathfindingAgent implements Person {
    * after timer is finished.
    *
    * @param batch that we are drawing to
+   * @author Amy Cross
    */
   public void drawTimer(SpriteBatch batch) {
     System.out.println("draw");

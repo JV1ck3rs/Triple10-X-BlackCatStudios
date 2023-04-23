@@ -8,6 +8,9 @@ import com.mygdx.game.Items.ItemEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Toasts items such as bun
+ */
 public class ToasterStation extends Station{
 
     boolean interacted;

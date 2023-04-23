@@ -29,6 +29,8 @@ import com.mygdx.game.Core.RenderManager;
  *
  * @author Kelvin Chen
  * @author Amy Cross
+ * @author Felix Seanor
+ * @author Amy Cross
  */
 public class MenuScreen implements Screen {
 
@@ -50,6 +52,9 @@ public class MenuScreen implements Screen {
    * constructs the screen including the position of the buttons and their hitboxes;
    *
    * @param root The base object
+   * @author Amy Cross
+   * @author Felix Seanor
+   * @author Jack Vickers
    */
   public MenuScreen(final MyGdxGame root) {
 
@@ -152,6 +157,7 @@ public class MenuScreen implements Screen {
    * Renders the screen and checks for interactions
    *
    * @param delta The time in seconds since the last render.
+   * @author Amy Cross
    */
   @Override
   public void render(float delta) {
@@ -166,6 +172,7 @@ public class MenuScreen implements Screen {
    *
    * @param width  the width of the camera
    * @param height the height of the camera
+   * @author Amy Cross
    */
   @Override
   public void resize(int width, int height) {

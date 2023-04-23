@@ -113,6 +113,12 @@ World world;
 
   }
 
+  /**
+   * Create a new chef given a position and iD
+   * @param position
+   * @param i
+   * @author Felix Seanor
+   */
   void CreateNewChef(Vector2 position, int i){
     GameObject chefsGameObject = new GameObject(
         new BlackSprite());//passing in null since chef will define it later
@@ -124,6 +130,12 @@ World world;
     chefs.get(i).updateSpriteFromInput("idlesouth");
   }
 
+
+  /**
+   * Select a chef
+   * @param i
+   * @author Felix Seanor
+   */
   void SelectChef(int i) {
     currentControlledChef = i;
 
@@ -136,9 +148,7 @@ World world;
   /**
    * The chef tries to put down  an item onto a nearby surface
    *
-   * @author Felix Seanor
-   * @author Jack Vickers
-   * @author Jack Hinton
+   * @author Felix Seanor, Jack Vickers, Jack Hinton
    */
   public void GiveItem() {
 
@@ -164,6 +174,7 @@ World world;
 
   /**
    * The chef tries to pick up an item from a nearby surface.
+   * @author Felix Seanor
    */
   public void FetchItem() {
 
@@ -196,8 +207,7 @@ World world;
   /**
    * The chef attempts to interact with a nearby surface
    *
-   * @author Jack Hinton
-   * @author Jack Vickers
+   * @author Jack Hinton, Jack Vickers
    */
   public void Interact() {
     Scriptable script = Interaction.FindClosetInteractable(
@@ -212,6 +222,7 @@ World world;
 
   /**
    * Select a chef from the number keys
+   * @author Felix Seanor
    */
   void selectChef() {
     for (int i = 0; i < chefs.size(); i++) {
@@ -234,9 +245,7 @@ World world;
    * Update method for this class
    *
    * @param dt
-   * @author Felix Seanor
-   * @author Jack Hinton
-   * @author Jack Vickers
+   * @author Felix Seanor, Jack Hinton, Jack Vickers
    */
   @Override
   public void Update(float dt) {
@@ -279,15 +288,18 @@ World world;
       getCurrentChef().GivePath(path);
     }
 
-    if (Gdx.input.isKeyJustPressed(Keys.B)) {
-      getCurrentChef().MoveAlongPath();
+    MoveArrow();
     }
 
 
-    MoveArrow();
 
-  }
 
+
+
+  /**
+   * Adds in an new chef upto max
+   * @author Felix Seanor
+   */
   public void AddNewChefIn(){
     if(chefs.size()<5)
       CreateNewChef(new Vector2(750,300), chefs.size());
@@ -313,6 +325,11 @@ World world;
     GiveBackFromState(state);
   }
 
+  /**
+   * Creates or modifies chefs from a save state.
+   * @param state
+   * @author Felix Seanor
+   */
   void GiveBackFromState(GameState state){
     int i =0;
     for (Chef chef: chefs
@@ -332,6 +349,12 @@ World world;
       i++;
     }
   }
+
+  /**
+   * Save the current state of the chefs into GameState
+   * @param state
+   * @author Felix Seanor
+   */
   public void SaveState(GameState state){
     state.ChefPositions = new Vector2[chefs.size()];
     state.ChefHoldingStacks = new ItemState[chefs.size()*Chef.CarryCapacity];
