@@ -151,7 +151,7 @@ public class GameScreen implements Screen {
     //recipeScreen.showRecipeInstruction();
     CameraFunctions camera1 = CameraFunctions.camera;
     camera1.updateCamera(camera);
-    powerup = new Powerup(masterChef, customerController);
+
 
     camera.setToOrtho(false, viewportWidth, viewportHeight);
     camera.update();
@@ -188,6 +188,8 @@ public class GameScreen implements Screen {
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     GameObjectManager.objManager.AppendLooseScript(customerController);
+
+    powerup = new Powerup(masterChef, customerController); // powerup object
 
     new CombinationDict();
     CombinationDict.combinations.implementItems();
@@ -579,7 +581,7 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Displays the timer for the player
+   * Displays the timer for the player.
    */
   public void displayTimer() {
     seconds += Gdx.graphics.getDeltaTime();
@@ -649,6 +651,18 @@ public class GameScreen implements Screen {
         } else {
           gameMusic.play();
         }
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+        powerup.doSpeedPowerup();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+        powerup.buyReputation();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+        powerup.superFood();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+        powerup.tetrisSuperFood();
       }
     } else {
       pauseStage.draw();

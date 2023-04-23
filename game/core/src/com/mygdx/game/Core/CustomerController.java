@@ -23,7 +23,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 
 /*
-  This script controls the customers and handles their logic through a veriaty of secondary scripts.
+  This script controls the customers and handles their logic through a variety of secondary scripts.
   Also handles when the current game should end.
 
   Last modified: 27/03/2023
@@ -89,14 +89,13 @@ public class CustomerController extends Scriptable {
     Money = params.MoneyStart;
     MaxMoney = params.MaxMoney;
     Reputation = params.Reputation;
-    MaxReputation = params.Reputation;
+    MaxReputation = 5; // set the max reputation to 5
 
     groupSize.y = Math.min(params.MaxCustomersPerWave, groupSize.y);
     groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
-
+    CustomerFrustrationStart = params.FrustrationStart;
     CalculateWavesFromNoCustomers(params.NoCustomers);
 
-    Reputation = Math.min(Reputation, Waves);
 
     BlackTexture Black = new BlackTexture("Black.png");
     BlackTexture FrustBack = new BlackTexture("FrustrationBackground.png");
@@ -333,12 +332,14 @@ public class CustomerController extends Scriptable {
   public void ChangeFrustrationTimer() {
 
     float TT  = 0;
+    float Max = CustomerFrustrationStart;
 
     if (currentWaiting != null) {
       TT = currentWaiting.Frustration;
+      Max *= currentWaiting.Members.size();
     }
     ((BlackTexture) FrustrationTimer.image).setSize(
-        (int) (( TT / CustomerFrustrationStart) * TimerWidth), TimerHeight);
+        (int) (( TT / Max) * TimerWidth), TimerHeight);
 
 
   }
