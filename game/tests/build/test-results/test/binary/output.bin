@@ -2,16 +2,22 @@
 !PRESS SPACE TO FLIP BURGER
 !PRESS SPACE TO FLIP BURGER
 !PRESS SPACE TO FLIP BURGER
-32 customer 0: LettuceTomatoSalad
-35%customer 0: TomatoOnionLettuceSalad
-35customer 1: BakedPotato
-35customer 2: MeatPizzaCooked
-35customer 3: Burger
-35customer 4: CheesePizzaCooked
-;BPRESS SPACE TO FLIP BURGER
-;BPRESS SPACE TO FLIP BURGER
-;BPRESS SPACE TO FLIP BURGER
-;CPRESS SPACE TO FLIP BURGER
-;CPRESS SPACE TO FLIP BURGER
-;CPRESS SPACE TO FLIP BURGER
-;CPRESS SPACE TO FLIP BURGER
+32customer 0: MeatBake
+35customer 0: CheeseBurger
+36customer 0: CheeseBake
+36 customer 1: LettuceTomatoSalad
+36customer 2: Burger
+36customer 3: BakedPotato
+36customer 4: BakedPotato
+39 customer 0: LettuceTomatoSalad
+39customer 1: LettuceOnionSalad
+39customer 2: CheeseBake
+39 customer 3: LettuceTomatoSalad
+39customer 4: MeatBake
+=DPRESS SPACE TO FLIP BURGER
+=DPRESS SPACE TO FLIP BURGER
+=DPRESS SPACE TO FLIP BURGER
+=EPRESS SPACE TO FLIP BURGER
+=EPRESS SPACE TO FLIP BURGER
+=EPRESS SPACE TO FLIP BURGER
+=EPRESS SPACE TO FLIP BURGER

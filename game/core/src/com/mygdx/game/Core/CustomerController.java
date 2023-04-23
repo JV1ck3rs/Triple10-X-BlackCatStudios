@@ -638,7 +638,7 @@ public class CustomerController extends Scriptable
    * @return True if so, otherwise false
    * @author Felix Seanor
    */
-  boolean DoSatisfactionCheck() {
+  public boolean DoSatisfactionCheck() {
     return currentWaiting != null && currentWaiting.MembersInLine.size() == 0;
   }
 
