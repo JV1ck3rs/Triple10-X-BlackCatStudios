@@ -2,6 +2,7 @@ package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 
 import java.util.function.Consumer;
@@ -12,8 +13,11 @@ public class CustomerCounters extends Station {
 
   Function<Item, Boolean> script;
 
-  public CustomerCounters(Function<Item, Boolean> script) {
+  public CustomerCounters(Function<Item, Boolean> script, CookingParams params) {
+
+    super(params);
     this.script = script;
+
   }
 
 

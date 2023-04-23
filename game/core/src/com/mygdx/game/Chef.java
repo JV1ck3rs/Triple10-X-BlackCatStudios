@@ -18,6 +18,7 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.Station;
 
+import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,14 +34,14 @@ import java.util.Stack;
  * @author Amy Cross
  * @author Labib Zabeneh
  * @author Riko Puusepp
+ * @author Felix Seanor
  */
 public class Chef extends PathfindingAgent implements Person {
 
-  float speed = 2000;
 
   Stack<Item> heldItems = new Stack<>();
   List<GameObject> HeldItemGameObjects = new LinkedList<>();
-  int CarryCapacity = 3;
+  public static int CarryCapacity = 3;
 
   private String spriteOrientation, spriteState;
   private int currentSpriteAnimation;
@@ -50,6 +51,8 @@ public class Chef extends PathfindingAgent implements Person {
   public boolean isFrozen;
   private String lastOrientation;
 
+  private boolean ModifiedStack = false;
+
   List<Vector2> path;
 
   private Station currentStation;
@@ -58,7 +61,6 @@ public class Chef extends PathfindingAgent implements Person {
 
   private final int id;
 
-  private Ingredient ingredient;
 
   private String inventory;
 
@@ -93,16 +95,14 @@ public class Chef extends PathfindingAgent implements Person {
     gameObject.getSprite().setSprite(chefAtlas.createSprite("south1"));
     currentSpriteAnimation = 1;
     spriteOrientation = "south";
-    gameObject.position.x = 750 + 32 * id;
-    gameObject.position.y = 300;
+
     isFrozen = false;
     //sprite.setPosition(posX, posY); unnessary now
     //MyGdxGame.buildObject(world, posX, posY, sprite.getWidth(), sprite.getHeight(), "Dynamic");
     this.lastOrientation = "south";
 
     defineChef();
-    ingredient = new Ingredient("none");
-    timerAtlas = new TextureAtlas("Timer/timer.txt");
+    timerAtlas = new TextureAtlas(Gdx.files.internal("Timer/timer.txt"));
     timerSprite = timerAtlas.createSprite("01");
 
     for (int i = 0; i < CarryCapacity; i++) {
@@ -162,7 +162,7 @@ public class Chef extends PathfindingAgent implements Person {
       i++;
 
       GameObject obj = HeldItemGameObjects.get(i);
-      if (!obj.isVisible) {
+      if (!obj.isVisible || ModifiedStack) {
         obj.image = item.tex;
       }
 
@@ -194,6 +194,7 @@ public class Chef extends PathfindingAgent implements Person {
 
 
     }
+    ModifiedStack = false;
   }
 
   @Override
@@ -211,7 +212,7 @@ public class Chef extends PathfindingAgent implements Person {
 
     Vector2 dir = GetMoveDir().nor();
 
-    System.out.println(dir);
+//    System.out.println(dir);
     if (dir.dot(dir) <= 0) {
       newOrientation = "idle" + spriteOrientation.replace("idle", "");
     } else {
@@ -234,7 +235,7 @@ public class Chef extends PathfindingAgent implements Person {
       }
     }
 
-    System.out.println(newOrientation + " : " + spriteOrientation + " : " + lastOrientation);
+//    System.out.println(newOrientation + " : " + spriteOrientation + " : " + lastOrientation);
 
     if (newOrientation.contains("idle")) {
       spriteState = newOrientation;
@@ -405,6 +406,7 @@ public class Chef extends PathfindingAgent implements Person {
    * Gets the inventory of the chef, so the item they are currently holding.
    *
    * @return Ingredient ingredient
+   * @author Jack Vickers
    */
   public Stack<Item> getInventory() {
     return heldItems;
@@ -420,13 +422,14 @@ public class Chef extends PathfindingAgent implements Person {
   }
 
   /**
-   * Sets the ingredient of the inventory when the chef picks up the according ingredient.
+   * Gets the inventory of the chef, so the item they are currently holding.
    *
-   * @param ingredient the ingredient which we are setting the inventory to
+   * @return Ingredient ingredient
    */
-  public void setInventory(Ingredient ingredient) {
-    this.ingredient = ingredient;
+  public int getCarryCapacity() {
+    return CarryCapacity;
   }
+
 
   /**
    * Chooses a random sprite for the chef and makes sure both (or mroe) chef assets are different to
@@ -462,12 +465,15 @@ public class Chef extends PathfindingAgent implements Person {
       return Optional.empty();
     }
 
+    soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
+
     return Optional.ofNullable(heldItems.pop());
   }
 
   public Boolean GiveItem(Item item) {
     if (CanGiveItem()) {
       heldItems.add(item);
+      soundFrame.SoundEngine.playSound(soundsEnum.EquipItem);
       return true;
     }
 
@@ -481,6 +487,30 @@ public class Chef extends PathfindingAgent implements Person {
     if (heldItems.size() != 0) {
       heldItems.pop();
     }
+    soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
+  }
+
+  public void CycleStack(){
+    if(heldItems.size()==0)
+      return;
+
+    Item bottomItem = heldItems.elementAt(0);
+    heldItems.removeElementAt(0);
+
+    heldItems.push(bottomItem);
+
+    soundFrame.SoundEngine.playSound(soundsEnum.EquipItem);
+    ModifiedStack = true;
+  }
+
+  /**
+   * Clears the inventory of the chef.
+   *
+   * @author Hubert Solecki
+   * @date 21/04/2023
+   */
+  public void ClearInventory() {
+    heldItems.clear();
   }
 
   /**
@@ -493,7 +523,7 @@ public class Chef extends PathfindingAgent implements Person {
     System.out.println("draw");
     timerSprite.setPosition(gameObject.position.x, gameObject.position.y + getHeight());
     if (currentTimerFrame <= 7) {
-      System.out.println(animationTime);
+//      System.out.println(animationTime);
       if (animationTime <= 0) {
         currentTimerFrame++;
         animationTime = frameTime;
@@ -502,7 +532,7 @@ public class Chef extends PathfindingAgent implements Person {
       }
       timerSprite.draw(batch);
       animationTime -= Gdx.graphics.getDeltaTime();
-      System.out.println(animationTime);
+//      System.out.println(animationTime);
     } else {
       unfreeze();
     }

@@ -2,6 +2,9 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.mygdx.game.Core.TextureDictionary;
 
 /**
  * Creates the initial base layer and main objects such as sprite batches and screens Also declares
@@ -15,6 +18,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MyGdxGame extends Game {
 
   public SpriteBatch batch;
+  public MenuScreen menu;
+  public TiledMap map;
+  public soundFrame soundFrame;
+  public TextureDictionary textureDictionary;
 
   /**
    * creates maps and sprites
@@ -22,8 +29,11 @@ public class MyGdxGame extends Game {
   @Override
   public void create() {
     batch = new SpriteBatch();
-    
-    setScreen(new MenuScreen(this));
+    map = new TmxMapLoader().load("PiazzaPanicMap.tmx");
+    textureDictionary = new TextureDictionary();
+    soundFrame = new soundFrame();
+    menu = new MenuScreen(this);
+    setScreen(menu);
   }
 
   /**

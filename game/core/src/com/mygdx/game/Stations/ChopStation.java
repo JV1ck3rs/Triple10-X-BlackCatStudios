@@ -1,48 +1,69 @@
 package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.ContinousSound;
 import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-
+import com.mygdx.game.RecipeAndComb.CombinationDict;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.soundFrame;
+import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ChopStation extends Station {
 
 
-    boolean interacted;
-    boolean ready;
-    public static ArrayList<ItemEnum> ItemWhiteList;
-    public float progress;
-    public float maxProgress;
-    public int imageSize = 18;
+  boolean interacted;
+  boolean ready;
+  public static ArrayList<ItemEnum> ItemWhiteList;
+  public float progress;
+  public float maxProgress;
+  public int imageSize = 18;
 
-    public ChopStation() {
-        interacted = false;
-        ready = false;
-        maxProgress = 5;
-        if(ItemWhiteList == null)
-            ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Lettuce, ItemEnum.Tomato,
-            ItemEnum.Onion, ItemEnum.Mince, ItemEnum.CutTomato, ItemEnum.Dough));
+  private ContinousSound choppingSFX;
+
+
+  public ChopStation(CookingParams params) {
+
+    super(params);
+
+    CookingSpeed = params.ChopSpeed;
+
+    interacted = false;
+    ready = false;
+    maxProgress = 5;
+    choppingSFX = new ContinousSound(soundsEnum.KnifeChop);
+
+    if (ItemWhiteList == null) {
+      ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Lettuce, ItemEnum.Tomato,
+          ItemEnum.Onion, ItemEnum.Mince, ItemEnum.CutTomato, ItemEnum.Dough));
     }
+  }
 
 
   @Override
   public boolean GiveItem(Item item) {
-    changeItem(item);
-    checkItem();
-    return true;
+    if (this.item == null) {
+      changeItem(item);
+      checkItem();
+      return true;
+    }
+    return false;
   }
 
 
   @Override
   public Item RetrieveItem() {
-    bubble.isVisible = false;
-    returnItem = item;
-    deleteItem();
-    currentRecipe = null;
-    return returnItem;
+    if (item != null) {
+      returnItem = item;
+      deleteItem();
+      currentRecipe = null;
+      return returnItem;
+    }
+    return null;
   }
 
 
@@ -65,7 +86,7 @@ public class ChopStation extends Station {
 
     public void checkItem(){
         if(ItemWhiteList.contains(item.name)) {
-            currentRecipe = recipes.RecipeMap.get(item.name);
+            currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
             bubble.isVisible = true;
         }
         else {
@@ -73,6 +94,17 @@ public class ChopStation extends Station {
             bubble.isVisible = false;
         }
     }
+  }
+
+  /**
+   * Returns the item in the station.
+   *
+   * @return The item in the station.
+   * @author Jack Vickers
+   */
+  public Item returnItem() {
+    return item;
+  }
 
 
   @Override
@@ -81,11 +113,12 @@ public class ChopStation extends Station {
   }
 
   public void Cut(float dt) {
-    ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);
+    ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt * CookingSpeed, interacted, maxProgress);
+    choppingSFX.ShouldPlay = true;
     if (ready) {
       changeItem(new Item(currentRecipe.endItem));
       checkItem();
-      return;
+      soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
     }
     progressBar();
   }
@@ -102,25 +135,26 @@ public class ChopStation extends Station {
   }
 
 
-    @Override
-    public void updatePictures() {
-        if(item == null) {
-            if(heldItem == null)
-                return;
-            heldItem.Destroy();
-            heldItem = null;
-            return;
-        }
-        if(heldItem == null){
-            heldItem = new GameObject( new BlackTexture(Item.GetItemPath(item.name)));
-            heldItem.image.setSize(imageSize, imageSize);
-            heldItem.setPosition(gameObject.position.x + (gameObject.PhysicalWidth/2)-12, gameObject.position.y + (gameObject.getHeight()/2) + 5);
-        }
-        else {
-            heldItem.image = new BlackTexture(Item.GetItemPath(item.name));
-            heldItem.image.setSize(imageSize, imageSize);
-        }
+  @Override
+  public void updatePictures() {
+    if (item == null) {
+      if (heldItem == null) {
+        return;
+      }
+      heldItem.Destroy();
+      heldItem = null;
+      return;
     }
+    if (heldItem == null) {
+      heldItem = new GameObject(new BlackTexture(Item.GetItemPath(item.name)));
+      heldItem.image.setSize(imageSize, imageSize);
+      heldItem.setPosition(gameObject.position.x + (gameObject.PhysicalWidth / 2) - 12,
+          gameObject.position.y + (gameObject.getHeight() / 2) + 5);
+    } else {
+      heldItem.image = new BlackTexture(Item.GetItemPath(item.name));
+      heldItem.image.setSize(imageSize, imageSize);
+    }
+  }
 
 
     @Override
@@ -134,6 +168,8 @@ public class ChopStation extends Station {
     if (currentRecipe != null) {
       Cut(dt);
     }
+    choppingSFX.DoSoundCheck();
+
 
   }
 }

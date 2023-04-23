@@ -2,6 +2,7 @@ package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
@@ -17,7 +18,8 @@ public class OvenStation extends Station {
     public static ArrayList<ItemEnum> ItemWhiteList;
 
 
-    public OvenStation() {
+    public OvenStation(CookingParams params) {
+        super(params);
         ready = false;
         maxProgress = 10;
         animation = new GameObject(new BlackTexture("Items/OvenActive.png"));

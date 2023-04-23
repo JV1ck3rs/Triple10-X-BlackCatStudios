@@ -2,25 +2,17 @@ package com.mygdx.game;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Core.BlackSprite;
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
-import com.mygdx.game.Core.Pathfinding;
 import com.mygdx.game.Core.PathfindingAgent;
-import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Assigns all attributes and animation and interactions that the customer will go through in the
@@ -40,7 +32,10 @@ public class Customer extends PathfindingAgent implements Person {
   private int size;
   private String spriteOrientation, spriteState;
   private final String lastOrientation;
-  private final int customerNumber;
+  public final int customerNumber;
+
+  private GameObject HeldItem;
+
   private boolean idle;   // customer will be invisible during idle because out of map
   private boolean waitingAtCounter;   // customer will be waiting at the counter for their dish
   private boolean eaten;
@@ -56,7 +51,7 @@ public class Customer extends PathfindingAgent implements Person {
    *
    * @param customerNumber the ID of each individual customer which will be interacted with
    */
-  public Customer(int customerNumber, ItemEnum Order) {
+  public Customer(int customerNumber, ItemEnum Order, TextureAtlas texture) {
 
     dish = Order;
     currentSpriteAnimation = 1;
@@ -70,17 +65,26 @@ public class Customer extends PathfindingAgent implements Person {
     this.eaten = false;
     this.waitWidth = 235;
     this.waitHeight = 340 - customerNumber * 32;
+    this.customerAtlas = texture;
 
 
     System.out.println("customer " + customerNumber + ": " + dish);
-    foodIcon = new GameObject(new BlackTexture(Item.GetItemPath(this.dish)));
+
+    BlackTexture iconTex = new BlackTexture(Item.GetItemPath(this.dish));
+    iconTex.setSize(20,20);
+    foodIcon = new GameObject(iconTex);
+
+    BlackTexture tex = new BlackTexture(Item.GetItemPath(dish));
+    tex.setSize(20,20);
+    HeldItem = new GameObject(tex);
+    HeldItem.isVisible = false;
+
 
     foodIcon.isVisible = false;
   }
 
   @Override
   public void Start() {
-    customerAtlas = getCustomerAtlas(GameScreen.getCustomerAtlasArray());
     gameObject.getSprite().setSprite(customerAtlas.createSprite("north1"));
     gameObject.getSprite().layer = 2;
     gameObject.image.setSize(25,45);
@@ -142,7 +146,7 @@ public class Customer extends PathfindingAgent implements Person {
       texture = texture.replace("idle", "");
       texture += "1";
     }
-    System.out.println(texture);
+//    System.out.println(texture);
     gameObject.getSprite().sprite.setRegion(customerAtlas.findRegion(texture));
   }
 
@@ -155,7 +159,7 @@ public class Customer extends PathfindingAgent implements Person {
   public String getMove() {
     Vector2 dir = GetMoveDir().nor();
     String newOrientation;
-    System.out.println(dir);
+//    System.out.println(dir);
     if(dir.dot(dir)<=0)
       newOrientation = "idle" + spriteOrientation.replace("idle","");
     else {
@@ -227,7 +231,7 @@ public class Customer extends PathfindingAgent implements Person {
    * @param customerAtlasArray array of customer sprites
    * @return Atlas atlas of the customer object
    */
-  private TextureAtlas getCustomerAtlas(ArrayList<TextureAtlas> customerAtlasArray) {
+  public static TextureAtlas getCustomerAtlas(ArrayList<TextureAtlas> customerAtlasArray) {
     /*
           Currently can remove texture from array after each .get() to avoid repeats.
           If customers > number of sprites, then there will not be enough sprites available.
@@ -270,5 +274,53 @@ public class Customer extends PathfindingAgent implements Person {
    */
   public boolean getFed() {
     return eaten;
+  }
+
+
+  public void displayItem(){
+
+
+
+      HeldItem.isVisible = true;
+
+      HeldItem.position.x = gameObject.position.x;
+      HeldItem.position.y = gameObject.position.y ;
+      HeldItem.image.layer = gameObject.getSprite().layer+1;
+
+      if (spriteOrientation.contains("north")) {
+        HeldItem.position.y += HeldItem.image.GetHeight();
+        HeldItem.position.x += 2;
+        HeldItem.image.layer -= 2;
+      } else if (spriteOrientation.contains("south")) {
+        HeldItem.position.y -= HeldItem.image.GetHeight();
+      } else if (spriteOrientation.contains("east")) {
+        HeldItem.position.x += HeldItem.image.GetWidth();
+      } else if (spriteOrientation.contains("west")) {
+        HeldItem.position.x -= HeldItem.image.GetWidth();
+      }
+
+
+  }
+
+  public void hideItem(){
+    if(HeldItem != null)
+      HeldItem.isVisible = false;
+  }
+
+  @Override
+  public void Update(float dt){
+    super.Update(dt);
+
+    if(!eaten && !waitingAtCounter)
+      displayItem();
+    else
+      hideItem();
+
+  }
+
+  public void Destroy(){
+    HeldItem.Destroy();
+    foodIcon.Destroy();
+    gameObject.Destroy();
   }
 }

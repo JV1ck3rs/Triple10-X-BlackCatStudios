@@ -1,0 +1,426 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MasterChef</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Core</a>
+</div>
+
+<h1>Coverage Summary for Class: MasterChef (com.mygdx.game.Core)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MasterChef</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (8/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.7%
+  </span>
+  <span class="absValue">
+    (44/103)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core;
+&nbsp;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.Input;
+&nbsp;import com.badlogic.gdx.Input.Keys;
+&nbsp;import com.badlogic.gdx.graphics.Camera;
+&nbsp;import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+&nbsp;import com.badlogic.gdx.math.Path;
+&nbsp;import com.badlogic.gdx.math.Vector2;
+&nbsp;import com.badlogic.gdx.math.Vector3;
+&nbsp;import com.badlogic.gdx.physics.box2d.World;
+&nbsp;import com.mygdx.game.Chef;
+&nbsp;import com.mygdx.game.Core.GameState.GameState;
+&nbsp;import com.mygdx.game.Core.GameState.ItemState;
+&nbsp;import com.mygdx.game.Core.Interactions.Interactable;
+&nbsp;import com.mygdx.game.Core.Interactions.Interaction;
+&nbsp;import com.mygdx.game.Core.Interactions.Interaction.InteractionType;
+&nbsp;import com.mygdx.game.Items.Item;
+&nbsp;import com.mygdx.game.Items.ItemEnum;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;public class MasterChef extends Scriptable {
+&nbsp;
+<b class="fc">&nbsp;  public float maxRange = 25;</b>
+<b class="fc">&nbsp;  public int currentControlledChef = 0;</b>
+&nbsp;  private static ArrayList&lt;TextureAtlas&gt; chefAtlasArray;
+&nbsp;  World world;
+&nbsp;  private Camera camera;
+&nbsp;  List&lt;Chef&gt; chefs;
+&nbsp;
+&nbsp;  private Pathfinding pathfind;
+&nbsp;
+&nbsp;
+&nbsp;  public int returnChefCount() {
+<b class="nc">&nbsp;    return chefs.size();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Chef getChef(int i) {
+<b class="fc">&nbsp;    return chefs.get(i);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Chef getCurrentChef() {
+&nbsp;
+<b class="fc">&nbsp;    return chefs.get(currentControlledChef);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Generates a chef array which can be used to get random chef sprites from the chef class.
+&nbsp;   *
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void generateChefArray() {
+&nbsp;    String filename;
+&nbsp;    TextureAtlas chefAtlas;
+<b class="fc">&nbsp;    for (int i = 1; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;      filename = &quot;Chefs/Chef&quot; + i + &quot;/chef&quot; + i + &quot;.txt&quot;;</b>
+<b class="fc">&nbsp;      chefAtlas = new TextureAtlas(Gdx.files.internal(filename));</b>
+<b class="fc">&nbsp;      chefAtlasArray.add(chefAtlas);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the chef array that&#39;s been created
+&nbsp;   *
+&nbsp;   * @return ArrayList&lt;TextureAtlas&gt; chefAtlasArray;
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public static ArrayList&lt;TextureAtlas&gt; getChefAtlasArray() {
+<b class="nc">&nbsp;    return chefAtlasArray;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a Chef controller class, handling inputs
+&nbsp;   *
+&nbsp;   * @param count
+&nbsp;   * @param world
+&nbsp;   * @param camera
+&nbsp;   * @param pathfinding pathfinding module
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+<b class="fc">&nbsp;  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding) {</b>
+&nbsp;
+<b class="fc">&nbsp;    chefs = new LinkedList&lt;&gt;();</b>
+<b class="fc">&nbsp;    chefAtlasArray = new ArrayList&lt;TextureAtlas&gt;();</b>
+<b class="fc">&nbsp;    this.pathfind = pathfinding;</b>
+<b class="fc">&nbsp;    generateChefArray();</b>
+<b class="fc">&nbsp;    this.world = world;</b>
+&nbsp;
+<b class="fc">&nbsp;    this.camera = camera;</b>
+&nbsp;
+<b class="fc">&nbsp;    for (int i = 0; i &lt; count; i++) {</b>
+<b class="fc">&nbsp;      Vector2 pos = new Vector2(0, 0);</b>
+<b class="fc">&nbsp;      pos.x = 750 + 32 * i;</b>
+<b class="fc">&nbsp;      pos.y = 300;</b>
+<b class="fc">&nbsp;      CreateNewChef(pos, i);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  void CreateNewChef(Vector2 position, int i) {
+<b class="fc">&nbsp;    GameObject chefsGameObject = new GameObject(</b>
+&nbsp;        new BlackSprite());//passing in null since chef will define it later
+<b class="fc">&nbsp;    chefs.add(new Chef(world, i, chefAtlasArray.get(i)));</b>
+<b class="fc">&nbsp;    chefsGameObject.attachScript(chefs.get(i));</b>
+<b class="fc">&nbsp;    chefsGameObject.image.setSize(18, 40);</b>
+<b class="fc">&nbsp;    chefsGameObject.position.set(position);</b>
+&nbsp;
+<b class="fc">&nbsp;    chefs.get(i).updateSpriteFromInput(&quot;idlesouth&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void SelectChef(int i) {
+<b class="nc">&nbsp;    currentControlledChef = i;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The chef tries to put down  an item onto a nearby surface.
+&nbsp;   *
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Jack Vickers
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public void GiveItem() {
+&nbsp;
+<b class="fc">&nbsp;    if (!chefs.get(currentControlledChef).CanFetchItem()) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    Scriptable script = Interaction.FindClosetInteractable(</b>
+<b class="fc">&nbsp;        chefs.get(currentControlledChef).gameObject.position, InteractionType.Give, maxRange);</b>
+&nbsp;
+<b class="fc">&nbsp;    if (script == null) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    Optional&lt;Item&gt; itemToGive = chefs.get(currentControlledChef).FetchItem();</b>
+&nbsp;
+<b class="fc">&nbsp;    if (!itemToGive.isPresent()) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    ((Interactable) script).GiveItem(itemToGive.get());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The chef tries to pick up an item from a nearby surface.
+&nbsp;   */
+&nbsp;  public void FetchItem() {
+&nbsp;
+<b class="fc">&nbsp;    if (!chefs.get(currentControlledChef).CanGiveItem()) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    Scriptable script = Interaction.FindClosetInteractable(</b>
+<b class="fc">&nbsp;        chefs.get(currentControlledChef).gameObject.position, InteractionType.Fetch, maxRange);</b>
+&nbsp;
+<b class="fc">&nbsp;    if (script == null) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    Item itemToGive = ((Interactable) script).RetrieveItem();</b>
+&nbsp;
+<b class="fc">&nbsp;    if (itemToGive == null) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    chefs.get(currentControlledChef).GiveItem(itemToGive);</b>
+&nbsp;
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The chef attempts to interact with a nearby surface
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  public void Interact() {
+<b class="fc">&nbsp;    Scriptable script = Interaction.FindClosetInteractable(</b>
+<b class="fc">&nbsp;        chefs.get(currentControlledChef).gameObject.position, InteractionType.Interact, maxRange);</b>
+&nbsp;
+<b class="fc">&nbsp;    if (script == null) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    ((Interactable) script).Interact();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Select a chef from the number keys
+&nbsp;   */
+&nbsp;  void selectChef() {
+<b class="nc">&nbsp;    for (int i = 0; i &lt; chefs.size(); i++) {</b>
+<b class="nc">&nbsp;      if (Gdx.input.isKeyPressed(Input.Keys.NUM_1</b>
+&nbsp;          + i)) // increments to next number for each chef 1,2,3 ect (dont go above 9) {
+&nbsp;      {
+<b class="nc">&nbsp;        SelectChef(i);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      for (Chef c : chefs</b>
+&nbsp;      ) {
+<b class="nc">&nbsp;        c.stop();</b>
+<b class="nc">&nbsp;      }</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Update method for this class
+&nbsp;   *
+&nbsp;   * @param dt
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void Update(float dt) {
+<b class="nc">&nbsp;    selectChef();</b>
+&nbsp;
+<b class="nc">&nbsp;    chefs.get(currentControlledChef)</b>
+<b class="nc">&nbsp;        .updateSpriteFromInput(chefs.get(currentControlledChef).getMove());</b>
+&nbsp;
+<b class="nc">&nbsp;    if (Gdx.input.isKeyJustPressed(Inputs.GIVE_ITEM)) {</b>
+<b class="nc">&nbsp;      GiveItem();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (Gdx.input.isKeyJustPressed(Inputs.FETCH_ITEM)) {</b>
+<b class="nc">&nbsp;      FetchItem();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (Gdx.input.isKeyJustPressed(Inputs.INTERACT)) {</b>
+<b class="nc">&nbsp;      Interact();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (Gdx.input.isKeyJustPressed((Inputs.DROP_ITEM))) {</b>
+<b class="nc">&nbsp;      chefs.get(currentControlledChef).DropItem();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (Gdx.input.isButtonJustPressed(0)) {</b>
+<b class="nc">&nbsp;      Vector3 touchpos = new Vector3();</b>
+<b class="nc">&nbsp;      touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);</b>
+<b class="nc">&nbsp;      touchpos = camera.unproject(touchpos);</b>
+&nbsp;
+<b class="nc">&nbsp;      List&lt;Vector2&gt; path = pathfind.FindPath((int) getCurrentChef().gameObject.position.x,</b>
+<b class="nc">&nbsp;          (int) getCurrentChef().gameObject.position.y, (int) touchpos.x, (int) touchpos.y,</b>
+&nbsp;          DistanceTest.Euclidean);
+&nbsp;//      System.out.println(path);
+<b class="nc">&nbsp;      getCurrentChef().GivePath(path);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (Gdx.input.isKeyJustPressed(Keys.B)) {</b>
+<b class="nc">&nbsp;      getCurrentChef().MoveAlongPath();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  public void LoadState(GameState state) {
+<b class="nc">&nbsp;    for (int i = 0; i &lt; state.ChefPositions.length; i++) {</b>
+<b class="nc">&nbsp;      if (i &lt; chefs.size()) {</b>
+<b class="nc">&nbsp;        chefs.get(i).gameObject.position = state.ChefPositions[i];</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        CreateNewChef(state.ChefPositions[i], i);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    for (Chef chef : chefs</b>
+&nbsp;    ) {
+<b class="nc">&nbsp;      for (int i = 0; i &lt; Chef.CarryCapacity; i++) {</b>
+<b class="nc">&nbsp;        chef.FetchItem();</b>
+&nbsp;      }
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    GiveBackFromState(state);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void GiveBackFromState(GameState state) {
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (Chef chef : chefs</b>
+&nbsp;    ) {
+&nbsp;
+<b class="nc">&nbsp;      for (int j = 0; j &lt; Chef.CarryCapacity; j++) {</b>
+&nbsp;
+<b class="nc">&nbsp;        ItemState itemState = state.ChefHoldingStacks[i * Chef.CarryCapacity + j];</b>
+&nbsp;
+<b class="nc">&nbsp;        if (itemState == null || itemState.item == null) {</b>
+<b class="nc">&nbsp;          continue;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Item item = new Item(itemState);</b>
+<b class="nc">&nbsp;        chef.GiveItem(item);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      i++;</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void SaveState(GameState state) {
+<b class="nc">&nbsp;    state.ChefPositions = new Vector2[chefs.size()];</b>
+<b class="nc">&nbsp;    state.ChefHoldingStacks = new ItemState[chefs.size() * Chef.CarryCapacity];</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 0; i &lt; chefs.size(); i++) {</b>
+<b class="nc">&nbsp;      state.ChefPositions[i] = chefs.get(i).gameObject.position;</b>
+&nbsp;
+<b class="nc">&nbsp;      for (int j = Chef.CarryCapacity - 1; j &gt;= 0; j--) {</b>
+<b class="nc">&nbsp;        Optional&lt;Item&gt; item = chefs.get(i).FetchItem();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!item.isPresent()) {</b>
+<b class="nc">&nbsp;          state.ChefHoldingStacks[i * Chef.CarryCapacity + j] = null;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          state.ChefHoldingStacks[i * Chef.CarryCapacity + j] = new ItemState(item.get());</b>
+&nbsp;        }
+&nbsp;
+&nbsp;
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    GiveBackFromState(state);//This exists to make quick saves look nicer</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 15:28</div>
+</div>
+</body>
+</html>

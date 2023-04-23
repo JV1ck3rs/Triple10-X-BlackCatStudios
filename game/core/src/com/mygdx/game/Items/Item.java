@@ -1,6 +1,7 @@
 package com.mygdx.game.Items;
 
 import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.GameState.ItemState;
 
 public class Item {
 
@@ -16,6 +17,9 @@ public class Item {
    * Creates a new item.
    *
    * @param item The item to create.
+   * @author Felix Seanor
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   public Item(ItemEnum item) {
     name = item;
@@ -24,6 +28,17 @@ public class Item {
 
     tex.setSize(width, height);
   }
+
+  public Item(ItemState itemState){
+
+    name = itemState.item;
+    step = itemState.step;
+    progress =itemState.progress;
+    tex = new BlackTexture(GetItemPath(name));
+    tex.setSize(width, height);
+
+  }
+
 
   public static String GetItemPath(ItemEnum name) {
     return "Items/" + name.name() + ".png";
