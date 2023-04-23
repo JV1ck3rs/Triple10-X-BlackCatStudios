@@ -1,6 +1,7 @@
 package piazzapanictests.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -84,6 +85,66 @@ public class CustomerTests {
 
     cust.getCurrentWaitingCustomerGroup().CheckFrustration(1,null);
     assertNotEquals(frustration,cust.getCurrentWaitingCustomerGroup().Frustration);
+
+  }
+
+  @Test
+  public void TestCustomerTransference(){
+    InstantiateCustomerScripts();
+
+    cust.SetWaveAmount(-1);
+
+    cust.CanAcceptNewCustomer();
+
+
+    CustomerGroups group = cust.getCurrentWaitingCustomerGroup();
+    assertTrue(group.Members.size() == group.MembersInLine.size());
+
+    for (int i = 0; i < group.Members.size(); i++) {
+      assertFalse(cust.DoSatisfactionCheck());
+      group.RemoveFirstCustomer();
+
+
+    }
+
+    assertTrue(group.Members.size() == group.MembersSeatedOrWalking.size());
+    assertTrue(cust.DoSatisfactionCheck());
+
+    cust.CanAcceptNewCustomer();
+
+    assertNotEquals(cust.SittingCustomerCount(), 0);
+
+
+    cust.SeeIfCustomersShouldLeave(20);
+
+    assertEquals(cust.SittingCustomerCount(), 0);
+
+    assertNotEquals(cust.LeavingCustomerCount(),0);
+
+
+
+  }
+
+  @Test
+  public void TestHeldItems() {
+    InstantiateCustomerScripts();
+    cust.CanAcceptNewCustomer();
+
+    cust.SetWaveAmount(-1);
+
+    cust.CanAcceptNewCustomer();
+
+    CustomerGroups group = cust.getCurrentWaitingCustomerGroup();
+
+    assertNotNull(group.Members.get(0).returnHeldItem());
+
+    assertTrue(group.Members.get(0).returnHeldItem().position.x  == 0);
+    assertTrue(group.Members.get(0).returnHeldItem().position.y  == 0);
+
+    group.Members.get(0).displayItem();
+
+    assertTrue(group.Members.get(0).returnHeldItem().position.x >0);
+    assertTrue(group.Members.get(0).returnHeldItem().position.y >0);
 
   }
   @Test

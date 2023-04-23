@@ -207,7 +207,8 @@ World world;
   /**
    * The chef attempts to interact with a nearby surface
    *
-   * @author Jack Hinton, Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   public void Interact() {
     Scriptable script = Interaction.FindClosetInteractable(
@@ -245,7 +246,9 @@ World world;
    * Update method for this class
    *
    * @param dt
-   * @author Felix Seanor, Jack Hinton, Jack Vickers
+   * @author Felix Seanor
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   @Override
   public void Update(float dt) {

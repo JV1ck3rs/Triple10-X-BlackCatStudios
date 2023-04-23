@@ -176,6 +176,7 @@ public class CustomerController extends Scriptable
 
   }
 
+  public int SittingCustomerCount(){return SittingCustomers.size();}
   public OrderMenu getMenu(){
     return menu;
   }
@@ -557,7 +558,7 @@ public class CustomerController extends Scriptable
    * @return True if so, otherwise false
    * @author Felix Seanor
    */
-  boolean DoSatisfactionCheck(){
+  public boolean DoSatisfactionCheck(){
     return currentWaiting != null && currentWaiting.MembersInLine.size()==0 ;
   }
 
@@ -685,4 +686,7 @@ public class CustomerController extends Scriptable
 
   }
 
+  public int LeavingCustomerCount() {
+    return WalkingBackCustomers.size();
+  }
 }

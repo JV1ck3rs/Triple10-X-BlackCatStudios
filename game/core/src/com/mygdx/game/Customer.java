@@ -84,9 +84,6 @@ public class Customer extends PathfindingAgent implements Person {
     gameObject.getSprite().setSprite(customerAtlas.createSprite("north1"));
     gameObject.getSprite().layer = 2;
     gameObject.image.setSize(25,45);
-  //  gameObject.position.x = 148;
-  //  gameObject.position.y = 66;
-
   }
 
   /**
@@ -181,6 +178,10 @@ public class Customer extends PathfindingAgent implements Person {
       return newOrientation;
   }
 
+
+  public GameObject returnHeldItem(){
+    return HeldItem;
+  }
 
   /**
    * Returns the x of the customer.
