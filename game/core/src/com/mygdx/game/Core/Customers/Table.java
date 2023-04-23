@@ -76,6 +76,7 @@ public class Table
    */
   public boolean isFree(){
     return seats.size()==0;
+//    return currentlySeated == 0;
   }
 
 

@@ -8,7 +8,9 @@ import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.soundFrame;
 import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
@@ -80,7 +82,7 @@ public class HobStation extends Station {
 
   public void checkItem() {
     if (ItemWhiteList.contains(item.name)) {
-      currentRecipe = recipes.RecipeMap.get(item.name);
+      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
     } else {
       currentRecipe = null;
     }
@@ -117,7 +119,6 @@ public class HobStation extends Station {
         checkItem();
       } else {
         soundFrame.SoundEngine.playSound(soundsEnum.StepAchieved);
-
       }
       return;
     }
@@ -164,10 +165,8 @@ public class HobStation extends Station {
     if (currentRecipe != null) {
       Cook(dt);
     }
-
     FryingSFX.DoSoundCheck();
     BurnersSFX.DoSoundCheck();
-
     interacted = false;
   }
 }

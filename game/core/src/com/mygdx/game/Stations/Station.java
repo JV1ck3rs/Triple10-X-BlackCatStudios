@@ -47,7 +47,9 @@ public abstract class Station extends Scriptable implements Interactable {
 
   public void init() {
     bubble = new GameObject(new BlackTexture("Timer/01.png"));
-    bubble.setPosition(gameObject.position.x + (gameObject.getWidth()/2) - (bubble.getWidth()/2), gameObject.position.y + (gameObject.getHeight()) + 2);
+    bubble.setPosition(
+        gameObject.position.x + (gameObject.getWidth() / 2) - (bubble.getWidth() / 2),
+        gameObject.position.y + (gameObject.getHeight()) + 2);
     bubble.isVisible = false;
   }
 
@@ -87,28 +89,30 @@ public abstract class Station extends Scriptable implements Interactable {
   }
 
 
-  public void changeItem(Item item){
+  public void changeItem(Item item) {
     this.item = item;
     updatePictures();
   }
 
-  public void deleteItem(){
+  public void deleteItem() {
     item = null;
     updatePictures();
   }
 
-  public void LoadState(List<ItemState> state){
-    if(state.get(0) == null || state.get(0).item == null)
+  public void LoadState(List<ItemState> state) {
+    if (state.get(0) == null || state.get(0).item == null) {
       return;
+    }
 
     item = new Item(state.get(0));
   }
-  public List<ItemState> SaveState(){
+
+  public List<ItemState> SaveState() {
 
     LinkedList<ItemState> states = new LinkedList<>();
 
     states.add(new ItemState(item));
-    return states ;
+    return states;
   }
 
 
