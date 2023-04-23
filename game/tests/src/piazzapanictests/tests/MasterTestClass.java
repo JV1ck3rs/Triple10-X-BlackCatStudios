@@ -1,9 +1,5 @@
 package piazzapanictests.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -204,6 +200,7 @@ class MasterTestClass {
    * Creates the world and hobs station. Also creates the recipe dictionary.
    *
    * @author Azzam Amirul Bahri
+   * @author Hubert Solecki
    */
   void instantiateWorldAndHobsStation() {
     world = new World(new Vector2(0, 0), true);
@@ -216,6 +213,8 @@ class MasterTestClass {
         .get(0); // gets frying object
     Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets frying rectangle
     GameObject Fry = new GameObject(null); // creates frying game object
+    Fry.setPosition(0,
+            0); // sets frying position (this must be done to avoid null pointer exception)
     Fry.setPosition(0,0); // sets frying position (this must be done to avoid null pointer exception)
     Fry.setWidthAndHeight(rect.getWidth(),
         rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
@@ -244,6 +243,8 @@ class MasterTestClass {
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
   }
+
+
 
 
 }

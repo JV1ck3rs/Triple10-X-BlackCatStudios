@@ -439,4 +439,37 @@ public class ChefTests extends MasterTestClass {
         inventorySize - 1, chef[0].getInventoryCount());
   }
 
+  /**
+   * Tests that the chef can interact with the hob station to flip the items being cooked.
+   *
+   * @author Hubert Solecki
+   * @date 18/04/2023
+   */
+
+  @Test
+  public void testItemInteractionHobStation() {
+    if (GameObjectManager.objManager == null) {
+      // creates object manager for use making sure it is not null
+      new GameObjectManager();
+    }
+    instantiateMasterChef();
+    instantiateWorldAndHobsStation();
+    masterChef.getChef(0).gameObject.position = new Vector2(1, 0); // sets chef position to that of next to the hob for interaction
+    masterChef.getChef(0).GiveItem(new Item(ItemEnum.RawPatty)); // gives a raw patty to the chef to give to the hob
+    masterChef.GiveItem(); // gives currently held item to hob
+    hobStation.Cook(10);
+    masterChef.Interact();
+    hobStation.Cook(5);
+    hobStation.Cook(10);
+    masterChef.FetchItem();
+    assertEquals("The item in the chef's inventory should be a cooked patty", masterChef.getChef(0).getInventory().peek(), new Item(ItemEnum.CookedPatty));
+    masterChef.getChef(0).ClearInventory();
+    masterChef.getChef(0).GiveItem(new Item(ItemEnum.RawPatty));
+    masterChef.GiveItem();
+    hobStation.Update(10);
+    hobStation.Update(15);
+    masterChef.FetchItem();
+    assertEquals("The item on top of the chef's inventory stack should be cinder", masterChef.getChef(0).getInventory().peek(), new Item(ItemEnum.Cinder));
+
+  }
 }

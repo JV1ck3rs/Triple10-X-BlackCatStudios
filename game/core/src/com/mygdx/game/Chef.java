@@ -504,6 +504,16 @@ public class Chef extends PathfindingAgent implements Person {
   }
 
   /**
+   * Clears the inventory of the chef.
+   *
+   * @author Hubert Solecki
+   * @date 21/04/2023
+   */
+  public void ClearInventory() {
+    heldItems.clear();
+  }
+
+  /**
    * Draws the timer onto the screen and runs the animation for the set time Then unfreezes the chef
    * after timer is finished.
    *
