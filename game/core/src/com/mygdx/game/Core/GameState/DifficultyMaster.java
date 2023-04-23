@@ -15,7 +15,7 @@ public class DifficultyMaster {
    * @return
    * @author Felix Seanor
    */
-  public static DifficultyState getDifficulty(Difficaulty difficaulty){
+  public static DifficultyState getDifficulty(Difficulty difficaulty){
       switch (difficaulty)
       {
         case Relaxing:

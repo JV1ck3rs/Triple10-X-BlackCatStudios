@@ -323,7 +323,7 @@ public class CustomerController extends Scriptable
       currentWaiting.showIcons();
       currentWaiting.removeIcons();
       currentWaiting.checkClicks();
-      currentWaiting.updateSpriteFromInput()
+      currentWaiting.updateSpriteFromInput();
     }
 
     UpdateCustomerMovements(SittingCustomers);
