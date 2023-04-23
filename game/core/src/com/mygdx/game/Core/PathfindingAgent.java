@@ -18,6 +18,10 @@ public class PathfindingAgent extends Scriptable {
     path = newPath;
   }
 
+  public List<Vector2> getPath() {
+    return path;
+  }
+
   protected PathfindingAgent() {
     path = new LinkedList<>();
   }
@@ -47,8 +51,8 @@ public class PathfindingAgent extends Scriptable {
 
   /**
    * Get the current movement direction
-   * @return Movement direction
    *
+   * @return Movement direction
    * @author Felix Seanor
    * @author Jack Vickers
    */
@@ -65,6 +69,7 @@ public class PathfindingAgent extends Scriptable {
 
   /**
    * Moves the chef to the next location
+   *
    * @param dt
    * @author Felix Seanor
    * @author Jack Vickers

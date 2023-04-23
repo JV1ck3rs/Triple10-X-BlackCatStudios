@@ -101,21 +101,18 @@ public class CustomerController extends Scriptable {
     BlackTexture Black = new BlackTexture("Black.png");
     BlackTexture FrustBack = new BlackTexture("FrustrationBackground.png");
 
-
-    FrustrationTimerBackground= new GameObject(FrustBack);
-    FrustrationTimerBackground.position.set(298,8);
+    FrustrationTimerBackground = new GameObject(FrustBack);
+    FrustrationTimerBackground.position.set(298, 8);
     FrustBack.layer = -1;
-    FrustBack.setSize(TimerWidth + 4,TimerHeight + 4);
+    FrustBack.setSize(TimerWidth + 4, TimerHeight + 4);
 
     FrustrationTimer = new GameObject(Black);
 
-    FrustrationTimer.position.set(300,10);
+    FrustrationTimer.position.set(300, 10);
 
-
-
-
-    if(Waves != -1)
-     Reputation = Math.min(Reputation,Waves);
+    if (Waves != -1) {
+      Reputation = Math.min(Reputation, Waves);
+    }
     generateCustomerArray();
 
     int ID = 0;
@@ -293,7 +290,7 @@ public class CustomerController extends Scriptable {
   @Override
   public void Update(float dt) {
     super.Update(dt);
-    if(currentWaiting!=null){
+    if (currentWaiting != null) {
       currentWaiting.showIcons();
       currentWaiting.removeIcons();
       currentWaiting.checkClicks();
@@ -333,12 +330,19 @@ public class CustomerController extends Scriptable {
   }
 
 
-  public void ChangeFrustrationTimer()
-  {
-    ((BlackTexture)FrustrationTimer.image).setSize((int)((currentWaiting.Frustration/CustomerFrustrationStart)*TimerWidth),TimerHeight);
+  public void ChangeFrustrationTimer() {
+
+    float TT  = 0;
+
+    if (currentWaiting != null) {
+      TT = currentWaiting.Frustration;
+    }
+    ((BlackTexture) FrustrationTimer.image).setSize(
+        (int) (( TT / CustomerFrustrationStart) * TimerWidth), TimerHeight);
 
 
   }
+
   /**
    * Change frustration of the currently waiting customer group
    *
@@ -348,7 +352,6 @@ public class CustomerController extends Scriptable {
   private void FrustrationCheck(float dt) {
     if (currentWaiting == null) {
       return;
-      currentWaiting.CheckFrustration(dt,FrustrationCallBack, updateFrustration);
     }
     currentWaiting.CheckFrustration(dt, FrustrationCallBack);
   }

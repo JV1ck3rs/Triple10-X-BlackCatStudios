@@ -44,6 +44,7 @@ public class HobStation extends Station {
 
   /**
    * Retrieves the interacted attribute which is private for testing.
+   *
    * @return boolean
    */
   public boolean GetInteracted() {
@@ -109,29 +110,30 @@ public class HobStation extends Station {
   }
 
 
-    public void Cook(float dt){
-        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt-stationTimeDecrease, interacted, maxProgress);
-        BurnersSFX.ShouldPlay = true;
-        FryingSFX.ShouldPlay = !ready;
-        if(ready && item.progress == 0){
-            item.step++;
-            System.out.println("PRESS SPACE TO FLIP BURGER");
-            if(item.step == currentRecipe.RecipeSteps.size()){
-                changeItem(new Item(currentRecipe.endItem));
-                soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
-                checkItem();
-            } else {
-                soundFrame.SoundEngine.playSound(soundsEnum.StepAchieved);
-            }
-            return;
-        }
-        if(ready) {
-            burnItem();
-            checkItem();
-            return;
-        }
-        progressBar();
+  public void Cook(float dt) {
+    ready = currentRecipe.RecipeSteps.get(item.step)
+        .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
+    BurnersSFX.ShouldPlay = true;
+    FryingSFX.ShouldPlay = !ready;
+    if (ready && item.progress == 0) {
+      item.step++;
+      System.out.println("PRESS SPACE TO FLIP BURGER");
+      if (item.step == currentRecipe.RecipeSteps.size()) {
+        changeItem(new Item(currentRecipe.endItem));
+        soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
+        checkItem();
+      } else {
+        soundFrame.SoundEngine.playSound(soundsEnum.StepAchieved);
+      }
+      return;
     }
+    if (ready) {
+      burnItem();
+      checkItem();
+      return;
+    }
+    progressBar();
+  }
 
   public void progressBar() {
     bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
