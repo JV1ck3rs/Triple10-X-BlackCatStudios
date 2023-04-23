@@ -1,23 +1,25 @@
-!PRESS SPACE TO FLIP BURGER
-!PRESS SPACE TO FLIP BURGER
-!PRESS SPACE TO FLIP BURGER
-!PRESS SPACE TO FLIP BURGER
-32customer 0: MeatBake
-35customer 0: CheeseBurger
-36customer 0: CheeseBake
-36 customer 1: LettuceTomatoSalad
-36customer 2: Burger
-36customer 3: BakedPotato
-36customer 4: BakedPotato
-39 customer 0: LettuceTomatoSalad
-39customer 1: LettuceOnionSalad
-39customer 2: CheeseBake
-39 customer 3: LettuceTomatoSalad
-39customer 4: MeatBake
-=DPRESS SPACE TO FLIP BURGER
-=DPRESS SPACE TO FLIP BURGER
-=DPRESS SPACE TO FLIP BURGER
-=EPRESS SPACE TO FLIP BURGER
-=EPRESS SPACE TO FLIP BURGER
-=EPRESS SPACE TO FLIP BURGER
-=EPRESS SPACE TO FLIP BURGER
+"PRESS SPACE TO FLIP BURGER
+"PRESS SPACE TO FLIP BURGER
+"PRESS SPACE TO FLIP BURGER
+"PRESS SPACE TO FLIP BURGER
+43customer 0: LettuceOnionSalad
+46customer 0: MeatBake
+47%customer 0: TomatoOnionLettuceSalad
+47customer 1: MeatBake
+47customer 2: Burger
+47customer 3: CheeseBurger
+47customer 4: CheeseBurger
+4:customer 0: CheeseBake
+4:customer 1: Burger
+4:customer 2: LettuceOnionSalad
+4:customer 3: CheeseBurger
+4:customer 4: LettuceOnionSalad
+>?PRESS SPACE TO FLIP BURGER
+>?PRESS SPACE TO FLIP BURGER
+>?PRESS SPACE TO FLIP BURGER
+>DPRESS SPACE TO FLIP BURGER
+>DPRESS SPACE TO FLIP BURGER
+>DPRESS SPACE TO FLIP BURGER
+>DPRESS SPACE TO FLIP BURGER
+PR$com.mygdx.game.Items.Item@2fe3770b
+PR$com.mygdx.game.Items.Item@2bdcf62f
