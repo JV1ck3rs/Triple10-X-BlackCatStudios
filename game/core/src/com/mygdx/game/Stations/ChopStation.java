@@ -30,7 +30,6 @@ public class ChopStation extends Station {
 
   @Override
   public boolean GiveItem(Item item) {
-    bubble.isVisible = true;
     changeItem(item);
     checkItem();
     return true;
@@ -65,10 +64,14 @@ public class ChopStation extends Station {
   }
 
     public void checkItem(){
-        if(ItemWhiteList.contains(item.name))
+        if(ItemWhiteList.contains(item.name)) {
             currentRecipe = recipes.RecipeMap.get(item.name);
-        else
+            bubble.isVisible = true;
+        }
+        else {
             currentRecipe = null;
+            bubble.isVisible = false;
+        }
     }
 
 
@@ -118,6 +121,13 @@ public class ChopStation extends Station {
             heldItem.image.setSize(imageSize, imageSize);
         }
     }
+
+
+    @Override
+    public void moveAnim(){
+        return;
+    }
+
 
   @Override
   public void Update(float dt) {

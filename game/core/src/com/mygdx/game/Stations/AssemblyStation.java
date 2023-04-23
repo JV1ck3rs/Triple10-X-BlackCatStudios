@@ -159,8 +159,8 @@ public class AssemblyStation extends Station {
   @Override
   public void updatePictures() {
     if(ingredients.isEmpty()) {
-      for(int x = 0; x < heldItems.size(); x++){
-        heldItems.get(x).Destroy();
+      for (GameObject object : heldItems) {
+        object.Destroy();
       }
       heldItems = new ArrayList<>();
     }
@@ -185,6 +185,12 @@ public class AssemblyStation extends Station {
       heldItem.setPosition(gameObject.position.x + gameObject.getWidth() - ingredientSize - 2, gameObject.position.y + gameObject.getHeight() - (2 * ingredientSize) - 4);
     heldItems.add(heldItem);
 
+  }
+
+
+  @Override
+  public void moveAnim(){
+    return;
   }
 
 

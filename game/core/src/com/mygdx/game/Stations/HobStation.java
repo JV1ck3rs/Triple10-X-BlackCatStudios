@@ -31,7 +31,6 @@ public class HobStation extends Station{
     public boolean GiveItem(Item item){
         changeItem(item);
         checkItem();
-        bubble.isVisible = true;
         return true;
     }
 
@@ -42,6 +41,7 @@ public class HobStation extends Station{
         deleteItem();
         currentRecipe = null;
         bubble.isVisible = false;
+        bubble2.isVisible = false;
         return returnItem;
     }
 
@@ -59,10 +59,17 @@ public class HobStation extends Station{
 
 
     public void checkItem(){
-        if(ItemWhiteList.contains(item.name))
+        if(ItemWhiteList.contains(item.name)) {
             currentRecipe = recipes.RecipeMap.get(item.name);
-        else
+            bubble.isVisible = true;
+            if(item.step == 1||currentRecipe.RecipeSteps.size() == 1)
+                bubble2.isVisible = true;
+        }
+        else {
             currentRecipe = null;
+            bubble.isVisible = false;
+            bubble2.isVisible = false;
+        }
     }
 
 
@@ -87,14 +94,23 @@ public class HobStation extends Station{
 
         if(ready && item.progress == 0){
             item.step++;
+            if(item.step == 1)
+                bubble2.isVisible = true;
+            else
+                bubble2.isVisible = false;
+
             if(item.step == currentRecipe.RecipeSteps.size()){
                 changeItem(new Item(currentRecipe.endItem));
+                bubble2.isVisible = true;
                 checkItem();
             }
             return;
         }
-        if(ready)
+        if(ready) {
             burnItem();
+            checkItem();
+            return;
+        }
         progressBar();
     }
 
@@ -107,7 +123,9 @@ public class HobStation extends Station{
         progress = item.progress / maxProgress;
         return (int) (progress/0.125) + 1;
     }
-    
+
+
+    @Override
     public void updatePictures(){
         if(item == null) {
             if(heldItem == null)
@@ -126,6 +144,12 @@ public class HobStation extends Station{
             heldItem.image.setSize(imageSize, imageSize);
         }
 
+    }
+
+
+    @Override
+    public void moveAnim(){
+        return;
     }
 
 

@@ -85,6 +85,13 @@ public class CustomerCounters extends Station {
         }
     }
 
+
+    @Override
+    public void moveAnim(){
+      return;
+    }
+
+
     @Override
     public void Update(float dt) {
     }

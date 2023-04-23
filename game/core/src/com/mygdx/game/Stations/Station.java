@@ -26,7 +26,8 @@ public abstract class Station extends Scriptable implements Interactable {
   public Recipe currentRecipe;
   GameObject heldItem;
   public int imageSize = 18;
-  GameObject bubble;
+  GameObject bubble, bubble2;
+  GameObject animation;
 
   public Station() {
     item = null;
@@ -40,6 +41,11 @@ public abstract class Station extends Scriptable implements Interactable {
     bubble = new GameObject(new BlackTexture("Timer/01.png"));
     bubble.setPosition(gameObject.position.x + (gameObject.getWidth()/2) - (bubble.getWidth()/2), gameObject.position.y + (gameObject.getHeight()) + 2);
     bubble.isVisible = false;
+    bubble2 = new GameObject(new BlackTexture("Timer/Warning.png"));
+    bubble2.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight());
+    bubble2.isVisible = false;
+    if(animation != null)
+      moveAnim();
   }
 
   /**
@@ -58,6 +64,8 @@ public abstract class Station extends Scriptable implements Interactable {
   public abstract Item RetrieveItem();
 
   public abstract void updatePictures();
+
+  public abstract void moveAnim();
 
   /**
    * Sets the station to a "locked" state
