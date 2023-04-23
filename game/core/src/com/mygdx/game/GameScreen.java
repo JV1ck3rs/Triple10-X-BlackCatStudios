@@ -3,6 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -24,6 +26,10 @@ import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,6 +90,8 @@ public class GameScreen implements Screen {
 
   public CustomerController customerController;
 
+  public Powerup powerup;
+
 
 
 
@@ -113,7 +121,7 @@ public class GameScreen implements Screen {
   public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
 
-  public showRecipeInstructions recipeScreen = new showRecipeInstructions();
+  public showRecipeInstructions recipeScreen;
 
   Stage pauseStage; // stage for the pause menu
   Stage gameUIStage; // stage for the game UI
@@ -139,7 +147,11 @@ public class GameScreen implements Screen {
       Difficulty difficultyLevel) {
     this.game = game;
     camera = new OrthographicCamera();
-    recipeScreen.showRecipeInstruction();
+    recipeScreen = new showRecipeInstructions();
+    //recipeScreen.showRecipeInstruction();
+    CameraFunctions camera1 = CameraFunctions.camera;
+    camera1.updateCamera(camera);
+    powerup = new Powerup(masterChef, customerController);
 
     camera.setToOrtho(false, viewportWidth, viewportHeight);
     camera.update();
@@ -641,6 +653,14 @@ public class GameScreen implements Screen {
     } else {
       pauseStage.draw();
     }
+    // THIS IS SAM'S CODE:
+//    LeaderBoard x = new LeaderBoard();
+//    x.createJSONFile();
+//    try {
+//      x.readJSONData();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
 
     game.batch.end();
 
@@ -760,7 +780,6 @@ public class GameScreen implements Screen {
   public void SaveState(GameState state) {
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
     state.difficulty = difficulty;
-    state.Timer = timer;
 
     state.Timer = timer;
     state.seconds = seconds;

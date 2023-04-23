@@ -43,6 +43,7 @@ public class Customer extends PathfindingAgent implements Person {
   public ItemEnum dish;
 
   public GameObject foodIcon;
+  public GameObject foodRecipe;
   Random rand = new Random();
 
   /**
@@ -67,20 +68,26 @@ public class Customer extends PathfindingAgent implements Person {
     this.waitHeight = 340 - customerNumber * 32;
     this.customerAtlas = texture;
 
-
     System.out.println("customer " + customerNumber + ": " + dish);
+    foodIcon = new GameObject(new BlackTexture(Item.GetItemPath(this.dish)));
 
     BlackTexture iconTex = new BlackTexture(Item.GetItemPath(this.dish));
-    iconTex.setSize(20,20);
+    iconTex.setSize(20, 20);
     foodIcon = new GameObject(iconTex);
 
     BlackTexture tex = new BlackTexture(Item.GetItemPath(dish));
-    tex.setSize(20,20);
+    tex.setSize(20, 20);
     HeldItem = new GameObject(tex);
     HeldItem.isVisible = false;
 
-
     foodIcon.isVisible = false;
+    try {
+      foodRecipe = new GameObject(new BlackTexture(Item.GetRecipePath(this.dish)));
+    } catch (Exception e) {
+      foodRecipe = new GameObject(new BlackTexture(Item.GetItemPath(this.dish)));
+    }
+
+    foodRecipe.isVisible = false;
   }
 
   @Override
@@ -88,8 +95,6 @@ public class Customer extends PathfindingAgent implements Person {
     gameObject.getSprite().setSprite(customerAtlas.createSprite("north1"));
     gameObject.getSprite().layer = 2;
     gameObject.image.setSize(25,45);
-  //  gameObject.position.x = 148;
-  //  gameObject.position.y = 66;
 
   }
 
@@ -119,21 +124,6 @@ public class Customer extends PathfindingAgent implements Person {
     }
     setTexture(spriteState);
     spriteOrientation = newOrientation;
-
-//    switch (spriteOrientation) {
-//      case "north":
-//        gameObject.position.y += 2;
-//        break;
-//      case "south":
-//        gameObject.position.y -= 2;
-//        break;
-//      case "east":
-//        gameObject.position.x += 2;
-//        break;
-//      case "west":
-//        gameObject.position.x -= 2;
-//        break;
-//    }
   }
 
   /**
@@ -146,7 +136,6 @@ public class Customer extends PathfindingAgent implements Person {
       texture = texture.replace("idle", "");
       texture += "1";
     }
-//    System.out.println(texture);
     gameObject.getSprite().sprite.setRegion(customerAtlas.findRegion(texture));
   }
 
@@ -159,9 +148,8 @@ public class Customer extends PathfindingAgent implements Person {
   public String getMove() {
     Vector2 dir = GetMoveDir().nor();
     String newOrientation;
-//    System.out.println(dir);
-    if(dir.dot(dir)<=0)
-      newOrientation = "idle" + spriteOrientation.replace("idle","");
+    if (dir.dot(dir) <= 0)
+      newOrientation = "idle" + spriteOrientation.replace("idle", "");
     else {
       if (Math.abs(dir.dot(new Vector2(1, 0))) < Math.abs(dir.dot(new Vector2(0, 1)))) {
         //North prefered
@@ -179,7 +167,7 @@ public class Customer extends PathfindingAgent implements Person {
           newOrientation = "west";
       }
     }
-      return newOrientation;
+    return newOrientation;
   }
 
 
@@ -238,7 +226,6 @@ public class Customer extends PathfindingAgent implements Person {
     */
     int randomIndex = (int) (Math.random() * customerAtlasArray.size());
     TextureAtlas atlas = customerAtlasArray.get(randomIndex);
-//    customerAtlasArray.remove(randomIndex);
     return atlas;
   }
 

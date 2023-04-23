@@ -55,22 +55,18 @@ public class CustomerController extends Scriptable {
   private GameObject FrustrationTimerBackground;
 
   Random rand = new Random(System.currentTimeMillis());
-
   private Vector2 groupSize = new Vector2(1, 4);
   float NextToLeave = EatingTime;
-
   int MaxCustomers;
   int CustomersRemaining;
   ArrayList<Integer> customersPerWave;
-
   Consumer<CustomerGroups> FrustrationCallBack;
-
   Vector2 DoorTarget;
   Vector2 OrderAreaTarget;
-
-
   private ArrayList<TextureAtlas> CustomerAtlas = new ArrayList<>();
   private int CustomerFrustrationStart = 80;
+
+  boolean updateFrustration = true;
 
   /**
    * Creates the customer controller
@@ -263,10 +259,8 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   public void ModifyReputation(int DR) {
-
     Reputation += DR;
     Reputation = Math.min(Reputation, MaxReputation);
-
     if (Reputation <= 0) {
       EndGame();
     }
@@ -296,10 +290,14 @@ public class CustomerController extends Scriptable {
 
   }
 
-
   @Override
   public void Update(float dt) {
     super.Update(dt);
+    if(currentWaiting!=null){
+      currentWaiting.showIcons();
+      currentWaiting.removeIcons();
+      currentWaiting.checkClicks();
+    }
 
     if (currentWaiting != null) {
       currentWaiting.updateSpriteFromInput();
@@ -325,8 +323,7 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   public Table GetTable() {
-    for (Table option : tables
-    ) {
+    for (Table option : tables) {
       if (option.isFree()) {
         return option;
       }
@@ -351,6 +348,7 @@ public class CustomerController extends Scriptable {
   private void FrustrationCheck(float dt) {
     if (currentWaiting == null) {
       return;
+      currentWaiting.CheckFrustration(dt,FrustrationCallBack, updateFrustration);
     }
     currentWaiting.CheckFrustration(dt, FrustrationCallBack);
   }
@@ -414,8 +412,7 @@ public class CustomerController extends Scriptable {
       r++;
 
     }
-    for (Integer i : removals
-    ) {
+    for (Integer i : removals) {
       WalkingBackCustomers.remove(i);
     }
   }
@@ -502,11 +499,8 @@ public class CustomerController extends Scriptable {
         CreateNewCustomer();
       } else {
         EndGame();
-
       }
     }
-
-
   }
 
   /**
@@ -559,15 +553,17 @@ public class CustomerController extends Scriptable {
   void RemoveCustomerTest() {
     if (Gdx.input.isKeyJustPressed(
         Keys.S) && currentWaiting != null) {
-
       Customer customer = currentWaiting.RemoveFirstCustomer();
       SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
       ChangeMoney(MoneyPerCustomer);
-
       SetWaitingForOrderTarget();
     }
-
   }
+
+  void superFoodUpgrade() {
+    RemoveCustomerTest();
+  }
+
 
   /**
    * End the game sequence. Call upper end game sequence.

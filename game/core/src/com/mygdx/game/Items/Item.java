@@ -55,4 +55,9 @@ public class Item {
   public boolean equals(Object obj) {
     return obj instanceof Item && ((Item) obj).name == name;
   }
+
+  public static String GetRecipePath(ItemEnum name){
+    return "Recipe/"+name.name()+"Recipe.png";
+
+  }
 }

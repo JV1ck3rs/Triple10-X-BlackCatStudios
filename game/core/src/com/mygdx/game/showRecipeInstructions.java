@@ -13,16 +13,12 @@ public class showRecipeInstructions {
     HashMap<String, String> recipeMap = new HashMap<>();
     public GameObject imageObject;
 
-    public void showRecipeInstruction(){
+    public showRecipeInstructions(){
         recipeMap.put("Empty", "Recipes/EmptyRecipe.png");
         recipeMap.put("salad", "speech_dish1.png");
         recipeMap.put("burger", "Recipes/BurgerRecipe.png");
     }
-    public void createInstructionPage(String dish){
-        imageObject = new GameObject(new BlackTexture(recipeMap.get(dish)));
-        imageObject.position = new Vector2((32*32/2)-(imageObject.getBlackTexture().width/2),0);
-        imageObject.isVisible = false;
-    }
+  
 
     public void changeInstructionPage(String dish){
         Texture tex = TextureDictionary.textures.Get(recipeMap.get(dish));
@@ -39,5 +35,8 @@ public class showRecipeInstructions {
 
     public void removeInstructionPage(){
         imageObject = null;
+    }
+
+    public void createInstructionPage(String empty) {
     }
 }

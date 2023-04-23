@@ -12,23 +12,23 @@ public class OrderMenu
   List<OrderType> OrderCatagories = new LinkedList<>();
   Random rand;
   int minStock;
+  OrderType burgers;
+  OrderType salads;
+  OrderType potato;
+  OrderType pizza;
 
   public OrderMenu(int defaultStock, int rareStock, int minStock,List<ItemEnum> OrderTypePerishables){
     rand = new Random();
     this.minStock = minStock;
 
-    OrderType burgers = new OrderType(defaultStock, minStock, ItemEnum.Burger,ItemEnum.CheeseBurger);
-    OrderType salads =  new OrderType(defaultStock, minStock, ItemEnum.LettuceOnionSalad,ItemEnum.LettuceTomatoSalad,ItemEnum.TomatoOnionLettuceSalad);
-    OrderType potato =  new OrderType(rareStock,    minStock, ItemEnum.BakedPotato, ItemEnum.MeatBake, ItemEnum.CheeseBake);
-    OrderType pizza =   new OrderType(rareStock,    minStock, ItemEnum.CheesePizzaCooked, ItemEnum.MeatPizzaCooked, ItemEnum.VegPizzaCooked);
+    burgers = new OrderType(defaultStock, minStock, ItemEnum.Burger,ItemEnum.CheeseBurger);
+    salads =  new OrderType(defaultStock, minStock, ItemEnum.LettuceOnionSalad,ItemEnum.LettuceTomatoSalad,ItemEnum.TomatoOnionLettuceSalad);
+    potato =  new OrderType(rareStock,    minStock, ItemEnum.BakedPotato, ItemEnum.MeatBake, ItemEnum.CheeseBake);
+    pizza =   new OrderType(rareStock,    minStock, ItemEnum.CheesePizzaCooked, ItemEnum.MeatPizzaCooked, ItemEnum.VegPizzaCooked);
 
-    if(OrderTypePerishables.contains(ItemEnum.Burger))
-      OrderCatagories.add(burgers);
-    if(OrderTypePerishables.contains(ItemEnum.TomatoOnionLettuceSalad))
-      OrderCatagories.add(salads);
-    if(OrderTypePerishables.contains(ItemEnum.BakedPotato))
-      OrderCatagories.add(potato);
-    if(OrderTypePerishables.contains(ItemEnum.CheesePizza))
+    OrderCatagories.add(burgers);
+    OrderCatagories.add(salads);
+    OrderCatagories.add(potato);
     OrderCatagories.add(pizza);
   }
 
@@ -84,6 +84,15 @@ public class OrderMenu
     ) {
       type.Restock();
     }
+  }
+
+  public LinkedList<OrderType> getAllOrderTypes(){
+    LinkedList<OrderType> orderTypes = new LinkedList<>();
+    orderTypes.add(burgers);
+    orderTypes.add(salads);
+    orderTypes.add(potato);
+    orderTypes.add(pizza);
+    return orderTypes;
   }
 
 }

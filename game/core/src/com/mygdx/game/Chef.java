@@ -537,4 +537,8 @@ public class Chef extends PathfindingAgent implements Person {
       unfreeze();
     }
   }
+
+  public void changeSpeed(){
+    speed = ((250000/speed*speed)+1)*speed;
+  }
 }
