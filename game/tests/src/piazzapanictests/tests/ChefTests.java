@@ -462,7 +462,7 @@ public class ChefTests extends MasterTestClass {
     hobStation.Cook(5);
     hobStation.Cook(10);
     masterChef.FetchItem();
-    assertEquals("The item in the chef's inventory should be a cooked patty", masterChef.getChef(0).getInventory().peek(), new Item(ItemEnum.CookedPatty));
+    assertEquals("The item in the chef's inventory should be a cooked patty", new Item(ItemEnum.CookedPatty), masterChef.getChef(0).getInventory().peek());
     masterChef.getChef(0).ClearInventory();
     masterChef.getChef(0).GiveItem(new Item(ItemEnum.RawPatty));
     masterChef.GiveItem();
@@ -470,6 +470,30 @@ public class ChefTests extends MasterTestClass {
     hobStation.Update(15);
     masterChef.FetchItem();
     assertEquals("The item on top of the chef's inventory stack should be cinder", masterChef.getChef(0).getInventory().peek(), new Item(ItemEnum.Cinder));
+    GameObjectManager.objManager.DestroyGameObject(Fry);
+  }
 
+  /**
+   * Tests that the chef can interact with the toaster station through to a completely toasted item.
+   *
+   * @author Hubert Solecki
+   * @date 23/04/2023
+   */
+
+  @Test
+  public void testItemInteractionToasterStation() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a game object manager making sure it is not null when needed
+    }
+    instantiateMasterChef();
+    instantiateWorldAndToasterStation();
+    masterChef.getChef(0).gameObject.position = new Vector2(1, 0); // sets chef position to that of next to the toaster for interaction
+    masterChef.getChef(0).GiveItem(new Item(ItemEnum.Buns)); // gives the valid item for toasting to the chef
+    masterChef.GiveItem(); // gives currently held item to toaster
+    toasterStation.Cook(10);
+    masterChef.FetchItem();
+    assertEquals("The item the chef is holding should be a toasted bun", new Item(ItemEnum.ToastedBuns), masterChef.getChef(0).getInventory().peek());
+    GameObjectManager.objManager.DestroyGameObject(Toast); // must destroy station's game object at the end of the test
   }
 }

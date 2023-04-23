@@ -4,6 +4,7 @@ import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +30,9 @@ public class ToasterStation extends Station{
 
     @Override
     public boolean GiveItem(Item item) {
+        if (this.item != null) {
+            return false;
+        }
         bubble.isVisible = true;
         changeItem(item);
         checkItem();
@@ -72,7 +76,7 @@ public class ToasterStation extends Station{
 
     public void checkItem() {
         if (ItemWhiteList.contains(item.name))
-            currentRecipe = recipes.RecipeMap.get(item.name);
+            currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
         else
             currentRecipe = null;
     }
@@ -98,6 +102,10 @@ public class ToasterStation extends Station{
     public int getProgress() {
         progress = item.progress / maxProgress;
         return (int) (progress/0.125) + 1;
+    }
+
+    public float getCookingTime(){
+        return item.progress;
     }
 
     @Override
