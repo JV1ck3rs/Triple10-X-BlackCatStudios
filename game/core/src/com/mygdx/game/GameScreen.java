@@ -630,12 +630,6 @@ public class GameScreen implements Screen {
       //New rendering system
       RenderManager.renderer.onRender(game.batch);
 
-      // Draws the chefs
-      for (int i = 0; i < masterChef.returnChefCount(); i++) {
-        if (masterChef.getChef(i).isFrozen) {  // if frozen, need to update timer and sprite
-          masterChef.getChef(i).drawTimer(game.batch);
-        }
-      }
       // Mutes or plays the music
       if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
         if (gameMusic.isPlaying()) {
@@ -645,7 +639,6 @@ public class GameScreen implements Screen {
         }
       }
     } else {
-      pauseStage.act(Gdx.graphics.getDeltaTime());
       pauseStage.draw();
     }
 
@@ -654,7 +647,6 @@ public class GameScreen implements Screen {
     // The following code must occur after the batch is ended.
     // Otherwise, it causes issues with customer positioning.
     if (!Paused) { // displays the game UI if the game is not paused
-      gameUIStage.act(Gdx.graphics.getDeltaTime());
       gameUIStage.draw();
     }
   }
