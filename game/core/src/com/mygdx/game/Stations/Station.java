@@ -31,6 +31,7 @@ public abstract class Station extends Scriptable implements Interactable {
   GameObject heldItem;
   public int imageSize = 18;
   GameObject bubble;
+  public float stationTimeDecrease;
 
   private float BurnSpeed;
   float CookingSpeed;
@@ -41,6 +42,7 @@ public abstract class Station extends Scriptable implements Interactable {
     recipes = RecipeDict.recipes;
     combinations = CombinationDict.combinations;
     currentRecipe = null;
+    stationTimeDecrease = 0;
     BurnSpeed = params.BurnSpeed;
     CookingSpeed = params.CookSpeed;
   }
@@ -106,6 +108,8 @@ public abstract class Station extends Scriptable implements Interactable {
 
     item = new Item(state.get(0));
   }
+
+  public void decreaseCookTime(){ stationTimeDecrease += 1;}
 
   public List<ItemState> SaveState() {
 

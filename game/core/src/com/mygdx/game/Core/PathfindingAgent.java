@@ -5,6 +5,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import java.util.LinkedList;
 import java.util.List;
 
+
+/**
+ * A pathfinding agent abstraction
+ * @author Felix Seanor
+ * Last modified 10/04/23
+ */
 public class PathfindingAgent extends Scriptable {
 
   List<Vector2> path;
@@ -13,9 +19,17 @@ public class PathfindingAgent extends Scriptable {
   Vector2 prev;
   public Body b2body;
 
+  /**
+   * Give this agent a new path
+   * @param newPath
+   */
   public void GivePath(List<Vector2> newPath) {
     prev = new Vector2(gameObject.position);
     path = newPath;
+  }
+
+  public List<Vector2> getPath() {
+    return path;
   }
 
   protected PathfindingAgent() {
@@ -47,8 +61,8 @@ public class PathfindingAgent extends Scriptable {
 
   /**
    * Get the current movement direction
-   * @return Movement direction
    *
+   * @return Movement direction
    * @author Felix Seanor
    * @author Jack Vickers
    */
@@ -65,6 +79,7 @@ public class PathfindingAgent extends Scriptable {
 
   /**
    * Moves the chef to the next location
+   *
    * @param dt
    * @author Felix Seanor
    * @author Jack Vickers

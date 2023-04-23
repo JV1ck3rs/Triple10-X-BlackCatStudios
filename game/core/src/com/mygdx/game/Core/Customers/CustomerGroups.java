@@ -50,7 +50,6 @@ public class CustomerGroups {
       Customer custLogic = new Customer(CustomerStart + i, OrderMenu.get(i),
           Customer.getCustomerAtlas(customerAtlas));
       GameObject customer = new GameObject(new BlackSprite());
-      //  customer.position.set( new Vector2(0,30*i).sub(Spawn));
       customer.position.set(Spawn);
       customer.attachScript(custLogic);
       customer.isVisible = true;
@@ -61,7 +60,14 @@ public class CustomerGroups {
 
   }
 
-  public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas) {
+
+  /**
+   * Create customer group from saved state
+   * @param state
+   * @param customerAtlas
+   * @author Felix Seanor
+   */
+  public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas){
     Orders = Arrays.asList(state.orders);
     Frustration = state.frustration;
     RecoveryValue = FrustrationRecovery * Frustration;
@@ -73,32 +79,56 @@ public class CustomerGroups {
       customer.position.set(state.customerPositions[i]);
       customer.attachScript(custLogic);
       customer.isVisible = true;
-
       Members.add(custLogic);
       MembersInLine.add(custLogic);
     }
+  }
 
+  public void showIcons(){
+    for(int i =0; i<MembersInLine.size(); i++){
+      System.out.println(MembersInLine.get(i));
+      List<Vector2> path = MembersInLine.get(i).getPath();
+      MembersInLine.get(i).foodIcon.getBlackTexture().height = 25;
+      MembersInLine.get(i).foodIcon.getBlackTexture().width = 25;
+      MembersInLine.get(i).foodIcon.setPosition(MembersInLine.get(i).getX()+15, MembersInLine.get(i).getY()+10);
+      MembersInLine.get(i).foodIcon.image.layer = 10;
+      if(path.isEmpty()){
+        MembersInLine.get(i).foodIcon.isVisible = true;
+      }
+    }
+  }
+
+  public void removeIcons(){
+    for(int i = 0; i<Members.size(); i++){
+      System.out.println(Members.get(i).foodIcon.isVisible);
+      if(!MembersInLine.contains(Members.get(i))){
+        MembersSeatedOrWalking.get(i).foodIcon.isVisible = false;
+      }
+    }
+  }
+
+
+  public void checkClicks(){
+    for(int i = 0; i<Members.size(); i++){
+      if(Members.get(i).foodIcon.isClicked() && Members.get(i).foodIcon.isVisible){
+        Members.get(i).foodRecipe.isVisible = true;
+      }
+    }
+  }
+
+
+  public Customer RemoveFirstCustomer(){
+    MembersSeatedOrWalking.add( MembersInLine.remove(0));
+    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size()-1);
   }
 
   /**
-   * Removes the first customer from a member in line. CAN RETURN NULL
-   *
-   * @return Customer removed
-   * @author Felix Seanor
-   */
-  public Customer RemoveFirstCustomer() {
-    MembersSeatedOrWalking.add(MembersInLine.remove(0));
-    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size() - 1);
-  }
-
-  /**
-   * Try and remove a customer given an item
+   * See if the given dish is correct
    *
    * @param item
-   * @return if removal successful
+   * @return if is able to remove
    * @author Felix Seanor
    */
-
   public int SeeIfDishIsCorrect(ItemEnum item) {
     for (int i = 0; i < MembersInLine.size(); i++) {
       if (MembersInLine.get(i).dish == item) {
@@ -110,12 +140,27 @@ public class CustomerGroups {
 
   }
 
+  /**
+   * Is supplied dish in this group
+   * @param item
+   * @return
+   * @author Felix Seanor
+   */
   public int SeeIfDishIsCorrect(Item item) {
     return SeeIfDishIsCorrect(item.name);
   }
 
+  /**
+   * Increases Frustration after a successful service (adds more time on)
+   * @author Felix Seanor
+   */
   public void updateFrustrationOnSucessfulService() {
     Frustration += RecoveryValue;
+  }
+
+  public Customer FeedSpecificCustomer(int i){
+    MembersSeatedOrWalking.add( MembersInLine.remove(i));
+    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size()-1);
   }
 
   /**
@@ -145,7 +190,13 @@ public class CustomerGroups {
     }
   }
 
-  public CustomerGroupState SaveState(boolean leaving) {
+  /**
+   * Save the current state of this group into CustomerGroupState
+   * @param leaving if this group is leaving
+   * @return the current state of this group
+   * @author Felix Seanor
+   */
+  public CustomerGroupState SaveState(boolean leaving){
     CustomerGroupState state = new CustomerGroupState();
     state.customerPositions = new Vector2[Members.size()];
     state.customersInGroupOrdering = new int[MembersInLine.size()];
@@ -175,11 +226,16 @@ public class CustomerGroups {
     return Members;
   }
 
-  public void destroy() {
-    for (Customer cust : Members
-    ) {
-      cust.Destroy();
-    }
+  /**
+   * Destroy this entire group
+   * @author Felix Seanor
+   */
+  public void destroy()
+{
+  for (Customer cust: Members
+  ) {
+    cust.Destroy();
   }
+}
 
 }

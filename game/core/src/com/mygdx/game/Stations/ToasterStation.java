@@ -9,23 +9,26 @@ import com.mygdx.game.RecipeAndComb.RecipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Toasts items such as bun
+ */
 public class ToasterStation extends Station{
 
-    boolean interacted;
-    boolean ready;
-    public float maxProgress;
-    public float progress;
-    public static ArrayList<ItemEnum> ItemWhiteList;
+  boolean interacted;
+  boolean ready;
+  public float maxProgress;
+  public float progress;
+  public static ArrayList<ItemEnum> ItemWhiteList;
 
 
-    public ToasterStation(CookingParams params) {
-        super(params);
-        ready = false;
-        maxProgress = 8;
-        if (ItemWhiteList == null) {
-            ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Buns));
-        }
+  public ToasterStation(CookingParams params) {
+    super(params);
+    ready = false;
+    maxProgress = 8;
+    if (ItemWhiteList == null) {
+      ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Buns));
     }
+  }
 
 
     @Override
@@ -40,38 +43,38 @@ public class ToasterStation extends Station{
     }
 
 
-    @Override
-    public Item RetrieveItem() {
-        returnItem = item;
-        deleteItem();
-        currentRecipe = null;
-        bubble.isVisible = false;
-        return returnItem;
-    }
+  @Override
+  public Item RetrieveItem() {
+    returnItem = item;
+    deleteItem();
+    currentRecipe = null;
+    bubble.isVisible = false;
+    return returnItem;
+  }
 
 
-    @Override
-    public boolean CanRetrieve() {
-        return item != null;
-    }
+  @Override
+  public boolean CanRetrieve() {
+    return item != null;
+  }
 
 
-    @Override
-    public boolean CanGive() {
-        return item == null;
-    }
+  @Override
+  public boolean CanGive() {
+    return item == null;
+  }
 
 
-    @Override
-    public boolean CanInteract() {
-        return false;
-    }
+  @Override
+  public boolean CanInteract() {
+    return false;
+  }
 
 
-    @Override
-    public boolean Interact() {
-        return false;
-    }
+  @Override
+  public boolean Interact() {
+    return false;
+  }
 
 
     public void checkItem() {
@@ -82,27 +85,28 @@ public class ToasterStation extends Station{
     }
 
 
-    public void Cook(float dt) {
-        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);
+  public void Cook(float dt) {
+    ready = currentRecipe.RecipeSteps.get(item.step)
+        .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
 
-        if (ready) {
-            changeItem(new Item(currentRecipe.endItem));
-            checkItem();
-            return;
-        }
-        progressBar();
+    if (ready) {
+      changeItem(new Item(currentRecipe.endItem));
+      checkItem();
+      return;
     }
+    progressBar();
+  }
 
 
-    public void progressBar(){
-        bubble.image = new BlackTexture("Timer/0"+getProgress()+".png");
-    }
+  public void progressBar() {
+    bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
+  }
 
 
-    public int getProgress() {
-        progress = item.progress / maxProgress;
-        return (int) (progress/0.125) + 1;
-    }
+  public int getProgress() {
+    progress = item.progress / maxProgress;
+    return (int) (progress / 0.125) + 1;
+  }
 
     public float getCookingTime(){
         return item.progress;
@@ -113,11 +117,11 @@ public class ToasterStation extends Station{
         return;
     }
 
-    @Override
-    public void Update(float dt) {
-        if (currentRecipe != null) {
-            Cook(dt);
-        }
-
+  @Override
+  public void Update(float dt) {
+    if (currentRecipe != null) {
+      Cook(dt);
     }
+
+  }
 }

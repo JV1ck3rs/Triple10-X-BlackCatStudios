@@ -3,6 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -24,6 +26,10 @@ import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,6 +90,8 @@ public class GameScreen implements Screen {
 
   public CustomerController customerController;
 
+  public Powerup powerup;
+
 
 
 
@@ -113,7 +121,7 @@ public class GameScreen implements Screen {
   public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
 
-  public showRecipeInstructions recipeScreen = new showRecipeInstructions();
+  public showRecipeInstructions recipeScreen;
 
   Stage pauseStage; // stage for the pause menu
   Stage gameUIStage; // stage for the game UI
@@ -124,22 +132,22 @@ public class GameScreen implements Screen {
    * Constructor class which initialises all the variables needed to draw the sprites and also
    * manage the logic of the render as well as setting the camera and map
    *
-   * @param game            base Object which is used to draw on
-   * @param numCustomers    Integer representing maximum number of customers that will appear in the
-   *                        game (-1 for infinite customers)
-   * @param loadSave        boolean representing whether the save game should be loaded
-   * @param difficultyLevel Difficulty level of the game
-   *
+   * @param game base Object which is used to draw on
+   * @author Amy Cross
    * @author Felix Seanor
-   * @author Jack Hinton
-   * @author Jack Vickers
    * @author Sam Toner
+   * @author Jack Vickers
+   * @author Jack Hinton
    */
   public GameScreen(MyGdxGame game, int numCustomers, boolean loadSave,
       Difficulty difficultyLevel) {
     this.game = game;
     camera = new OrthographicCamera();
-    recipeScreen.showRecipeInstruction();
+    recipeScreen = new showRecipeInstructions();
+    //recipeScreen.showRecipeInstruction();
+    CameraFunctions camera1 = CameraFunctions.camera;
+    camera1.updateCamera(camera);
+
 
     camera.setToOrtho(false, viewportWidth, viewportHeight);
     camera.update();
@@ -176,6 +184,8 @@ public class GameScreen implements Screen {
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     GameObjectManager.objManager.AppendLooseScript(customerController);
+
+    powerup = new Powerup(masterChef, customerController); // powerup object
 
     new CombinationDict();
     CombinationDict.combinations.implementItems();
@@ -432,7 +442,11 @@ public class GameScreen implements Screen {
     });
   }
 
-
+  /**
+   * Create a bin given a rectangle
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateBin(Rectangle rect) {
     GameObject Bin = new GameObject(null);
     Bin.setPosition(rect.getX(), rect.getY());
@@ -442,6 +456,11 @@ public class GameScreen implements Screen {
     Stations.add(Bin);
   }
 
+  /**
+   * Create a hob
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateHobs(Rectangle rect) {
     GameObject Hob = new GameObject(null);
     Hob.setPosition(rect.getX(), rect.getY());
@@ -452,6 +471,11 @@ public class GameScreen implements Screen {
     HS.init();
   }
 
+  /**
+   * Create a toaster
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateToaster(Rectangle rect) {
     GameObject Toast = new GameObject(null);
     Toast.setPosition(rect.getX(), rect.getY());
@@ -462,6 +486,11 @@ public class GameScreen implements Screen {
     TS.init();
   }
 
+  /**
+   * Create chopping station
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateChopping(Rectangle rect) {
     GameObject Chop = new GameObject(null);
     Chop.setPosition(rect.getX(), rect.getY());
@@ -472,6 +501,11 @@ public class GameScreen implements Screen {
     CS.init();
   }
 
+  /**
+   * Create an oven
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateOven(Rectangle rect) {
     GameObject Oven = new GameObject(null);
     Oven.setPosition(rect.getX(), rect.getY());
@@ -482,6 +516,12 @@ public class GameScreen implements Screen {
     OS.init();
   }
 
+  /**
+   * Create a food create with an item inside
+   * @param rect
+   * @param item
+   * @author Jack Vickers
+   */
   void CreateFoodCrates(Rectangle rect, ItemEnum item) {
     GameObject Crate = new GameObject(null);
     Crate.setPosition(rect.getX(), rect.getY());
@@ -491,6 +531,11 @@ public class GameScreen implements Screen {
     Stations.add(Crate);
   }
 
+  /**
+   * Create an assembly station
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateAssembly(Rectangle rect) {
     GameObject Ass = new GameObject(null);
     Ass.setPosition(rect.getX(), rect.getY());
@@ -501,6 +546,11 @@ public class GameScreen implements Screen {
     Stations.add(Ass);
   }
 
+  /**
+   * Create a customer counter
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateCustomerCounters(Rectangle rect) {
     GameObject Cust = new GameObject(null);
     Cust.setPosition(rect.getX(), rect.getY());
@@ -523,6 +573,9 @@ public class GameScreen implements Screen {
    * @param height the height of the world
    * @param type   the type of the world
    * @param name   the name of the world
+   *
+   * @author Amy Cross
+   * @author Felix Seanor
    */
   public void buildObject(World world, float x, float y, float width, float height,
       String type, String name) {
@@ -547,7 +600,11 @@ public class GameScreen implements Screen {
   }
 
 
-  public void EndGame(EndOfGameValues values) {
+  /**
+   * End game sequence
+   * @param values
+   */
+  public void EndGame(EndOfGameValues values){
 
     VictoryScreen screen = new VictoryScreen(game, this, timer, values);
     game.setScreen(screen);
@@ -557,6 +614,8 @@ public class GameScreen implements Screen {
 
   /**
    * Plays the game music when the screen is shown.
+   * @author Amy Cross
+   * @author Jack Vickers
    */
   @Override
   public void show() {
@@ -567,7 +626,10 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Displays the timer for the player
+   * Displays the timer.
+   *
+   * @author Amy Cross
+   * @author Felix Seanor
    */
   public void displayTimer() {
     seconds += Gdx.graphics.getDeltaTime();
@@ -590,12 +652,19 @@ public class GameScreen implements Screen {
       timerFont.getData().setScale(1.5f, 1.5f);
     }
 
+    CharSequence str3 = "Patience: ";
+    timerFont.draw(game.batch, str3, 200, 25);
+
   }
 
   /**
    * Calls all logic updates and sprite draws as well as checks if game has been completed
    *
    * @param delta The time in seconds since the last render.
+   *
+   * @author Felix Seanor
+   * @author Amy Cross
+   * @author Jack Hinton
    */
   @Override
   public void render(float delta) {
@@ -608,11 +677,15 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
+//    if(Gdx.input.isKeyJustPressed(Keys.B))
+//      SaveGame();
+
     if (Gdx.input.isKeyJustPressed(Keys.V)) {
       LoadGame();
     }
 
     //Removed and simplified logic
+
     world.step(1 / 60f, 6, 2);
 
     game.batch.setProjectionMatrix(camera.combined);
@@ -627,12 +700,6 @@ public class GameScreen implements Screen {
       //New rendering system
       RenderManager.renderer.onRender(game.batch);
 
-      // Draws the chefs
-      for (int i = 0; i < masterChef.returnChefCount(); i++) {
-        if (masterChef.getChef(i).isFrozen) {  // if frozen, need to update timer and sprite
-          masterChef.getChef(i).drawTimer(game.batch);
-        }
-      }
       // Mutes or plays the music
       if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
         if (gameMusic.isPlaying()) {
@@ -641,17 +708,35 @@ public class GameScreen implements Screen {
           gameMusic.play();
         }
       }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+        powerup.doSpeedPowerup();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+        powerup.buyReputation();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+        powerup.superFood();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+        powerup.tetrisSuperFood();
+      }
     } else {
-      pauseStage.act(Gdx.graphics.getDeltaTime());
       pauseStage.draw();
     }
+    // THIS IS SAM'S CODE:
+//    LeaderBoard x = new LeaderBoard();
+//    x.createJSONFile();
+//    try {
+//      x.readJSONData();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
 
     game.batch.end();
 
     // The following code must occur after the batch is ended.
     // Otherwise, it causes issues with customer positioning.
     if (!Paused) { // displays the game UI if the game is not paused
-      gameUIStage.act(Gdx.graphics.getDeltaTime());
       gameUIStage.draw();
     }
   }
@@ -660,6 +745,8 @@ public class GameScreen implements Screen {
   /**
    * Finds all the collisions and assigns the names Also has a convenience function to disregard the
    * chef collision
+   *
+   * @author Amy Cross
    */
   public void createCollisionListener() {
     world.setContactListener(new ContactListener() {
@@ -715,13 +802,21 @@ public class GameScreen implements Screen {
     });
   }
 
-  public void SaveGame() {
+  /**
+   * Save the game
+   * @author Felix Seanor
+   */
+  public void SaveGame(){
     SaveState Saving = new SaveState();
     Saving.SaveState(this, "SavedData.ser");
 
   }
 
-  public void LoadGame() {
+  /**
+   * Load the game from save
+   * @author Felix Seanor
+   */
+  public void LoadGame(){
     SaveState Saving = new SaveState();
 
     GameState state = Saving.LoadState("SavedData.ser");
@@ -734,9 +829,10 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Loads the state of a previous state of the world, all LoadGame to a full sweep
-   *
+   * Loads the state of a previous state of the world, all LoadGame to a full sweep.
    * @param state
+   *
+   * @author Felix Seanor
    */
   public void LoadState(GameState state) {
 
@@ -762,11 +858,14 @@ public class GameScreen implements Screen {
     }
   }
 
-  public void SaveState(GameState state) {
+  /**
+   * Saves the current state of the game screen class
+   * @param state
+   * @author Felix Seanor
+   */
+  public void SaveState(GameState state){
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
     state.difficulty = difficulty;
-    state.Timer = timer;
-
     state.Timer = timer;
     state.seconds = seconds;
     for (GameObject station : Stations) {
@@ -814,6 +913,7 @@ public class GameScreen implements Screen {
 
   /**
    * Disposes of all sprites from memory to keep it optimised
+   * @author Felix Seanor
    */
   @Override
   public void dispose() {

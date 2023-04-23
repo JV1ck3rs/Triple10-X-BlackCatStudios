@@ -16,6 +16,9 @@ import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Converts some items into their fried forms
+ */
 public class HobStation extends Station {
 
   boolean interacted;
@@ -44,6 +47,7 @@ public class HobStation extends Station {
 
   /**
    * Retrieves the interacted attribute which is private for testing.
+   *
    * @return boolean
    */
   public boolean GetInteracted() {
@@ -110,12 +114,12 @@ public class HobStation extends Station {
 
 
   public void Cook(float dt) {
-    ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt * CookingSpeed, interacted, maxProgress);
+    ready = currentRecipe.RecipeSteps.get(item.step)
+        .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
     BurnersSFX.ShouldPlay = true;
     FryingSFX.ShouldPlay = !ready;
     if (ready && item.progress == 0) {
       item.step++;
-
       System.out.println("PRESS SPACE TO FLIP BURGER");
       if (item.step == currentRecipe.RecipeSteps.size()) {
         changeItem(new Item(currentRecipe.endItem));

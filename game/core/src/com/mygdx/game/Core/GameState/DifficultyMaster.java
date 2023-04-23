@@ -1,6 +1,7 @@
 package com.mygdx.game.Core.GameState;
 
 
+import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.LinkedList;
@@ -8,9 +9,14 @@ import java.util.LinkedList;
 public class DifficultyMaster {
 
 
-
-  public static DifficultyState getDifficulty(Difficulty difficulty){
-      switch (difficulty)
+  /**
+   * return a difficulty settings
+   * @param difficaulty
+   * @return
+   * @author Felix Seanor
+   */
+  public static DifficultyState getDifficulty(Difficulty difficaulty){
+      switch (difficaulty)
       {
         case Relaxing:
           return  getRelaxing();
@@ -75,7 +81,7 @@ public class DifficultyMaster {
     CCParams.MaxCustomersPerWave = 4;
     CCParams.MinCustomersPerWave = 2;
     CCParams.MoneyPerCustomer = 20;
-    CCParams.EatingTime = 10;
+    CCParams.EatingTime = 15;
     CCParams.OrderTypePermissable = new LinkedList<>();
     CCParams.FrustrationStart = 90;
 
@@ -111,8 +117,7 @@ public class DifficultyMaster {
     CCParams.MoneyStart = 50;
     CCParams.MaxCustomersPerWave = 2;
     CCParams.MinCustomersPerWave = 1;
-    CCParams.MoneyPerCustomer = 40;
-
+    CCParams.MoneyPerCustomer = 25;
     CCParams.EatingTime = 15;
     CCParams.OrderTypePermissable = new LinkedList<>();
     CCParams.FrustrationStart = 120;
@@ -122,7 +127,7 @@ public class DifficultyMaster {
 
 
 
-    chefParams.MoveSpeed = 90;
+    chefParams.MoveSpeed = 75;
 
     cookingParams.CookSpeed = .75f;
     cookingParams.ChopSpeed = .75f;

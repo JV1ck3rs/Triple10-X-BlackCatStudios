@@ -11,6 +11,10 @@ import java.util.PriorityQueue;
 import java.util.function.Function;
 
 
+/**
+ * A* Pathfinding module
+ * @author Felix Seanor
+ */
 public class Pathfinding {
 
   int GridX;

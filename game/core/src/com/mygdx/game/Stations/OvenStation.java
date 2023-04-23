@@ -8,6 +8,9 @@ import com.mygdx.game.Items.ItemEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Bakes potatoes and pizzas
+ */
 public class OvenStation extends Station {
 
     boolean interacted;
@@ -82,7 +85,7 @@ public class OvenStation extends Station {
 
 
     public void Cook(float dt) {
-        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);
+        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt-stationTimeDecrease, interacted, maxProgress);
         if (ready) {
             changeItem(new Item(currentRecipe.endItem));
             checkItem();
