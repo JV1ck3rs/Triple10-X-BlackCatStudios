@@ -496,4 +496,27 @@ public class ChefTests extends MasterTestClass {
     assertEquals("The item the chef is holding should be a toasted bun", new Item(ItemEnum.ToastedBuns), masterChef.getChef(0).getInventory().peek());
     GameObjectManager.objManager.DestroyGameObject(Toast); // must destroy station's game object at the end of the test
   }
+
+  /**
+   * Tests that the chef can interact with the oven station through to a completely cooked item.
+   *
+   * @author Hubert Solecki
+   * @date 24/04/2023
+   */
+
+  @Test
+  public void testItemInteractionOvenStation() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a new game object manager making sure it is not null when needed
+    }
+    instantiateMasterChef();
+    instantiateWorldAndOvenStation();
+    masterChef.getChef(0).gameObject.position = new Vector2(1, 0); // sets chef position to that of next to the oven station for interaction
+    masterChef.getChef(0).GiveItem(new Item(ItemEnum.CheesePizza)); // gives a cheese pizza to the chef for interaction with the oven
+    masterChef.GiveItem();
+    ovenStation.Update(10);
+    masterChef.FetchItem();
+    assertEquals("The item that the chef should be holding is the cooked version of the item they gave to the oven station", new Item(ItemEnum.CheesePizzaCooked), masterChef.getChef(0).getInventory().peek());
+  }
 }
