@@ -35,6 +35,9 @@ public class OvenStation extends Station {
 
     @Override
     public boolean GiveItem(Item item) {
+        if (getLocked()) {
+            return checkRepairTool(item);
+        }
         changeItem(item);
         checkItem();
         animation.isVisible = true;

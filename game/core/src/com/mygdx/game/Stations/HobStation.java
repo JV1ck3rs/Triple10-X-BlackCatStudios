@@ -52,6 +52,9 @@ public class HobStation extends Station {
 
   @Override
   public boolean GiveItem(Item item) {
+    if (getLocked()) {
+      return checkRepairTool(item);
+    }
     if (this.item != null) {
       return false;
     }
@@ -123,10 +126,7 @@ public class HobStation extends Station {
       item.step++;
 
       System.out.println("PRESS SPACE TO FLIP BURGER");
-      if(item.step == 1)
-        bubble2.isVisible = true;
-      else
-        bubble2.isVisible = false;
+      bubble2.isVisible = item.step == 1;
 
       if(item.step == currentRecipe.RecipeSteps.size()){
         changeItem(new Item(currentRecipe.endItem));

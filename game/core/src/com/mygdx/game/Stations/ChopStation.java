@@ -46,6 +46,9 @@ public class ChopStation extends Station {
 
   @Override
   public boolean GiveItem(Item item) {
+    if (getLocked()) {
+      return checkRepairTool(item);
+    }
     if (this.item == null) {
       changeItem(item);
       checkItem();
@@ -84,15 +87,14 @@ public class ChopStation extends Station {
     return currentRecipe != null;
   }
 
-    public void checkItem(){
-        if(ItemWhiteList.contains(item.name)) {
-            currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-            bubble.isVisible = true;
-        }
-        else {
-            currentRecipe = null;
-            bubble.isVisible = false;
-        }
+  public void checkItem(){
+    if(ItemWhiteList.contains(item.name)) {
+      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
+      bubble.isVisible = true;
+    }
+    else {
+      currentRecipe = null;
+      bubble.isVisible = false;
     }
   }
 
@@ -119,6 +121,7 @@ public class ChopStation extends Station {
       changeItem(new Item(currentRecipe.endItem));
       checkItem();
       soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
+      interacted = false;
     }
     progressBar();
   }
@@ -165,7 +168,7 @@ public class ChopStation extends Station {
 
   @Override
   public void Update(float dt) {
-    if (currentRecipe != null) {
+    if (currentRecipe != null && interacted) {
       Cut(dt);
     }
     choppingSFX.DoSoundCheck();

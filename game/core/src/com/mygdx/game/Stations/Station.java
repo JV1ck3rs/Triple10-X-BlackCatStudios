@@ -7,6 +7,7 @@ import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
+import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.Recipe;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
@@ -96,6 +97,14 @@ public abstract class Station extends Scriptable implements Interactable {
     return locked;
   }
 
+
+  public boolean checkRepairTool(Item item) {
+    if(item.name == ItemEnum.RepairTool) {
+      setLocked(false);
+      return true;
+    }
+    return false;
+  }
 
   public void changeItem(Item item) {
     this.item = item;

@@ -32,6 +32,9 @@ public class ToasterStation extends Station{
 
     @Override
     public boolean GiveItem(Item item) {
+        if (getLocked()) {
+            return checkRepairTool(item);
+        }
         animation.isVisible = true;
         changeItem(item);
         checkItem();
