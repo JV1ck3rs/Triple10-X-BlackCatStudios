@@ -3,24 +3,35 @@ package com.mygdx.game.Core.GameState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
+import com.mygdx.game.Core.CustomerController;
+import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.MasterChef;
+import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.GameScreen;
+import com.mygdx.game.Stations.Station;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.LinkedList;
+import java.util.List;
 import jdk.javadoc.internal.doclets.toolkit.util.DocFinder.Output;
 
 public class SaveState {
 
 
-  public void SaveState(GameScreen gameState, String path){
+  public GameState SaveState(String path, MasterChef masterChef,
+      CustomerController customerController, Difficulty difficultyLevel, int timer, float seconds,
+      List<GameObject> Stations, List<GameObject> customerCounters,
+      List<GameObject> assemblyStations) {
     GameState state = new GameState();
-    gameState.masterChef.SaveState(state);
-    gameState.customerController.SaveState(state);
-    gameState.SaveState(state);
+    masterChef.SaveState(state);
+    customerController.SaveState(state);
+    saveGameScreen(state, difficultyLevel, timer, seconds, Stations, customerCounters,
+        assemblyStations);
 
     try {
       FileOutputStream fileOut = new FileOutputStream(path);
@@ -36,11 +47,51 @@ public class SaveState {
       e.printStackTrace();
       throw new RuntimeException(e);
     }
-
-
+    return state;
   }
 
-  public GameState LoadState(String ID){
+  /**
+   * Saves the state of the game screen.
+   *
+   * @param state            The state to save to
+   * @param difficultyLevel  The difficulty level of the game
+   * @param timer            The timer of the game
+   * @param seconds          The number of seconds the game has been running for (used for the
+   *                         timer)
+   * @param Stations         The stations in the game
+   * @param customerCounters The customer counters in the game
+   * @param assemblyStations The assembly stations in the game
+   *
+   * @author Felix Seanor
+   * @author Jack Vickers
+   */
+  public void saveGameScreen(GameState state, Difficulty difficultyLevel, int timer, float seconds,
+      List<GameObject> Stations, List<GameObject> customerCounters,
+      List<GameObject> assemblyStations) {
+    List<List<ItemState>> itemsOnCounters = new LinkedList<>();
+    state.difficulty = difficultyLevel;
+    state.Timer = timer;
+    state.seconds = seconds;
+    for (GameObject station : Stations) {
+      Scriptable scriptable = station.GetScript(0);
+      if (scriptable instanceof Station) {
+        itemsOnCounters.add(((Station) scriptable).SaveState());
+      }
+
+    }
+
+    for (GameObject station : customerCounters) {
+      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
+    }
+
+    for (GameObject station : assemblyStations) {
+      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
+    }
+    state.FoodOnCounters = itemsOnCounters;
+  }
+
+
+  public GameState LoadState(String ID) {
     GameState state = null;
 
     FileInputStream fileIn = null;
@@ -61,7 +112,6 @@ public class SaveState {
     }
 
     return state;
-
 
   }
 }

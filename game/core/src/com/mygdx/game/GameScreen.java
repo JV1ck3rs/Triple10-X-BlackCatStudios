@@ -62,6 +62,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.*;
+import jdk.internal.org.jline.utils.DiffHelper.Diff;
 
 /**
  * This is the main class of the game which runs all the logic and rendering Here all the outside
@@ -86,7 +87,6 @@ public class GameScreen implements Screen {
 
   // box2d
   static World world;
-  private final Box2DDebugRenderer b2dr;
 
   public CustomerController customerController;
 
@@ -158,7 +158,6 @@ public class GameScreen implements Screen {
     recipeScreen.createInstructionPage("Empty");
 
     world = new World(new Vector2(0, 0), true);
-    b2dr = new Box2DDebugRenderer();
     exitLogo.isVisible = false;
     exitLogo.getBlackTexture().height = 30;
     exitLogo.getBlackTexture().width = 30;
@@ -803,12 +802,13 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Save the game
+   * Save the game.
+   *
    * @author Felix Seanor
    */
   public void SaveGame(){
     SaveState Saving = new SaveState();
-    Saving.SaveState(this, "SavedData.ser");
+    Saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds, Stations, customerCounters, assemblyStations);
 
   }
 
@@ -858,6 +858,10 @@ public class GameScreen implements Screen {
     }
   }
 
+  public String printHello() {
+    return "Hello";
+  }
+
   /**
    * Saves the current state of the game screen class
    * @param state
@@ -886,8 +890,33 @@ public class GameScreen implements Screen {
 
     state.FoodOnCounters = itemsOnCounters;
 
-
   }
+
+  public Difficulty getDifficulty() {
+    return difficulty;
+  }
+
+  public int getTimer() {
+    return timer;
+  }
+
+  public float getSeconds() {
+    return seconds;
+  }
+
+  public List<GameObject> getStations() {
+    return Stations;
+  }
+
+  public List<GameObject> getCustomerCounters() {
+    return customerCounters;
+  }
+
+  public List<GameObject> getAssemblyStations() {
+    return assemblyStations;
+  }
+
+
 
   /**
    * Resizes the stage when the window is resized so that the buttons are in the correct place.

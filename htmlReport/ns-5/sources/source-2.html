@@ -45,14 +45,45 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;public interface Interactable {
 &nbsp;
+&nbsp;  /**
+&nbsp;   * Can this object be retrieved from
+&nbsp;   * @return
+&nbsp;   */
 &nbsp;  public boolean CanRetrieve();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Can this object be given to
+&nbsp;   * @return
+&nbsp;   */
 &nbsp;  public boolean CanGive();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Can this object be given to
+&nbsp;   * @return
+&nbsp;   */
 &nbsp;  public boolean CanInteract();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Retrieve the item
+&nbsp;   * @return
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
 &nbsp;
 &nbsp;  public Item RetrieveItem();
 &nbsp;
+&nbsp;  /**
+&nbsp;   * Give item to object
+&nbsp;   * @param item
+&nbsp;   * @return
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
 &nbsp;  public boolean GiveItem(Item item);
 &nbsp;
+&nbsp;  /**
+&nbsp;   * Interact with object
+&nbsp;   * @return
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
 &nbsp;  public boolean Interact();
 &nbsp;}
 </code>
@@ -78,7 +109,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-18 15:28</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

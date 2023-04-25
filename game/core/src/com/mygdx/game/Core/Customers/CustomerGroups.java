@@ -101,7 +101,7 @@ public class CustomerGroups {
   public void removeIcons(){
     for(int i = 0; i<Members.size(); i++){
       System.out.println(Members.get(i).foodIcon.isVisible);
-      if(!MembersInLine.contains(Members.get(i))){
+      if(MembersSeatedOrWalking.size() != 0 && !MembersInLine.contains(Members.get(i))){
         MembersSeatedOrWalking.get(i).foodIcon.isVisible = false;
       }
     }

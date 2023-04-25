@@ -107,6 +107,7 @@ public abstract class Station extends Scriptable implements Interactable {
     }
 
     item = new Item(state.get(0));
+    updatePictures();
   }
 
   public void decreaseCookTime(){ stationTimeDecrease += 1;}

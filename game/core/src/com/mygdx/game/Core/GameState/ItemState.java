@@ -23,4 +23,11 @@ public class ItemState implements java.io.Serializable{
 
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    return this.item == ((ItemState) obj).item &&
+        this.step == ((ItemState) obj).step &&
+        this.progress == ((ItemState) obj).progress;
+  }
+
 }

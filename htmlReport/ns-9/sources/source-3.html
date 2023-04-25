@@ -78,18 +78,28 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import com.mygdx.game.Core.BlackTexture;
 &nbsp;import com.mygdx.game.Core.GameObject;
+&nbsp;import com.mygdx.game.Core.GameState.CookingParams;
 &nbsp;import com.mygdx.game.Items.Item;
 &nbsp;
 &nbsp;import java.util.function.Consumer;
 &nbsp;import java.util.function.Function;
 &nbsp;
-&nbsp;
+&nbsp;/**
+&nbsp; * This handles serving food to customers
+&nbsp; */
 &nbsp;public class CustomerCounters extends Station {
 &nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Customer Controller, can the item give be accepted
+&nbsp;   */
 &nbsp;  Function&lt;Item, Boolean&gt; script;
 &nbsp;
-<b class="nc">&nbsp;  public CustomerCounters(Function&lt;Item, Boolean&gt; script) {</b>
+&nbsp;  public CustomerCounters(Function&lt;Item, Boolean&gt; script, CookingParams params) {
+&nbsp;
+<b class="nc">&nbsp;    super(params);</b>
 <b class="nc">&nbsp;    this.script = script;</b>
+&nbsp;
 &nbsp;  }
 &nbsp;
 &nbsp;
@@ -188,7 +198,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-18 15:28</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

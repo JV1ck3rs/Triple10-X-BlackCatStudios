@@ -203,7 +203,6 @@ public class AssemblyStation extends Station {
   @Override
   public void updatePictures() {
 
-
     if (ingredients.isEmpty()) {
       for (int x = 0; x < heldItems.size(); x++) {
         heldItems.get(x).Destroy();
@@ -221,17 +220,13 @@ public class AssemblyStation extends Station {
       return;
     }
 
-    if (ingredients.isEmpty())
+    if (ingredients.isEmpty()) {
       return;
+    }
 
+    int index = ingredients.size();
 
-
-      int index = ingredients.size();
-
-
-
-
-    heldItem = new GameObject(new BlackTexture(Item.GetItemPath(ingredients.get(index-1).name)));
+    heldItem = new GameObject(new BlackTexture(Item.GetItemPath(ingredients.get(index - 1).name)));
     heldItem.image.setSize(ingredientSize, ingredientSize);
     if (index == 1) {
       heldItem.setPosition(gameObject.position.x + 2,
@@ -250,36 +245,31 @@ public class AssemblyStation extends Station {
 
   }
 
-
   @Override
-  public void Update(float dt) {
-  }
-  @Override
-  public void LoadState(List<ItemState> state){
+  public void LoadState(List<ItemState> state) {
 
     ingredients.clear();
     updatePictures();
 
     for (int i = 0; i < state.size(); i++) {
-      if(state.get(i) == null)
+      if (state.get(i) == null) {
         continue;
-
+      }
       ingredients.add(new Item(state.get(i)));
       updatePictures();
-
     }
 
   }
 
   @Override
-  public List<ItemState> SaveState(){
+  public List<ItemState> SaveState() {
     LinkedList<ItemState> states = new LinkedList<>();
 
-    for (Item item: ingredients
+    for (Item item : ingredients
     ) {
       states.add(new ItemState(item));
     }
 
-    return states ;
+    return states;
   }
 }
