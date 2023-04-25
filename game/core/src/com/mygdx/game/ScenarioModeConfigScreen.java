@@ -50,7 +50,12 @@ public class ScenarioModeConfigScreen implements Screen {
    */
 
   public ScenarioModeConfigScreen(MyGdxGame game) {
-    float scale = 1.0f;
+    float scaleX;
+    float scaleY;
+
+    // Calculates the scale of the screen to the original size of the game
+    scaleX = Gdx.graphics.getWidth() / 640f;
+    scaleY = Gdx.graphics.getHeight() / 480f;
     this.game = game;
 
     // Load the scenario mode config screen assets
@@ -60,10 +65,6 @@ public class ScenarioModeConfigScreen implements Screen {
 
     // Create the stage and add the background image
     stage = new Stage();
-    if (stage.getViewport().getScreenWidth() > 720) {
-      scale = 0.5f * ((stage.getViewport().getScreenWidth() / 720f) + (
-          stage.getViewport().getScreenHeight() / 1280f));
-    }
     image.setSize(stage.getWidth(), stage.getHeight());
     image.setPosition(0, 0);
     stage.addActor(image);
@@ -78,25 +79,25 @@ public class ScenarioModeConfigScreen implements Screen {
 
     // Creates the title and instructions for the scenario mode config screen
     Label title = new Label("Scenario Mode Options", new LabelStyle(new BitmapFont(), Color.WHITE));
-    title.setFontScale(1.50f * scale);
-    table.add(title).padBottom(30 * scale).padTop(70 * scale)
+    title.setFontScale(1.50f * (scaleX + scaleY) / 2);
+    table.add(title).padBottom(30 * scaleY).padTop(70 * scaleY)
         .colspan(3); // Adds the title to the table
     table.row(); // Adds a new row to the table
     Label instructions = new Label(
         "Enter the number of customers for the scenario mode: \n The maximum number of customers is 100",
         new LabelStyle(new BitmapFont(), Color.WHITE));
-    instructions.setFontScale(1.10f * scale);
+    instructions.setFontScale(1.10f * (scaleX + scaleY) / 2);
     instructions.setAlignment(Align.center);
-    table.add(instructions).padBottom(20 * scale).colspan(3);
+    table.add(instructions).padBottom(20 * scaleY).colspan(3);
     table.row();
 
     // Sets the background using a section of the background image used on the main menu screen
     table.setBackground(new TextureRegionDrawable(scenarioConfigAtlas.findRegion("menuPP")));
     textField = new TextField("5", skin);
-    textField.getStyle().font.getData().setScale(1.50f * scale);
+    textField.getStyle().font.getData().setScale(1.50f * (scaleX + scaleY) / 2);
     textField.setAlignment(Align.center);
     stage.addActor(textField); // Adds the text field to the stage
-    table.add(textField).width(250 * scale).height(50 * scale)
+    table.add(textField).width(250 * scaleX).height(50 * scaleY)
         .colspan(3); // Adds the text field to the table
     table.row();
 
@@ -104,9 +105,9 @@ public class ScenarioModeConfigScreen implements Screen {
     // the user if they have entered an invalid number of customers.
     errorMessage = new Label("",
         new LabelStyle(new BitmapFont(), Color.WHITE));
-    errorMessage.setFontScale(1.10f * scale);
+    errorMessage.setFontScale(1.10f * (scaleX + scaleY) / 2);
     errorMessage.setAlignment(Align.left);
-    table.add(errorMessage).padBottom(20 * scale).colspan(3);
+    table.add(errorMessage).padBottom(20 * scaleY).colspan(3);
     table.row();
 
     // Create the easy (relaxing mode) button and add it to the table
@@ -120,8 +121,8 @@ public class ScenarioModeConfigScreen implements Screen {
     easyBtnStyle.up = drawableEasyBtnUp;
     easyBtnStyle.down = drawableEasyBtnDown;
     easyBtn.align(Align.left);
-    table.add(easyBtn).width(125 * scale).height(50 * scale).padBottom(25 * scale)
-        .padRight(10 * scale);
+    table.add(easyBtn).width(125 * scaleX).height(50 * scaleY).padBottom(25 * scaleY)
+        .padRight(10 * scaleY);
 
     // Adds a click listener to the easy button
     easyBtn.addListener(new ClickListener() {
@@ -144,8 +145,8 @@ public class ScenarioModeConfigScreen implements Screen {
     mediumBtn.align(Align.center);
     // The button is added to the same row of the table as the easy button so that they
     // are side by side
-    table.add(mediumBtn).width(125 * scale).height(50 * scale).padBottom(25 * scale)
-        .padRight(10 * scale);
+    table.add(mediumBtn).width(125 * scaleX).height(50 * scaleY).padBottom(25 * scaleY)
+        .padRight(10 * scaleY);
 
     // Adds a click listener to the medium button
     mediumBtn.addListener(new ClickListener() {
@@ -168,7 +169,7 @@ public class ScenarioModeConfigScreen implements Screen {
     hardBtn.align(Align.right);
     // The button is added to the same row of the table as the easy & medium buttons so that they
     // are side by side
-    table.add(hardBtn).width(125 * scale).height(50 * scale).padBottom(25 * scale).row();
+    table.add(hardBtn).width(125 * scaleX).height(50 * scaleY).padBottom(25 * scaleY).row();
 
     // Adds a click listener to the hard button
     hardBtn.addListener(new ClickListener() {

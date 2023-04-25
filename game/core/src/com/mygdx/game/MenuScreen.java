@@ -47,7 +47,8 @@ public class MenuScreen implements Screen {
   private final TextureRegion exitbtnDown;
   private final Stage stage;
   private final Table table;
-  float scale = 1.0f;
+  float scaleX;
+  float scaleY;
   Button loadButton;
   Button playBtn;
   Button scenarioBtn;
@@ -85,11 +86,10 @@ public class MenuScreen implements Screen {
     exitbtnDown = new TextureRegion(mainMenuAtlas.findRegion("exitButtonDown"));
 
     stage = new Stage();
-    scale = 1.0f;
-    if (stage.getViewport().getScreenWidth() > 720) {
-      scale = 0.5f * ((stage.getViewport().getScreenWidth() / 720f) + (
-          stage.getViewport().getScreenHeight() / 1280f));
-    }
+
+    // Calculates the scale of the screen to the original size of the game
+    scaleX = Gdx.graphics.getWidth() / 640f;
+    scaleY = Gdx.graphics.getHeight() / 480f;
     Gdx.input.setInputProcessor(stage);
 
     table = new Table();
@@ -109,7 +109,7 @@ public class MenuScreen implements Screen {
       loadButton.setStyle(loadbtnStyle);
       loadbtnStyle.up = drawableLoadbtnUp;
       loadbtnStyle.down = drawableLoadbtnDown;
-      table.add(loadButton).width(250 * scale).height(50 * scale).padTop(90 * scale).row();
+      table.add(loadButton).width(250 * scaleX).height(50 * scaleY).padTop(90 * scaleY).row();
 
       // Adds a click listener to the load button
       loadButton.addListener(
@@ -137,10 +137,10 @@ public class MenuScreen implements Screen {
     playbtnStyle.up = drawablePlaybtnUp;
     playbtnStyle.down = drawablePlaybtnDown;
     if (Gdx.files.internal("SavedData.ser").exists()) {
-      table.add(playBtn).width(250 * scale).height(50 * scale).pad(25 * scale).row();
+      table.add(playBtn).width(250 * scaleX).height(50 * scaleY).padTop(25 * scaleY).padBottom(25 * scaleY).row();
     } else {
-      table.add(playBtn).width(250 * scale).height(50 * scale).padTop(75 * scale)
-          .padBottom(25 * scale);
+      table.add(playBtn).width(250 * scaleX).height(50 * scaleY).padTop(75 * scaleY)
+          .padBottom(25 * scaleY);
       table.row();
     }
 
@@ -149,7 +149,7 @@ public class MenuScreen implements Screen {
     scenarioBtn.setStyle(scenariobtnStyle);
     scenariobtnStyle.up = drawableScenariobtnUp;
     scenariobtnStyle.down = drawableScenariobtnDown;
-    table.add(scenarioBtn).width(250 * scale).height(50 * scale).padBottom(25 * scale);
+    table.add(scenarioBtn).width(250 * scaleX).height(50 * scaleY).padBottom(25 * scaleY);
     table.row();
 
     Button.ButtonStyle exitbtnStyle = new Button.ButtonStyle();
@@ -157,7 +157,7 @@ public class MenuScreen implements Screen {
     exitBtn.setStyle(exitbtnStyle);
     exitbtnStyle.up = drawableExitbtnUp;
     exitbtnStyle.down = drawableExitbtnDown;
-    table.add(exitBtn).width(250 * scale).height(50 * scale);
+    table.add(exitBtn).width(250 * scaleX).height(50 * scaleY);
 
     table.setBackground(new TextureRegionDrawable(mainMenuAtlas.findRegion("menuPP")));
 
@@ -193,8 +193,8 @@ public class MenuScreen implements Screen {
     // after the load button
     table.clearChildren();
     if (Gdx.files.internal("SavedData.ser").exists()) {
-      table.add(loadButton).width(250 * scale).height(50 * scale).padTop(90 * scale)
-          .padBottom(25 * scale).colspan(3).row();
+      table.add(loadButton).width(250 * scaleX).height(50 * scaleY).padTop(90 * scaleY)
+          .padBottom(25 * scaleY).colspan(3).row();
     }
 
     // Create the easy (relaxing mode) button and add it to the table
@@ -208,8 +208,8 @@ public class MenuScreen implements Screen {
     easyBtnStyle.up = drawableEasyBtnUp;
     easyBtnStyle.down = drawableEasyBtnDown;
     easyBtn.align(Align.left);
-    table.add(easyBtn).width(100 * scale).height(40 * scale).padBottom(25 * scale)
-        .padRight(10 * scale);
+    table.add(easyBtn).width(100 * scaleX).height(40 * scaleY).padBottom(25 * scaleY)
+        .padRight(10 * scaleX);
 
     // Adds a click listener to the easy button
     easyBtn.addListener(new ClickListener() {
@@ -234,8 +234,8 @@ public class MenuScreen implements Screen {
     mediumBtn.align(Align.center);
     // The button is added to the same row of the table as the easy button so that they
     // are side by side
-    table.add(mediumBtn).width(100 * scale).height(40 * scale).padBottom(25 * scale)
-        .padRight(10 * scale);
+    table.add(mediumBtn).width(100 * scaleX).height(40 * scaleY).padBottom(25 * scaleY)
+        .padRight(10 * scaleX);
 
     // Adds a click listener to the medium button
     mediumBtn.addListener(new ClickListener() {
@@ -260,7 +260,7 @@ public class MenuScreen implements Screen {
     hardBtn.align(Align.right);
     // The button is added to the same row of the table as the easy & medium buttons so that they
     // are side by side
-    table.add(hardBtn).width(100 * scale).height(40 * scale).padBottom(25 * scale).row();
+    table.add(hardBtn).width(100 * scaleX).height(40 * scaleY).padBottom(25 * scaleY).row();
 
     // Adds a click listener to the hard button
     hardBtn.addListener(new ClickListener() {
@@ -272,9 +272,9 @@ public class MenuScreen implements Screen {
       }
     });
 
-    table.add(scenarioBtn).width(250 * scale).height(50 * scale).padBottom(25 * scale).colspan(3)
+    table.add(scenarioBtn).width(250 * scaleX).height(50 * scaleY).padBottom(25 * scaleY).colspan(3)
         .row();
-    table.add(exitBtn).width(250 * scale).height(50 * scale).colspan(3).row();
+    table.add(exitBtn).width(250 * scaleX).height(50 * scaleY).colspan(3).row();
   }
 
 
