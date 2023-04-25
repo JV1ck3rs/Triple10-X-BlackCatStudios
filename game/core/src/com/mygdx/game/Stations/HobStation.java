@@ -56,24 +56,27 @@ public class HobStation extends Station {
 
   @Override
   public boolean GiveItem(Item item) {
+    if (getLocked()) {
+      return checkRepairTool(item);
+    }
     if (this.item != null) {
       return false;
     }
     changeItem(item);
     checkItem();
-    bubble.isVisible = true;
     return true;
   }
 
 
-  @Override
-  public Item RetrieveItem() {
-    returnItem = item;
-    deleteItem();
-    currentRecipe = null;
-    bubble.isVisible = false;
-    return returnItem;
-  }
+    @Override
+    public Item RetrieveItem() {
+        returnItem = item;
+        deleteItem();
+        currentRecipe = null;
+        bubble.isVisible = false;
+        bubble2.isVisible = false;
+        return returnItem;
+    }
 
 
   @Override
@@ -88,13 +91,19 @@ public class HobStation extends Station {
   }
 
 
-  public void checkItem() {
-    if (ItemWhiteList.contains(item.name)) {
-      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-    } else {
-      currentRecipe = null;
+    public void checkItem(){
+        if(ItemWhiteList.contains(item.name)) {
+            currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
+            bubble.isVisible = true;
+            if(item.step == 1||currentRecipe.RecipeSteps.size() == 1)
+                bubble2.isVisible = true;
+        }
+        else {
+            currentRecipe = null;
+            bubble.isVisible = false;
+            bubble2.isVisible = false;
+        }
     }
-  }
 
 
   @Override
@@ -121,11 +130,15 @@ public class HobStation extends Station {
     if (ready && item.progress == 0) {
       item.step++;
       System.out.println("PRESS SPACE TO FLIP BURGER");
-      if (item.step == currentRecipe.RecipeSteps.size()) {
+      bubble2.isVisible = item.step == 1;
+
+      if(item.step == currentRecipe.RecipeSteps.size()){
         changeItem(new Item(currentRecipe.endItem));
         soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
+        bubble2.isVisible = true;
         checkItem();
-      } else {
+      }
+      else {
         soundFrame.SoundEngine.playSound(soundsEnum.StepAchieved);
       }
       return;
@@ -148,6 +161,8 @@ public class HobStation extends Station {
     return (int) (progress / 0.125) + 1;
   }
 
+
+  @Override
   public void updatePictures() {
     if (item == null) {
       if (heldItem == null) {
@@ -167,6 +182,12 @@ public class HobStation extends Station {
       heldItem.image.setSize(imageSize, imageSize);
     }
 
+  }
+
+
+  @Override
+  public void moveAnim(){
+    return;
   }
 
 

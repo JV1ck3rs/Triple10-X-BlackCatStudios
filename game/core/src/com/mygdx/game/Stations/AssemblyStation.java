@@ -245,6 +245,16 @@ public class AssemblyStation extends Station {
 
   }
 
+
+  @Override
+  public void moveAnim(){
+    return;
+  }
+
+
+  @Override
+  public void Update(float dt) {
+  }
   @Override
   public void LoadState(List<ItemState> state) {
 
