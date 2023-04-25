@@ -2,6 +2,7 @@ package piazzapanictests.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.badlogic.gdx.Gdx;
@@ -13,6 +14,8 @@ import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.DistanceTest;
 import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Core.GameState.Difficulty;
+import com.mygdx.game.Core.GameState.DifficultyMaster;
+import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.SaveState;
 import com.mygdx.game.Core.Pathfinding;
@@ -31,7 +34,7 @@ import com.badlogic.gdx.math.Vector2;
 
 @RunWith(GdxTestRunner.class)
 
-public class SaveTests {
+public class SaveTests extends MasterTestClass{
 
 
 
@@ -75,6 +78,24 @@ public class SaveTests {
 
   }
 
+  @Test
+  public void TestSave(){
+    SaveState state = new SaveState();
+
+
+
+    GameState gstate = state.LoadState("../assets/TestingData.ser");
+
+    state.SaveState(gstate,"../assets/TestingData.ser");
+
+    GameState lstate = state.LoadState("../assets/TestingData.ser");
+
+
+    assertTrue("Saved chefs must equals",gstate.IsChefPartEquals(lstate));
+    assertTrue("Saved Customers must equals",gstate.IsCustomerPartEquals(lstate));
+
+  }
+
 
   @Test
   public void BuildGame(){
@@ -83,6 +104,34 @@ public class SaveTests {
     SaveState state = new SaveState();
     GameState gstate = state.LoadState("../assets/TestingData.ser");
 
-   // CustomerController controller = new CustomerController(new Vector2(0,0),new Vector2(0,0), null,null,gstate.ChefHoldingStacks)
+    instantiateCustomerScripts();
+    instantiateMasterChef();
+
+    cust.LoadState(gstate);
+    masterChef.LoadState(gstate);
+
+    assertNotNull(cust.getCurrentWaitingCustomerGroup());
+
+    GameState nState = new GameState();
+
+    cust.SaveState(nState);
+
+
+
+    assertTrue("Must have the same customer parameters", nState.IsCustomerPartEquals(gstate));
+
+    masterChef.SaveState(nState);
+
+
+    assertTrue("Must have the same chef parameters", nState.IsChefPartEquals(gstate));
+
+
+
+
+
+
+
+
+    // CustomerController controller = new CustomerController(new Vector2(0,0),new Vector2(0,0), null,null,gstate.ChefHoldingStacks)
   }
 }

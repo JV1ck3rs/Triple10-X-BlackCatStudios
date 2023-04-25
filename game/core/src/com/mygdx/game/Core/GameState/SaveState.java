@@ -34,21 +34,26 @@ public class SaveState {
     saveGameScreen(state, difficultyLevel, timer, seconds, Stations, customerCounters,
         assemblyStations);
 
-    try {
-      FileOutputStream fileOut = new FileOutputStream(path);
-      ObjectOutputStream stream = new ObjectOutputStream(fileOut);
-      stream.writeObject(state);
-      stream.close();
-      fileOut.close();
-      System.out.println("Game state printed to: " + path);
-
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    SaveState(state,path);
     return state;
+  }
+
+
+  public void SaveState(GameState state, String path){
+  try {
+    FileOutputStream fileOut = new FileOutputStream(path);
+    ObjectOutputStream stream = new ObjectOutputStream(fileOut);
+    stream.writeObject(state);
+    stream.close();
+    fileOut.close();
+    System.out.println("Game state printed to: " + path);
+
+  } catch (FileNotFoundException e) {
+    throw new RuntimeException(e);
+  } catch (IOException e) {
+    e.printStackTrace();
+    throw new RuntimeException(e);
+  }
   }
 
   /**
