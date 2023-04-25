@@ -24,11 +24,7 @@ import com.mygdx.game.Core.Pathfinding;
 import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
-import com.mygdx.game.Stations.AssemblyStation;
-import com.mygdx.game.Stations.ChopStation;
-import com.mygdx.game.Stations.FoodCrate;
-import com.mygdx.game.Stations.HobStation;
-import com.mygdx.game.Stations.TrashCan;
+import com.mygdx.game.Stations.*;
 import com.mygdx.game.soundFrame;
 import java.util.ArrayList;
 
@@ -43,13 +39,20 @@ class MasterTestClass {
 
   TrashCan trashCan;
 
+  OvenStation ovenStation;
   HobStation hobStation;
+
+  ToasterStation toasterStation;
   AssemblyStation assemblyStation;
   GameObject assemble;
   GameObject crate;
   FoodCrate FC;
 
   TextureDictionary textureDictionary = new TextureDictionary();
+  GameObject Fry;
+
+  GameObject Oven;
+  GameObject Toast;
 
   /**
    * Instantiates the world.
@@ -212,7 +215,7 @@ class MasterTestClass {
     MapObject object = frying.getObjects().getByType(RectangleMapObject.class)
         .get(0); // gets frying object
     Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets frying rectangle
-    GameObject Fry = new GameObject(null); // creates frying game object
+    Fry = new GameObject(null); // creates frying game object
     Fry.setPosition(0,
             0); // sets frying position (this must be done to avoid null pointer exception)
     Fry.setPosition(0,0); // sets frying position (this must be done to avoid null pointer exception)
@@ -221,6 +224,32 @@ class MasterTestClass {
     hobStation = new HobStation(state.cookingParams); // creates frying station
     Fry.attachScript(hobStation); // attaches frying station to frying game object
     hobStation.init();
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
+  }
+
+  /**
+   * Creates the world and toaster station. Also creates the recipe dictionary.
+   *
+   * @author Hubert Solecki
+   * @date 21/04/2023
+   */
+
+  void instantiateWorldAndToasterStation() {
+    world = new World(new Vector2(0, 0), true);
+    TiledMap map;
+    DifficultyState state = DifficultyMaster.getStressful();
+    soundFrame soundFrame = new soundFrame();
+    map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
+    MapLayer toasting = map.getLayers().get(6); // gets toasting layer
+    MapObject object = toasting.getObjects().getByType(RectangleMapObject.class).get(0); // gets toasting object
+    Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets toasting rectangle
+    Toast = new GameObject(null); // creates toasting game object
+    Toast.setPosition(0, 0); // sets toasting position (done to avoid NullPointerException)
+    Toast.setWidthAndHeight(rect.getWidth(), rect.getHeight()); // sets toasting width and height (done to avoid NullPointerException)
+    toasterStation = new ToasterStation(state.cookingParams); // creates toaster station
+    Toast.attachScript(toasterStation); // attaches toaster station to toaster game object
+    toasterStation.init();
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
   }
@@ -240,6 +269,31 @@ class MasterTestClass {
         rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
     trashCan = new TrashCan(); // creates trashcan
     Trash.attachScript(trashCan); // attaches trashcan to trashcan game object
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
+  }
+
+  /**
+   * Creates the world and oven station. Also creates the recipe dictionary.
+   *
+   * @author Hubert Solecki
+   * @date 24/04/2023
+   */
+  void instantiateWorldAndOvenStation() {
+    world = new World(new Vector2(0, 0), true);
+    TiledMap map;
+    DifficultyState state = DifficultyMaster.getStressful();
+    soundFrame soundFrame = new soundFrame();
+    map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
+    MapLayer ovening = map.getLayers().get(7); // gets oven layer
+    MapObject object = ovening.getObjects().getByType(RectangleMapObject.class).get(0); // gets oven object
+    Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets oven rectangle
+    Oven = new GameObject(null); // creates oven game object
+    Oven.setPosition(0, 0); // sets oven station position (done to avoid NullPointerException)
+    Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight()); // sets oven station width and height (done to avoid NullPointerException)
+    ovenStation = new OvenStation(state.cookingParams); // creates oven station
+    Oven.attachScript(ovenStation); // attaches oven station to oven game object
+    ovenStation.init();
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
   }
