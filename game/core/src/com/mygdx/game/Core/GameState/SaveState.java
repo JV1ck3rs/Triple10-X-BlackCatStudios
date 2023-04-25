@@ -24,6 +24,23 @@ import jdk.javadoc.internal.doclets.toolkit.util.DocFinder.Output;
 public class SaveState {
 
 
+  /**
+   * Save the state of the game without the need for a GameScreen.
+   *
+   * @param path                File path
+   * @param masterChef          chef controller
+   * @param customerController  customer controller class
+   * @param difficultyLevel     the games current difficulty level
+   * @param timer               minute state of the timer
+   * @param seconds             second state of the timer
+   * @param Stations            List of station
+   * @param customerCounters    List of customercounters
+   * @param assemblyStations    List of assembly stations
+   * @return  The created game state
+   *
+   * @author Jack Vickers
+   * @author Felix Seanor
+   */
   public GameState SaveState(String path, MasterChef masterChef,
       CustomerController customerController, Difficulty difficultyLevel, int timer, float seconds,
       List<GameObject> Stations, List<GameObject> customerCounters,
@@ -38,7 +55,14 @@ public class SaveState {
     return state;
   }
 
-
+  /**
+   * Saves a game state to disk under the given path
+   * @param state   GameState variables that the game has been saved under
+   * @param path    File path
+   *
+   * @author Felix Seanor
+   * @author Jack Vickers
+   */
   public void SaveState(GameState state, String path){
   try {
     FileOutputStream fileOut = new FileOutputStream(path);
@@ -96,7 +120,11 @@ public class SaveState {
     state.FoodOnCounters = itemsOnCounters;
   }
 
-
+  /**
+   * Load the current state into a GameState variable
+   * @param ID file path
+   * @return GameState loaded in from disk
+   */
   public GameState LoadState(String ID) {
     GameState state = null;
 
