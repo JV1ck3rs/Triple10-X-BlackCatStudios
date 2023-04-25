@@ -13,7 +13,7 @@ import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.Customers.OrderMenu;
 import com.mygdx.game.Core.Customers.Randomisation;
 import com.mygdx.game.Core.GameObjectManager;
-import com.mygdx.game.Core.GameState.Difficaulty;
+import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
 import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.Pathfinding;
@@ -36,7 +36,7 @@ public class CustomerTests {
   Pathfinding pathfinding;
   EndOfGameValues vals;
   CustomerControllerParams params = new CustomerControllerParams();
-  void InstantiateCustomerScripts(Difficaulty difficaulty){
+  void InstantiateCustomerScripts(Difficulty difficaulty){
 
     GameObjectManager.objManager = null;
     TextureDictionary dico = new TextureDictionary();
@@ -54,7 +54,7 @@ public class CustomerTests {
 
   void InstantiateCustomerScripts(){
 
-   InstantiateCustomerScripts(Difficaulty.Stressful);
+   InstantiateCustomerScripts(Difficulty.Stressful);
   }
 @Test
   public void TestEndGame(){
@@ -180,7 +180,7 @@ public class CustomerTests {
    */
   @Test
   public void TestDishCreation(){
-    InstantiateCustomerScripts(Difficaulty.Mindbreaking);
+    InstantiateCustomerScripts(Difficulty.Mindbreaking);
 
   List<ItemEnum> order =  cust.getMenu().CreateNewOrder(1000, Randomisation.TrueRandom);
 
@@ -217,7 +217,7 @@ public class CustomerTests {
 
   @Test
   public void TryAtlas(){
-    InstantiateCustomerScripts(Difficaulty.Mindbreaking);
+    InstantiateCustomerScripts(Difficulty.Mindbreaking);
     cust.generateCustomerArray();
 
   }
