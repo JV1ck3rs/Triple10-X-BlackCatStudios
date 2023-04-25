@@ -38,6 +38,8 @@ public class ContinousSound
     ShouldPlay = false;
   }
 
+  public boolean getStopped(){return stopped;}
+
   /**
    * Create a new sound given a sound enum
    * @param name

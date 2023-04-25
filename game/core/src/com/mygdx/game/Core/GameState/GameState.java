@@ -2,6 +2,7 @@ package com.mygdx.game.Core.GameState;
 
 import com.badlogic.gdx.math.Vector2;
 import java.io.Serializable;
+import java.nio.file.attribute.GroupPrincipal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,56 @@ public class GameState implements Serializable
   public int MaxReputation;
   public ArrayList<Integer> CustomersPerWave;
   public Difficulty difficulty;
+
+
+  public boolean IsChefPartEquals(GameState state){
+    boolean  eq = true;
+
+    for (int i = 0; i < ChefPositions.length; i++) {
+      eq &= ChefPositions[i].epsilonEquals( state.ChefPositions[i]);
+
+    }
+
+    for (int i = 0; i < ChefHoldingStacks.length; i++) {
+      eq &= ChefHoldingStacks[i] == ( state.ChefHoldingStacks[i]);
+
+    }
+
+    return eq;
+
+  }
+
+  public boolean IsCustomerPartEquals(GameState state){
+    boolean eq = true;
+
+   // eq &= difficulty == state.difficulty; gamescreen
+    eq &= CustomersPerWave == state.CustomersPerWave;
+    eq &= MaxReputation == state.MaxReputation;
+    eq &= Reputation == state.Reputation;
+    eq &= MaxFrustration == state.MaxFrustration;
+    eq &= MaxWave == state.MaxWave;
+    eq &= Wave == state.Wave;
+    eq &= GroupSize.epsilonEquals(state.GroupSize);
+
+//    for (int i = 0; i < FoodOnCounters.size(); i++) {
+//      eq &=  FoodOnCounters.get(i).equals(state.FoodOnCounters.get(i));
+//    } a game screen one
+    for (int i = 0; i < CustomerGroupsData.length; i++) {
+      eq &= state.CustomerGroupsData[i].equals(CustomerGroupsData[i]);
+    }
+
+
+
+    eq &= MaxMoney == state.MaxMoney;
+    eq &= Money == state.Money;
+
+
+    return eq;
+
+
+
+
+  }
 
 }
 

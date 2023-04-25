@@ -1,6 +1,7 @@
 package com.mygdx.game.Core.GameState;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.mygdx.game.Core.CustomerController;
@@ -33,21 +34,26 @@ public class SaveState {
     saveGameScreen(state, difficultyLevel, timer, seconds, Stations, customerCounters,
         assemblyStations);
 
-    try {
-      FileOutputStream fileOut = new FileOutputStream(path);
-      ObjectOutputStream stream = new ObjectOutputStream(fileOut);
-      stream.writeObject(state);
-      stream.close();
-      fileOut.close();
-      System.out.println("Game state printed to: " + path);
-
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    SaveState(state,path);
     return state;
+  }
+
+
+  public void SaveState(GameState state, String path){
+  try {
+    FileOutputStream fileOut = new FileOutputStream(path);
+    ObjectOutputStream stream = new ObjectOutputStream(fileOut);
+    stream.writeObject(state);
+    stream.close();
+    fileOut.close();
+    System.out.println("Game state printed to: " + path);
+
+  } catch (FileNotFoundException e) {
+    throw new RuntimeException(e);
+  } catch (IOException e) {
+    e.printStackTrace();
+    throw new RuntimeException(e);
+  }
   }
 
   /**
@@ -93,6 +99,9 @@ public class SaveState {
 
   public GameState LoadState(String ID) {
     GameState state = null;
+
+
+
 
     FileInputStream fileIn = null;
     try {

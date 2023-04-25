@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -139,7 +140,7 @@ public class GameScreen implements Screen {
    * @author Jack Vickers
    * @author Jack Hinton
    */
-  public GameScreen(MyGdxGame game, int numCustomers, boolean loadSave,
+  public GameScreen(MyGdxGame game, TiledMap map, boolean Test, int numCustomers, boolean loadSave,
       Difficulty difficultyLevel) {
     this.game = game;
     camera = new OrthographicCamera();
@@ -164,7 +165,7 @@ public class GameScreen implements Screen {
     exitLogo.position = new Vector2(713, 454);
 
     // add map
-    mapRenderer = new OrthogonalTiledMapRenderer(game.map);
+    mapRenderer = new OrthogonalTiledMapRenderer(map);
     mapRenderer.setView(camera);
 
     difficultyState = DifficultyMaster.getDifficulty(difficultyLevel);
@@ -197,7 +198,7 @@ public class GameScreen implements Screen {
 
     //Fixed the hideous mechanism for creating collidable objects
     for (int n = 0; n < 17; n++) {
-      MapLayer layer = game.map.getLayers().get(n);
+      MapLayer layer = map.getLayers().get(n);
       String name = layer.getName();
 
       for (MapObject object : layer.getObjects()
@@ -274,11 +275,17 @@ public class GameScreen implements Screen {
           pauseStage.getViewport().getScreenHeight() / 1280f));
     }
     if (loadSave) { // if the game is being loaded from a save
-      LoadGame();
+      if(!Test)
+        LoadGame("SavedData.ser");
+      else
+        LoadGame("../assets/TestingData.ser");
     }
     isEndlessMode = CCParams.NoCustomers == -1;
-    setupGameUI();
-    setupPauseMenu();
+
+    if(!Test) {
+      setupGameUI();
+      setupPauseMenu();
+    }
   }
 
   /**
@@ -680,7 +687,7 @@ public class GameScreen implements Screen {
 //      SaveGame();
 
     if (Gdx.input.isKeyJustPressed(Keys.V)) {
-      LoadGame();
+      LoadGame("SavedData.ser");
     }
 
     //Removed and simplified logic
@@ -816,10 +823,10 @@ public class GameScreen implements Screen {
    * Load the game from save
    * @author Felix Seanor
    */
-  public void LoadGame(){
+  public void LoadGame(String path){
     SaveState Saving = new SaveState();
 
-    GameState state = Saving.LoadState("SavedData.ser");
+    GameState state = Saving.LoadState(path);
 
     LoadState(state);
     masterChef.LoadState(state);
