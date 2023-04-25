@@ -518,6 +518,7 @@ public class ChefTests extends MasterTestClass {
     ovenStation.Update(10);
     masterChef.FetchItem();
     assertEquals("The item that the chef should be holding is the cooked version of the item they gave to the oven station", new Item(ItemEnum.CheesePizzaCooked), masterChef.getChef(0).getInventory().peek());
+    GameObjectManager.objManager.DestroyGameObject(Oven);
   }
 
   @Test
