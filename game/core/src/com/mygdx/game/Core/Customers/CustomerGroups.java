@@ -7,6 +7,7 @@ import com.mygdx.game.Core.GameState.CustomerGroupState;
 import com.mygdx.game.Customer;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -55,11 +56,21 @@ public class CustomerGroups {
       customer.isVisible = true;
 
       Members.add(custLogic);
-      MembersInLine.add(custLogic);
+      addMemberToLine(custLogic);
     }
 
   }
 
+
+  void addMemberToLine(Customer customer){
+    MembersInLine.add(customer);
+    customer.waitingAtCounter = true;
+  }
+
+  void addMemberToSitting(Customer customer){
+    MembersSeatedOrWalking.add(customer);
+    customer.waitingAtCounter = false;
+  }
 
   /**
    * Create customer group from saved state
@@ -98,13 +109,8 @@ public class CustomerGroups {
     }
   }
 
-  public void removeIcons(){
-    for(int i = 0; i<Members.size(); i++){
-      System.out.println(Members.get(i).foodIcon.isVisible);
-      if(MembersSeatedOrWalking.size() != 0 && !MembersInLine.contains(Members.get(i))){
-        MembersSeatedOrWalking.get(i).foodIcon.isVisible = false;
-      }
-    }
+  public void removeIcons(Customer customer){
+        customer.foodIcon.isVisible = false;
   }
 
 
@@ -118,7 +124,9 @@ public class CustomerGroups {
 
 
   public Customer RemoveFirstCustomer(){
-    MembersSeatedOrWalking.add( MembersInLine.remove(0));
+    Customer customer = MembersInLine.remove(0);
+    addMemberToSitting(customer);
+    removeIcons(customer);
     return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size()-1);
   }
 
@@ -159,7 +167,10 @@ public class CustomerGroups {
   }
 
   public Customer FeedSpecificCustomer(int i){
-    MembersSeatedOrWalking.add( MembersInLine.remove(i));
+    Customer customer = MembersInLine.remove(i);
+    addMemberToSitting(customer);
+    removeIcons(customer);
+
     return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size()-1);
   }
 

@@ -36,8 +36,8 @@ public class Customer extends PathfindingAgent implements Person {
 
   private GameObject HeldItem;
 
-  private boolean waitingAtCounter;   // customer will be waiting at the counter for their dish
-  private boolean eaten;
+  public boolean waitingAtCounter;   // customer will be waiting at the counter for their dish
+  public boolean eaten;
 
   public ItemEnum dish;
 

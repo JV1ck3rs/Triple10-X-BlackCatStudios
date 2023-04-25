@@ -865,39 +865,6 @@ public class GameScreen implements Screen {
     }
   }
 
-  public String printHello() {
-    return "Hello";
-  }
-
-  /**
-   * Saves the current state of the game screen class
-   * @param state
-   * @author Felix Seanor
-   */
-  public void SaveState(GameState state){
-    List<List<ItemState>> itemsOnCounters = new LinkedList<>();
-    state.difficulty = difficulty;
-    state.Timer = timer;
-    state.seconds = seconds;
-    for (GameObject station : Stations) {
-      Scriptable scriptable = station.GetScript(0);
-      if (scriptable instanceof Station) {
-        itemsOnCounters.add(((Station) scriptable).SaveState());
-      }
-
-    }
-
-    for (GameObject station : customerCounters) {
-      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
-    }
-
-    for (GameObject station : assemblyStations) {
-      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
-    }
-
-    state.FoodOnCounters = itemsOnCounters;
-
-  }
 
   public Difficulty getDifficulty() {
     return difficulty;

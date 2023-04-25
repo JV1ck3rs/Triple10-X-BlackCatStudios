@@ -321,7 +321,6 @@ public class CustomerController extends Scriptable
     super.Update(dt);
     if (currentWaiting != null) {
       currentWaiting.showIcons();
-      currentWaiting.removeIcons();
       currentWaiting.checkClicks();
       currentWaiting.updateSpriteFromInput();
     }
@@ -412,6 +411,13 @@ public class CustomerController extends Scriptable
     WalkingBackCustomers.add(groups);
     SittingCustomers.remove(0);
 
+    for (Customer customer: groups.Members
+    ) {
+      customer.eaten = true;
+    }
+
+
+
     SetCustomerGroupTarget(groups, DoorTarget);
 
     NextToLeave = EatingTime;
@@ -497,6 +503,9 @@ public class CustomerController extends Scriptable
     table.DesignateSeating(customerAmount, rand);
 
     SetWaitingForOrderTarget();
+
+
+
   }
 
   /**
@@ -545,6 +554,7 @@ public class CustomerController extends Scriptable
     group.table.relinquish();
     currentWaiting = null;
     WalkingBackCustomers.add(group);
+
     ModifyReputation(-1);
   }
 
