@@ -3,6 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -24,6 +27,10 @@ import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,6 +63,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.*;
+import jdk.internal.org.jline.utils.DiffHelper.Diff;
 
 /**
  * This is the main class of the game which runs all the logic and rendering Here all the outside
@@ -80,9 +88,10 @@ public class GameScreen implements Screen {
 
   // box2d
   static World world;
-  private final Box2DDebugRenderer b2dr;
 
   public CustomerController customerController;
+
+  public Powerup powerup;
 
 
 
@@ -113,7 +122,7 @@ public class GameScreen implements Screen {
   public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
 
-  public showRecipeInstructions recipeScreen = new showRecipeInstructions();
+  public showRecipeInstructions recipeScreen;
 
   Stage pauseStage; // stage for the pause menu
   Stage gameUIStage; // stage for the game UI
@@ -124,22 +133,22 @@ public class GameScreen implements Screen {
    * Constructor class which initialises all the variables needed to draw the sprites and also
    * manage the logic of the render as well as setting the camera and map
    *
-   * @param game            base Object which is used to draw on
-   * @param numCustomers    Integer representing maximum number of customers that will appear in the
-   *                        game (-1 for infinite customers)
-   * @param loadSave        boolean representing whether the save game should be loaded
-   * @param difficultyLevel Difficulty level of the game
-   *
+   * @param game base Object which is used to draw on
+   * @author Amy Cross
    * @author Felix Seanor
-   * @author Jack Hinton
-   * @author Jack Vickers
    * @author Sam Toner
+   * @author Jack Vickers
+   * @author Jack Hinton
    */
-  public GameScreen(MyGdxGame game, int numCustomers, boolean loadSave,
+  public GameScreen(MyGdxGame game, TiledMap map, boolean Test, int numCustomers, boolean loadSave,
       Difficulty difficultyLevel) {
     this.game = game;
     camera = new OrthographicCamera();
-    recipeScreen.showRecipeInstruction();
+    recipeScreen = new showRecipeInstructions();
+    //recipeScreen.showRecipeInstruction();
+    CameraFunctions camera1 = CameraFunctions.camera;
+    camera1.updateCamera(camera);
+
 
     camera.setToOrtho(false, viewportWidth, viewportHeight);
     camera.update();
@@ -150,14 +159,13 @@ public class GameScreen implements Screen {
     recipeScreen.createInstructionPage("Empty");
 
     world = new World(new Vector2(0, 0), true);
-    b2dr = new Box2DDebugRenderer();
     exitLogo.isVisible = false;
     exitLogo.getBlackTexture().height = 30;
     exitLogo.getBlackTexture().width = 30;
     exitLogo.position = new Vector2(713, 454);
 
     // add map
-    mapRenderer = new OrthogonalTiledMapRenderer(game.map);
+    mapRenderer = new OrthogonalTiledMapRenderer(map);
     mapRenderer.setView(camera);
 
     difficultyState = DifficultyMaster.getDifficulty(difficultyLevel);
@@ -177,6 +185,8 @@ public class GameScreen implements Screen {
 
     GameObjectManager.objManager.AppendLooseScript(customerController);
 
+    powerup = new Powerup(masterChef, customerController); // powerup object
+
     new CombinationDict();
     CombinationDict.combinations.implementItems();
     new RecipeDict();
@@ -188,7 +198,7 @@ public class GameScreen implements Screen {
 
     //Fixed the hideous mechanism for creating collidable objects
     for (int n = 0; n < 17; n++) {
-      MapLayer layer = game.map.getLayers().get(n);
+      MapLayer layer = map.getLayers().get(n);
       String name = layer.getName();
 
       for (MapObject object : layer.getObjects()
@@ -265,11 +275,17 @@ public class GameScreen implements Screen {
           pauseStage.getViewport().getScreenHeight() / 1280f));
     }
     if (loadSave) { // if the game is being loaded from a save
-      LoadGame();
+      if(!Test)
+        LoadGame("SavedData.ser");
+      else
+        LoadGame("../assets/TestingData.ser");
     }
     isEndlessMode = CCParams.NoCustomers == -1;
-    setupGameUI();
-    setupPauseMenu();
+
+    if(!Test) {
+      setupGameUI();
+      setupPauseMenu();
+    }
   }
 
   /**
@@ -432,7 +448,11 @@ public class GameScreen implements Screen {
     });
   }
 
-
+  /**
+   * Create a bin given a rectangle
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateBin(Rectangle rect) {
     GameObject Bin = new GameObject(null);
     Bin.setPosition(rect.getX(), rect.getY());
@@ -442,6 +462,11 @@ public class GameScreen implements Screen {
     Stations.add(Bin);
   }
 
+  /**
+   * Create a hob
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateHobs(Rectangle rect) {
     GameObject Hob = new GameObject(null);
     Hob.setPosition(rect.getX(), rect.getY());
@@ -452,6 +477,11 @@ public class GameScreen implements Screen {
     HS.init();
   }
 
+  /**
+   * Create a toaster
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateToaster(Rectangle rect) {
     GameObject Toast = new GameObject(null);
     Toast.setPosition(rect.getX(), rect.getY());
@@ -462,6 +492,11 @@ public class GameScreen implements Screen {
     TS.init();
   }
 
+  /**
+   * Create chopping station
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateChopping(Rectangle rect) {
     GameObject Chop = new GameObject(null);
     Chop.setPosition(rect.getX(), rect.getY());
@@ -472,6 +507,11 @@ public class GameScreen implements Screen {
     CS.init();
   }
 
+  /**
+   * Create an oven
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateOven(Rectangle rect) {
     GameObject Oven = new GameObject(null);
     Oven.setPosition(rect.getX(), rect.getY());
@@ -482,6 +522,12 @@ public class GameScreen implements Screen {
     OS.init();
   }
 
+  /**
+   * Create a food create with an item inside
+   * @param rect
+   * @param item
+   * @author Jack Vickers
+   */
   void CreateFoodCrates(Rectangle rect, ItemEnum item) {
     GameObject Crate = new GameObject(null);
     Crate.setPosition(rect.getX(), rect.getY());
@@ -491,6 +537,11 @@ public class GameScreen implements Screen {
     Stations.add(Crate);
   }
 
+  /**
+   * Create an assembly station
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateAssembly(Rectangle rect) {
     GameObject Ass = new GameObject(null);
     Ass.setPosition(rect.getX(), rect.getY());
@@ -501,6 +552,11 @@ public class GameScreen implements Screen {
     Stations.add(Ass);
   }
 
+  /**
+   * Create a customer counter
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateCustomerCounters(Rectangle rect) {
     GameObject Cust = new GameObject(null);
     Cust.setPosition(rect.getX(), rect.getY());
@@ -523,6 +579,9 @@ public class GameScreen implements Screen {
    * @param height the height of the world
    * @param type   the type of the world
    * @param name   the name of the world
+   *
+   * @author Amy Cross
+   * @author Felix Seanor
    */
   public void buildObject(World world, float x, float y, float width, float height,
       String type, String name) {
@@ -547,7 +606,11 @@ public class GameScreen implements Screen {
   }
 
 
-  public void EndGame(EndOfGameValues values) {
+  /**
+   * End game sequence
+   * @param values
+   */
+  public void EndGame(EndOfGameValues values){
 
     VictoryScreen screen = new VictoryScreen(game, this, timer, values);
     game.setScreen(screen);
@@ -557,6 +620,8 @@ public class GameScreen implements Screen {
 
   /**
    * Plays the game music when the screen is shown.
+   * @author Amy Cross
+   * @author Jack Vickers
    */
   @Override
   public void show() {
@@ -567,7 +632,10 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Displays the timer for the player
+   * Displays the timer.
+   *
+   * @author Amy Cross
+   * @author Felix Seanor
    */
   public void displayTimer() {
     seconds += Gdx.graphics.getDeltaTime();
@@ -599,6 +667,10 @@ public class GameScreen implements Screen {
    * Calls all logic updates and sprite draws as well as checks if game has been completed
    *
    * @param delta The time in seconds since the last render.
+   *
+   * @author Felix Seanor
+   * @author Amy Cross
+   * @author Jack Hinton
    */
   @Override
   public void render(float delta) {
@@ -611,11 +683,15 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
+//    if(Gdx.input.isKeyJustPressed(Keys.B))
+//      SaveGame();
+
     if (Gdx.input.isKeyJustPressed(Keys.V)) {
-      LoadGame();
+      LoadGame("SavedData.ser");
     }
 
     //Removed and simplified logic
+
     world.step(1 / 60f, 6, 2);
 
     game.batch.setProjectionMatrix(camera.combined);
@@ -638,9 +714,29 @@ public class GameScreen implements Screen {
           gameMusic.play();
         }
       }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+        powerup.doSpeedPowerup();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+        powerup.buyReputation();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+        powerup.superFood();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+        powerup.tetrisSuperFood();
+      }
     } else {
       pauseStage.draw();
     }
+    // THIS IS SAM'S CODE:
+//    LeaderBoard x = new LeaderBoard();
+//    x.createJSONFile();
+//    try {
+//      x.readJSONData();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
 
     game.batch.end();
 
@@ -655,6 +751,8 @@ public class GameScreen implements Screen {
   /**
    * Finds all the collisions and assigns the names Also has a convenience function to disregard the
    * chef collision
+   *
+   * @author Amy Cross
    */
   public void createCollisionListener() {
     world.setContactListener(new ContactListener() {
@@ -710,16 +808,25 @@ public class GameScreen implements Screen {
     });
   }
 
-  public void SaveGame() {
+  /**
+   * Save the game.
+   *
+   * @author Felix Seanor
+   */
+  public void SaveGame(){
     SaveState Saving = new SaveState();
-    Saving.SaveState(this, "SavedData.ser");
+    Saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds, Stations, customerCounters, assemblyStations);
 
   }
 
-  public void LoadGame() {
+  /**
+   * Load the game from save
+   * @author Felix Seanor
+   */
+  public void LoadGame(String path){
     SaveState Saving = new SaveState();
 
-    GameState state = Saving.LoadState("SavedData.ser");
+    GameState state = Saving.LoadState(path);
 
     LoadState(state);
     masterChef.LoadState(state);
@@ -729,9 +836,10 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Loads the state of a previous state of the world, all LoadGame to a full sweep
-   *
+   * Loads the state of a previous state of the world, all LoadGame to a full sweep.
    * @param state
+   *
+   * @author Felix Seanor
    */
   public void LoadState(GameState state) {
 
@@ -757,11 +865,18 @@ public class GameScreen implements Screen {
     }
   }
 
-  public void SaveState(GameState state) {
+  public String printHello() {
+    return "Hello";
+  }
+
+  /**
+   * Saves the current state of the game screen class
+   * @param state
+   * @author Felix Seanor
+   */
+  public void SaveState(GameState state){
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
     state.difficulty = difficulty;
-    state.Timer = timer;
-
     state.Timer = timer;
     state.seconds = seconds;
     for (GameObject station : Stations) {
@@ -782,8 +897,33 @@ public class GameScreen implements Screen {
 
     state.FoodOnCounters = itemsOnCounters;
 
-
   }
+
+  public Difficulty getDifficulty() {
+    return difficulty;
+  }
+
+  public int getTimer() {
+    return timer;
+  }
+
+  public float getSeconds() {
+    return seconds;
+  }
+
+  public List<GameObject> getStations() {
+    return Stations;
+  }
+
+  public List<GameObject> getCustomerCounters() {
+    return customerCounters;
+  }
+
+  public List<GameObject> getAssemblyStations() {
+    return assemblyStations;
+  }
+
+
 
   /**
    * Resizes the stage when the window is resized so that the buttons are in the correct place.
@@ -809,6 +949,7 @@ public class GameScreen implements Screen {
 
   /**
    * Disposes of all sprites from memory to keep it optimised
+   * @author Felix Seanor
    */
   @Override
   public void dispose() {

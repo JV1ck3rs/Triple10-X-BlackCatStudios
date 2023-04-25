@@ -1,5 +1,8 @@
 package com.mygdx.game.Items;
 
+/**
+ * All items in the game
+ */
 public enum ItemEnum
 {
   Cinder,

@@ -5,10 +5,14 @@ import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Bakes potatoes and pizzas
+ */
 public class OvenStation extends Station {
 
     boolean interacted;
@@ -37,6 +41,9 @@ public class OvenStation extends Station {
     public boolean GiveItem(Item item) {
         if (getLocked()) {
             return checkRepairTool(item);
+        }
+        if (this.item != null) {
+            return false;
         }
         changeItem(item);
         checkItem();
@@ -93,7 +100,7 @@ public class OvenStation extends Station {
 
 
     public void Cook(float dt) {
-        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);
+        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt-stationTimeDecrease, interacted, maxProgress);
         if (ready) {
             changeItem(new Item(currentRecipe.endItem));
             checkItem();

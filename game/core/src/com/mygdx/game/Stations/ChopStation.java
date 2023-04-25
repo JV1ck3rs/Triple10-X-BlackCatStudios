@@ -13,6 +13,9 @@ import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Chopping station. Turns items into chopped form
+ */
 public class ChopStation extends Station {
 
 

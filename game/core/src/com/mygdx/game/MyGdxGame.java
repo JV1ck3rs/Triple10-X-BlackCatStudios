@@ -22,6 +22,7 @@ public class MyGdxGame extends Game {
   public TiledMap map;
   public soundFrame soundFrame;
   public TextureDictionary textureDictionary;
+  public CameraFunctions cameraFunctions = new CameraFunctions();
 
   /**
    * creates maps and sprites

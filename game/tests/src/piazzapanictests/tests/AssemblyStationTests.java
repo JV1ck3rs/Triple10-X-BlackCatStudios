@@ -3,6 +3,7 @@ package piazzapanictests.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -12,12 +13,19 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;;
 import com.badlogic.gdx.maps.MapLayer;
+import com.mygdx.game.CameraFunctions;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.GameState.Difficulty;
+import com.mygdx.game.Core.GameState.GameState;
+import com.mygdx.game.Core.GameState.ItemState;
+import com.mygdx.game.Core.GameState.SaveState;
 import com.mygdx.game.Core.Interactions.Interactable;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.AssemblyStation;
@@ -307,4 +315,52 @@ public class AssemblyStationTests extends MasterTestClass {
     }
   }
 
+
+  /**
+   * Tests that the assembly station data can be saved and loaded correctly.
+   *
+   * @author Jack Vickers
+   * @date 25/04/2023
+   */
+  @Test
+  public void testSaveAndLoad() {
+    if (GameObjectManager.objManager == null) {
+      // creates game object manager which makes sure that the game object
+      // manager is not null when it is needed
+      new GameObjectManager();
+    }
+    instantiateWorldAndAssemblyStation();
+    // A masster chef must be passed to the save state class
+    instantiateMasterChef();
+    // A customer controller must be passed to the save state class
+    instantiateCustomerScripts();
+
+    // Creates items and gives them to the assembly station
+    Item item1 = new Item(ItemEnum.CutLettuce);
+    Item item2 = new Item(ItemEnum.CookedPatty);
+    Item item3 = new Item(ItemEnum.CutTomato);
+    Item item4 = new Item(ItemEnum.CutOnion);
+    assemblyStation.GiveItem(item1);
+    assemblyStation.GiveItem(item2);
+    assemblyStation.GiveItem(item3);
+    assemblyStation.GiveItem(item4);
+
+    List<GameObject> assemblyStations = new ArrayList<>();
+    // Adds the assembly station to the list of assembly stations
+    assemblyStations.add(assemble);
+    // Creates empty lists of stations and customer counters
+    List<GameObject> stations = new ArrayList<>();
+    List<GameObject> customerCounters = new ArrayList<>();
+
+    // Gets the items on the assembly station before saving
+    ArrayList<Item> itemsOnStationBeforeSave = assemblyStation.getIngredients();
+
+    SaveState saveState = new SaveState();
+    // Saves the state of the game
+    GameState saveContents = saveState.SaveState("testAssemblySave.ser", masterChef, cust, Difficulty.Stressful, 0, 0f, stations, customerCounters, assemblyStations);
+    // Loads the state of the game
+    GameState loadedState = saveState.LoadState("testAssemblySave.ser");
+    assertEquals("The items on the station after loading should be the same as the items on the station before saving",
+        itemsOnStationBeforeSave, assemblyStation.getIngredients());
+  }
 }

@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    75%
+    100%
   </span>
   <span class="absValue">
-    (3/4)
+    (5/5)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    60%
+    100%
   </span>
   <span class="absValue">
-    (9/15)
+    (16/16)
   </span>
 </td>
 </tr>
@@ -79,6 +79,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.mygdx.game.Core.BlackTexture;
 &nbsp;import com.mygdx.game.Core.GameState.ItemState;
 &nbsp;
+&nbsp;/**
+&nbsp; * Item class, instatiates item Enum into a physical item in the game.
+&nbsp; * stores cooking progress ect.
+&nbsp; *
+&nbsp; * Last modified 09/04/23
+&nbsp; */
 &nbsp;public class Item {
 &nbsp;
 &nbsp;  public ItemEnum name;
@@ -105,13 +111,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;    tex.setSize(width, height);</b>
 &nbsp;  }
 &nbsp;
-<b class="nc">&nbsp;  public Item(ItemState itemState){</b>
+<b class="fc">&nbsp;  public Item(ItemState itemState){</b>
 &nbsp;
-<b class="nc">&nbsp;    name = itemState.item;</b>
-<b class="nc">&nbsp;    step = itemState.step;</b>
-<b class="nc">&nbsp;    progress =itemState.progress;</b>
-<b class="nc">&nbsp;    tex = new BlackTexture(GetItemPath(name));</b>
-<b class="nc">&nbsp;    tex.setSize(width, height);</b>
+<b class="fc">&nbsp;    name = itemState.item;</b>
+<b class="fc">&nbsp;    step = itemState.step;</b>
+<b class="fc">&nbsp;    progress =itemState.progress;</b>
+<b class="fc">&nbsp;    tex = new BlackTexture(GetItemPath(name));</b>
+<b class="fc">&nbsp;    tex.setSize(width, height);</b>
 &nbsp;
 &nbsp;  }
 &nbsp;
@@ -130,6 +136,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;  @Override
 &nbsp;  public boolean equals(Object obj) {
 <b class="fc">&nbsp;    return obj instanceof Item &amp;&amp; ((Item) obj).name == name;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String GetRecipePath(ItemEnum name){
+<b class="fc">&nbsp;    return &quot;Recipe/&quot;+name.name()+&quot;Recipe.png&quot;;</b>
+&nbsp;
 &nbsp;  }
 &nbsp;}
 </code>
@@ -155,7 +166,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-18 15:28</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

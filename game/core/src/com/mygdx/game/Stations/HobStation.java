@@ -16,6 +16,9 @@ import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Converts some items into their fried forms
+ */
 public class HobStation extends Station {
 
   boolean interacted;
@@ -44,6 +47,7 @@ public class HobStation extends Station {
 
   /**
    * Retrieves the interacted attribute which is private for testing.
+   *
    * @return boolean
    */
   public boolean GetInteracted() {
@@ -89,7 +93,7 @@ public class HobStation extends Station {
 
     public void checkItem(){
         if(ItemWhiteList.contains(item.name)) {
-            currentRecipe = recipes.RecipeMap.get(item.name);
+            currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
             bubble.isVisible = true;
             if(item.step == 1||currentRecipe.RecipeSteps.size() == 1)
                 bubble2.isVisible = true;
@@ -118,13 +122,13 @@ public class HobStation extends Station {
   }
 
 
-  public void Cook(float dt){
-    ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);
+  public void Cook(float dt) {
+    ready = currentRecipe.RecipeSteps.get(item.step)
+        .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
     BurnersSFX.ShouldPlay = true;
     FryingSFX.ShouldPlay = !ready;
-    if(ready && item.progress == 0){
+    if (ready && item.progress == 0) {
       item.step++;
-
       System.out.println("PRESS SPACE TO FLIP BURGER");
       bubble2.isVisible = item.step == 1;
 

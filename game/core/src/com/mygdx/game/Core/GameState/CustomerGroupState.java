@@ -19,4 +19,37 @@ public class CustomerGroupState implements Serializable {
 
   // Saves the following instead of the actual customer objects because they are not serializable
   public int NumCustomersWalkingToTable;
+
+
+  @Override
+  public boolean equals(Object obj) {
+
+    if(!(obj instanceof CustomerGroupState))
+      return false;
+
+
+    boolean eq = true;
+
+    for (int i = 0; i < orders.length; i++) {
+      eq &= orders[i] == ((CustomerGroupState) obj).orders[i];
+    }
+
+    eq &= Table ==((CustomerGroupState) obj).Table;
+    eq &= CustomerStartID ==((CustomerGroupState) obj).CustomerStartID;
+    eq &= frustration ==((CustomerGroupState) obj).frustration;
+
+    for (int i = 0; i < customerPositions.length; i++) {
+      eq &= customerPositions[i].epsilonEquals(((CustomerGroupState) obj).customerPositions[i]);
+    }
+
+    for (int i = 0; i < customersInGroupOrdering.length; i++) {
+      eq &= customersInGroupOrdering[i] == ((CustomerGroupState) obj).customersInGroupOrdering[i];
+    }
+
+
+
+
+
+    return eq;
+  }
 }

@@ -1,8 +1,10 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.Screen;
-
+import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -25,6 +27,8 @@ import com.mygdx.game.Core.RenderManager;
  * Implements the screen that's displayed for the start of the game
  *
  * @author Kelvin Chen
+ * @author Amy Cross
+ * @author Felix Seanor
  * @author Amy Cross
  * @author Jack Vickers
  */
@@ -53,6 +57,10 @@ public class MenuScreen implements Screen {
    * constructs the screen including the position of the buttons and their hitboxes;
    *
    * @param root The base object
+   *
+   * @author Amy Cross
+   * @author Felix Seanor
+   * @author Jack Vickers
    */
   public MenuScreen(final MyGdxGame root) {
 
@@ -108,7 +116,7 @@ public class MenuScreen implements Screen {
           new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) { // if clicked, load the game
-              gameScreen = new GameScreen(root, -1, true, Difficulty.Relaxing);
+              gameScreen = new GameScreen(root, root.map, false, -1, true, Difficulty.Relaxing);
               root.setScreen(gameScreen);
               dispose();
             }
@@ -207,7 +215,7 @@ public class MenuScreen implements Screen {
     easyBtn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        gameScreen = new GameScreen(root, -1, false, Difficulty.Relaxing);
+        gameScreen = new GameScreen(root, root.map, false, -1, false, Difficulty.Relaxing);
         root.setScreen(gameScreen);
         dispose();
       }
@@ -233,7 +241,7 @@ public class MenuScreen implements Screen {
     mediumBtn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        gameScreen = new GameScreen(root, -1, false, Difficulty.Stressful);
+        gameScreen = new GameScreen(root, root.map, false, -1, false, Difficulty.Stressful);
         root.setScreen(gameScreen);
         dispose();
       }
@@ -258,7 +266,7 @@ public class MenuScreen implements Screen {
     hardBtn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        gameScreen = new GameScreen(root, -1, false, Difficulty.Mindbreaking);
+        gameScreen = new GameScreen(root, root.map, false, -1, false, Difficulty.Mindbreaking);
         root.setScreen(gameScreen);
         dispose();
       }
@@ -279,6 +287,7 @@ public class MenuScreen implements Screen {
    * Renders the screen and checks for interactions
    *
    * @param delta The time in seconds since the last render.
+   * @author Amy Cross
    */
   @Override
   public void render(float delta) {
@@ -293,6 +302,7 @@ public class MenuScreen implements Screen {
    *
    * @param width  the width of the camera
    * @param height the height of the camera
+   * @author Amy Cross
    */
   @Override
   public void resize(int width, int height) {

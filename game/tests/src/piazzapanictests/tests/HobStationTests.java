@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 public class HobStationTests extends MasterTestClass {
 
     /**
-     * Tests that an item can be removed by the active chef from the frying station whether frying is complete or not.
+     * Tests that an item can be removed from the frying station whether frying is complete or not.
      *
      * @author Hubert Solecki
      * @date 14/04/2023
@@ -74,7 +74,10 @@ public class HobStationTests extends MasterTestClass {
     }
 
     /**
-     * Tests that incorrect items cannot be placed
+     * Tests that incorrect items cannot be fried as current recipe on toaster station is null when placed on the toaster.
+     *
+     * @author Hubert Solecki
+     * @date 23/04/2023
      */
     @Test
     public void testIncorrectItemOnHob() {
@@ -112,8 +115,16 @@ public class HobStationTests extends MasterTestClass {
         }
         instantiateWorldAndHobsStation();
         assertFalse("The CanRetrieveItem() method should return false when there is nothing on the hob", hobStation.CanRetrieve());
+        assertNull("The RetrieveItem() method should return null when no item is on the hob", hobStation.RetrieveItem());
     }
 
+    /**
+     * Tests whether an item can be placed on the hob when there is already an item on it; should return false.
+     * Placing a different item on the hob should not change what is currently on the hob.
+     *
+     * @author Hubert Solecki
+     * @date 23/04/2023
+     */
     @Test
     public void testGiveItemWhenHobFull() {
         if (GameObjectManager.objManager == null) {
@@ -121,31 +132,14 @@ public class HobStationTests extends MasterTestClass {
             new GameObjectManager();
         }
         instantiateWorldAndHobsStation();
-        hobStation.GiveItem(new Item(ItemEnum.RawPatty)); // gives an item to the hob to test if another item can be placed on it
+        Item patty = new Item(ItemEnum.RawPatty);
+        Item cookedPatty = new Item(ItemEnum.CookedPatty);
+        hobStation.GiveItem(patty); // gives an item to the hob to test if another item can be placed on it
         assertFalse("The CanGive() method should return false when there is already an item placed on the hob", hobStation.CanGive());
+        hobStation.GiveItem(cookedPatty);
+        assertEquals("The item on the hob should be unchanged if an item is placed on the hob when there already was an item on the hob", patty, hobStation.RetrieveItem());
     }
 
-    /**
-     * Tests that the raw patty can be cooked on the hob.
-     *
-     * @author Hubert Solecki
-     * @date 17/04/2023
-     */
-
-    @Test
-    public void testItemCookedOnHob() { // tests both that the item can be cooked and flip needed for chef
-        if (GameObjectManager.objManager == null) { // creates a game object manager making sure it is not null when needed
-            new GameObjectManager();
-        }
-        instantiateWorldAndHobsStation();
-        hobStation.GiveItem(new Item(ItemEnum.RawPatty)); // gives the hob a new raw patty to test for cooking
-    }
-
-
-    @Test
-    public void testItemFlippedOnHob() {
-        ;
-    }
 
     /**
      * Tests that an item can be picked up during frying and that the progress of the item being cooked is saved in its progress attribute.
@@ -179,7 +173,7 @@ public class HobStationTests extends MasterTestClass {
      */
 
     @Test
-    public void testUpdateFunctionHobStation() {
+    public void testUpdateMethodHobStation() {
         if (GameObjectManager.objManager == null) {
             new GameObjectManager();
         }

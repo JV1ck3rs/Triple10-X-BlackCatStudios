@@ -462,7 +462,7 @@ public class ChefTests extends MasterTestClass {
     hobStation.Cook(5);
     hobStation.Cook(10);
     masterChef.FetchItem();
-    assertEquals("The item in the chef's inventory should be a cooked patty", masterChef.getChef(0).getInventory().peek(), new Item(ItemEnum.CookedPatty));
+    assertEquals("The item in the chef's inventory should be a cooked patty", new Item(ItemEnum.CookedPatty), masterChef.getChef(0).getInventory().peek());
     masterChef.getChef(0).ClearInventory();
     masterChef.getChef(0).GiveItem(new Item(ItemEnum.RawPatty));
     masterChef.GiveItem();
@@ -470,6 +470,75 @@ public class ChefTests extends MasterTestClass {
     hobStation.Update(15);
     masterChef.FetchItem();
     assertEquals("The item on top of the chef's inventory stack should be cinder", masterChef.getChef(0).getInventory().peek(), new Item(ItemEnum.Cinder));
+    GameObjectManager.objManager.DestroyGameObject(Fry);
+  }
+
+  /**
+   * Tests that the chef can interact with the toaster station through to a completely toasted item.
+   *
+   * @author Hubert Solecki
+   * @date 23/04/2023
+   */
+
+  @Test
+  public void testItemInteractionToasterStation() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a game object manager making sure it is not null when needed
+    }
+    instantiateMasterChef();
+    instantiateWorldAndToasterStation();
+    masterChef.getChef(0).gameObject.position = new Vector2(1, 0); // sets chef position to that of next to the toaster for interaction
+    masterChef.getChef(0).GiveItem(new Item(ItemEnum.Buns)); // gives the valid item for toasting to the chef
+    masterChef.GiveItem(); // gives currently held item to toaster
+    toasterStation.Cook(10);
+    masterChef.FetchItem();
+    assertEquals("The item the chef is holding should be a toasted bun", new Item(ItemEnum.ToastedBuns), masterChef.getChef(0).getInventory().peek());
+    GameObjectManager.objManager.DestroyGameObject(Toast); // must destroy station's game object at the end of the test
+  }
+
+  /**
+   * Tests that the chef can interact with the oven station through to a completely cooked item.
+   *
+   * @author Hubert Solecki
+   * @date 24/04/2023
+   */
+
+  @Test
+  public void testItemInteractionOvenStation() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a new game object manager making sure it is not null when needed
+    }
+    instantiateMasterChef();
+    instantiateWorldAndOvenStation();
+    masterChef.getChef(0).gameObject.position = new Vector2(1, 0); // sets chef position to that of next to the oven station for interaction
+    masterChef.getChef(0).GiveItem(new Item(ItemEnum.CheesePizza)); // gives a cheese pizza to the chef for interaction with the oven
+    masterChef.GiveItem();
+    ovenStation.Update(10);
+    masterChef.FetchItem();
+    assertEquals("The item that the chef should be holding is the cooked version of the item they gave to the oven station", new Item(ItemEnum.CheesePizzaCooked), masterChef.getChef(0).getInventory().peek());
+  }
+
+  @Test
+  public void TestStackCycle(){
+
+    instantiateWorldAndChefs();
+    chef[0].GiveItem(new Item(ItemEnum.Mince)); // Give the chef an item
+    chef[0].GiveItem(new Item(ItemEnum.Lettuce)); // Give the chef an item
+    chef[0].GiveItem(new Item(ItemEnum.Buns)); // Give the chef an item
+    int inventorySize = chef[0].getInventoryCount();
+
+    chef[0].CycleStack();
+
+    assertTrue("must have the same size inventory", chef[0].getInventoryCount()==inventorySize);
+
+    Stack<Item> inv = chef[0].getInventory();
+
+
+    assertTrue("First Item must be lettuce", inv.pop().name == ItemEnum.Mince);
+    assertTrue("Second Item must be mince", inv.pop().name == ItemEnum.Buns);
+    assertTrue("Third Item must be buns", inv.pop().name == ItemEnum.Lettuce);
 
   }
 }

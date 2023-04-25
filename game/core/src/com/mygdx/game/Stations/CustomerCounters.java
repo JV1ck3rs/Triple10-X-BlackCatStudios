@@ -8,9 +8,15 @@ import com.mygdx.game.Items.Item;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-
+/**
+ * This handles serving food to customers
+ */
 public class CustomerCounters extends Station {
 
+
+  /**
+   * Customer Controller, can the item give be accepted
+   */
   Function<Item, Boolean> script;
 
   public CustomerCounters(Function<Item, Boolean> script, CookingParams params) {

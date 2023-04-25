@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > Renderable</title>
+  <title>Coverage Report > RayPoint</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.mygdx.game.Core</a>
 </div>
 
-<h1>Coverage Summary for Class: Renderable (com.mygdx.game.Core)</h1>
+<h1>Coverage Summary for Class: RayPoint (com.mygdx.game.Core)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Renderable</td>
+  <td class="name">RayPoint</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33.3%
+    0%
   </span>
   <span class="absValue">
-    (1/3)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    22.2%
+    0%
   </span>
   <span class="absValue">
-    (2/9)
+    (0/1)
   </span>
 </td>
 </tr>
@@ -75,42 +75,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core;
-&nbsp;
-&nbsp;import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-&nbsp;
-&nbsp;public abstract class Renderable {
-&nbsp;
-&nbsp;  public int layer;
-&nbsp;
-&nbsp;  public abstract void Render(SpriteBatch batch, float x, float y);
-&nbsp;  public abstract void Destroy();
-&nbsp;
-&nbsp;  public abstract void setSize(int x, int y);
-&nbsp;
-<b class="nc">&nbsp;  public Renderable(int layer) {</b>
-<b class="nc">&nbsp;    this.layer = layer;</b>
-&nbsp;  }
-&nbsp;
-<b class="fc">&nbsp;  public Renderable() {</b>
-<b class="fc">&nbsp;    layer = 0;</b>
-&nbsp;  }
+&nbsp;import com.badlogic.gdx.math.Vector2;
 &nbsp;
 &nbsp;
-&nbsp;  public int compare(Renderable o1, Renderable o2) {
-<b class="nc">&nbsp;    if (o1.layer &lt; o2.layer) {</b>
-<b class="nc">&nbsp;      return -1;</b>
-&nbsp;    }
-<b class="nc">&nbsp;    if (o1.layer == o2.layer) {</b>
-<b class="nc">&nbsp;      return 0;</b>
-&nbsp;    }
+<b class="nc">&nbsp;public class RayPoint {</b>
 &nbsp;
-&nbsp;    //o1 &gt; o2
-<b class="nc">&nbsp;    return 1;</b>
-&nbsp;  }
+&nbsp;  /** position ray starts at*/
+&nbsp;  public Vector2 pos;
 &nbsp;
-&nbsp;  public abstract int GetWidth();
-&nbsp;  public abstract int GetHeight();
-&nbsp;
+&nbsp;  /** distance along the ray */
+&nbsp;  public float t;
 &nbsp;}
 </code>
 </pre>
@@ -135,7 +109,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-18 15:28</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>
