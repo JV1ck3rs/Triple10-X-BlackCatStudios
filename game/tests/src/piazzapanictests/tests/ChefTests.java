@@ -519,4 +519,26 @@ public class ChefTests extends MasterTestClass {
     masterChef.FetchItem();
     assertEquals("The item that the chef should be holding is the cooked version of the item they gave to the oven station", new Item(ItemEnum.CheesePizzaCooked), masterChef.getChef(0).getInventory().peek());
   }
+
+  @Test
+  public void TestStackCycle(){
+
+    instantiateWorldAndChefs();
+    chef[0].GiveItem(new Item(ItemEnum.Mince)); // Give the chef an item
+    chef[0].GiveItem(new Item(ItemEnum.Lettuce)); // Give the chef an item
+    chef[0].GiveItem(new Item(ItemEnum.Buns)); // Give the chef an item
+    int inventorySize = chef[0].getInventoryCount();
+
+    chef[0].CycleStack();
+
+    assertTrue("must have the same size inventory", chef[0].getInventoryCount()==inventorySize);
+
+    Stack<Item> inv = chef[0].getInventory();
+
+
+    assertTrue("First Item must be lettuce", inv.pop().name == ItemEnum.Mince);
+    assertTrue("Second Item must be mince", inv.pop().name == ItemEnum.Buns);
+    assertTrue("Third Item must be buns", inv.pop().name == ItemEnum.Lettuce);
+
+  }
 }

@@ -83,6 +83,6 @@ public class SaveTests {
     SaveState state = new SaveState();
     GameState gstate = state.LoadState("../assets/TestingData.ser");
 
-    CustomerController controller = new CustomerController(new Vector2(0,0),new Vector2(0,0), null,null,gstate.ChefHoldingStacks)
+   // CustomerController controller = new CustomerController(new Vector2(0,0),new Vector2(0,0), null,null,gstate.ChefHoldingStacks)
   }
 }

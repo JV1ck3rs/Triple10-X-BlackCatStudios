@@ -24,7 +24,7 @@ public class soundFrame {
   Sound[] Sounds = new Sound[soundsEnum.end.ordinal()];
 
   HashMap<soundsEnum, LinkedList<Long>> soundIDsMap = new HashMap<>();
-  float currentSystemVolume = 1.0f;
+ public float currentSystemVolume = 1.0f;
 
 
   public soundFrame(){
