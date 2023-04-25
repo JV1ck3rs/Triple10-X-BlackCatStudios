@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > showRecipeInstructions</title>
+  <title>Coverage Report > SoundDataLoad</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.mygdx.game</a>
 </div>
 
-<h1>Coverage Summary for Class: showRecipeInstructions (com.mygdx.game)</h1>
+<h1>Coverage Summary for Class: SoundDataLoad (com.mygdx.game)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">showRecipeInstructions</td>
+  <td class="name">SoundDataLoad</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/7)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/13)
+    (3/3)
   </span>
 </td>
 </tr>
@@ -76,46 +76,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game;
 &nbsp;
-&nbsp;import com.badlogic.gdx.graphics.Texture;
-&nbsp;import com.badlogic.gdx.math.Vector2;
-&nbsp;import com.badlogic.gdx.physics.box2d.World;
-&nbsp;import com.mygdx.game.Core.BlackTexture;
-&nbsp;import com.mygdx.game.Core.GameObject;
+&nbsp;import com.mygdx.game.soundFrame.soundsEnum;
 &nbsp;
-&nbsp;import com.mygdx.game.Core.TextureDictionary;
-&nbsp;import java.util.HashMap;
 &nbsp;
-<b class="nc">&nbsp;public class showRecipeInstructions {</b>
-<b class="nc">&nbsp;    HashMap&lt;String, String&gt; recipeMap = new HashMap&lt;&gt;();</b>
-&nbsp;    public GameObject imageObject;
+&nbsp;public class SoundDataLoad {
 &nbsp;
-&nbsp;    public void showRecipeInstruction(){
-<b class="nc">&nbsp;        recipeMap.put(&quot;Empty&quot;, &quot;Recipes/EmptyRecipe.png&quot;);</b>
-<b class="nc">&nbsp;        recipeMap.put(&quot;salad&quot;, &quot;speech_dish1.png&quot;);</b>
-<b class="nc">&nbsp;        recipeMap.put(&quot;burger&quot;, &quot;Recipes/BurgerRecipe.png&quot;);</b>
-&nbsp;    }
-&nbsp;    public void createInstructionPage(String dish){
-<b class="nc">&nbsp;        imageObject = new GameObject(new BlackTexture(recipeMap.get(dish)));</b>
-<b class="nc">&nbsp;        imageObject.position = new Vector2((32*32/2)-(imageObject.getBlackTexture().width/2),0);</b>
-<b class="nc">&nbsp;        imageObject.isVisible = false;</b>
-&nbsp;    }
+&nbsp;  public String Path;
+&nbsp;  public soundsEnum name;
 &nbsp;
-&nbsp;    public void changeInstructionPage(String dish){
-<b class="nc">&nbsp;        Texture tex = TextureDictionary.textures.Get(recipeMap.get(dish));</b>
-<b class="nc">&nbsp;        imageObject.getBlackTexture().changeTexture(tex);</b>
-&nbsp;    }
+<b class="fc">&nbsp;  public SoundDataLoad(String Path, soundsEnum name){</b>
+<b class="fc">&nbsp;    this.Path = Path;</b>
+<b class="fc">&nbsp;    this.name = name;</b>
+&nbsp;  }
 &nbsp;
-&nbsp;    public void makeVisible(){
-<b class="nc">&nbsp;        imageObject.isVisible = true;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public void makeInvisible(){
-<b class="nc">&nbsp;        imageObject.isVisible = false;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public void removeInstructionPage(){
-<b class="nc">&nbsp;        imageObject = null;</b>
-&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -140,7 +113,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-18 15:28</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

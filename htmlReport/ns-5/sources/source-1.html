@@ -115,7 +115,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;    Interact</b>
 &nbsp;  }
 &nbsp;
-&nbsp;
+&nbsp;  /**
+&nbsp;   * Find the closest acceptable interactable object. Will not return an object that cannot be interacted given the type
+&nbsp;   * @param pos position to scan from
+&nbsp;   * @param type type of position
+&nbsp;   * @param maxRange max interaction range
+&nbsp;   * @return Scriptable to interact with
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
 &nbsp;  public static Scriptable FindClosetInteractable(Vector2 pos, InteractionType type,
 &nbsp;      float maxRange) {
 <b class="fc">&nbsp;    List&lt;Scriptable&gt; interactables = GameObjectManager.objManager.returnObjectsWithInterface(</b>
@@ -185,7 +194,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-18 15:28</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

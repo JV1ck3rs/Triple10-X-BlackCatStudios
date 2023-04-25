@@ -19,4 +19,5 @@ public class CustomerGroupState implements Serializable {
 
   // Saves the following instead of the actual customer objects because they are not serializable
   public int NumCustomersWalkingToTable;
+
 }

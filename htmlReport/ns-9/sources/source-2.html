@@ -59,10 +59,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    64.4%
+    62%
   </span>
   <span class="absValue">
-    (29/45)
+    (31/50)
   </span>
 </td>
 </tr>
@@ -77,14 +77,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Stations;
 &nbsp;
 &nbsp;import com.mygdx.game.Core.BlackTexture;
+&nbsp;import com.mygdx.game.Core.ContinousSound;
 &nbsp;import com.mygdx.game.Core.GameObject;
+&nbsp;import com.mygdx.game.Core.GameState.CookingParams;
 &nbsp;import com.mygdx.game.Items.Item;
 &nbsp;import com.mygdx.game.Items.ItemEnum;
 &nbsp;import com.mygdx.game.RecipeAndComb.CombinationDict;
 &nbsp;import com.mygdx.game.RecipeAndComb.RecipeDict;
+&nbsp;import com.mygdx.game.soundFrame;
+&nbsp;import com.mygdx.game.soundFrame.soundsEnum;
 &nbsp;import java.util.ArrayList;
 &nbsp;import java.util.Arrays;
 &nbsp;
+&nbsp;/**
+&nbsp; * Chopping station. Turns items into chopped form
+&nbsp; */
 &nbsp;public class ChopStation extends Station {
 &nbsp;
 &nbsp;
@@ -95,10 +102,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;  public float maxProgress;
 <b class="fc">&nbsp;  public int imageSize = 18;</b>
 &nbsp;
-<b class="fc">&nbsp;  public ChopStation() {</b>
+&nbsp;  private ContinousSound choppingSFX;
+&nbsp;
+&nbsp;
+&nbsp;  public ChopStation(CookingParams params) {
+&nbsp;
+<b class="fc">&nbsp;    super(params);</b>
+&nbsp;
+<b class="fc">&nbsp;    CookingSpeed = params.ChopSpeed;</b>
+&nbsp;
 <b class="fc">&nbsp;    interacted = false;</b>
 <b class="fc">&nbsp;    ready = false;</b>
 <b class="fc">&nbsp;    maxProgress = 5;</b>
+<b class="fc">&nbsp;    choppingSFX = new ContinousSound(soundsEnum.KnifeChop);</b>
+&nbsp;
 <b class="fc">&nbsp;    if (ItemWhiteList == null) {</b>
 <b class="fc">&nbsp;      ItemWhiteList = new ArrayList&lt;&gt;(Arrays.asList(ItemEnum.Lettuce, ItemEnum.Tomato,</b>
 &nbsp;          ItemEnum.Onion, ItemEnum.Mince, ItemEnum.CutTomato, ItemEnum.Dough));
@@ -171,10 +188,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;  }
 &nbsp;
 &nbsp;  public void Cut(float dt) {
-<b class="nc">&nbsp;    ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);</b>
+<b class="nc">&nbsp;    ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt * CookingSpeed, interacted, maxProgress);</b>
+<b class="nc">&nbsp;    choppingSFX.ShouldPlay = true;</b>
 <b class="nc">&nbsp;    if (ready) {</b>
 <b class="nc">&nbsp;      changeItem(new Item(currentRecipe.endItem));</b>
 <b class="nc">&nbsp;      checkItem();</b>
+<b class="nc">&nbsp;      soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);</b>
 &nbsp;    }
 &nbsp;  }
 &nbsp;
@@ -209,6 +228,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;      Cut(dt);</b>
 <b class="nc">&nbsp;      ProgressBar();</b>
 &nbsp;    }
+<b class="nc">&nbsp;    choppingSFX.DoSoundCheck();</b>
+&nbsp;
 &nbsp;
 &nbsp;  }
 &nbsp;}
@@ -235,7 +256,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-18 15:28</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

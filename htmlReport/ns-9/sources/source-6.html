@@ -77,12 +77,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Stations;
 &nbsp;
 &nbsp;import com.mygdx.game.Core.BlackTexture;
+&nbsp;import com.mygdx.game.Core.GameState.CookingParams;
 &nbsp;import com.mygdx.game.Items.Item;
 &nbsp;import com.mygdx.game.Items.ItemEnum;
 &nbsp;
 &nbsp;import java.util.ArrayList;
 &nbsp;import java.util.Arrays;
 &nbsp;
+&nbsp;/**
+&nbsp; * Bakes potatoes and pizzas
+&nbsp; */
 &nbsp;public class OvenStation extends Station {
 &nbsp;
 &nbsp;    boolean interacted;
@@ -92,7 +96,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public static ArrayList&lt;ItemEnum&gt; ItemWhiteList;
 &nbsp;
 &nbsp;
-<b class="nc">&nbsp;    public OvenStation() {</b>
+&nbsp;    public OvenStation(CookingParams params) {
+<b class="nc">&nbsp;        super(params);</b>
 <b class="nc">&nbsp;        ready = false;</b>
 <b class="nc">&nbsp;        maxProgress = 10;</b>
 <b class="nc">&nbsp;        if (ItemWhiteList == null) {</b>
@@ -156,7 +161,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;
 &nbsp;    public void Cook(float dt) {
-<b class="nc">&nbsp;        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt, interacted, maxProgress);</b>
+<b class="nc">&nbsp;        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt-stationTimeDecrease, interacted, maxProgress);</b>
 <b class="nc">&nbsp;        if (ready) {</b>
 <b class="nc">&nbsp;            changeItem(new Item(currentRecipe.endItem));</b>
 <b class="nc">&nbsp;            checkItem();</b>
@@ -212,7 +217,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-18 15:28</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>
