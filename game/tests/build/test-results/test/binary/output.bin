@@ -1,25 +1,0 @@
-"PRESS SPACE TO FLIP BURGER
-"PRESS SPACE TO FLIP BURGER
-"PRESS SPACE TO FLIP BURGER
-"PRESS SPACE TO FLIP BURGER
-43customer 0: LettuceOnionSalad
-46customer 0: MeatBake
-47%customer 0: TomatoOnionLettuceSalad
-47customer 1: MeatBake
-47customer 2: Burger
-47customer 3: CheeseBurger
-47customer 4: CheeseBurger
-4:customer 0: CheeseBake
-4:customer 1: Burger
-4:customer 2: LettuceOnionSalad
-4:customer 3: CheeseBurger
-4:customer 4: LettuceOnionSalad
->?PRESS SPACE TO FLIP BURGER
->?PRESS SPACE TO FLIP BURGER
->?PRESS SPACE TO FLIP BURGER
->DPRESS SPACE TO FLIP BURGER
->DPRESS SPACE TO FLIP BURGER
->DPRESS SPACE TO FLIP BURGER
->DPRESS SPACE TO FLIP BURGER
-PR$com.mygdx.game.Items.Item@2fe3770b
-PR$com.mygdx.game.Items.Item@2bdcf62f

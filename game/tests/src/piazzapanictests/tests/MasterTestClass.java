@@ -49,6 +49,7 @@ class MasterTestClass {
 
   TrashCan trashCan;
 
+  OvenStation ovenStation;
   HobStation hobStation;
 
   ToasterStation toasterStation;
@@ -59,6 +60,8 @@ class MasterTestClass {
 
   TextureDictionary textureDictionary = new TextureDictionary();
   GameObject Fry;
+
+  GameObject Oven;
   GameObject Toast;
 
   /**
@@ -307,6 +310,31 @@ class MasterTestClass {
         rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
     trashCan = new TrashCan(); // creates trashcan
     Trash.attachScript(trashCan); // attaches trashcan to trashcan game object
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
+  }
+
+  /**
+   * Creates the world and oven station. Also creates the recipe dictionary.
+   *
+   * @author Hubert Solecki
+   * @date 24/04/2023
+   */
+  void instantiateWorldAndOvenStation() {
+    world = new World(new Vector2(0, 0), true);
+    TiledMap map;
+    DifficultyState state = DifficultyMaster.getStressful();
+    soundFrame soundFrame = new soundFrame();
+    map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
+    MapLayer ovening = map.getLayers().get(7); // gets oven layer
+    MapObject object = ovening.getObjects().getByType(RectangleMapObject.class).get(0); // gets oven object
+    Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets oven rectangle
+    Oven = new GameObject(null); // creates oven game object
+    Oven.setPosition(0, 0); // sets oven station position (done to avoid NullPointerException)
+    Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight()); // sets oven station width and height (done to avoid NullPointerException)
+    ovenStation = new OvenStation(state.cookingParams); // creates oven station
+    Oven.attachScript(ovenStation); // attaches oven station to oven game object
+    ovenStation.init();
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
   }
