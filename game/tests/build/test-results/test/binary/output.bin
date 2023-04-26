@@ -3,17 +3,18 @@
 #PRESS SPACE TO FLIP BURGER
 #PRESS SPACE TO FLIP BURGER
 #PRESS SPACE TO FLIP BURGER
-87 customer 0: LettuceTomatoSalad
-8:customer 0: Burger
-8; customer 0: LettuceTomatoSalad
-8;customer 1: Burger
-8;customer 2: CheeseBurger
-8;customer 3: MeatBake
-8;customer 4: LettuceOnionSalad
-8>customer 0: VegPizzaCooked
-8>customer 1: CheeseBurger
-8>customer 2: LettuceOnionSalad
-8>%customer 3: TomatoOnionLettuceSalad
+87customer 0: BakedPotato
+8:customer 0: CheeseBurger
+8;%customer 0: TomatoOnionLettuceSalad
+8;customer 1: LettuceOnionSalad
+8;customer 2: CheesePizzaCooked
+8;customer 3: LettuceOnionSalad
+8;customer 4: Burger
+8>%customer 0: TomatoOnionLettuceSalad
+8>customer 1: CheeseBake
+8>customer 2: VegPizzaCooked
+8>customer 3: Burger
+8>customer 4: BakedPotato
 BCPRESS SPACE TO FLIP BURGER
 BCPRESS SPACE TO FLIP BURGER
 BCPRESS SPACE TO FLIP BURGER
@@ -21,8 +22,8 @@
 BHPRESS SPACE TO FLIP BURGER
 BHPRESS SPACE TO FLIP BURGER
 BHPRESS SPACE TO FLIP BURGER
-^]2Game state printed to: ../assets/TestingData.ser
-^_%customer 0: TomatoOnionLettuceSalad
-^_customer 1: CheeseBurger
-hj$com.mygdx.game.Items.Item@47c4bff7
-hj$com.mygdx.game.Items.Item@43fb23d7
+[Z2Game state printed to: ../assets/TestingData.ser
+[\%customer 0: TomatoOnionLettuceSalad
+[\customer 1: CheeseBurger
+eg$com.mygdx.game.Items.Item@5dfa35c5
+eg$com.mygdx.game.Items.Item@59c5aaa2

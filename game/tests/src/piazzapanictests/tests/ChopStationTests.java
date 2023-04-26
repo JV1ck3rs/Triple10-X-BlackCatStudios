@@ -74,7 +74,7 @@ public class ChopStationTests extends MasterTestClass {
     for (ItemEnum test : Arrays.asList(ItemEnum.values())){
       Item testing = new Item(test);
       chopStation.GiveItem(testing);
-      if (!(testing.equals(lettuce)) || (testing.equals(tomato)) || (testing.equals(onion)) || (testing.equals(mince)) || (testing.equals(cutTomato)) || (testing.equals(dough))){
+      if (!((testing.equals(lettuce)) || (testing.equals(tomato)) || (testing.equals(onion)) || (testing.equals(mince)) || (testing.equals(cutTomato)) || (testing.equals(dough)))){
         assertNotNull("These items can be put on chopping station", chopStation.RetrieveItem());
       }
 
@@ -113,5 +113,6 @@ public class ChopStationTests extends MasterTestClass {
     }
 
   }
+
 
 }
