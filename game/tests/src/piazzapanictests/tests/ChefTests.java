@@ -10,6 +10,7 @@ import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
+import com.mygdx.game.Stations.ChopStation;
 import com.mygdx.game.Stations.FoodCrate;
 
 import java.util.Stack;
@@ -519,6 +520,23 @@ public class ChefTests extends MasterTestClass {
     masterChef.FetchItem();
     assertEquals("The item that the chef should be holding is the cooked version of the item they gave to the oven station", new Item(ItemEnum.CheesePizzaCooked), masterChef.getChef(0).getInventory().peek());
     GameObjectManager.objManager.DestroyGameObject(Oven);
+  }
+
+  @Test
+  public void testItemInteractionChopStation() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a new game object manager making sure it is not null when needed
+    }
+    instantiateMasterChef();
+    instantiateWorldAndChoppingStation();
+    masterChef.getChef(0).gameObject.position = new Vector2(1, 0); // sets chef position to that of next to the chop station for interaction
+    masterChef.getChef(0).GiveItem(new Item(ItemEnum.Lettuce)); // gives a lettuce to the chef for interaction with the chop station
+    masterChef.GiveItem();
+    chopStation.Cut(10);
+    masterChef.FetchItem();
+    assertEquals("The item that the chef should be holding is the chopped version of the item they gave to the chop station", new Item(ItemEnum.CutLettuce), masterChef.getChef(0).getInventory().peek());
+    GameObjectManager.objManager.DestroyGameObject(Chop);
   }
 
   @Test

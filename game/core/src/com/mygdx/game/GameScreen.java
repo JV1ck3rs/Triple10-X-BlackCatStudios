@@ -81,13 +81,10 @@ public class GameScreen implements Screen {
   public Powerup powerup;
 
 
-
-
   // map
   private final TiledMapRenderer mapRenderer;
 
   public MasterChef masterChef;
-
 
 
   public GameObject exitLogo = new GameObject(new BlackTexture("Exit.png"));
@@ -139,7 +136,6 @@ public class GameScreen implements Screen {
     camera1.updateCamera(camera);
     viewport = new FitViewport(720, 1280, camera);
 
-
     camera.setToOrtho(false, viewportWidth, viewportHeight);
     camera.update();
 
@@ -177,7 +173,7 @@ public class GameScreen implements Screen {
 
     powerup = new Powerup(masterChef, customerController); // powerup object
 
-    constructMachines = new ConstructMachines(customerController,difficultyState,pathfinding);
+    constructMachines = new ConstructMachines(customerController, difficultyState, pathfinding);
 
     new CombinationDict();
     CombinationDict.combinations.implementItems();
@@ -197,7 +193,8 @@ public class GameScreen implements Screen {
           .getByType(RectangleMapObject.class)) {
 
         Rectangle rect = ((RectangleMapObject) object).getRectangle();
-        constructMachines.buildObject(world, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), "Static",
+        constructMachines.buildObject(world, rect.getX(), rect.getY(), rect.getWidth(),
+            rect.getHeight(), "Static",
             name);
 
         switch (name) {
@@ -232,10 +229,10 @@ public class GameScreen implements Screen {
             constructMachines.CreateFoodCrates(rect, ItemEnum.Onion);
             break;
           case "mince":
-            constructMachines. CreateFoodCrates(rect, ItemEnum.Mince);
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Mince);
             break;
           case "buns":
-            constructMachines. CreateFoodCrates(rect, ItemEnum.Buns);
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Buns);
             break;
           case "dough":
             constructMachines.CreateFoodCrates(rect, ItemEnum.Dough);
@@ -375,7 +372,8 @@ public class GameScreen implements Screen {
     instructionButton.setStyle(instructionButtonStyle);
     instructionButtonStyle.up = drawableInstructionBtn;
     instructionButtonStyle.down = drawableInstructionBtnDown;
-    pauseTable.add(instructionButton).width(250 * scaleX).height(50 * scaleY).padBottom(50 * scaleY);
+    pauseTable.add(instructionButton).width(250 * scaleX).height(50 * scaleY)
+        .padBottom(50 * scaleY);
     pauseTable.row();
 
     // The following block of code adds a listener to the instruction button
@@ -442,18 +440,12 @@ public class GameScreen implements Screen {
 
   /**
    * End game sequence
+   *
    * @param values
    */
-  public void EndGame(EndOfGameValues values){
-    if (values.Won) {
-      LeaderboardData data = new LeaderboardData();
-      data.score = (int) values.score;
-      data.name = "TEMP";
-      game.leaderBoard.WriteHighscores(data);
-    }
-    EndScreen screen = new EndScreen(game, this, timer, values);
+  public void EndGame(EndOfGameValues values) {
+    EndScreen screen = new EndScreen(game, this, timer, values, customerController.getNumberOfCustomersServed());
     game.setScreen(screen);
-
 
 
   }
@@ -461,6 +453,7 @@ public class GameScreen implements Screen {
 
   /**
    * Plays the game music when the screen is shown.
+   *
    * @author Amy Cross
    * @author Jack Vickers
    */
@@ -508,7 +501,6 @@ public class GameScreen implements Screen {
    * Calls all logic updates and sprite draws as well as checks if game has been completed
    *
    * @param delta The time in seconds since the last render.
-   *
    * @author Felix Seanor
    * @author Amy Cross
    * @author Jack Hinton
@@ -655,17 +647,20 @@ public class GameScreen implements Screen {
    *
    * @author Felix Seanor
    */
-  public void SaveGame(){
+  public void SaveGame() {
     SaveState Saving = new SaveState();
-    Saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds, constructMachines.Stations, constructMachines.customerCounters, constructMachines.assemblyStations);
+    Saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds,
+        constructMachines.Stations, constructMachines.customerCounters,
+        constructMachines.assemblyStations);
 
   }
 
   /**
    * Load the game from save
+   *
    * @author Felix Seanor
    */
-  public void LoadGame(String path){
+  public void LoadGame(String path) {
     SaveState Saving = new SaveState();
 
     GameState state = Saving.LoadState(path);
@@ -679,8 +674,8 @@ public class GameScreen implements Screen {
 
   /**
    * Loads the state of a previous state of the world, all LoadGame to a full sweep.
-   * @param state
    *
+   * @param state
    * @author Felix Seanor
    */
   public void LoadState(GameState state) {
@@ -733,8 +728,7 @@ public class GameScreen implements Screen {
   }
 
 
-
-//  /**
+  //  /**
 //   * Resizes the stage when the window is resized so that the buttons are in the correct place.
 //   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
 //   */
@@ -758,6 +752,7 @@ public class GameScreen implements Screen {
 
   /**
    * Disposes of all sprites from memory to keep it optimised
+   *
    * @author Felix Seanor
    */
   @Override

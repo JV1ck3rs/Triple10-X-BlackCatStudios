@@ -19,7 +19,8 @@ import java.util.regex.Pattern;
 public class LeaderBoard {
 
   static String filepath = Gdx.files.internal("leadboard.Fson").path();
-  static int MaxHighscorers =5;
+  static int MaxHighscorers = 5;
+
   public void LeaderBoard() {
 
   }
@@ -36,7 +37,7 @@ public class LeaderBoard {
   }
 
 
-  public LeaderboardData getDataFromRegexMatch(String string, Pattern pattern){
+  public LeaderboardData getDataFromRegexMatch(String string, Pattern pattern) {
     Matcher matcher = pattern.matcher(string);
     boolean match = matcher.find();
     int score = Integer.parseInt(matcher.group(2));
@@ -76,7 +77,6 @@ public class LeaderBoard {
     return leaderboardDataList;
 
 
-
   }
 
 
@@ -84,16 +84,15 @@ public class LeaderBoard {
     List<LeaderboardData> highscores = new LinkedList<>();
     try {
       highscores = AppendData(data);
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
 
     }
 
     String writing = "";
 
-    for (LeaderboardData ld: highscores
+    for (LeaderboardData ld : highscores
     ) {
-      writing += String.format("<%s,%d> ", ld.name,ld.score);
+      writing += String.format("<%s,%d> ", ld.name, ld.score);
     }
 
     createFSONFile();
@@ -109,7 +108,7 @@ public class LeaderBoard {
 
   }
 
-  public List<LeaderboardData> AppendData(LeaderboardData data) throws IOException{
+  public List<LeaderboardData> AppendData(LeaderboardData data) throws IOException {
     List<LeaderboardData> highscores = readFSONData();
 
     highscores.add(data);

@@ -69,6 +69,8 @@ class MasterTestClass {
   GameObject Oven;
   GameObject Toast;
 
+  GameObject Chop;
+
   /**
    * Instantiates the world.
    *
@@ -200,13 +202,14 @@ class MasterTestClass {
   void instantiateWorldAndChoppingStation() {
     world = new World(new Vector2(0, 0), true);
     DifficultyState state = DifficultyMaster.getStressful();
+    soundFrame soundFrame = new soundFrame();
     TiledMap map;
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer chopping = map.getLayers().get(5); // gets chopping layer
     MapObject object = chopping.getObjects().getByType(RectangleMapObject.class)
         .get(0); // gets chopping object
     Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets chopping rectangle
-    GameObject Chop = new GameObject(null); // creates chopping game object
+    Chop = new GameObject(null); // creates chopping game object
     Chop.setPosition(0,
         0); // sets chopping position (this must be done to avoid null pointer exception)
     Chop.setWidthAndHeight(rect.getWidth(),
