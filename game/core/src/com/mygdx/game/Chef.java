@@ -255,31 +255,7 @@ public class Chef extends PathfindingAgent implements Person {
     }
     setTexture(spriteState);
     spriteOrientation = newOrientation;
-    float velx = 0;
-    float vely = 0;
 
-    switch (spriteOrientation) {
-
-      //removed multiply by position bc lol whats going on with that
-      case "north":
-        velx = velx;
-        vely = speed;
-        break;
-      case "south":
-        velx = velx;
-        vely = -speed;
-        break;
-      case "east":
-        velx = speed;
-        vely = vely;
-        break;
-      case "west":
-        velx = -speed;
-        vely = vely;
-        break;
-    }
-
-    // b2body.setLinearVelocity(velx, vely);
     //cant figure out how to speed the character up it doesnt want to function
     // gameObject.position.x = (b2body.getPosition().x) - getWidth() / 2;
     //gameObject.position.y = b2body.getPosition().y;
