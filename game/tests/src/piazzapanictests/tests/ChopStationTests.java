@@ -84,6 +84,53 @@ public class ChopStationTests extends MasterTestClass {
   }
 
 
+
+  @Test
+  public void testGiveItemWhenChopStationFull() {
+    if (GameObjectManager.objManager == null) {
+      // creates a game object manager making sure it is not null when it is needed
+      new GameObjectManager();
+    }
+    instantiateWorldAndChoppingStation();
+    Item lettuce = new Item(ItemEnum.Lettuce);
+    Item cutLettuce = new Item(ItemEnum.CutLettuce);
+    chopStation.GiveItem(
+            lettuce); // gives an item to the hob to test if another item can be placed on it
+    assertFalse(
+            "The CanGive() method should return false when there is already an item placed on the chop station",
+            chopStation.CanGive());
+    chopStation.GiveItem(cutLettuce);
+    assertEquals(
+            "The item on the chop station should be unchanged if an item is placed on the chop station when there already was an item on there",
+            lettuce, chopStation.RetrieveItem());
+  }
+
+  @Test
+  public void testItemRetrievedDuringChoppingAndProgress() {
+    if (GameObjectManager.objManager == null) {
+      // creates a game object manager making sure it is not null when needed
+      new GameObjectManager();
+    }
+    instantiateWorldAndChoppingStation();
+    chopStation.GiveItem(new Item(ItemEnum.Lettuce)); // gives a raw patty to the hob for the test
+    chopStation.Cut(4);
+    chopStation.getProgress();
+    int testProgress = (int)(chopStation.progress* chopStation.maxProgress);
+    Item test = chopStation.RetrieveItem();
+    assertNotEquals(
+            "The value of the progress of the chopping item should not be 0 when it is removed from the chop station",
+            (int) testProgress, 0);
+    assertNull("The chop station should not contain an item when an in progress item is removed from it",
+            chopStation.RetrieveItem());
+    assertNotEquals(
+            "The progress of the item should not be 0 when it has been chopping for some time and is removed",
+            test.progress, 0);
+    assertEquals(
+            "The progress of the item being chopped should be the same before and after it is retrieved from the chop station",
+            (int) testProgress, (int) test.progress);
+  }
+
+
   @Test
   public void testCanGiveCanRetrieveChopping(){
     instantiateWorldAndChoppingStation();
@@ -114,5 +161,22 @@ public class ChopStationTests extends MasterTestClass {
 
   }
 
+  @Test
+  public void testUpdateMethodChopStation() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a new game object manager making sure it is not null when needed
+    }
+    instantiateWorldAndChoppingStation();
+    chopStation.GiveItem(new Item(ItemEnum.Lettuce));
+    chopStation.Update(5);
+    chopStation.Interact();
+    assertTrue("The interaction attribute is true when interacted with in the update function", chopStation.GetInteracted());
+    assertNotNull("The recipe on the hob station is not null when there is an item on it", chopStation.currentRecipe);
+    chopStation.Cut(5);
+    chopStation.Update(10);
+    Item test = chopStation.RetrieveItem();
+    assertFalse("The interaction attribute is set to false after the item is retrieved from the hob", chopStation.GetInteracted());
 
+  }
 }

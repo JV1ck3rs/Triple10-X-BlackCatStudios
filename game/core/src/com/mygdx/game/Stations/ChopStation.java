@@ -28,7 +28,9 @@ public class ChopStation extends Station {
 
   private ContinousSound choppingSFX;
 
-
+  public boolean GetInteracted() {
+    return interacted;
+  }
 
 
   public ChopStation(CookingParams params) {
