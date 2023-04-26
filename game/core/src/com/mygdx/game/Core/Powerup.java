@@ -22,6 +22,15 @@ public class Powerup {
 
   public void doSpeedPowerup() {
     mc.upgradeSpeed();
+    new java.util.Timer().schedule(
+        new java.util.TimerTask() {
+          @Override
+          public void run() {
+            mc.downgradeSpeed();
+          }
+        },
+        60000
+    );
   }
 
   public void buyReputation() {
