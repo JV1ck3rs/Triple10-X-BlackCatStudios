@@ -3,9 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -22,17 +20,11 @@ import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
 import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.GameState.GameState;
-import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.GameState.SaveState;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
-import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -50,22 +42,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.*;
-import java.util.Objects;
-import jdk.internal.org.jline.utils.DiffHelper.Diff;
 
 /**
  * This is the main class of the game which runs all the logic and rendering Here all the outside
@@ -144,7 +129,7 @@ public class GameScreen implements Screen {
    * @author Jack Vickers
    * @author Jack Hinton
    */
-  public GameScreen(MyGdxGame game, TiledMap map, boolean Test, int numCustomers, boolean loadSave,
+  public GameScreen(MyGdxGame game, TiledMap map, int numCustomers, boolean loadSave,
       Difficulty difficultyLevel) {
     this.game = game;
     camera = new OrthographicCamera();
@@ -277,18 +262,9 @@ public class GameScreen implements Screen {
     // Calculates the scale of the screen to the original size of the game
     scaleX = Gdx.graphics.getWidth() / 640f;
     scaleY = Gdx.graphics.getHeight() / 480f;
-    if (loadSave) { // if the game is being loaded from a save
-      if(!Test)
-        LoadGame("SavedData.ser");
-      else
-        LoadGame("../assets/TestingData.ser");
-    }
     isEndlessMode = CCParams.NoCustomers == -1;
-
-    if(!Test) {
-      setupGameUI();
-      setupPauseMenu();
-    }
+    setupGameUI();
+    setupPauseMenu();
   }
 
   /**
@@ -341,7 +317,12 @@ public class GameScreen implements Screen {
   }
 
   private void updateCustomerLabel() {
-    modeLabel.setText("Customers remaining: " + customerController.getRemainingNumberOfCustomers());
+    if (isEndlessMode) {
+      modeLabel.setText("Customers served: " + customerController.getNumberOfCustomersServed());
+    } else {
+      modeLabel.setText(
+          "Customers remaining: " + customerController.getRemainingNumberOfCustomers());
+    }
   }
 
   /**
@@ -464,15 +445,16 @@ public class GameScreen implements Screen {
    * @param values
    */
   public void EndGame(EndOfGameValues values){
-
     if (values.Won) {
       LeaderboardData data = new LeaderboardData();
       data.score = (int) values.score;
       data.name = "TEMP";
       game.leaderBoard.WriteHighscores(data);
     }
-    VictoryScreen screen = new VictoryScreen(game, this, timer, values);
+    EndScreen screen = new EndScreen(game, this, timer, values);
     game.setScreen(screen);
+
+
 
   }
 
@@ -760,7 +742,6 @@ public class GameScreen implements Screen {
   public void resize(int width, int height) {
     pauseStage.getViewport().update(width, height, true);
     gameUIStage.getViewport().update(width, height, true);
-//    viewport.update(width, height);
   }
 
   @Override

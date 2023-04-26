@@ -74,8 +74,7 @@ public class ScenarioModeConfigScreen implements Screen {
     table.setFillParent(true);
     table.align(Align.center);
 
-    // Creates a skin for the text field using the clean-crispy-ui.json file
-    Skin skin = new Skin(Gdx.files.internal("clean-crispy-ui.json"));
+
 
     // Creates the title and instructions for the scenario mode config screen
     Label title = new Label("Scenario Mode Options", new LabelStyle(new BitmapFont(), Color.WHITE));
@@ -93,6 +92,9 @@ public class ScenarioModeConfigScreen implements Screen {
 
     // Sets the background using a section of the background image used on the main menu screen
     table.setBackground(new TextureRegionDrawable(scenarioConfigAtlas.findRegion("menuPP")));
+
+    // Creates a skin for the text field using the clean-crispy-ui.json file
+    Skin skin = new Skin(Gdx.files.internal("clean-crispy-ui.json"));
     textField = new TextField("5", skin);
     textField.getStyle().font.getData().setScale(1.50f * (scaleX + scaleY) / 2);
     textField.setAlignment(Align.center);
@@ -199,7 +201,7 @@ public class ScenarioModeConfigScreen implements Screen {
         errorMessage.setText("Please enter a number which is greater than 0");
       } else {
         numCustomers = Integer.parseInt(textField.getText());
-        gameScreen = new GameScreen(game, game.map, false, numCustomers, false, difficultyLevel);
+        gameScreen = new GameScreen(game, game.map, numCustomers, false, difficultyLevel);
         game.setScreen(gameScreen);
       }
     } else {

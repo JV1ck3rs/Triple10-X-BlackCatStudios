@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -27,7 +25,7 @@ import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
  * @author Felix Seanor
  * @author Jack Vickers
  */
-public class VictoryScreen implements Screen {
+public class EndScreen implements Screen {
 
   final MyGdxGame root;
   GameScreen gameScreen;
@@ -50,13 +48,17 @@ public class VictoryScreen implements Screen {
    * @param root the base object to interact with
    * @param time the integer time value set for timer
    */
-  public VictoryScreen(final MyGdxGame root, GameScreen gscreen, int time, EndOfGameValues values) {
+  public EndScreen(final MyGdxGame root, GameScreen gscreen, int time, EndOfGameValues values) {
     this.root = root;
 
 
     //this might cause issues if so, change back to new GameScreen
     gameScreen = gscreen;
-    victoryScreen = new Texture(Gdx.files.internal("endScreenBG.png"));
+    if (values.Won) {
+      victoryScreen = new Texture(Gdx.files.internal("SuccessBG.png"));
+    } else {
+      victoryScreen = new Texture(Gdx.files.internal("FailBG.png"));
+    }
     Image image = new Image(victoryScreen);
     // Calculates the scale of the screen to the original size of the game
     scaleX = Gdx.graphics.getWidth() / 640f;
