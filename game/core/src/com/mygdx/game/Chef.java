@@ -43,6 +43,7 @@ public class Chef extends PathfindingAgent implements Person {
   List<GameObject> HeldItemGameObjects = new LinkedList<>();
   public static int CarryCapacity = 3;
 
+  private float oldSpeed;
   private String spriteOrientation, spriteState;
   private int currentSpriteAnimation;
   private final int MAX_ANIMATION = 4;
@@ -100,6 +101,8 @@ public class Chef extends PathfindingAgent implements Person {
     gameObject.getSprite().setSprite(chefAtlas.createSprite("south1"));
     currentSpriteAnimation = 1;
     spriteOrientation = "south";
+
+    oldSpeed = speed;
 
     isFrozen = false;
     //sprite.setPosition(posX, posY); unnessary now
@@ -255,31 +258,7 @@ public class Chef extends PathfindingAgent implements Person {
     }
     setTexture(spriteState);
     spriteOrientation = newOrientation;
-    float velx = 0;
-    float vely = 0;
 
-    switch (spriteOrientation) {
-
-      //removed multiply by position bc lol whats going on with that
-      case "north":
-        velx = velx;
-        vely = speed;
-        break;
-      case "south":
-        velx = velx;
-        vely = -speed;
-        break;
-      case "east":
-        velx = speed;
-        vely = vely;
-        break;
-      case "west":
-        velx = -speed;
-        vely = vely;
-        break;
-    }
-
-    // b2body.setLinearVelocity(velx, vely);
     //cant figure out how to speed the character up it doesnt want to function
     // gameObject.position.x = (b2body.getPosition().x) - getWidth() / 2;
     //gameObject.position.y = b2body.getPosition().y;
@@ -373,9 +352,9 @@ public class Chef extends PathfindingAgent implements Person {
    * @return boolean
    * @author Amy Cross
    */
-  public boolean isCtrl() {
-    return Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT);
-  }
+//  public boolean isCtrl() {
+//    return Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT);
+//  }
 
   /**
    * Freezes the chef for a set period of time at its given station.
@@ -408,11 +387,11 @@ public class Chef extends PathfindingAgent implements Person {
    * Stops the chef from moving and sets sprite animation to "idle".
    *    * @author Amy Cross
    */
-  public void stop() {
-    b2body.setLinearVelocity(0, 0);
-    spriteState = "idle" + lastOrientation;
-    setTexture(spriteState);
-  }
+//  public void stop() {
+//    b2body.setLinearVelocity(0, 0);
+//    spriteState = "idle" + lastOrientation;
+//    setTexture(spriteState);
+//  }
 
   /**
    * Gets the inventory of the chef, so the item they are currently holding.
@@ -580,6 +559,12 @@ public class Chef extends PathfindingAgent implements Person {
   }
 
   public void changeSpeed(){
-    speed = ((250000/speed*speed)+1)*speed;
+
+      speed =  2600;
   }
+  public void decreaseSpeed(){
+    speed = oldSpeed;
+
+  }
+
 }

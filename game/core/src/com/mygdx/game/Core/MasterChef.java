@@ -50,6 +50,12 @@ World world;
     }
   }
 
+  public void downgradeSpeed(){
+    for(int i = 0; i< chefs.size(); i++){
+      chefs.get(i).decreaseSpeed();
+    }
+  }
+
   public Chef getChef(int i) {
     return chefs.get(i);
   }
@@ -238,7 +244,7 @@ World world;
         SelectChef(i);
       for (Chef c : chefs
       ) {
-        c.stop();
+       // c.stop();
       }
     }
   }
