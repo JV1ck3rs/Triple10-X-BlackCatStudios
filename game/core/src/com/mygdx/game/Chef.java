@@ -43,6 +43,7 @@ public class Chef extends PathfindingAgent implements Person {
   List<GameObject> HeldItemGameObjects = new LinkedList<>();
   public static int CarryCapacity = 3;
 
+  private float oldSpeed;
   private String spriteOrientation, spriteState;
   private int currentSpriteAnimation;
   private final int MAX_ANIMATION = 4;
@@ -100,6 +101,8 @@ public class Chef extends PathfindingAgent implements Person {
     gameObject.getSprite().setSprite(chefAtlas.createSprite("south1"));
     currentSpriteAnimation = 1;
     spriteOrientation = "south";
+
+    oldSpeed = speed;
 
     isFrozen = false;
     //sprite.setPosition(posX, posY); unnessary now
@@ -556,6 +559,12 @@ public class Chef extends PathfindingAgent implements Person {
   }
 
   public void changeSpeed(){
-    speed = ((250000/speed*speed)+1)*speed;
+
+      speed =  2600;
   }
+  public void decreaseSpeed(){
+    speed = oldSpeed;
+
+  }
+
 }
