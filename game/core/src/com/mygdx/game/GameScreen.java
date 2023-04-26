@@ -465,6 +465,12 @@ public class GameScreen implements Screen {
    */
   public void EndGame(EndOfGameValues values){
 
+    if (values.Won) {
+      LeaderboardData data = new LeaderboardData();
+      data.score = (int) values.score;
+      data.name = "TEMP";
+      game.leaderBoard.WriteHighscores(data);
+    }
     VictoryScreen screen = new VictoryScreen(game, this, timer, values);
     game.setScreen(screen);
 
