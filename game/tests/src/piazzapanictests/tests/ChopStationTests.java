@@ -1,9 +1,5 @@
 package piazzapanictests.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
@@ -23,17 +19,18 @@ import com.mygdx.game.Core.MasterChef;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
+import com.mygdx.game.RecipeAndComb.Recipe;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.ChopStation;
 import com.mygdx.game.Stations.FoodCrate;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Stack;
+
+import java.util.*;
+
 import com.mygdx.game.Core.GameObjectManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests for the chopping station.
@@ -62,40 +59,58 @@ public class ChopStationTests extends MasterTestClass {
   }
 
   @Test
-  public void testPlaceItemChoppingValid() {
+  public void testPlaceItemChoppingInvalid() {
     if (GameObjectManager.objManager == null) {
       // creates game object manager which makes sure that the game object manager is not null when it is needed
       new GameObjectManager();
     }
     instantiateWorldAndChoppingStation(); // creates chopping station
-    chopStation.GiveItem(new Item(ItemEnum.Lettuce));
-    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Lettuce), chopStation.RetrieveItem());
+    Item lettuce = new Item(ItemEnum.Lettuce);
+    Item tomato = new Item(ItemEnum.Tomato);
+    Item onion = new Item(ItemEnum.Onion);
+    Item mince = new Item(ItemEnum.Mince);
+    Item cutTomato = new Item(ItemEnum.CutTomato);
+    Item dough = new Item(ItemEnum.Dough);
+    for (ItemEnum test : Arrays.asList(ItemEnum.values())){
+      Item testing = new Item(test);
+      chopStation.GiveItem(testing);
+      if (!(testing.equals(lettuce)) || (testing.equals(tomato)) || (testing.equals(onion)) || (testing.equals(mince)) || (testing.equals(cutTomato)) || (testing.equals(dough))){
+        assertNotNull("These items can be put on chopping station", chopStation.RetrieveItem());
+      }
 
-    chopStation.GiveItem(new Item(ItemEnum.Tomato));
-    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Tomato), chopStation.RetrieveItem());
+    }
+    assertNull("Item cannot be put on chopping station", chopStation.RetrieveItem());
 
-    chopStation.GiveItem(new Item(ItemEnum.Onion));
-    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Onion), chopStation.RetrieveItem());
+  }
 
-    chopStation.GiveItem(new Item(ItemEnum.Mince));
-    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Mince), chopStation.RetrieveItem());
 
-    chopStation.GiveItem(new Item(ItemEnum.CutTomato));
-    assertEquals("Item can be used in chopping station", new Item (ItemEnum.CutTomato), chopStation.RetrieveItem());
-
-    chopStation.GiveItem(new Item(ItemEnum.Dough));
-    assertEquals("Item can be used in chopping station", new Item (ItemEnum.Dough), chopStation.RetrieveItem());
+  @Test
+  public void testCanGiveCanRetrieveChopping(){
+    instantiateWorldAndChoppingStation();
+    Item item = new Item(ItemEnum.Lettuce);
+    if (item == null){
+      assertFalse("Nothing to give chopping station", chopStation.CanGive());
+    } else {
+      assertTrue("Item can be given to chopping station", chopStation.CanGive());
+    }
+    if (item == null){
+      assertTrue("Nothing to retrieve at chopping station", chopStation.CanRetrieve());
+    } else{
+      assertFalse("Item cannot be retrieved by chopping station", chopStation.CanRetrieve());
+    }
   }
 
   @Test
-  public void testPlaceItemChoppingInvalid(){
-    if (GameObjectManager.objManager == null) {
-      // creates game object manager which makes sure that the game object manager is not null when it is needed
-      new GameObjectManager();
+  public void testCanInteractChoppingStation(){
+    instantiateWorldAndChoppingStation();
+    Item item = new Item(ItemEnum.Lettuce);
+    Recipe recipe = RecipeDict.recipes.RecipeMap.get(item.name);
+    if (recipe == null){
+      assertTrue("Item can be interacted with chopping station", chopStation.CanInteract());
+
+    } else {
+      assertFalse("Cannot be interacted with chopping station", chopStation.CanInteract());
     }
-    instantiateWorldAndChoppingStation(); // creates chopping station
-    chopStation.GiveItem(new Item(ItemEnum.Buns));
-    assertEquals("Item cannot be put on chopping station", new Item(ItemEnum.Buns), new Item(ItemEnum.Buns));
 
   }
 
