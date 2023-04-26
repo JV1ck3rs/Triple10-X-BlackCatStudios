@@ -444,13 +444,7 @@ public class GameScreen implements Screen {
    * @param values
    */
   public void EndGame(EndOfGameValues values) {
-    if (values.Won) {
-      LeaderboardData data = new LeaderboardData();
-      data.score = customerController.getNumberOfCustomersServed();
-      data.name = "TEMP";
-      game.leaderBoard.WriteHighscores(data);
-    }
-    EndScreen screen = new EndScreen(game, this, timer, values);
+    EndScreen screen = new EndScreen(game, this, timer, values, customerController.getNumberOfCustomersServed());
     game.setScreen(screen);
 
 

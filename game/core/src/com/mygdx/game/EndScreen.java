@@ -45,10 +45,12 @@ public class EndScreen implements Screen {
    * Assigns all the necessary variables needed for the victory screen and other objects such as the
    * image used
    *
-   * @param root the base object to interact with
-   * @param time the integer time value set for timer
+   * @param root                    the base object to interact with
+   * @param time                    the integer time value set for timer
+   * @param numberOfCustomersServed
    */
-  public EndScreen(final MyGdxGame root, GameScreen gscreen, int time, EndOfGameValues values) {
+  public EndScreen(final MyGdxGame root, GameScreen gscreen, int time, EndOfGameValues values,
+      int numberOfCustomersServed) {
     this.root = root;
 
 
@@ -104,8 +106,8 @@ public class EndScreen implements Screen {
     ChangeListener playbtnMouseListener = new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        gameScreen.gameMusic.stop();
-        root.setScreen(new MenuScreen(root));
+//        gameScreen.gameMusic.stop();
+        root.setScreen(new LeaderboardScreen(root, values, numberOfCustomersServed));
         dispose();
       }
     };
