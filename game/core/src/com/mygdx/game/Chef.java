@@ -373,9 +373,9 @@ public class Chef extends PathfindingAgent implements Person {
    * @return boolean
    * @author Amy Cross
    */
-  public boolean isCtrl() {
-    return Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT);
-  }
+//  public boolean isCtrl() {
+//    return Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT);
+//  }
 
   /**
    * Freezes the chef for a set period of time at its given station.
@@ -408,11 +408,11 @@ public class Chef extends PathfindingAgent implements Person {
    * Stops the chef from moving and sets sprite animation to "idle".
    *    * @author Amy Cross
    */
-  public void stop() {
-    b2body.setLinearVelocity(0, 0);
-    spriteState = "idle" + lastOrientation;
-    setTexture(spriteState);
-  }
+//  public void stop() {
+//    b2body.setLinearVelocity(0, 0);
+//    spriteState = "idle" + lastOrientation;
+//    setTexture(spriteState);
+//  }
 
   /**
    * Gets the inventory of the chef, so the item they are currently holding.

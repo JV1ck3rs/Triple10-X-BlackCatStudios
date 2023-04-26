@@ -1,0 +1,28 @@
+-Game state printed to: testAssemblySave.ser
+#PRESS SPACE TO FLIP BURGER
+#PRESS SPACE TO FLIP BURGER
+#PRESS SPACE TO FLIP BURGER
+#PRESS SPACE TO FLIP BURGER
+BAcustomer 0: MeatBake
+BDcustomer 0: CheeseBurger
+BEcustomer 0: LettuceOnionSalad
+BEcustomer 1: CheeseBurger
+BEcustomer 2: MeatBake
+BEcustomer 3: Burger
+BEcustomer 4: VegPizzaCooked
+BHcustomer 0: CheeseBurger
+BHcustomer 1: CheesePizzaCooked
+BHcustomer 2: BakedPotato
+BHcustomer 3: MeatPizzaCooked
+LMPRESS SPACE TO FLIP BURGER
+LMPRESS SPACE TO FLIP BURGER
+LMPRESS SPACE TO FLIP BURGER
+LRPRESS SPACE TO FLIP BURGER
+LRPRESS SPACE TO FLIP BURGER
+LRPRESS SPACE TO FLIP BURGER
+LRPRESS SPACE TO FLIP BURGER
+ed2Game state printed to: ../assets/TestingData.ser
+ef%customer 0: TomatoOnionLettuceSalad
+efcustomer 1: CheeseBurger
+oq#com.mygdx.game.Items.Item@5a3f353
+oq#com.mygdx.game.Items.Item@19c673f

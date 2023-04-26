@@ -238,7 +238,7 @@ World world;
         SelectChef(i);
       for (Chef c : chefs
       ) {
-        c.stop();
+       // c.stop();
       }
     }
   }
