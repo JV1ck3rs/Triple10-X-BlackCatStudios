@@ -16,6 +16,10 @@ buildscript {
 
 plugins {
     id 'checkstyle'
+    // Apply the java-library plugin for API and implementation separation.
+    id 'java-library'
+    // Apply the jacoco plugin to add coverage reports
+    id 'jacoco'
 }
 
 allprojects {
@@ -56,6 +60,7 @@ allprojects {
 
     }
 
+
     checkstyle {
         toolVersion = "${checkstyleVersion}"
         config = resources.text.fromArchiveEntry(configurations.checkstyleRules, 'google_checks.xml')
@@ -79,7 +84,6 @@ project(":desktop") {
 project(":core") {
     apply plugin: "java-library"
 
-
     dependencies {
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -99,6 +103,7 @@ project(":tests") { // written for assessment 2
 
         implementation "junit:junit:4.+"
         implementation "org.mockito:mockito-core:3.2.4"
+        implementation "com.google.code.gson:gson:2.10.1"
 
         implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"

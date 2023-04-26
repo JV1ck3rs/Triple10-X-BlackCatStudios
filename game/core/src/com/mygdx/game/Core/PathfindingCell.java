@@ -1,0 +1,77 @@
+package com.mygdx.game.Core;
+
+import java.nio.file.Path;
+
+/**
+ * Stored A* data for each discorvered cell
+ * @author Felix Seanor
+ */
+public class PathfindingCell implements Comparable<PathfindingCell> {
+
+  /** cost to goal*/
+  public float Heuristic;
+
+  /** cost along path */
+  public float PathCost;
+
+  /** x position */
+  public int x;
+  /** y position */
+  public int y;
+
+  /** index */
+  public int Index;
+
+
+  /** parent cell, null if root node */
+  public PathfindingCell parent;
+
+  /**
+   * Creates a new pathfinding cell. This was written by Vickers so may be wrong.
+   *
+   * @param x The x position of the cell
+   * @param y The y position of the cell
+   * @param index The index of the cell
+   * @param heuristic The heuristic value of the cell
+   * @param path The path cost of the cell
+   * @author Felix Seanor
+   */
+  public PathfindingCell(int x, int y, int index, float heuristic, float path) {
+    this.x = x;
+    this.y = y;
+
+    Heuristic = heuristic;
+    PathCost = path;
+    Index = index;
+
+
+  }
+
+  /**
+   * Heuristics + Pathcost
+   * @return
+   * @author Felix Seanor
+   */
+  public float score() {
+    return Heuristic + PathCost;
+  }
+
+  /**
+   * Allowest for sorting
+   * @param o the object to be compared.
+   * @return
+   * @author Felix Seanor
+   */
+  @Override
+  public int compareTo(PathfindingCell o) {
+    if (score() > o.score()) {
+      return 1;
+    }
+    if (score() < o.score()) {
+      return -1;
+    }
+    return 0;
+  }
+
+
+}

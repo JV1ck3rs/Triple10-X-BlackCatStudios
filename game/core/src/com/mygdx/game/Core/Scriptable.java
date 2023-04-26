@@ -1,5 +1,8 @@
 package com.mygdx.game.Core;
 
+/**
+ * The methods gets called and helps to update scripts every frame
+ */
 public class Scriptable {
 
 
@@ -13,11 +16,28 @@ public class Scriptable {
   public void Start() {
   }
 
+  /**
+   * runs every frame
+   * @param dt
+   * @author Felix Seanor
+   */
   public void Update(float dt) {
   }
 
+  /**
+   * runs every fixed frame
+   * @param dt
+   * @author Felix Seanor
+   */
   public void FixedUpdate(float dt) {
   }
 
+  /**
+   * runs just before rendering
+   * @author Felix Seanor
+   */
+  public void OnRender(){
+
+  }
 
 }

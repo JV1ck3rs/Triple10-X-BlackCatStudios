@@ -1,14 +1,31 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
-import com.mygdx.game.Core.BlackSprite;
-import com.mygdx.game.Core.GameObject;
-import com.mygdx.game.Core.GameObjectManager;
-import com.mygdx.game.Core.RenderManager;
-import com.mygdx.game.Core.Renderable;
-import java.util.ArrayList;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mygdx.game.Core.*;
+import com.mygdx.game.Core.GameState.Difficulty;
+import com.mygdx.game.Core.GameState.DifficultyMaster;
+import com.mygdx.game.Core.GameState.DifficultyState;
+import com.mygdx.game.Core.GameState.GameState;
+import com.mygdx.game.Core.GameState.SaveState;
+import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
+import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
+import com.mygdx.game.Items.ItemEnum;
+
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -19,28 +36,21 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.mygdx.game.RecipeAndComb.CombinationDict;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.Stations.*;
 
 /**
  * This is the main class of the game which runs all the logic and rendering Here all the outside
@@ -59,250 +69,407 @@ public class GameScreen implements Screen {
 
   // camera
   private final OrthographicCamera camera;
-  private final int TILE_WIDTH = 32;
-  private final int TILE_HEIGHT = 32;
+  private Pathfinding pathfinding;
+  public static final int TILE_WIDTH = 32;
+  public static final int TILE_HEIGHT = 32;
 
   // box2d
-  public static World world;
-  private final Box2DDebugRenderer b2dr;
+  static World world;
+
+  public CustomerController customerController;
+
+  public Powerup powerup;
+
 
   // map
-  private final TiledMap map;
   private final TiledMapRenderer mapRenderer;
 
-  // character assets
-  private static ArrayList<TextureAtlas> chefAtlasArray;
-  private final Chef[] chef;
-  private static ArrayList<TextureAtlas> customerAtlasArray;
-  private final Customer[] customers = new Customer[5];
-  private int chefControl;
+  public MasterChef masterChef;
 
 
-  Texture dish1, dish2;
-  Texture spaceTexture, ctrlTexture, shiftTexture, rTexture, mTexture;
-
-  public Station chopping;
-  public Station toaster;
-  public Station frying;
-  public Station[] counters;
-  public AssemblyStation[] assemblyStations;
-
-  public CustomerCounters[] customerCounters;
-  public Texture menu = new Texture("recipeSheet.png");
-  private final int x = 3;
-
-
-  public Texture ingredientsSprites = new Texture("pixel_veggies1.png");
-  public TextureRegion tomatoUnchopped = new TextureRegion(ingredientsSprites, 224, 32, 32, 32);
-  public TextureRegion tomatoChopped = new TextureRegion(ingredientsSprites, 256, 32, 32, 32);
-  public TextureRegion lettuceUnchopped = new TextureRegion(ingredientsSprites, 256, 0, 32, 32);
-  public TextureRegion lettuceChopped = new TextureRegion(ingredientsSprites, 288, 0, 32, 32);
-  public TextureRegion onionUnchopped = new TextureRegion(ingredientsSprites, 0, 32, 32, 32);
-  public TextureRegion onionChopped = new TextureRegion(ingredientsSprites, 32, 32, 32, 32);
-  public Texture meatUncooked = new Texture("pattyUncooked.png");
-  public Texture meatCooked = new Texture("pattyCooked.png");
-  public Texture bunUntoasted = new Texture("bunUntoasted.png");
-  public Texture bunToasted = new Texture("bunToasted.png");
-  public Texture burger = new Texture("bourger_32x32.png");
-  public Texture salad = new Texture("Salad_32x32.png");
+  public GameObject exitLogo = new GameObject(new BlackTexture("Exit.png"));
 
   // game timer and displayTimer
   private float seconds = 0f;
   private int timer = 0;
   private final Label timerLabel;
+  private final Label moneyLabel;
   private final BitmapFont timerFont;
 
+  boolean Paused = false;
+  DifficultyState difficultyState;
+
+  ConstructMachines constructMachines;
+  Difficulty difficulty;
+  public static final int viewportWidth = 32 * TILE_WIDTH;
+  public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
+
+  public showRecipeInstructions recipeScreen;
+  Label modeLabel;
+
+  Stage pauseStage; // stage for the pause menu
+  Stage gameUIStage; // stage for the game UI
+  float scaleX;
+  float scaleY;
+  boolean isEndlessMode;
+  FitViewport viewport;
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
    * manage the logic of the render as well as setting the camera and map
    *
    * @param game base Object which is used to draw on
+   * @author Amy Cross
+   * @author Felix Seanor
+   * @author Sam Toner
+   * @author Jack Vickers
+   * @author Jack Hinton
    */
-  public GameScreen(MyGdxGame game) {
+  public GameScreen(MyGdxGame game, TiledMap map, int numCustomers, boolean loadSave,
+      Difficulty difficultyLevel) {
     this.game = game;
     camera = new OrthographicCamera();
-    int viewportWidth = 32 * TILE_WIDTH;
-    int viewportHeight = 18 * TILE_HEIGHT;
+    recipeScreen = new showRecipeInstructions();
+    //recipeScreen.showRecipeInstruction();
+    CameraFunctions camera1 = CameraFunctions.camera;
+    camera1.updateCamera(camera);
+    viewport = new FitViewport(720, 1280, camera);
+
     camera.setToOrtho(false, viewportWidth, viewportHeight);
     camera.update();
 
     gameMusic = Gdx.audio.newMusic(Gdx.files.internal("gameMusic.mp3"));
     gameMusic.setLooping(true);
 
-    // tomatoTexture = new Texture("tomato_2.png");
+    recipeScreen.createInstructionPage("Empty");
 
-    dish1 = new Texture("speech_dish1.png");
-    dish2 = new Texture("speech_dish2.png");
-    spaceTexture = new Texture("space.png");
-    ctrlTexture = new Texture("ctrl.png");
-    shiftTexture = new Texture("shift.png");
-    mTexture = new Texture("m_key.png");
-    rTexture = new Texture("r_key.png");
     world = new World(new Vector2(0, 0), true);
-    b2dr = new Box2DDebugRenderer();
+    exitLogo.isVisible = false;
+    exitLogo.getBlackTexture().height = 30;
+    exitLogo.getBlackTexture().width = 30;
+    exitLogo.position = new Vector2(713, 454);
 
     // add map
-    map = new TmxMapLoader().load("PiazzaPanicMap.tmx");
     mapRenderer = new OrthogonalTiledMapRenderer(map);
     mapRenderer.setView(camera);
 
-    chefAtlasArray = new ArrayList<TextureAtlas>();
-    generateChefArray();
-    chef = new Chef[2];
-    chefControl = 0;
-    for (int i = 0; i < chef.length; i++) {
-      GameObject chefsGameObject = new GameObject(
-          new BlackSprite());//passing in null since chef will define it later
-      chef[i] = new Chef(world, i, getChefAtlasArray().get(chefControl));
-      chefsGameObject.attachScript(chef[i]);
-      chefsGameObject.image.setSize(18, 40); // set size of sprite
+    difficultyState = DifficultyMaster.getDifficulty(difficultyLevel);
 
-      chef[i].updateSpriteFromInput("idlesouth");
-    }
+    pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    chopping = new Station("chopping");
-    toaster = new Station("toaster");
-    frying = new Station("frying");
-    counters = new Station[5];
-    for (int i = 0; i < counters.length; i++) {
-      counters[i] = new Station("counters" + i);
-    }
-    assemblyStations = new AssemblyStation[5];
-    for (int i = 0; i < assemblyStations.length; i++) {
-      assemblyStations[i] = new AssemblyStation("assembly" + i);
-    }
-    customerCounters = new CustomerCounters[5];
-    for (int i = 0; i < customerCounters.length; i++) {
-      customerCounters[i] = new CustomerCounters("customerCounter" + i);
-    }
+    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams);
+    GameObjectManager.objManager.AppendLooseScript(masterChef);
 
-    // generate customer sprites to be used by customer class
-    customerAtlasArray = new ArrayList<TextureAtlas>();
-    generateCustomerArray();
+    CustomerControllerParams CCParams = difficultyState.ccParams;
 
-    for (int i = 0; i < customers.length; i++) {
+    CCParams.NoCustomers = numCustomers;
+    customerController = new CustomerController(new Vector2(200, 100), new Vector2(360, 180),
+        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, new Vector2(190, 390),
+        new Vector2(190, 290), new Vector2(290, 290));
+    // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
-      GameObject CustomerGameObject = new GameObject(new BlackSprite());
-      customers[i] = new Customer(i + 1);
-      CustomerGameObject.attachScript(customers[i]);
-      CustomerGameObject.image.setSize(18, 40);
+    GameObjectManager.objManager.AppendLooseScript(customerController);
 
-    }
+    powerup = new Powerup(masterChef, customerController); // powerup object
+
+    constructMachines = new ConstructMachines(customerController, difficultyState, pathfinding);
+
+    new CombinationDict();
+    CombinationDict.combinations.implementItems();
+    new RecipeDict();
+    RecipeDict.recipes.implementRecipes();
 
     createCollisionListener();
     int[] objectLayers = {3, 4, 6, 9, 11, 13, 16, 18, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32,
         33, 34, 35, 36, 37, 38, 39};
 
     //Fixed the hideous mechanism for creating collidable objects
-    for (int n = 0; n < objectLayers.length; n++) {
-      MapLayer layer = map.getLayers().get(objectLayers[n]);
+    for (int n = 0; n < 17; n++) {
+      MapLayer layer = map.getLayers().get(n);
       String name = layer.getName();
 
       for (MapObject object : layer.getObjects()
           .getByType(RectangleMapObject.class)) {
 
         Rectangle rect = ((RectangleMapObject) object).getRectangle();
-        buildObject(world, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), "Static",
+        constructMachines.buildObject(world, rect.getX(), rect.getY(), rect.getWidth(),
+            rect.getHeight(), "Static",
             name);
+
+        switch (name) {
+          case "bin":
+            constructMachines.CreateBin(rect);
+            break;
+          case "counter":
+            constructMachines.CreateAssembly(rect);
+            break;
+          case "frying":
+            constructMachines.CreateHobs(rect);
+            break;
+          case "chopping board":
+            constructMachines.CreateChopping(rect);
+            break;
+          case "toaster":
+            constructMachines.CreateToaster(rect);
+            break;
+          case "oven":
+            constructMachines.CreateOven(rect);
+            break;
+          case "customer counter":
+            constructMachines.CreateCustomerCounters(rect);
+            break;
+          case "tomato":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Tomato);
+            break;
+          case "lettuce":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Lettuce);
+            break;
+          case "onion":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Onion);
+            break;
+          case "mince":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Mince);
+            break;
+          case "buns":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Buns);
+            break;
+          case "dough":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Dough);
+            break;
+          case "cheese":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Cheese);
+            break;
+          case "potato":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Potato);
+            break;
+        }
       }
     }
+
     timerLabel = new Label("TIME: " + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+    moneyLabel = new Label("Money: ¥" + timer,
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
     timerFont = new BitmapFont();
+    pauseStage = new Stage();
+
+    // Calculates the scale of the screen to the original size of the game
+    scaleX = Gdx.graphics.getWidth() / 640f;
+    scaleY = Gdx.graphics.getHeight() / 480f;
+    isEndlessMode = CCParams.NoCustomers == -1;
+    setupGameUI();
+    setupPauseMenu();
   }
 
   /**
-   * A function which builds the world box in Box2d which is used for all the hitboxes;
+   * Sets up the UI elements which will be displayed during the game.
    *
-   * @param world  the world it's being built in
-   * @param x      the starting x of the world
-   * @param y      the starting y of the world
-   * @param width  the width of the world
-   * @param height the height of the world
-   * @param type   the type of the world
-   * @param name   the name of the world
+   * @author Jack Vickers
    */
-  public static void buildObject(World world, float x, float y, float width, float height,
-      String type, String name) {
-    BodyDef bdef = new BodyDef();
-    bdef.position.set((x + width / 2), (y + height / 2));
-    if (type == "Static") {
-      bdef.type = BodyDef.BodyType.StaticBody;
-    } else if (type == "Dynamic") {
-      bdef.type = BodyDef.BodyType.DynamicBody;
+  private void setupGameUI() {
+    gameUIStage = new Stage();
+    Gdx.input.setInputProcessor(gameUIStage);
+    Table gameUITable = new Table();
+    gameUIStage.addActor(gameUITable);
+    gameUITable.setFillParent(true);
+    gameUITable.align(Align.top);
+    if (isEndlessMode) {
+      modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
+          Color.WHITE));
+      modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
+      gameUITable.add(modeLabel).align(Align.topLeft).expandX();
+    } else {
+      modeLabel = new Label("SCENARIO MODE",
+          new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+      modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
+      gameUITable.add(modeLabel).align(Align.topLeft).expandX();
     }
-    Body body = world.createBody(bdef);
-    body.setUserData(name);
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox((width / 2), (height / 2));
-    FixtureDef fdef = new FixtureDef();
-    fdef.shape = shape;
-    body.createFixture(fdef);
+    updateCustomerLabel();
+    TextureRegion pauseBtn = new TextureRegion(new Texture("PauseUp.png"));
+    TextureRegion pauseBtnDown = new TextureRegion(new Texture("PauseDown.png"));
+    Drawable pauseBtnDrawable = new TextureRegionDrawable(pauseBtn);
+    Drawable pauseBtnDrawableDown = new TextureRegionDrawable(pauseBtnDown);
+    Button.ButtonStyle pauseButtonStyle = new Button.ButtonStyle();
+    Button pauseButton = new Button();
+    pauseButton.setStyle(pauseButtonStyle);
+    pauseButtonStyle.up = pauseBtnDrawable;
+    pauseButtonStyle.down = pauseBtnDrawableDown;
+    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).align(Align.topRight)
+        .expandX();
+    gameUITable.row();
+    pauseButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        Paused = true;
+        Gdx.input.setInputProcessor(pauseStage); // set the input processor to the pause stage
+      }
+    });
+    //TODO: Possibly use this function for the powerup menu in the future
+
+    //TODO: Add a level which displays the number of customers remaining for the scenario mode
+
   }
 
-  /**
-   * Generates a customer array which can be used to get random customer sprites from the customer
-   * class
-   */
-  public void generateCustomerArray() {
-    String filename;
-    TextureAtlas customerAtlas;
-
-    //The file path takes it to data for each animation
-    //The TextureAtlas creates a texture atlas where the you pass through the string of the number and it returns the image.
-    //Taking all pictures in the diretory of the file
-    for (int i = 1; i < 9; i++) {
-      filename = "Customers/Customer" + i + "/customer" + i + ".txt";
-      customerAtlas = new TextureAtlas(filename);
-      customerAtlasArray.add(customerAtlas);
-    }
-  }
-
-
-  /**
-   * Generates a chef array which can be used to get random chef sprites from the chef class
-   */
-  public void generateChefArray() {
-    String filename;
-    TextureAtlas chefAtlas;
-    for (int i = 1; i < 4; i++) {
-      filename = "Chefs/Chef" + i + "/chef" + i + ".txt";
-      chefAtlas = new TextureAtlas(filename);
-      chefAtlasArray.add(chefAtlas);
-
+  private void updateCustomerLabel() {
+    if (isEndlessMode) {
+      modeLabel.setText("Customers served: " + customerController.getNumberOfCustomersServed());
+    } else {
+      modeLabel.setText(
+          "Customers remaining: " + customerController.getRemainingNumberOfCustomers());
     }
   }
 
   /**
-   * Returns the chef array that's been created
+   * Creates the pause menu.
    *
-   * @return ArrayList<TextureAtlas> chefAtlasArray;
+   * @author Jack Vickers
+   * @date 07/04/2023
    */
-  public static ArrayList<TextureAtlas> getChefAtlasArray() {
-    return chefAtlasArray;
+  private void setupPauseMenu() {
+
+    Image pauseImage = new Image(new Texture("SemiTransparentBG.png"));
+    pauseImage.setSize(pauseStage.getWidth(), pauseStage.getHeight());
+    pauseImage.setPosition(0, 0);
+    pauseStage.addActor(pauseImage);
+    Table pauseTable = new Table(); // create a table to hold the pause menu
+    pauseStage.addActor(pauseTable); // add the table to the stage
+    pauseTable.setFillParent(true);
+    pauseTable.align(Align.center);
+
+    // The following block of code creates the resume button and adds it to the table
+    TextureRegion resumeBtn = new TextureRegion(new Texture("ResumeUp.png"));
+    TextureRegion resumeBtnDown = new TextureRegion(new Texture("ResumeDown.png"));
+    Drawable drawableResumeBtn = new TextureRegionDrawable(resumeBtn);
+    Drawable drawableResumeBtnDown = new TextureRegionDrawable(resumeBtnDown);
+    Button.ButtonStyle resumeButtonStyle = new Button.ButtonStyle();
+    Button resumeButton = new Button();
+    resumeButton.setStyle(resumeButtonStyle);
+    resumeButtonStyle.up = drawableResumeBtn;
+    resumeButtonStyle.down = drawableResumeBtnDown;
+    pauseTable.add(resumeButton).width(250 * scaleX).height(50 * scaleY).padBottom(50 * scaleY)
+        .padTop(80 * scaleY);
+    pauseTable.row();
+
+    // The following block of code adds a listener to the resume button
+    resumeButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        Paused = false; // when clicked, the game is no longer paused
+        Gdx.input.setInputProcessor(gameUIStage); // set the input processor to the game UI stage
+      }
+    });
+
+    // The following block of code creates the instruction button and adds it to the table
+    TextureRegion instructionBtn = new TextureRegion(new Texture("HowToPlayUp.png"));
+    TextureRegion instructionBtnDown = new TextureRegion(new Texture("HowToPlayDown.png"));
+    Drawable drawableInstructionBtn = new TextureRegionDrawable(instructionBtn);
+    Drawable drawableInstructionBtnDown = new TextureRegionDrawable(instructionBtnDown);
+    Button.ButtonStyle instructionButtonStyle = new Button.ButtonStyle();
+    Button instructionButton = new Button();
+    instructionButton.setStyle(instructionButtonStyle);
+    instructionButtonStyle.up = drawableInstructionBtn;
+    instructionButtonStyle.down = drawableInstructionBtnDown;
+    pauseTable.add(instructionButton).width(250 * scaleX).height(50 * scaleY)
+        .padBottom(50 * scaleY);
+    pauseTable.row();
+
+    // The following block of code adds a listener to the instruction button
+    instructionButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        System.out.println("For now this doesn't do anything");
+      }
+    });
+
+    // The following block of code creates the save button and adds it to the table
+    TextureRegion saveBtn = new TextureRegion(new Texture("SaveUp.png"));
+    TextureRegion saveBtnDown = new TextureRegion(new Texture("SaveDown.png"));
+    Drawable drawableSaveBtn = new TextureRegionDrawable(saveBtn);
+    Drawable drawableSaveBtnDown = new TextureRegionDrawable(saveBtnDown);
+    Button.ButtonStyle saveButtonStyle = new Button.ButtonStyle();
+    Button saveButton = new Button();
+    saveButton.setStyle(saveButtonStyle);
+    saveButtonStyle.up = drawableSaveBtn;
+    saveButtonStyle.down = drawableSaveBtnDown;
+    pauseTable.add(saveButton).width(250 * scaleX).height(50 * scaleY).padBottom(20 * scaleY);
+    pauseTable.row();
+
+    // Creates a label for the save button which will be used to give the user feedback
+    Label saveLabel = new Label("", new LabelStyle(new BitmapFont(), Color.WHITE));
+    saveLabel.setFontScale((scaleX + scaleY) / 2);
+
+    saveLabel.setAlignment(Align.right);
+    pauseTable.add(saveLabel).padBottom(10 * scaleY);
+    pauseTable.row();
+
+    // The following block of code adds a listener to the save button
+    saveButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        SaveGame();
+        saveLabel.setText("Game has successfully been saved");
+      }
+    });
+
+    // The following block of code creates the quit button and adds it to the table
+    TextureRegion quitBtn = new TextureRegion(new Texture("ExitUp.png"));
+    TextureRegion quitBtnDown = new TextureRegion(new Texture("ExitDown.png"));
+    Drawable drawableQuitBtn = new TextureRegionDrawable(quitBtn);
+    Drawable drawableQuitBtnDown = new TextureRegionDrawable(quitBtnDown);
+    Button.ButtonStyle quitButtonStyle = new Button.ButtonStyle();
+    Button quitButton = new Button();
+    quitButton.setStyle(quitButtonStyle);
+    quitButtonStyle.up = drawableQuitBtn;
+    quitButtonStyle.down = drawableQuitBtnDown;
+    pauseTable.add(quitButton).width(250 * scaleX).height(50 * scaleY).padBottom(50 * scaleY);
+    pauseTable.row();
+
+    // The following block of code adds a listener to the quit button
+    quitButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        gameMusic.stop();
+        game.setScreen(new MenuScreen(game));
+      }
+    });
   }
 
+
   /**
-   * Returns the customer array that's been created
+   * End game sequence
    *
-   * @return ArrayList<TextureAtlas> customerAtlasArray;
+   * @param values
    */
-  public static ArrayList<TextureAtlas> getCustomerAtlasArray() {
-    return customerAtlasArray;
+  public void EndGame(EndOfGameValues values) {
+    EndScreen screen = new EndScreen(game, this, timer, values, customerController.getNumberOfCustomersServed());
+    game.setScreen(screen);
+
+
   }
 
+
   /**
-   * Plays the game music
+   * Plays the game music when the screen is shown.
+   *
+   * @author Amy Cross
+   * @author Jack Vickers
    */
   @Override
   public void show() {
-    gameMusic.play();
+    if (!gameMusic.isPlaying()) {
+      gameMusic.setVolume(0.6f);
+      gameMusic.play(); // only play the music if it's not already playing
+    }
   }
 
   /**
-   * Displays the timer for the player
+   * Displays the timer.
+   *
+   * @author Amy Cross
+   * @author Felix Seanor
    */
   public void displayTimer() {
     seconds += Gdx.graphics.getDeltaTime();
@@ -314,12 +481,29 @@ public class GameScreen implements Screen {
     timerFont.draw(game.batch, str, 380, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
     timerLabel.setText(str);
+
+    CharSequence str2 = "Money: ¥" + customerController.Money;
+    timerFont.draw(game.batch, str2, 500, 35);
+    timerFont.getData().setScale(1.5f, 1.5f);
+
+    if (customerController.Reputation != -1) {
+      CharSequence str3 = "Reputation: " + customerController.Reputation;
+      timerFont.draw(game.batch, str3, 650, 35);
+      timerFont.getData().setScale(1.5f, 1.5f);
+    }
+
+    CharSequence str3 = "Patience: ";
+    timerFont.draw(game.batch, str3, 200, 25);
+
   }
 
   /**
    * Calls all logic updates and sprite draws as well as checks if game has been completed
    *
    * @param delta The time in seconds since the last render.
+   * @author Felix Seanor
+   * @author Amy Cross
+   * @author Jack Hinton
    */
   @Override
   public void render(float delta) {
@@ -332,494 +516,77 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
-    //Check which chef is being control
-    if (chef[0].isCtrl()) {
-      chef[0].stop();
-      chef[1].stop();
-      if (chefControl == 0) {
-        chefControl = 1;
-      } else {
-        chefControl = 0;
-      }
-    }
+//    if(Gdx.input.isKeyJustPressed(Keys.B))
+//      SaveGame();
 
-    // Runs chefs logic updates
-    chef[chefControl].updateSpriteFromInput(chef[chefControl].getMove());
-    for (int i = 0; i < customers.length; i++) {
-      customers[i].updateSpriteFromInput(customers[i].getMove());
+    if (Gdx.input.isKeyJustPressed(Keys.V)) {
+      LoadGame("SavedData.ser");
     }
 
     //Removed and simplified logic
 
     world.step(1 / 60f, 6, 2);
 
-
-    // Checks if the assembly stations have a completed dish on them
-    for (int i = 0; i < assemblyStations.length; i++) {
-      assemblyStations[i].assembleDish();
-    }
+    game.batch.setProjectionMatrix(camera.combined);
 
     //Begins drawing the game batch
     game.batch.begin();
 
-    // Calls the function to draw all the ingredients
-    drawIngredients();
+    if (!Paused) {
+      displayTimer();
+      //Update Scripts
+      GameObjectManager.objManager.doUpdate(Gdx.graphics.getDeltaTime());
+      updateCustomerLabel();
+      //New rendering system
+      RenderManager.renderer.onRender(game.batch);
 
-    // Calls the function to display timer
-    displayTimer();
-
-    //Update Scripts
-    GameObjectManager.objManager.doUpdate(Gdx.graphics.getDeltaTime());
-    //New rendering system
-    RenderManager.renderer.onRender(game.batch);
-
-    // Draws the chefs
-    for (int i = 0; i < chef.length; i++) {
-      //chef[i].sprite.setSize(18,40);
-      //chef[i].sprite.draw(game.batch);
-      if (chef[i].isFrozen) {  // if frozen, need to update timer and sprite
-        chef[i].drawTimer(game.batch);
-      }
-    }
-
-    // Draws the customers and their orders
-    for (int i = 0; i < customers.length; i++) {
-      //customers[i].gameObject.getSprite().setSize(18, 40);
-      //customers[i].draw(game.batch);
-
-      if (customers[i].isWaiting()) {
-        Customer customer = customers[i];
-        if (customer.getDish() == "salad") {
-          game.batch.draw(dish1,
-              ((customer.getX() + customer.gameObject.getSprite().sprite.getWidth() / 2) - 5),
-              ((customer.getY() + customer.gameObject.getSprite().sprite.getHeight()) - 5));
-        } else if (customer.getDish() == "burger") {
-          game.batch.draw(dish2,
-              ((customer.getX() + customer.gameObject.getSprite().sprite.getWidth() / 2) - 5),
-              ((customer.getY() + customer.gameObject.getSprite().sprite.getHeight()) - 5));
+      // Mutes or plays the music
+      if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
+        if (gameMusic.isPlaying()) {
+          gameMusic.pause();
+        } else {
+          gameMusic.play();
         }
       }
-
-      if (customers[i].getDish() == customerCounters[i].getDish()) {
-        customers[i].fed();
+      if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+        powerup.doSpeedPowerup();
       }
-    }
-
-    // Mutes or plays the music
-    if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
-      if (gameMusic.isPlaying()) {
-        gameMusic.pause();
-      } else {
-        gameMusic.play();
+      if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+        powerup.buyReputation();
       }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+        powerup.superFood();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+        powerup.tetrisSuperFood();
+      }
+    } else {
+      pauseStage.draw();
     }
-
-    // Draws the instuctions and menu
-    game.batch.draw(spaceTexture, 160, 400, 130, 80);
-    game.batch.draw(ctrlTexture, 280, 410, 90, 60);
-    game.batch.draw(shiftTexture, 360, 415, 90, 50);
-    game.batch.draw(rTexture, 450, 413, 90, 53);
-    game.batch.draw(mTexture, 534, 413, 90, 53);
-    game.batch.draw(menu, 10, 405, 130, 70);
+    // THIS IS SAM'S CODE:
+//    LeaderBoard x = new LeaderBoard();
+//    x.createJSONFile();
+//    try {
+//      x.readJSONData();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
 
     game.batch.end();
 
-    // Runs the logic for the collisions between counters and chefs
-    gameLogic();
-
-    // Checks if all the customers have been fed and the game is over
-    int fedCounter = 0;
-    for (int i = 0; i < customers.length; i++) {
-      if (customers[i].getFed()) {
-        fedCounter++;
-      }
-    }
-    if (fedCounter == 5) {
-      game.setScreen(new VictoryScreen(game, this, timer));
+    // The following code must occur after the batch is ended.
+    // Otherwise, it causes issues with customer positioning.
+    if (!Paused) { // displays the game UI if the game is not paused
+      gameUIStage.draw();
     }
   }
 
-  /**
-   * Checks each chef, counter, station, and assembly station then draws the ingredient sprites on
-   * them
-   */
-  public void drawIngredients() {
-
-    // Checks the chopping board for ingredients
-    if (chopping.getIngredient().getName() != "none") {
-      switch (chopping.getIngredient().getName()) {
-        case "tomato":
-          if (chopping.getIngredient().getState() == "unprocessed") {
-            System.out.println("here");
-            game.batch.draw(tomatoUnchopped, 460, 350, 15, 15);
-          } else {
-            game.batch.draw(tomatoChopped, 460, 350, 15, 15);
-          }
-          break;
-        case "onion":
-          if (chopping.getIngredient().getState() == "unprocessed") {
-            System.out.println("here");
-            game.batch.draw(onionUnchopped, 460, 350, 15, 15);
-          } else {
-            game.batch.draw(onionChopped, 460, 350, 15, 15);
-          }
-          break;
-        case "lettuce":
-          if (chopping.getIngredient().getState() == "unprocessed") {
-            System.out.println("here");
-            game.batch.draw(lettuceUnchopped, 460, 350, 15, 15);
-          } else {
-            game.batch.draw(lettuceChopped, 460, 350, 15, 15);
-          }
-          break;
-      }
-    }
-
-    // Checks the frying pan for ingredients
-    if (frying.getIngredient().getName() != "none") {
-      switch (frying.getIngredient().getState()) {
-        case "unprocessed":
-          game.batch.draw(meatUncooked, 500, 295, 15, 15);
-          break;
-        case "processed":
-          game.batch.draw(meatCooked, 500, 295, 15, 15);
-          break;
-      }
-    }
-
-    // checks the toaster for ingredients
-    if (toaster.getIngredient().getName() != "none") {
-      switch (toaster.getIngredient().getState()) {
-        case "unprocessed":
-          game.batch.draw(bunUntoasted, 555, 255, 15, 15);
-          break;
-        case "processed":
-          game.batch.draw(bunToasted, 555, 255, 15, 15);
-          break;
-      }
-    }
-
-    // Checks the counters for ingredients
-    for (int i = 0; i < counters.length; i++) {
-      switch (counters[i].getIngredient().getName()) {
-        case "tomato":
-          if (counters[i].getIngredient().getState() == "unprocessed") {
-            game.batch.draw(tomatoUnchopped, 300 + i * 20, 160, 15, 15);
-          } else {
-            game.batch.draw(tomatoChopped, 300 + i * 20, 160, 15, 15);
-          }
-          break;
-        case "lettuce":
-          if (counters[i].getIngredient().getState() == "unprocessed") {
-            game.batch.draw(lettuceUnchopped, 300 + i * 20, 160, 15, 15);
-          } else {
-            game.batch.draw(lettuceChopped, 300 + i * 20, 160, 15, 15);
-          }
-          break;
-        case "onion":
-          if (counters[i].getIngredient().getState() == "unprocessed") {
-            game.batch.draw(onionUnchopped, 300 + i * 20, 160, 15, 15);
-          } else {
-            game.batch.draw(onionChopped, 300 + i * 20, 160, 15, 15);
-          }
-          break;
-        case "patty":
-          if (counters[i].getIngredient().getState() == "unprocessed") {
-            game.batch.draw(meatUncooked, 300 + i * 20, 160, 15, 15);
-          } else {
-            game.batch.draw(meatCooked, 300 + i * 20, 160, 15, 15);
-          }
-          break;
-        case "bun":
-          if (counters[i].getIngredient().getState() == "unprocessed") {
-            game.batch.draw(bunUntoasted, 300 + i * 20, 160, 15, 15);
-          } else {
-            game.batch.draw(bunToasted, 300 + i * 20, 160, 15, 15);
-          }
-          break;
-        case "salad":
-          game.batch.draw(salad, 300 + i * 20, 160, 15, 15);
-          break;
-        case "burger":
-          game.batch.draw(burger, 300 + i * 20, 160, 15, 15);
-      }
-    }
-
-    // Checks the chefs inventory for ingredients
-    for (int i = 0; i < chef.length; i++) {
-      switch (chef[i].getInventory().getName()) {
-        case "tomato":
-          if (chef[i].getInventory().getState() == "unprocessed") {
-            game.batch.draw(tomatoUnchopped, 10 + i * 600, 18, 20, 20);
-          } else {
-            game.batch.draw(tomatoChopped, 10 + i * 600, 18, 20, 20);
-          }
-          break;
-        case "lettuce":
-          if (chef[i].getInventory().getState() == "unprocessed") {
-            game.batch.draw(lettuceUnchopped, 10 + i * 600, 18, 20, 20);
-          } else {
-            game.batch.draw(lettuceChopped, 10 + i * 600, 18, 20, 20);
-          }
-          break;
-        case "onion":
-          if (chef[i].getInventory().getState() == "unprocessed") {
-            game.batch.draw(onionUnchopped, 10 + i * 600, 18, 20, 20);
-          } else {
-            game.batch.draw(onionChopped, 10 + i * 600, 18, 20, 20);
-          }
-          break;
-        case "patty":
-          if (chef[i].getInventory().getState() == "unprocessed") {
-            game.batch.draw(meatUncooked, 10 + i * 600, 18, 20, 20);
-          } else {
-            game.batch.draw(meatCooked, 10 + i * 600, 18, 20, 20);
-          }
-          break;
-        case "bun":
-          if (chef[i].getInventory().getState() == "unprocessed") {
-            game.batch.draw(bunUntoasted, 10 + i * 600, 18, 20, 20);
-          } else {
-            game.batch.draw(bunToasted, 10 + i * 600, 18, 20, 20);
-          }
-          break;
-        case "burger":
-          game.batch.draw(burger, 10 + i * 600, 18, 20, 20);
-          break;
-        case "salad":
-          game.batch.draw(salad, 10 + i * 600, 18, 20, 20);
-      }
-    }
-
-    //Checks the assembly stations for ingredients
-    for (int i = 0; i < assemblyStations.length; i++) {
-      if (assemblyStations[i].getDish() == "none") {
-        for (int j = 0; j < assemblyStations[i].getIngredients().size(); j++) {
-          int x = 420 + i * 20;
-          int y = 160;
-          switch (j) {
-            case 0:
-              x = 420 + i * 20;
-              y = 160;
-              break;
-            case 1:
-              x = 420 + i * 20;
-              y = 160 + 10;
-              break;
-            case 2:
-              x = 430 + i * 20;
-              y = 160;
-              break;
-            case 3:
-              x = 430 + i * 20;
-              y = 160 + 10;
-              break;
-          }
-          switch (assemblyStations[i].getIngredients().get(j).getName()) {
-            case "tomato":
-              game.batch.draw(tomatoChopped, x, y, 10, 10);
-              break;
-            case "bun":
-              game.batch.draw(bunToasted, x, y, 10, 10);
-              break;
-            case "patty":
-              game.batch.draw(meatCooked, x, y, 10, 10);
-              break;
-            case "onion":
-              game.batch.draw(onionChopped, x, y, 10, 10);
-              break;
-            case "lettuce":
-              game.batch.draw(lettuceChopped, x, y, 10, 10);
-              break;
-          }
-        }
-      } else if (assemblyStations[i].getDish() == "salad") {
-        game.batch.draw(salad, 420 + i * 20, 160, 20, 20);
-      } else if (assemblyStations[i].getDish() == "burger") {
-        game.batch.draw(burger, 420 + i * 20, 160, 20, 20);
-      }
-    }
-  }
-
-  /**
-   * Gets all the collisions and checks if the input keys are pressed and then performs the actions
-   * as specified
-   */
-  public void gameLogic() {
-
-    // gets all the collisions and iterates through them
-    int numContacts = world.getContactCount();
-    if (numContacts > 0) {
-      for (Contact contact : world.getContactList()) {
-        Object objectA = contact.getFixtureA().getBody().getUserData();
-        Object objectB = contact.getFixtureB().getBody().getUserData();
-
-        // Checks if the object being interacted with is a chef
-        if (objectB.toString().contentEquals("Chef" + chefControl) || objectA.toString()
-            .contentEquals("Chef" + chefControl)) {
-
-          boolean isShift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
-          boolean isSpace = Gdx.input.isKeyJustPressed(Input.Keys.SPACE);
-          boolean isR = Gdx.input.isKeyPressed(Input.Keys.R);
-          boolean invFull;
-          invFull = chef[chefControl].getInventory().getName() != "none";
-
-          // The following statements are for picking items up from the stations
-          // Uses (string)objectA.contains(String) because there are invisible
-          // characters in the map layers
-          if (objectA.toString().contains("tomato") && !invFull && isSpace) {
-            chef[chefControl].setInventory(new Ingredient("tomato"));
-          }
-          if (objectA.toString().contains("lettuce") && !invFull && isSpace) {
-            chef[chefControl].setInventory(new Ingredient("lettuce"));
-          }
-          if (objectA.toString().contains("onion") && !invFull && isSpace) {
-            chef[chefControl].setInventory(new Ingredient("onion"));
-          }
-          if (objectA.toString().contains("patty") && !invFull && isSpace) {
-            chef[chefControl].setInventory(new Ingredient("patty"));
-          }
-          if (objectA.toString().contains("bun") && !invFull && isSpace) {
-            chef[chefControl].setInventory(new Ingredient("bun"));
-          }
-
-          // Runs all the checks for the chopping board
-          if (objectA.toString().contains("chopping")) {
-            if (chef[chefControl].getInventory().getStation() == "chopping"
-                && chopping.getIngredient().getName() == "none" && isSpace) {
-              Ingredient tempIngredient = new Ingredient(
-                  chef[chefControl].getInventory().getName());
-              tempIngredient.setState(chef[chefControl].getInventory().getState());
-              chopping.setIngredient(tempIngredient);
-              chef[chefControl].setInventory(new Ingredient("none"));
-            }
-            if (isShift && chopping.getIngredient().getName() != "none") {
-              chef[chefControl].freeze(3, chopping);
-              chopping.getIngredient().setState("processed");
-            }
-            if (chopping.getIngredient().getState() == "processed"
-                && chopping.getIngredient().getName() != "none" && !invFull && isSpace
-                && !chopping.getLocked()) {
-              Ingredient tempIngredient = new Ingredient(chopping.getIngredient().getName());
-              tempIngredient.setState(chopping.getIngredient().getState());
-              chef[chefControl].setInventory(tempIngredient);
-              chopping.setIngredient(new Ingredient("none"));
-            }
-          }
-
-          // Runs all the checks for the frying pan
-          if (objectA.toString().contains("frying")) {
-            if (chef[chefControl].getInventory().getStation() == "frying"
-                && frying.getIngredient().getName() == "none" && isSpace) {
-              Ingredient tempIngredient = new Ingredient(
-                  chef[chefControl].getInventory().getName());
-              tempIngredient.setState(chef[chefControl].getInventory().getState());
-              frying.setIngredient(tempIngredient);
-              chef[chefControl].setInventory(new Ingredient("none"));
-            }
-            if (isShift && frying.getIngredient().getName() != "none") {
-              chef[chefControl].freeze(3, frying);
-              frying.getIngredient().setState("processed");
-            }
-            if (frying.getIngredient().getState() == "processed"
-                && frying.getIngredient().getName() != "none" && !invFull && isSpace
-                && !frying.getLocked()) {
-              Ingredient tempIngredient = new Ingredient(frying.getIngredient().getName());
-              tempIngredient.setState(frying.getIngredient().getState());
-              chef[chefControl].setInventory(tempIngredient);
-              frying.setIngredient(new Ingredient("none"));
-            }
-          }
-
-          // Runs all the checks on the toaster
-          if ((objectA.toString().contains("toaster"))) {
-            if (chef[chefControl].getInventory().getStation() == "toaster"
-                && toaster.getIngredient().getName() == "none" && isSpace) {
-              Ingredient tempIngredient = new Ingredient(
-                  chef[chefControl].getInventory().getName());
-              tempIngredient.setState(chef[chefControl].getInventory().getState());
-              toaster.setIngredient(tempIngredient);
-              chef[chefControl].setInventory(new Ingredient("none"));
-            }
-            if (isShift && toaster.getIngredient().getName() != "none") {
-              chef[chefControl].freeze(3, toaster);
-              toaster.getIngredient().setState("processed");
-            }
-            if (toaster.getIngredient().getState() == "processed"
-                && toaster.getIngredient().getName() != "none" && !invFull && isSpace
-                && !toaster.getLocked()) {
-              Ingredient tempIngredient = new Ingredient(toaster.getIngredient().getName());
-              tempIngredient.setState(toaster.getIngredient().getState());
-              chef[chefControl].setInventory(tempIngredient);
-              toaster.setIngredient(new Ingredient("none"));
-            }
-          }
-
-          // Gets rid of inventory if next to bin
-          if ((objectA.toString().contains("bin") && isSpace)) {
-            chef[chefControl].setInventory(new Ingredient("none"));
-          }
-
-          // Checks all the counters for interactions
-          for (int i = 1; i < 6; i++) {
-            if (objectA.toString().contentEquals("counter" + i)) {
-              if (isSpace && counters[i - 1].getIngredient().getName() == "none") {
-                Ingredient tempIngredient = new Ingredient(
-                    chef[chefControl].getInventory().getName());
-                tempIngredient.setState(chef[chefControl].getInventory().getState());
-                counters[i - 1].setIngredient(tempIngredient);
-                chef[chefControl].setInventory(new Ingredient("none"));
-              } else if (isSpace && chef[chefControl].getInventory().getName() == "none") {
-                Ingredient tempIngredient = new Ingredient(
-                    counters[i - 1].getIngredient().getName());
-                tempIngredient.setState(counters[i - 1].getIngredient().getState());
-                chef[chefControl].setInventory(tempIngredient);
-                counters[i - 1].setIngredient(new Ingredient("none"));
-              }
-            }
-          }
-
-          // Checks all the assembly stations for interactions
-          for (int i = 0; i < assemblyStations.length; i++) {
-            if (objectA.toString().contains("assembly" + (i + 1))) {
-              if (isSpace && assemblyStations[i].validIngredient(
-                  chef[chefControl].getInventory().getName())
-                  && chef[chefControl].getInventory().getState() == "processed") {
-                Ingredient tempIngredient = new Ingredient(
-                    chef[chefControl].getInventory().getName());
-                tempIngredient.setState(chef[chefControl].getInventory().getState());
-                chef[chefControl].setInventory(new Ingredient("none"));
-                assemblyStations[i].addIngredient(tempIngredient);
-              }
-              if (assemblyStations[i].getDish() != "none" && isSpace) {
-                chef[chefControl].setInventory(new Ingredient(assemblyStations[i].getDish()));
-                assemblyStations[i].setDish("none");
-              }
-              if (isR) {
-                assemblyStations[i].clearIngredients();
-                assemblyStations[i].setDish("none");
-              }
-            }
-          }
-
-          // Checks all the customer counters for interactions
-          for (int i = 0; i < customerCounters.length; i++) {
-            if (objectA.toString().contentEquals("customerCounter" + (i + 1))) {
-              if (isSpace && customers[i].getDish() == chef[chefControl].getInventory().getName()) {
-                Ingredient tempDish = new Ingredient(chef[chefControl].getInventory().getName());
-                customerCounters[i].setDish(tempDish.getName());
-                chef[chefControl].setInventory(new Ingredient("none"));
-              }
-            }
-          }
-        }
-      }
-    }
-  }
 
   /**
    * Finds all the collisions and assigns the names Also has a convenience function to disregard the
    * chef collision
+   *
+   * @author Amy Cross
    */
   public void createCollisionListener() {
     world.setContactListener(new ContactListener() {
@@ -875,13 +642,104 @@ public class GameScreen implements Screen {
     });
   }
 
+  /**
+   * Save the game.
+   *
+   * @author Felix Seanor
+   */
+  public void SaveGame() {
+    SaveState Saving = new SaveState();
+    Saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds,
+        constructMachines.Stations, constructMachines.customerCounters,
+        constructMachines.assemblyStations);
+
+  }
+
+  /**
+   * Load the game from save
+   *
+   * @author Felix Seanor
+   */
+  public void LoadGame(String path) {
+    SaveState Saving = new SaveState();
+
+    GameState state = Saving.LoadState(path);
+
+    LoadState(state);
+    masterChef.LoadState(state);
+    customerController.LoadState(state);
+
+
+  }
+
+  /**
+   * Loads the state of a previous state of the world, all LoadGame to a full sweep.
+   *
+   * @param state
+   * @author Felix Seanor
+   */
+  public void LoadState(GameState state) {
+
+    int i = 0;
+    timer = state.Timer;
+    seconds = state.seconds;
+    difficulty = state.difficulty;
+    for (GameObject station : constructMachines.Stations) {
+      Scriptable scriptable = station.GetScript(0);
+      if (scriptable instanceof Station) {
+        ((Station) scriptable).LoadState(state.FoodOnCounters.get(i++));
+      }
+
+
+    }
+
+    for (GameObject station : constructMachines.customerCounters) {
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+    }
+
+    for (GameObject station : constructMachines.assemblyStations) {
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+    }
+  }
+
+
+  public Difficulty getDifficulty() {
+    return difficulty;
+  }
+
+  public int getTimer() {
+    return timer;
+  }
+
+  public float getSeconds() {
+    return seconds;
+  }
+
+  public List<GameObject> getStations() {
+    return constructMachines.Stations;
+  }
+
+  public List<GameObject> getCustomerCounters() {
+    return constructMachines.customerCounters;
+  }
+
+  public List<GameObject> getAssemblyStations() {
+    return constructMachines.assemblyStations;
+  }
+
+
+  //  /**
+//   * Resizes the stage when the window is resized so that the buttons are in the correct place.
+//   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
+//   */
   @Override
   public void resize(int width, int height) {
+    pauseStage.getViewport().update(width, height, true);
+    gameUIStage.getViewport().update(width, height, true);
   }
 
   @Override
   public void pause() {
-
   }
 
   @Override
@@ -894,6 +752,8 @@ public class GameScreen implements Screen {
 
   /**
    * Disposes of all sprites from memory to keep it optimised
+   *
+   * @author Felix Seanor
    */
   @Override
   public void dispose() {

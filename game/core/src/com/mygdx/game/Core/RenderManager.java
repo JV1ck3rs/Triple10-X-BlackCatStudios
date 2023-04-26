@@ -7,11 +7,18 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Abstracts rendering behind a list of sorted GameObjects
+ * @author Felix Seanor
+ */
 public class RenderManager {
 
   public static RenderManager renderer;
 
-
+  /**
+   * Creates a render manager singleton
+   * @author Felix Seanor
+   */
   public RenderManager() {
     if (renderer != null) {
       throw new IllegalArgumentException("This cannot be created more than once");
@@ -21,19 +28,25 @@ public class RenderManager {
 
   }
 
-
+  /**
+   * Creates a render call for all gameobjects
+   * @param batch
+   * @author Felix Seanor
+   */
   public void onRender(SpriteBatch batch) {
     List<GameObject> LayerOrderedRenderables = new LinkedList<>();
 
     for (GameObject obj : GameObjectManager.objManager.GameObjects.values()
     ) {
+      if(obj.image != null)
       LayerOrderedRenderables.add(obj);
     }
 
     Collections.sort(LayerOrderedRenderables, new Comparator<GameObject>() {
       @Override
       public int compare(GameObject o1, GameObject o2) {
-        return -o1.image.compare(o1.image, o2.image);
+
+        return o1.image.compare(o1.image, o2.image);
       }
     });
 
