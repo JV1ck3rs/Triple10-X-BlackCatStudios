@@ -83,6 +83,7 @@ public class Customer extends PathfindingAgent implements Person {
     foodRecipe.isVisible = false;
   }
 
+  public String getCurrentOrientation(){return spriteOrientation;}
   @Override
   public void Start() {
     gameObject.getSprite().setSprite(customerAtlas.createSprite("north1"));
