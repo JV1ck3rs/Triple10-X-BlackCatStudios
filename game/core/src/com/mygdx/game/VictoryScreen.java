@@ -39,6 +39,8 @@ public class VictoryScreen implements Screen {
   private final Label timerLabel;
   private final Label VictoryOrLoss;
   private final Table table;
+  float scaleX;
+  float scaleY;
 
 
   /**
@@ -56,6 +58,9 @@ public class VictoryScreen implements Screen {
     gameScreen = gscreen;
     victoryScreen = new Texture(Gdx.files.internal("endScreenBG.png"));
     Image image = new Image(victoryScreen);
+    // Calculates the scale of the screen to the original size of the game
+    scaleX = Gdx.graphics.getWidth() / 640f;
+    scaleY = Gdx.graphics.getHeight() / 480f;
     stage = new Stage();
     image.setSize(stage.getWidth(), stage.getHeight());
     image.setPosition(0, 0);
@@ -89,7 +94,7 @@ public class VictoryScreen implements Screen {
     scenariobtnStyle.up = drawableScenariobtnUp;
     scenariobtnStyle.down = drawableScenariobtnDown;
 
-    table.add(scenariobtn).width(250).height(50).pad(200,25,25,25);
+    table.add(scenariobtn).width(250 * scaleX).height(50 * scaleY).pad(200,25,25,25);
     table.row();
 
 

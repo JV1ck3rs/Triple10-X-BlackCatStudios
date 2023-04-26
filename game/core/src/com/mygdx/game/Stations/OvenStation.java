@@ -1,6 +1,7 @@
 package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
@@ -25,6 +26,8 @@ public class OvenStation extends Station {
         super(params);
         ready = false;
         maxProgress = 10;
+        animation = new GameObject(new BlackTexture("Items/OvenActive.png"));
+        animation.isVisible = false;
         if (ItemWhiteList == null) {
             ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Potato, ItemEnum.CheesePotato, ItemEnum.MeatPotato,
                     ItemEnum.CheesePizza, ItemEnum.MeatPizza, ItemEnum.VegPizza, ItemEnum.CheesePizzaCooked,
@@ -36,12 +39,15 @@ public class OvenStation extends Station {
 
     @Override
     public boolean GiveItem(Item item) {
+        if (getLocked()) {
+            return checkRepairTool(item);
+        }
         if (this.item != null) {
             return false;
         }
-        bubble.isVisible = true;
         changeItem(item);
         checkItem();
+        animation.isVisible = true;
         return true;
     }
 
@@ -52,6 +58,7 @@ public class OvenStation extends Station {
         returnItem = item;
         deleteItem();
         currentRecipe = null;
+        animation.isVisible = false;
         return returnItem;
     }
 
@@ -81,10 +88,14 @@ public class OvenStation extends Station {
 
 
     public void checkItem() {
-        if (ItemWhiteList.contains(item.name))
-            currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-        else
+        if (ItemWhiteList.contains(item.name)) {
+            currentRecipe = recipes.RecipeMap.get(item.name);
+            bubble.isVisible = true;
+        }
+        else{
             currentRecipe = null;
+            bubble.isVisible = false;
+        }
     }
 
 
@@ -114,6 +125,13 @@ public class OvenStation extends Station {
     public void updatePictures() {
         return;
     }
+
+
+    @Override
+    public void moveAnim(){
+        animation.setPosition(gameObject.position.x, gameObject.position.y);
+    }
+
 
     @Override
     public void Update(float dt) {

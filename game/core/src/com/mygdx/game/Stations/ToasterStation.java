@@ -1,6 +1,7 @@
 package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
@@ -28,15 +29,20 @@ public class ToasterStation extends Station{
     if (ItemWhiteList == null) {
       ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Buns));
     }
+    animation = new GameObject(new BlackTexture("Items/ToasterActive.png"));
+    animation.isVisible = false;
   }
 
 
     @Override
     public boolean GiveItem(Item item) {
+        if (getLocked()) {
+            return checkRepairTool(item);
+        }
         if (this.item != null) {
             return false;
         }
-        bubble.isVisible = true;
+        animation.isVisible = true;
         changeItem(item);
         checkItem();
         return true;
@@ -49,6 +55,7 @@ public class ToasterStation extends Station{
     deleteItem();
     currentRecipe = null;
     bubble.isVisible = false;
+    animation.isVisible = false;
     return returnItem;
   }
 
@@ -78,10 +85,14 @@ public class ToasterStation extends Station{
 
 
     public void checkItem() {
-        if (ItemWhiteList.contains(item.name))
+        if (ItemWhiteList.contains(item.name)) {
             currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-        else
+            bubble.isVisible = true;
+        }
+        else{
             currentRecipe = null;
+            bubble.isVisible = false;
+        }
     }
 
 
@@ -108,6 +119,7 @@ public class ToasterStation extends Station{
     return (int) (progress / 0.125) + 1;
   }
 
+
     public float getCookingTime(){
         return item.progress;
     }
@@ -117,11 +129,18 @@ public class ToasterStation extends Station{
         return;
     }
 
-  @Override
-  public void Update(float dt) {
-    if (currentRecipe != null) {
-      Cook(dt);
+
+    @Override
+    public void moveAnim(){
+        animation.setPosition(gameObject.position.x + 2, gameObject.position.y + 6);
     }
+
+
+    @Override
+    public void Update(float dt) {
+        if (currentRecipe != null) {
+            Cook(dt);
+        }
 
   }
 }

@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.Core.*;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
@@ -63,6 +64,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.*;
+import java.util.Objects;
 import jdk.internal.org.jline.utils.DiffHelper.Diff;
 
 /**
@@ -122,11 +124,14 @@ public class GameScreen implements Screen {
   Music gameMusic;
 
   public showRecipeInstructions recipeScreen;
+  Label modeLabel;
 
   Stage pauseStage; // stage for the pause menu
   Stage gameUIStage; // stage for the game UI
-  float scale;
+  float scaleX;
+  float scaleY;
   boolean isEndlessMode;
+  FitViewport viewport;
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
@@ -147,6 +152,7 @@ public class GameScreen implements Screen {
     //recipeScreen.showRecipeInstruction();
     CameraFunctions camera1 = CameraFunctions.camera;
     camera1.updateCamera(camera);
+    viewport = new FitViewport(720, 1280, camera);
 
 
     camera.setToOrtho(false, viewportWidth, viewportHeight);
@@ -267,14 +273,10 @@ public class GameScreen implements Screen {
 
     timerFont = new BitmapFont();
     pauseStage = new Stage();
-    pauseStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-    scale = 1.00f;
-    // check if the game is in full screen mode
-    // (thus the screen width is greater than 720)
-    if (pauseStage.getViewport().getScreenWidth() > 720) {
-      scale = 0.5f * ((pauseStage.getViewport().getScreenWidth() / 720f) + (
-          pauseStage.getViewport().getScreenHeight() / 1280f));
-    }
+
+    // Calculates the scale of the screen to the original size of the game
+    scaleX = Gdx.graphics.getWidth() / 640f;
+    scaleY = Gdx.graphics.getHeight() / 480f;
     if (loadSave) { // if the game is being loaded from a save
       if(!Test)
         LoadGame("SavedData.ser");
@@ -302,14 +304,17 @@ public class GameScreen implements Screen {
     gameUITable.setFillParent(true);
     gameUITable.align(Align.top);
     if (isEndlessMode) {
-      Label modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
+      modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
           Color.WHITE));
+      modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
       gameUITable.add(modeLabel).align(Align.topLeft).expandX();
     } else {
-      Label modeLabel = new Label("SCENARIO MODE",
+      modeLabel = new Label("SCENARIO MODE",
           new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+      modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
       gameUITable.add(modeLabel).align(Align.topLeft).expandX();
     }
+    updateCustomerLabel();
     TextureRegion pauseBtn = new TextureRegion(new Texture("PauseUp.png"));
     TextureRegion pauseBtnDown = new TextureRegion(new Texture("PauseDown.png"));
     Drawable pauseBtnDrawable = new TextureRegionDrawable(pauseBtn);
@@ -319,7 +324,7 @@ public class GameScreen implements Screen {
     pauseButton.setStyle(pauseButtonStyle);
     pauseButtonStyle.up = pauseBtnDrawable;
     pauseButtonStyle.down = pauseBtnDrawableDown;
-    gameUITable.add(pauseButton).width(48 * scale).height(48 * scale).align(Align.topRight)
+    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).align(Align.topRight)
         .expandX();
     gameUITable.row();
     pauseButton.addListener(new ClickListener() {
@@ -333,6 +338,10 @@ public class GameScreen implements Screen {
 
     //TODO: Add a level which displays the number of customers remaining for the scenario mode
 
+  }
+
+  private void updateCustomerLabel() {
+    modeLabel.setText("Customers remaining: " + customerController.getRemainingNumberOfCustomers());
   }
 
   /**
@@ -362,8 +371,8 @@ public class GameScreen implements Screen {
     resumeButton.setStyle(resumeButtonStyle);
     resumeButtonStyle.up = drawableResumeBtn;
     resumeButtonStyle.down = drawableResumeBtnDown;
-    pauseTable.add(resumeButton).width(250 * scale).height(50 * scale).padBottom(50 * scale)
-        .padTop(80 * scale);
+    pauseTable.add(resumeButton).width(250 * scaleX).height(50 * scaleY).padBottom(50 * scaleY)
+        .padTop(80 * scaleY);
     pauseTable.row();
 
     // The following block of code adds a listener to the resume button
@@ -385,7 +394,7 @@ public class GameScreen implements Screen {
     instructionButton.setStyle(instructionButtonStyle);
     instructionButtonStyle.up = drawableInstructionBtn;
     instructionButtonStyle.down = drawableInstructionBtnDown;
-    pauseTable.add(instructionButton).width(250 * scale).height(50 * scale).padBottom(50 * scale);
+    pauseTable.add(instructionButton).width(250 * scaleX).height(50 * scaleY).padBottom(50 * scaleY);
     pauseTable.row();
 
     // The following block of code adds a listener to the instruction button
@@ -406,15 +415,15 @@ public class GameScreen implements Screen {
     saveButton.setStyle(saveButtonStyle);
     saveButtonStyle.up = drawableSaveBtn;
     saveButtonStyle.down = drawableSaveBtnDown;
-    pauseTable.add(saveButton).width(250 * scale).height(50 * scale).padBottom(20 * scale);
+    pauseTable.add(saveButton).width(250 * scaleX).height(50 * scaleY).padBottom(20 * scaleY);
     pauseTable.row();
 
     // Creates a label for the save button which will be used to give the user feedback
     Label saveLabel = new Label("", new LabelStyle(new BitmapFont(), Color.WHITE));
-    saveLabel.setFontScale(scale);
+    saveLabel.setFontScale((scaleX + scaleY) / 2);
 
     saveLabel.setAlignment(Align.right);
-    pauseTable.add(saveLabel).padBottom(10 * scale);
+    pauseTable.add(saveLabel).padBottom(10 * scaleY);
     pauseTable.row();
 
     // The following block of code adds a listener to the save button
@@ -436,7 +445,7 @@ public class GameScreen implements Screen {
     quitButton.setStyle(quitButtonStyle);
     quitButtonStyle.up = drawableQuitBtn;
     quitButtonStyle.down = drawableQuitBtnDown;
-    pauseTable.add(quitButton).width(250 * scale).height(50 * scale).padBottom(50 * scale);
+    pauseTable.add(quitButton).width(250 * scaleX).height(50 * scaleY).padBottom(50 * scaleY);
     pauseTable.row();
 
     // The following block of code adds a listener to the quit button
@@ -547,6 +556,7 @@ public class GameScreen implements Screen {
       displayTimer();
       //Update Scripts
       GameObjectManager.objManager.doUpdate(Gdx.graphics.getDeltaTime());
+      updateCustomerLabel();
       //New rendering system
       RenderManager.renderer.onRender(game.batch);
 
@@ -736,14 +746,15 @@ public class GameScreen implements Screen {
 
 
 
-  /**
-   * Resizes the stage when the window is resized so that the buttons are in the correct place.
-   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
-   */
+//  /**
+//   * Resizes the stage when the window is resized so that the buttons are in the correct place.
+//   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
+//   */
   @Override
   public void resize(int width, int height) {
-    pauseStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-    gameUIStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+    pauseStage.getViewport().update(width, height, true);
+    gameUIStage.getViewport().update(width, height, true);
+//    viewport.update(width, height);
   }
 
   @Override

@@ -278,6 +278,13 @@ public class CustomerController extends Scriptable
     return currentWaiting;
   }
 
+  public int getRemainingNumberOfCustomers() {
+    if (currentWaiting != null) {
+      return CustomersRemaining + currentWaiting.MembersInLine.size();
+    }
+    return CustomersRemaining;
+  }
+
   /**
    *  Modifies the reputation, if reputation + DR <= 0 END GAME.
    * @param DR delta reputation
@@ -487,6 +494,11 @@ public class CustomerController extends Scriptable
     return customersPerWave.get(currentWave - 1);
 
   }
+
+  public int getCustomersRemaining() {
+    return CustomersRemaining;
+  }
+
 
   void CreateNewCustomer() {
     Table table = GetTable();

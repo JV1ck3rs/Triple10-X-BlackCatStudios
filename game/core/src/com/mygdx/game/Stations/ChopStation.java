@@ -29,6 +29,8 @@ public class ChopStation extends Station {
   private ContinousSound choppingSFX;
 
 
+
+
   public ChopStation(CookingParams params) {
 
     super(params);
@@ -49,6 +51,9 @@ public class ChopStation extends Station {
 
   @Override
   public boolean GiveItem(Item item) {
+    if (getLocked()) {
+      return checkRepairTool(item);
+    }
     if (this.item == null) {
       changeItem(item);
       checkItem();
@@ -87,11 +92,14 @@ public class ChopStation extends Station {
     return currentRecipe != null;
   }
 
-  public void checkItem() {
-    if (ItemWhiteList.contains(item.name)) {
+  public void checkItem(){
+    if(ItemWhiteList.contains(item.name)) {
       currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-    } else {
+      bubble.isVisible = true;
+    }
+    else {
       currentRecipe = null;
+      bubble.isVisible = false;
     }
   }
 
@@ -118,12 +126,22 @@ public class ChopStation extends Station {
       changeItem(new Item(currentRecipe.endItem));
       checkItem();
       soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
+      interacted = false;
     }
+    progressBar();
   }
 
-  public void ProgressBar() {
-    progress = item.progress / maxProgress;
+
+  public void progressBar(){
+    bubble.image = new BlackTexture("Timer/0"+getProgress()+".png");
   }
+
+
+  public int getProgress() {
+    progress = item.progress / maxProgress;
+    return (int) (progress/0.125) + 1;
+  }
+
 
   @Override
   public void updatePictures() {
@@ -146,11 +164,17 @@ public class ChopStation extends Station {
     }
   }
 
+
+    @Override
+    public void moveAnim(){
+        return;
+    }
+
+
   @Override
   public void Update(float dt) {
-    if (currentRecipe != null) {
+    if (currentRecipe != null && interacted) {
       Cut(dt);
-      ProgressBar();
     }
     choppingSFX.DoSoundCheck();
 

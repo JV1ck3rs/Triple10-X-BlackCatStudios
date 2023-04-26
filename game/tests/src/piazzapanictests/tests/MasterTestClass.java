@@ -28,6 +28,11 @@ import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.GameScreen;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.Stations.AssemblyStation;
+import com.mygdx.game.Stations.ChopStation;
+import com.mygdx.game.Stations.HobStation;
+import com.mygdx.game.Stations.TrashCan;
+
 import com.mygdx.game.Stations.*;
 import com.mygdx.game.soundFrame;
 import java.util.ArrayList;
@@ -210,6 +215,7 @@ class MasterTestClass {
     Chop.attachScript(chopStation); // attaches chopping station to chopping game object
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
+    chopStation.init(); // initialises chopping station
   }
 
   /**
@@ -226,7 +232,7 @@ class MasterTestClass {
     MapLayer counter = map.getLayers().get(3); // gets counter layer (layer 3 of the map)
     MapObject object = counter.getObjects().getByType(RectangleMapObject.class)
         .get(0); // gets counter object
-    Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets chopping rectangle
+    Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets assembly rectangle
     assemble = new GameObject(null);
     assemble.setPosition(0, 0);
     assemble.setWidthAndHeight(rect.getWidth(), rect.getHeight());
@@ -293,6 +299,7 @@ class MasterTestClass {
     toasterStation.init();
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
+    toasterStation.init(); // initialises toaster station
   }
 
   void instantiateWorldAndTrashCan() {
@@ -337,6 +344,7 @@ class MasterTestClass {
     ovenStation.init();
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
+//    ovenStation.init(); // initialises oven station
   }
 
 

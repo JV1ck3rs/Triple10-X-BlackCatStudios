@@ -7,6 +7,7 @@ import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
+import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.Recipe;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
@@ -30,7 +31,8 @@ public abstract class Station extends Scriptable implements Interactable {
   public Recipe currentRecipe;
   GameObject heldItem;
   public int imageSize = 18;
-  GameObject bubble;
+  GameObject bubble, bubble2;
+  GameObject animation;
   public float stationTimeDecrease;
 
   private float BurnSpeed;
@@ -53,6 +55,11 @@ public abstract class Station extends Scriptable implements Interactable {
         gameObject.position.x + (gameObject.getWidth() / 2) - (bubble.getWidth() / 2),
         gameObject.position.y + (gameObject.getHeight()) + 2);
     bubble.isVisible = false;
+    bubble2 = new GameObject(new BlackTexture("Timer/Warning.png"));
+    bubble2.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight());
+    bubble2.isVisible = false;
+    if(animation != null)
+      moveAnim();
   }
 
   /**
@@ -72,6 +79,8 @@ public abstract class Station extends Scriptable implements Interactable {
 
   public abstract void updatePictures();
 
+  public abstract void moveAnim();
+
   /**
    * Sets the station to a "locked" state
    *
@@ -90,6 +99,14 @@ public abstract class Station extends Scriptable implements Interactable {
     return locked;
   }
 
+
+  public boolean checkRepairTool(Item item) {
+    if(item.name == ItemEnum.RepairTool) {
+      setLocked(false);
+      return true;
+    }
+    return false;
+  }
 
   public void changeItem(Item item) {
     this.item = item;
