@@ -101,9 +101,6 @@ public class GameScreen implements Screen {
 
   public MasterChef masterChef;
 
-  List<GameObject> Stations = new LinkedList();
-  List<GameObject> customerCounters = new LinkedList();
-  List<GameObject> assemblyStations = new LinkedList();
 
 
   public GameObject exitLogo = new GameObject(new BlackTexture("Exit.png"));
@@ -117,6 +114,8 @@ public class GameScreen implements Screen {
 
   boolean Paused = false;
   DifficultyState difficultyState;
+
+  ConstructMachines constructMachines;
   Difficulty difficulty;
   public static final int viewportWidth = 32 * TILE_WIDTH;
   public static final int viewportHeight = 18 * TILE_HEIGHT;
@@ -187,6 +186,8 @@ public class GameScreen implements Screen {
 
     powerup = new Powerup(masterChef, customerController); // powerup object
 
+    constructMachines = new ConstructMachines(customerController,difficultyState,pathfinding);
+
     new CombinationDict();
     CombinationDict.combinations.implementItems();
     new RecipeDict();
@@ -205,54 +206,54 @@ public class GameScreen implements Screen {
           .getByType(RectangleMapObject.class)) {
 
         Rectangle rect = ((RectangleMapObject) object).getRectangle();
-        buildObject(world, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), "Static",
+        constructMachines.buildObject(world, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), "Static",
             name);
 
         switch (name) {
           case "bin":
-            CreateBin(rect);
+            constructMachines.CreateBin(rect);
             break;
           case "counter":
-            CreateAssembly(rect);
+            constructMachines.CreateAssembly(rect);
             break;
           case "frying":
-            CreateHobs(rect);
+            constructMachines.CreateHobs(rect);
             break;
           case "chopping board":
-            CreateChopping(rect);
+            constructMachines.CreateChopping(rect);
             break;
           case "toaster":
-            CreateToaster(rect);
+            constructMachines.CreateToaster(rect);
             break;
           case "oven":
-            CreateOven(rect);
+            constructMachines.CreateOven(rect);
             break;
           case "customer counter":
-            CreateCustomerCounters(rect);
+            constructMachines.CreateCustomerCounters(rect);
             break;
           case "tomato":
-            CreateFoodCrates(rect, ItemEnum.Tomato);
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Tomato);
             break;
           case "lettuce":
-            CreateFoodCrates(rect, ItemEnum.Lettuce);
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Lettuce);
             break;
           case "onion":
-            CreateFoodCrates(rect, ItemEnum.Onion);
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Onion);
             break;
           case "mince":
-            CreateFoodCrates(rect, ItemEnum.Mince);
+            constructMachines. CreateFoodCrates(rect, ItemEnum.Mince);
             break;
           case "buns":
-            CreateFoodCrates(rect, ItemEnum.Buns);
+            constructMachines. CreateFoodCrates(rect, ItemEnum.Buns);
             break;
           case "dough":
-            CreateFoodCrates(rect, ItemEnum.Dough);
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Dough);
             break;
           case "cheese":
-            CreateFoodCrates(rect, ItemEnum.Cheese);
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Cheese);
             break;
           case "potato":
-            CreateFoodCrates(rect, ItemEnum.Potato);
+            constructMachines.CreateFoodCrates(rect, ItemEnum.Potato);
             break;
         }
       }
@@ -446,163 +447,6 @@ public class GameScreen implements Screen {
         game.setScreen(new MenuScreen(game));
       }
     });
-  }
-
-  /**
-   * Create a bin given a rectangle
-   * @param rect
-   * @author Jack Vickers
-   */
-  void CreateBin(Rectangle rect) {
-    GameObject Bin = new GameObject(null);
-    Bin.setPosition(rect.getX(), rect.getY());
-    Bin.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    TrashCan TC = new TrashCan();
-    Bin.attachScript(TC);
-    Stations.add(Bin);
-  }
-
-  /**
-   * Create a hob
-   * @param rect
-   * @author Jack Vickers
-   */
-  void CreateHobs(Rectangle rect) {
-    GameObject Hob = new GameObject(null);
-    Hob.setPosition(rect.getX(), rect.getY());
-    Hob.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    HobStation HS = new HobStation(difficultyState.cookingParams);
-    Hob.attachScript(HS);
-    Stations.add(Hob);
-    HS.init();
-  }
-
-  /**
-   * Create a toaster
-   * @param rect
-   * @author Jack Vickers
-   */
-  void CreateToaster(Rectangle rect) {
-    GameObject Toast = new GameObject(null);
-    Toast.setPosition(rect.getX(), rect.getY());
-    Toast.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    ToasterStation TS = new ToasterStation(difficultyState.cookingParams);
-    Toast.attachScript(TS);
-    Stations.add(Toast);
-    TS.init();
-  }
-
-  /**
-   * Create chopping station
-   * @param rect
-   * @author Jack Vickers
-   */
-  void CreateChopping(Rectangle rect) {
-    GameObject Chop = new GameObject(null);
-    Chop.setPosition(rect.getX(), rect.getY());
-    Chop.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    ChopStation CS = new ChopStation(difficultyState.cookingParams);
-    Chop.attachScript(CS);
-    Stations.add(Chop);
-    CS.init();
-  }
-
-  /**
-   * Create an oven
-   * @param rect
-   * @author Jack Vickers
-   */
-  void CreateOven(Rectangle rect) {
-    GameObject Oven = new GameObject(null);
-    Oven.setPosition(rect.getX(), rect.getY());
-    Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    OvenStation OS = new OvenStation(difficultyState.cookingParams);
-    Oven.attachScript(OS);
-    Stations.add(Oven);
-    OS.init();
-  }
-
-  /**
-   * Create a food create with an item inside
-   * @param rect
-   * @param item
-   * @author Jack Vickers
-   */
-  void CreateFoodCrates(Rectangle rect, ItemEnum item) {
-    GameObject Crate = new GameObject(null);
-    Crate.setPosition(rect.getX(), rect.getY());
-    Crate.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    FoodCrate FC = new FoodCrate(item);
-    Crate.attachScript(FC);
-    Stations.add(Crate);
-  }
-
-  /**
-   * Create an assembly station
-   * @param rect
-   * @author Jack Vickers
-   */
-  void CreateAssembly(Rectangle rect) {
-    GameObject Ass = new GameObject(null);
-    Ass.setPosition(rect.getX(), rect.getY());
-    Ass.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    AssemblyStation AS = new AssemblyStation(difficultyState.cookingParams);
-    Ass.attachScript(AS);
-    assemblyStations.add(Ass);
-    Stations.add(Ass);
-  }
-
-  /**
-   * Create a customer counter
-   * @param rect
-   * @author Jack Vickers
-   */
-  void CreateCustomerCounters(Rectangle rect) {
-    GameObject Cust = new GameObject(null);
-    Cust.setPosition(rect.getX(), rect.getY());
-    Cust.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)),
-        difficultyState.cookingParams);
-    Cust.attachScript(CC);
-    customerCounters.add(Cust);
-    Stations.add(Cust);
-  }
-
-
-  /**
-   * A function which builds the world box in Box2d which is used for all the hitboxes;
-   *
-   * @param world  the world it's being built in
-   * @param x      the starting x of the world
-   * @param y      the starting y of the world
-   * @param width  the width of the world
-   * @param height the height of the world
-   * @param type   the type of the world
-   * @param name   the name of the world
-   *
-   * @author Amy Cross
-   * @author Felix Seanor
-   */
-  public void buildObject(World world, float x, float y, float width, float height,
-      String type, String name) {
-    BodyDef bdef = new BodyDef();
-    bdef.position.set((x + width / 2), (y + height / 2));
-    if (type == "Static") {
-      bdef.type = BodyDef.BodyType.StaticBody;
-      pathfinding.addStaticObject((int) x, (int) y, (int) width, (int) height);
-
-
-    } else if (type == "Dynamic") {
-      bdef.type = BodyDef.BodyType.DynamicBody;
-    }
-    Body body = world.createBody(bdef);
-    body.getPosition();
-    body.setUserData(name);
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox((width / 2), (height / 2));
-    FixtureDef fdef = new FixtureDef();
-    fdef.shape = shape;
-    body.createFixture(fdef);
   }
 
 
@@ -815,7 +659,7 @@ public class GameScreen implements Screen {
    */
   public void SaveGame(){
     SaveState Saving = new SaveState();
-    Saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds, Stations, customerCounters, assemblyStations);
+    Saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds, constructMachines.Stations, constructMachines.customerCounters, constructMachines.assemblyStations);
 
   }
 
@@ -847,7 +691,7 @@ public class GameScreen implements Screen {
     timer = state.Timer;
     seconds = state.seconds;
     difficulty = state.difficulty;
-    for (GameObject station : Stations) {
+    for (GameObject station : constructMachines.Stations) {
       Scriptable scriptable = station.GetScript(0);
       if (scriptable instanceof Station) {
         ((Station) scriptable).LoadState(state.FoodOnCounters.get(i++));
@@ -856,11 +700,11 @@ public class GameScreen implements Screen {
 
     }
 
-    for (GameObject station : customerCounters) {
+    for (GameObject station : constructMachines.customerCounters) {
       ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
     }
 
-    for (GameObject station : assemblyStations) {
+    for (GameObject station : constructMachines.assemblyStations) {
       ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
     }
   }
@@ -879,15 +723,15 @@ public class GameScreen implements Screen {
   }
 
   public List<GameObject> getStations() {
-    return Stations;
+    return constructMachines.Stations;
   }
 
   public List<GameObject> getCustomerCounters() {
-    return customerCounters;
+    return constructMachines.customerCounters;
   }
 
   public List<GameObject> getAssemblyStations() {
-    return assemblyStations;
+    return constructMachines.assemblyStations;
   }
 
 
