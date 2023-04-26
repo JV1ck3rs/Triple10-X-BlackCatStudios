@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
+import java.io.IOException;
 
 /**
  * This class creates and displays the victory screen
@@ -107,7 +108,11 @@ public class EndScreen implements Screen {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
 //        gameScreen.gameMusic.stop();
-        root.setScreen(new LeaderboardScreen(root, values, numberOfCustomersServed));
+        try {
+          root.setScreen(new LeaderboardScreen(root, values, numberOfCustomersServed));
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
         dispose();
       }
     };

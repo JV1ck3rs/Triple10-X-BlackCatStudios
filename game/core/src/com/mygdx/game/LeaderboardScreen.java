@@ -15,13 +15,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
+import java.util.Collections;
+import java.util.List;
+import java.io.IOException;
 
 /**
  * This class creates and displays the leaderboard screen.
  *
  * @author Azzam Amirul Bahri
  * @author Jack Vickers
- *
  */
 public class LeaderboardScreen implements Screen {
 
@@ -30,7 +32,8 @@ public class LeaderboardScreen implements Screen {
   float scaleY;
   Stage stage;
 
-  public LeaderboardScreen(MyGdxGame game, EndOfGameValues values, int numberOfCustomersServed) {
+  public LeaderboardScreen(MyGdxGame game, EndOfGameValues values, int numberOfCustomersServed)
+      throws IOException {
     // Calculates the scale of the screen to the original size of the game
     scaleX = Gdx.graphics.getWidth() / 640f;
     scaleY = Gdx.graphics.getHeight() / 480f;
@@ -49,27 +52,42 @@ public class LeaderboardScreen implements Screen {
     stage.addActor(table);
     table.setFillParent(true);
     table.align(Align.center);
+    List<LeaderboardData> scores = game.leaderBoard.readFSONData();
+    Collections.sort(scores);
+    Collections.reverse(scores);
+    for (int i = scores.size(); i < LeaderBoard.MaxHighscorers; i++) {
+      scores.add(new LeaderboardData(0, "N/A"));
+    }
 
-    Label score1 = new Label("1. " + "", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    // Creates labels which will be used to display the scores
+    Label score1 = new Label("1. " + scores.get(0).toString(),
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     score1.setFontScale((scaleX + scaleY) / 2);
     table.add(score1).align(Align.left).row();
-    Label score2 = new Label("2. " + "", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    Label score2 = new Label("2. " + scores.get(1).toString(),
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     score2.setFontScale((scaleX + scaleY) / 2);
     table.add(score2).align(Align.left).row();
-    Label score3 = new Label("3. " + "", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    Label score3 = new Label("3. " + scores.get(2).toString(),
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     score3.setFontScale((scaleX + scaleY) / 2);
     table.add(score3).align(Align.left).row();
-    Label score4 = new Label("4. " + "", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    Label score4 = new Label("4. " + scores.get(3).toString(),
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     score4.setFontScale((scaleX + scaleY) / 2);
     table.add(score4).align(Align.left).row();
-    Label score5 = new Label("5. " + "", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    Label score5 = new Label("5. " + scores.get(4).toString(),
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     score5.setFontScale((scaleX + scaleY) / 2);
     table.add(score5).align(Align.left).row();
+
+
     if (numberOfCustomersServed >= 0) {
       // Creates a skin for the text field using the clean-crispy-ui.json file
       Skin skin = new Skin(Gdx.files.internal("clean-crispy-ui.json"));
 
-      TextField textField = new TextField(" ", skin);
+      // Creates a text field which will be used to enter the player's name
+      TextField textField = new TextField("", skin);
       textField.getStyle().font.getData().setScale(1.50f * (scaleX + scaleY) / 2);
       textField.setAlignment(Align.center);
       stage.addActor(textField); // Adds the text field to the stage
@@ -77,6 +95,7 @@ public class LeaderboardScreen implements Screen {
           .height(50 * scaleY); // Adds the text field to the table
       table.row();
 
+      // Creates a button which will be used to save the player's score
       TextureRegion saveScoreTexture = new TextureRegion(new Texture("SaveExitUp.png"));
       TextureRegion saveScoreDownTexture = new TextureRegion(new Texture("SaveExitDown.png"));
       Drawable drawableScoreBtnUp = new TextureRegionDrawable(saveScoreTexture);
@@ -91,18 +110,16 @@ public class LeaderboardScreen implements Screen {
           .padRight(10 * scaleY);
       table.row();
 
-      // Adds a click listener to the easy button
+      // Adds a click listener to the button
       scoreBtn.addListener(new ClickListener() {
         @Override
         public void clicked(InputEvent event, float x, float y) {
-          if (values.Won) {
-            LeaderboardData data = new LeaderboardData();
-            data.score = numberOfCustomersServed;
-            data.name = textField.getText();
-            game.leaderBoard.WriteHighscores(data);
-            game.setScreen(new MenuScreen(game));
-            dispose();
-          }
+          LeaderboardData data = new LeaderboardData();
+          data.score = numberOfCustomersServed;
+          data.name = textField.getText();
+          game.leaderBoard.WriteHighscores(data);
+          game.setScreen(new MenuScreen(game));
+          dispose();
         }
       });
     }
@@ -138,7 +155,7 @@ public class LeaderboardScreen implements Screen {
    */
   @Override
   public void resize(int width, int height) {
-
+    stage.getViewport().update(width, height, true);
   }
 
   /**

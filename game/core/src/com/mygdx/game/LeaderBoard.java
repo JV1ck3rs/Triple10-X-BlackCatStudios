@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -50,32 +51,35 @@ public class LeaderBoard {
     return data;
   }
 
-  public List<LeaderboardData> readFSONData() throws IOException {
-    FileReader reader = new FileReader(filepath);
-    String data = "";
-    int j;
-    while ((j = reader.read()) != -1) {
-      data = data
-          + (char) j; //Iterates through every character in the json file adding it to the string
-    }
-    reader.close();
+  public List<LeaderboardData> readFSONData()  {
+
+    try {
+      FileReader reader = new FileReader(filepath);
+      String data = "";
+      int j;
+      while ((j = reader.read()) != -1) {
+        data = data
+            + (char) j; //Iterates through every character in the json file adding it to the string
+      }
+      reader.close();
 
 //\<([a-z]+)?,([\d]+)\>
 
-    Pattern pattern = Pattern.compile("<([a-zA-Z]+)?,([\\d]+)>",Pattern.CASE_INSENSITIVE);
-    Pattern splitPattern = Pattern.compile(" ");
-   String[] matches =  splitPattern.split(data);
+      Pattern pattern = Pattern.compile("<([a-zA-Z]+)?,([\\d]+)>", Pattern.CASE_INSENSITIVE);
+      Pattern splitPattern = Pattern.compile(" ");
+      String[] matches = splitPattern.split(data);
 
-    List<LeaderboardData> leaderboardDataList = new LinkedList<>();
+      List<LeaderboardData> leaderboardDataList = new LinkedList<>();
 
-
-    for (int i = 0; i < matches.length; i++) {
-      if(matches[i] == "")
-        continue;
-      leaderboardDataList.add(getDataFromRegexMatch(matches[i],pattern));
+      for (int i = 0; i < matches.length; i++) {
+        if (matches[i] == "")
+          continue;
+        leaderboardDataList.add(getDataFromRegexMatch(matches[i], pattern));
+      }
+      return leaderboardDataList;
+    } catch ( IOException e) {
+      return new LinkedList<>();
     }
-    return leaderboardDataList;
-
 
   }
 
@@ -110,15 +114,23 @@ public class LeaderBoard {
 
   public List<LeaderboardData> AppendData(LeaderboardData data) throws IOException {
     List<LeaderboardData> highscores = readFSONData();
-
-    highscores.add(data);
-
-    highscores.sort(Comparator.naturalOrder());
-
-    if(highscores.size()<=MaxHighscorers)
+    Collections.sort(highscores);
+    Collections.reverse(highscores);
+    if (highscores.size()<=MaxHighscorers) {
+      highscores.add(data);
       return highscores;
+    }
+    int i = 0;
+    while (i < highscores.size() - 1) {
+      if (data.score >= highscores.get(i).score) {
+        highscores.set(i, data);
+        break;
+      }
+      i++;
+    }
+    return highscores;
 
-    return highscores.subList(0,MaxHighscorers);
+//    return highscores.subList(0,MaxHighscorers);
   }
 
 
