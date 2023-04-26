@@ -59,10 +59,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    58.2%
+    61.8%
   </span>
   <span class="absValue">
-    (32/55)
+    (34/55)
   </span>
 </td>
 </tr>
@@ -80,6 +80,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import java.util.*;
 &nbsp;
+&nbsp;/**
+&nbsp; * This manages references to every gameobject and loose scripts
+&nbsp; */
 &nbsp;public class GameObjectManager {
 &nbsp;
 <b class="fc">&nbsp;  public Hashtable&lt;Integer, GameObject&gt; GameObjects = new Hashtable&lt;&gt;();</b>
@@ -116,8 +119,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        for (Class&lt;?&gt; interf:a</b>
 &nbsp;             ) {
 <b class="fc">&nbsp;          if(scriptType == interf) {</b>
-<b class="nc">&nbsp;            scripts.add(script);</b>
-<b class="nc">&nbsp;            break;</b>
+<b class="fc">&nbsp;            scripts.add(script);</b>
+<b class="fc">&nbsp;            break;</b>
 &nbsp;          }
 &nbsp;        }
 &nbsp;
@@ -141,6 +144,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;  /**
 &nbsp;   * Creates a singleton GameObject Manager
+&nbsp;   * @author Felix Seanor
 &nbsp;   */
 <b class="fc">&nbsp;  public GameObjectManager() {</b>
 <b class="fc">&nbsp;    if (objManager != null) {</b>
@@ -156,6 +160,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;  /**
 &nbsp;   * Submits a new gameobject to this manager
 &nbsp;   * @param obj
+&nbsp;   * @author Felix Seanor
 &nbsp;   */
 &nbsp;  public void SubmitGameObject(GameObject obj) {
 &nbsp;
@@ -170,6 +175,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;  /**
 &nbsp;   * run updates on objects
 &nbsp;   * @param dt
+&nbsp;   * @author Felix Seanor
 &nbsp;   */
 &nbsp;  public void doUpdate(float dt) {
 &nbsp;
@@ -266,7 +272,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

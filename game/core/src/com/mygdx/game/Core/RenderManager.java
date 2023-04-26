@@ -7,6 +7,10 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Abstracts rendering behind a list of sorted GameObjects
+ * @author Felix Seanor
+ */
 public class RenderManager {
 
   public static RenderManager renderer;

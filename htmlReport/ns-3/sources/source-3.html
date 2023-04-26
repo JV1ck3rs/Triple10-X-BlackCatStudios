@@ -84,14 +84,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;public class OrderType
 &nbsp;{
+&nbsp;  //Order class burger salad ect
 &nbsp;  public ItemEnum orderClass;
 &nbsp;
+&nbsp;  // List of all orderable types in the class
 &nbsp;  public List&lt;ItemEnum&gt; orderables;
+&nbsp;
+&nbsp;  //Probability counter for this class to be picked next
 &nbsp;  public int stock;
 &nbsp;
+&nbsp;  //Default stock for restocking
 &nbsp;  int defStock;
+&nbsp;
+&nbsp;  //Lowest &quot;probability allowed&quot;
 &nbsp;  int minStock;
 &nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a new order type
+&nbsp;   * @param stock Probability start
+&nbsp;   * @param minStock lowest probability
+&nbsp;   * @param orders what orders are allowed
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
 <b class="fc">&nbsp;  public OrderType(int stock, int minStock, ItemEnum... orders){</b>
 <b class="fc">&nbsp;    orderables = new LinkedList&lt;&gt;(Arrays.asList(orders));</b>
 <b class="fc">&nbsp;    this.stock = stock;</b>
@@ -99,11 +114,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;    defStock = stock;</b>
 &nbsp;  }
 &nbsp;
+&nbsp;  /**
+&nbsp;   * Reduce the probability after an order
+&nbsp;   * @param count
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
 &nbsp;  public void TakeStock(int count){
 <b class="fc">&nbsp;    stock = Math.max(stock-count,minStock);</b>
 &nbsp;
 &nbsp;  }
 &nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a new random single order
+&nbsp;   * @param rand randomisation class
+&nbsp;   * @return new ItemEnum for order
+&nbsp;   */
 &nbsp;  public ItemEnum GetOrder(Random rand){
 <b class="fc">&nbsp;    int orderID = rand.nextInt(orderables.size());</b>
 <b class="fc">&nbsp;    TakeStock(1);</b>
@@ -111,6 +137,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;  }
 &nbsp;
+&nbsp;  /**
+&nbsp;   * Reset stock &quot;probability&quot;
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
 &nbsp;  public void Restock(){
 <b class="nc">&nbsp;    stock = defStock;</b>
 &nbsp;  }
@@ -139,7 +169,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

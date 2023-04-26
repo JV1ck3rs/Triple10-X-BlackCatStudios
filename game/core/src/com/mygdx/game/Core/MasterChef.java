@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Chef;
+import com.mygdx.game.Core.GameState.ChefParams;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Interactions.Interactable;
@@ -17,6 +18,7 @@ import com.mygdx.game.Core.Interactions.Interaction;
 import com.mygdx.game.Core.Interactions.Interaction.InteractionType;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.soundFrame;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -32,11 +34,20 @@ World world;
   private Camera camera;
   List<Chef> chefs;
 
+  ChefParams chefParams;
+
   private Pathfinding pathfind;
 
+  private GameObject SelectionArrow;
 
   public int returnChefCount() {
     return chefs.size();
+  }
+
+  public void upgradeSpeed(){
+    for(int i = 0; i< chefs.size(); i++){
+      chefs.get(i).changeSpeed();
+    }
   }
 
   public Chef getChef(int i) {
@@ -56,7 +67,7 @@ World world;
   public void generateChefArray() {
     String filename;
     TextureAtlas chefAtlas;
-    for (int i = 1; i < 4; i++) {
+    for (int i = 1; i < 6; i++) {
       filename = "Chefs/Chef" + i + "/chef" + i + ".txt";
       chefAtlas = new TextureAtlas(Gdx.files.internal(filename));
       chefAtlasArray.add(chefAtlas);
@@ -82,7 +93,10 @@ World world;
    * @param pathfinding pathfinding module
    * @author Felix Seanor
    */
-  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding) {
+  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding, ChefParams params) {
+
+
+    chefParams =  params;
 
     chefs = new LinkedList<>();
     chefAtlasArray = new ArrayList<TextureAtlas>();
@@ -91,6 +105,10 @@ World world;
     this.world = world;
 
     this.camera = camera;
+
+  BlackTexture ArrowTex =   new BlackTexture("Chefs/SelectionArrow.png");
+  ArrowTex.setSize(20,30);
+    SelectionArrow = new GameObject(ArrowTex);
 
     for (int i = 0; i < count; i++) {
       Vector2 pos = new Vector2(0,0);
@@ -101,6 +119,12 @@ World world;
 
   }
 
+  /**
+   * Create a new chef given a position and iD
+   * @param position
+   * @param i
+   * @author Felix Seanor
+   */
   void CreateNewChef(Vector2 position, int i){
     GameObject chefsGameObject = new GameObject(
         new BlackSprite());//passing in null since chef will define it later
@@ -108,21 +132,29 @@ World world;
     chefsGameObject.attachScript(chefs.get(i));
     chefsGameObject.image.setSize(18, 40);
     chefsGameObject.position.set(position);
-
+    chefs.get(chefs.size()-1).speed = chefParams.MoveSpeed;
     chefs.get(i).updateSpriteFromInput("idlesouth");
   }
 
+
+  /**
+   * Select a chef
+   * @param i
+   * @author Felix Seanor
+   */
   void SelectChef(int i) {
     currentControlledChef = i;
 
   }
 
+  void MoveArrow(){
+    SelectionArrow.position.set(getCurrentChef().gameObject.position).add(new Vector2(0,45));
+  }
+
   /**
    * The chef tries to put down  an item onto a nearby surface
    *
-   * @author Felix Seanor
-   * @author Jack Vickers
-   * @author Jack Hinton
+   * @author Felix Seanor, Jack Vickers, Jack Hinton
    */
   public void GiveItem() {
 
@@ -148,6 +180,7 @@ World world;
 
   /**
    * The chef tries to pick up an item from a nearby surface.
+   * @author Felix Seanor
    */
   public void FetchItem() {
 
@@ -173,6 +206,10 @@ World world;
 
   }
 
+  void CycleItemStack(){
+    getCurrentChef().CycleStack();
+  }
+
   /**
    * The chef attempts to interact with a nearby surface
    *
@@ -192,6 +229,7 @@ World world;
 
   /**
    * Select a chef from the number keys
+   * @author Felix Seanor
    */
   void selectChef() {
     for (int i = 0; i < chefs.size(); i++) {
@@ -203,6 +241,11 @@ World world;
         c.stop();
       }
     }
+  }
+
+
+  boolean KeyPressedNow(int key){
+    return Gdx.input.isKeyJustPressed(key);
   }
 
   /**
@@ -219,12 +262,18 @@ World world;
 
     chefs.get(currentControlledChef).updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
 
+
+    if(KeyPressedNow(Inputs.CYCLE_STACK)) {
+      CycleItemStack();
+    }
     if (Gdx.input.isKeyJustPressed(Inputs.GIVE_ITEM)) {
       GiveItem();
     }
     if (Gdx.input.isKeyJustPressed(Inputs.FETCH_ITEM)) {
       FetchItem();
     }
+
+
     if (Gdx.input.isKeyJustPressed(Inputs.INTERACT)) {
       Interact();
     }
@@ -233,22 +282,39 @@ World world;
       chefs.get(currentControlledChef).DropItem();
     }
 
+    if(Gdx.input.isKeyJustPressed(Inputs.SPAWN_NEW_CHEF))
+      AddNewChefIn();
+
     if (Gdx.input.isButtonJustPressed(0)) {
       Vector3 touchpos = new Vector3();
       touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
       touchpos = camera.unproject(touchpos);
-
-      List<Vector2> path = pathfind.FindPath((int) getCurrentChef().gameObject.position.x,
-          (int) getCurrentChef().gameObject.position.y, (int) touchpos.x, (int) touchpos.y,
-          DistanceTest.Euclidean);
+      if (!(touchpos.x >= 940 && touchpos.y >= 524)) {
+        List<Vector2> path = pathfind.FindPath((int) getCurrentChef().gameObject.position.x,
+            (int) getCurrentChef().gameObject.position.y, (int) touchpos.x, (int) touchpos.y,
+            DistanceTest.Euclidean);
 //      System.out.println(path);
-      getCurrentChef().GivePath(path);
+        getCurrentChef().GivePath(path);
+      }
+
+
     }
 
-    if (Gdx.input.isKeyJustPressed(Keys.B)) {
-      getCurrentChef().MoveAlongPath();
+    MoveArrow();
     }
 
+
+
+
+
+
+  /**
+   * Adds in an new chef upto max
+   * @author Felix Seanor
+   */
+  public void AddNewChefIn(){
+    if(chefs.size()<5)
+      CreateNewChef(new Vector2(750,300), chefs.size());
   }
 
   public void LoadState(GameState state){
@@ -271,6 +337,11 @@ World world;
     GiveBackFromState(state);
   }
 
+  /**
+   * Creates or modifies chefs from a save state.
+   * @param state
+   * @author Felix Seanor
+   */
   void GiveBackFromState(GameState state){
     int i =0;
     for (Chef chef: chefs
@@ -290,6 +361,12 @@ World world;
       i++;
     }
   }
+
+  /**
+   * Save the current state of the chefs into GameState
+   * @param state
+   * @author Felix Seanor
+   */
   public void SaveState(GameState state){
     state.ChefPositions = new Vector2[chefs.size()];
     state.ChefHoldingStacks = new ItemState[chefs.size()*Chef.CarryCapacity];

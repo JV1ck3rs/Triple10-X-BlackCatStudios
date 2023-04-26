@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    42.9%
   </span>
   <span class="absValue">
-    (3/6)
+    (3/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    19.4%
+    18.9%
   </span>
   <span class="absValue">
-    (7/36)
+    (7/37)
   </span>
 </td>
 </tr>
@@ -81,17 +81,31 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.util.LinkedList;
 &nbsp;import java.util.List;
 &nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * A pathfinding agent abstraction
+&nbsp; * @author Felix Seanor
+&nbsp; * Last modified 10/04/23
+&nbsp; */
 &nbsp;public class PathfindingAgent extends Scriptable {
 &nbsp;
 &nbsp;  List&lt;Vector2&gt; path;
-<b class="fc">&nbsp;  float speed = 100;</b>
+<b class="fc">&nbsp;  public float speed = 100;</b>
 &nbsp;
 &nbsp;  Vector2 prev;
 &nbsp;  public Body b2body;
 &nbsp;
+&nbsp;  /**
+&nbsp;   * Give this agent a new path
+&nbsp;   * @param newPath
+&nbsp;   */
 &nbsp;  public void GivePath(List&lt;Vector2&gt; newPath) {
 <b class="fc">&nbsp;    prev = new Vector2(gameObject.position);</b>
 <b class="fc">&nbsp;    path = newPath;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;Vector2&gt; getPath() {
+<b class="nc">&nbsp;    return path;</b>
 &nbsp;  }
 &nbsp;
 <b class="fc">&nbsp;  protected PathfindingAgent() {</b>
@@ -123,8 +137,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;  /**
 &nbsp;   * Get the current movement direction
-&nbsp;   * @return Movement direction
 &nbsp;   *
+&nbsp;   * @return Movement direction
 &nbsp;   * @author Felix Seanor
 &nbsp;   * @author Jack Vickers
 &nbsp;   */
@@ -141,6 +155,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;  /**
 &nbsp;   * Moves the chef to the next location
+&nbsp;   *
 &nbsp;   * @param dt
 &nbsp;   * @author Felix Seanor
 &nbsp;   * @author Jack Vickers
@@ -211,7 +226,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

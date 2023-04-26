@@ -2,8 +2,13 @@ package com.mygdx.game.Core;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * Abstraction of renderable images
+ * @author Felix Seanor
+ */
 public abstract class Renderable {
 
+  /** rendering layer higher means rendered on top */
   public int layer;
 
   public abstract void Render(SpriteBatch batch, float x, float y);

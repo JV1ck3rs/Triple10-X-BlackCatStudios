@@ -1,5 +1,8 @@
 package com.mygdx.game.Core.ValueStructures;
 
+import com.mygdx.game.Items.ItemEnum;
+import java.util.List;
+
 public class CustomerControllerParams
 {
   public int MoneyStart;
@@ -16,5 +19,10 @@ public class CustomerControllerParams
 
   //Min 1
   public int MinCustomersPerWave;
+
+  public List<ItemEnum> OrderTypePermissable;
+  public int EatingTime = 10;
+  public int Tables = 4;
+  public int FrustrationStart= 90;
 
 }

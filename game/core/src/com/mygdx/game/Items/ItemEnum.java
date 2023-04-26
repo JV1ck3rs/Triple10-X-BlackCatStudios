@@ -1,5 +1,8 @@
 package com.mygdx.game.Items;
 
+/**
+ * All items in the game
+ */
 public enum ItemEnum
 {
   Cinder,
@@ -36,5 +39,6 @@ public enum ItemEnum
   CheesePotato,
   CheeseBake,
   MeatPotato,
-  MeatBake
+  MeatBake,
+  RepairTool
 }

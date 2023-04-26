@@ -78,15 +78,28 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import java.nio.file.Path;
 &nbsp;
+&nbsp;/**
+&nbsp; * Stored A* data for each discorvered cell
+&nbsp; * @author Felix Seanor
+&nbsp; */
 &nbsp;public class PathfindingCell implements Comparable&lt;PathfindingCell&gt; {
 &nbsp;
+&nbsp;  /** cost to goal*/
 &nbsp;  public float Heuristic;
+&nbsp;
+&nbsp;  /** cost along path */
 &nbsp;  public float PathCost;
 &nbsp;
+&nbsp;  /** x position */
 &nbsp;  public int x;
+&nbsp;  /** y position */
 &nbsp;  public int y;
+&nbsp;
+&nbsp;  /** index */
 &nbsp;  public int Index;
 &nbsp;
+&nbsp;
+&nbsp;  /** parent cell, null if root node */
 &nbsp;  public PathfindingCell parent;
 &nbsp;
 &nbsp;  /**
@@ -110,10 +123,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;  }
 &nbsp;
+&nbsp;  /**
+&nbsp;   * Heuristics + Pathcost
+&nbsp;   * @return
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
 &nbsp;  public float score() {
 <b class="fc">&nbsp;    return Heuristic + PathCost;</b>
 &nbsp;  }
 &nbsp;
+&nbsp;  /**
+&nbsp;   * Allowest for sorting
+&nbsp;   * @param o the object to be compared.
+&nbsp;   * @return
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
 &nbsp;  @Override
 &nbsp;  public int compareTo(PathfindingCell o) {
 <b class="fc">&nbsp;    if (score() &gt; o.score()) {</b>
@@ -150,7 +174,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

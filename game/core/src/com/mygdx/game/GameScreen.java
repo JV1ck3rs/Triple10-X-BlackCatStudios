@@ -3,6 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -13,15 +16,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.Core.*;
+import com.mygdx.game.Core.GameState.Difficulty;
+import com.mygdx.game.Core.GameState.DifficultyMaster;
+import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.GameState.SaveState;
-import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,6 +64,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.*;
+import java.util.Objects;
+import jdk.internal.org.jline.utils.DiffHelper.Diff;
 
 /**
  * This is the main class of the game which runs all the logic and rendering Here all the outside
@@ -78,9 +90,12 @@ public class GameScreen implements Screen {
 
   // box2d
   static World world;
-  private final Box2DDebugRenderer b2dr;
 
   public CustomerController customerController;
+
+  public Powerup powerup;
+
+
 
 
   // map
@@ -103,31 +118,43 @@ public class GameScreen implements Screen {
   private final BitmapFont timerFont;
 
   boolean Paused = false;
-
+  DifficultyState difficultyState;
+  Difficulty difficulty;
   public static final int viewportWidth = 32 * TILE_WIDTH;
   public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
 
-  public showRecipeInstructions recipeScreen = new showRecipeInstructions();
+  public showRecipeInstructions recipeScreen;
+  Label modeLabel;
 
   Stage pauseStage; // stage for the pause menu
   Stage gameUIStage; // stage for the game UI
-  float scale;
+  float scaleX;
+  float scaleY;
   boolean isEndlessMode;
+  FitViewport viewport;
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
    * manage the logic of the render as well as setting the camera and map
    *
-   * @param game         base Object which is used to draw on
-   * @param numCustomers Integer representing maximum number of customers that can be in the game at
-   *                     once (-1 for infinite)
-   * @param loadSave     boolean representing whether the save game should be loaded
+   * @param game base Object which is used to draw on
+   * @author Amy Cross
+   * @author Felix Seanor
+   * @author Sam Toner
+   * @author Jack Vickers
+   * @author Jack Hinton
    */
-  public GameScreen(MyGdxGame game, int numCustomers, boolean loadSave) {
+  public GameScreen(MyGdxGame game, TiledMap map, boolean Test, int numCustomers, boolean loadSave,
+      Difficulty difficultyLevel) {
     this.game = game;
     camera = new OrthographicCamera();
-    recipeScreen.showRecipeInstruction();
+    recipeScreen = new showRecipeInstructions();
+    //recipeScreen.showRecipeInstruction();
+    CameraFunctions camera1 = CameraFunctions.camera;
+    camera1.updateCamera(camera);
+    viewport = new FitViewport(720, 1280, camera);
+
 
     camera.setToOrtho(false, viewportWidth, viewportHeight);
     camera.update();
@@ -138,27 +165,24 @@ public class GameScreen implements Screen {
     recipeScreen.createInstructionPage("Empty");
 
     world = new World(new Vector2(0, 0), true);
-    b2dr = new Box2DDebugRenderer();
     exitLogo.isVisible = false;
     exitLogo.getBlackTexture().height = 30;
     exitLogo.getBlackTexture().width = 30;
     exitLogo.position = new Vector2(713, 454);
 
     // add map
-    mapRenderer = new OrthogonalTiledMapRenderer(game.map);
+    mapRenderer = new OrthogonalTiledMapRenderer(map);
     mapRenderer.setView(camera);
+
+    difficultyState = DifficultyMaster.getDifficulty(difficultyLevel);
 
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    masterChef = new MasterChef(2, world, camera, pathfinding);
+    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
-    CustomerControllerParams CCParams = new CustomerControllerParams();
-    CCParams.MaxMoney = 1000;
-    CCParams.Reputation = 3;
-    CCParams.MoneyStart = 20;
-    CCParams.MaxCustomersPerWave = 4;
-    CCParams.MinCustomersPerWave = 1;
+    CustomerControllerParams CCParams = difficultyState.ccParams;
+
     CCParams.NoCustomers = numCustomers;
     customerController = new CustomerController(new Vector2(200, 100), new Vector2(360, 180),
         pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, new Vector2(190, 390),
@@ -166,6 +190,8 @@ public class GameScreen implements Screen {
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     GameObjectManager.objManager.AppendLooseScript(customerController);
+
+    powerup = new Powerup(masterChef, customerController); // powerup object
 
     new CombinationDict();
     CombinationDict.combinations.implementItems();
@@ -178,7 +204,7 @@ public class GameScreen implements Screen {
 
     //Fixed the hideous mechanism for creating collidable objects
     for (int n = 0; n < 17; n++) {
-      MapLayer layer = game.map.getLayers().get(n);
+      MapLayer layer = map.getLayers().get(n);
       String name = layer.getName();
 
       for (MapObject object : layer.getObjects()
@@ -246,18 +272,22 @@ public class GameScreen implements Screen {
 
     timerFont = new BitmapFont();
     pauseStage = new Stage();
-    scale = 1.00f;
-    // check if the game is in full screen mode
-    // (thus the screen width is greater than 720)
-    if (pauseStage.getViewport().getScreenWidth() > 720) {
-      scale = 2.00f;
-    }
+
+    // Calculates the scale of the screen to the original size of the game
+    scaleX = Gdx.graphics.getWidth() / 640f;
+    scaleY = Gdx.graphics.getHeight() / 480f;
     if (loadSave) { // if the game is being loaded from a save
-      LoadGame();
+      if(!Test)
+        LoadGame("SavedData.ser");
+      else
+        LoadGame("../assets/TestingData.ser");
     }
     isEndlessMode = CCParams.NoCustomers == -1;
-    setupGameUI();
-    setupPauseMenu();
+
+    if(!Test) {
+      setupGameUI();
+      setupPauseMenu();
+    }
   }
 
   /**
@@ -273,14 +303,17 @@ public class GameScreen implements Screen {
     gameUITable.setFillParent(true);
     gameUITable.align(Align.top);
     if (isEndlessMode) {
-      Label modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
+      modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
           Color.WHITE));
+      modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
       gameUITable.add(modeLabel).align(Align.topLeft).expandX();
     } else {
-      Label modeLabel = new Label("SCENARIO MODE",
+      modeLabel = new Label("SCENARIO MODE",
           new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+      modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
       gameUITable.add(modeLabel).align(Align.topLeft).expandX();
     }
+    updateCustomerLabel();
     TextureRegion pauseBtn = new TextureRegion(new Texture("PauseUp.png"));
     TextureRegion pauseBtnDown = new TextureRegion(new Texture("PauseDown.png"));
     Drawable pauseBtnDrawable = new TextureRegionDrawable(pauseBtn);
@@ -290,7 +323,7 @@ public class GameScreen implements Screen {
     pauseButton.setStyle(pauseButtonStyle);
     pauseButtonStyle.up = pauseBtnDrawable;
     pauseButtonStyle.down = pauseBtnDrawableDown;
-    gameUITable.add(pauseButton).width(48 * scale).height(48 * scale).align(Align.topRight)
+    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).align(Align.topRight)
         .expandX();
     gameUITable.row();
     pauseButton.addListener(new ClickListener() {
@@ -301,6 +334,13 @@ public class GameScreen implements Screen {
       }
     });
     //TODO: Possibly use this function for the powerup menu in the future
+
+    //TODO: Add a level which displays the number of customers remaining for the scenario mode
+
+  }
+
+  private void updateCustomerLabel() {
+    modeLabel.setText("Customers remaining: " + customerController.getRemainingNumberOfCustomers());
   }
 
   /**
@@ -310,6 +350,7 @@ public class GameScreen implements Screen {
    * @date 07/04/2023
    */
   private void setupPauseMenu() {
+
     Image pauseImage = new Image(new Texture("SemiTransparentBG.png"));
     pauseImage.setSize(pauseStage.getWidth(), pauseStage.getHeight());
     pauseImage.setPosition(0, 0);
@@ -317,7 +358,7 @@ public class GameScreen implements Screen {
     Table pauseTable = new Table(); // create a table to hold the pause menu
     pauseStage.addActor(pauseTable); // add the table to the stage
     pauseTable.setFillParent(true);
-    pauseTable.align(Align.top);
+    pauseTable.align(Align.center);
 
     // The following block of code creates the resume button and adds it to the table
     TextureRegion resumeBtn = new TextureRegion(new Texture("ResumeUp.png"));
@@ -329,8 +370,8 @@ public class GameScreen implements Screen {
     resumeButton.setStyle(resumeButtonStyle);
     resumeButtonStyle.up = drawableResumeBtn;
     resumeButtonStyle.down = drawableResumeBtnDown;
-    pauseTable.add(resumeButton).width(250 * scale).height(50 * scale).padBottom(50 * scale)
-        .padTop(80 * scale);
+    pauseTable.add(resumeButton).width(250 * scaleX).height(50 * scaleY).padBottom(50 * scaleY)
+        .padTop(80 * scaleY);
     pauseTable.row();
 
     // The following block of code adds a listener to the resume button
@@ -352,7 +393,7 @@ public class GameScreen implements Screen {
     instructionButton.setStyle(instructionButtonStyle);
     instructionButtonStyle.up = drawableInstructionBtn;
     instructionButtonStyle.down = drawableInstructionBtnDown;
-    pauseTable.add(instructionButton).width(250 * scale).height(50 * scale).padBottom(50 * scale);
+    pauseTable.add(instructionButton).width(250 * scaleX).height(50 * scaleY).padBottom(50 * scaleY);
     pauseTable.row();
 
     // The following block of code adds a listener to the instruction button
@@ -373,15 +414,15 @@ public class GameScreen implements Screen {
     saveButton.setStyle(saveButtonStyle);
     saveButtonStyle.up = drawableSaveBtn;
     saveButtonStyle.down = drawableSaveBtnDown;
-    pauseTable.add(saveButton).width(250 * scale).height(50 * scale).padBottom(20 * scale);
+    pauseTable.add(saveButton).width(250 * scaleX).height(50 * scaleY).padBottom(20 * scaleY);
     pauseTable.row();
 
     // Creates a label for the save button which will be used to give the user feedback
     Label saveLabel = new Label("", new LabelStyle(new BitmapFont(), Color.WHITE));
-    saveLabel.setFontScale(scale);
+    saveLabel.setFontScale((scaleX + scaleY) / 2);
 
     saveLabel.setAlignment(Align.right);
-    pauseTable.add(saveLabel).padBottom(10 * scale);
+    pauseTable.add(saveLabel).padBottom(10 * scaleY);
     pauseTable.row();
 
     // The following block of code adds a listener to the save button
@@ -403,7 +444,7 @@ public class GameScreen implements Screen {
     quitButton.setStyle(quitButtonStyle);
     quitButtonStyle.up = drawableQuitBtn;
     quitButtonStyle.down = drawableQuitBtnDown;
-    pauseTable.add(quitButton).width(250 * scale).height(50 * scale).padBottom(50 * scale);
+    pauseTable.add(quitButton).width(250 * scaleX).height(50 * scaleY).padBottom(50 * scaleY);
     pauseTable.row();
 
     // The following block of code adds a listener to the quit button
@@ -416,7 +457,11 @@ public class GameScreen implements Screen {
     });
   }
 
-
+  /**
+   * Create a bin given a rectangle
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateBin(Rectangle rect) {
     GameObject Bin = new GameObject(null);
     Bin.setPosition(rect.getX(), rect.getY());
@@ -426,46 +471,72 @@ public class GameScreen implements Screen {
     Stations.add(Bin);
   }
 
+  /**
+   * Create a hob
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateHobs(Rectangle rect) {
     GameObject Hob = new GameObject(null);
     Hob.setPosition(rect.getX(), rect.getY());
     Hob.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    HobStation HS = new HobStation();
+    HobStation HS = new HobStation(difficultyState.cookingParams);
     Hob.attachScript(HS);
     Stations.add(Hob);
     HS.init();
   }
 
+  /**
+   * Create a toaster
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateToaster(Rectangle rect) {
     GameObject Toast = new GameObject(null);
     Toast.setPosition(rect.getX(), rect.getY());
     Toast.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    ToasterStation TS = new ToasterStation();
+    ToasterStation TS = new ToasterStation(difficultyState.cookingParams);
     Toast.attachScript(TS);
     Stations.add(Toast);
     TS.init();
   }
 
+  /**
+   * Create chopping station
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateChopping(Rectangle rect) {
     GameObject Chop = new GameObject(null);
     Chop.setPosition(rect.getX(), rect.getY());
     Chop.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    ChopStation CS = new ChopStation();
+    ChopStation CS = new ChopStation(difficultyState.cookingParams);
     Chop.attachScript(CS);
     Stations.add(Chop);
     CS.init();
   }
 
+  /**
+   * Create an oven
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateOven(Rectangle rect) {
     GameObject Oven = new GameObject(null);
     Oven.setPosition(rect.getX(), rect.getY());
     Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    OvenStation OS = new OvenStation();
+    OvenStation OS = new OvenStation(difficultyState.cookingParams);
     Oven.attachScript(OS);
     Stations.add(Oven);
     OS.init();
   }
 
+  /**
+   * Create a food create with an item inside
+   * @param rect
+   * @param item
+   * @author Jack Vickers
+   */
   void CreateFoodCrates(Rectangle rect, ItemEnum item) {
     GameObject Crate = new GameObject(null);
     Crate.setPosition(rect.getX(), rect.getY());
@@ -475,21 +546,32 @@ public class GameScreen implements Screen {
     Stations.add(Crate);
   }
 
+  /**
+   * Create an assembly station
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateAssembly(Rectangle rect) {
     GameObject Ass = new GameObject(null);
     Ass.setPosition(rect.getX(), rect.getY());
     Ass.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    AssemblyStation AS = new AssemblyStation();
+    AssemblyStation AS = new AssemblyStation(difficultyState.cookingParams);
     Ass.attachScript(AS);
     assemblyStations.add(Ass);
     Stations.add(Ass);
   }
 
+  /**
+   * Create a customer counter
+   * @param rect
+   * @author Jack Vickers
+   */
   void CreateCustomerCounters(Rectangle rect) {
     GameObject Cust = new GameObject(null);
     Cust.setPosition(rect.getX(), rect.getY());
     Cust.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)));
+    CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)),
+        difficultyState.cookingParams);
     Cust.attachScript(CC);
     customerCounters.add(Cust);
     Stations.add(Cust);
@@ -506,6 +588,9 @@ public class GameScreen implements Screen {
    * @param height the height of the world
    * @param type   the type of the world
    * @param name   the name of the world
+   *
+   * @author Amy Cross
+   * @author Felix Seanor
    */
   public void buildObject(World world, float x, float y, float width, float height,
       String type, String name) {
@@ -530,7 +615,11 @@ public class GameScreen implements Screen {
   }
 
 
-  public void EndGame(EndOfGameValues values) {
+  /**
+   * End game sequence
+   * @param values
+   */
+  public void EndGame(EndOfGameValues values){
 
     VictoryScreen screen = new VictoryScreen(game, this, timer, values);
     game.setScreen(screen);
@@ -540,6 +629,8 @@ public class GameScreen implements Screen {
 
   /**
    * Plays the game music when the screen is shown.
+   * @author Amy Cross
+   * @author Jack Vickers
    */
   @Override
   public void show() {
@@ -550,7 +641,10 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Displays the timer for the player
+   * Displays the timer.
+   *
+   * @author Amy Cross
+   * @author Felix Seanor
    */
   public void displayTimer() {
     seconds += Gdx.graphics.getDeltaTime();
@@ -573,12 +667,19 @@ public class GameScreen implements Screen {
       timerFont.getData().setScale(1.5f, 1.5f);
     }
 
+    CharSequence str3 = "Patience: ";
+    timerFont.draw(game.batch, str3, 200, 25);
+
   }
 
   /**
    * Calls all logic updates and sprite draws as well as checks if game has been completed
    *
    * @param delta The time in seconds since the last render.
+   *
+   * @author Felix Seanor
+   * @author Amy Cross
+   * @author Jack Hinton
    */
   @Override
   public void render(float delta) {
@@ -595,7 +696,7 @@ public class GameScreen implements Screen {
 //      SaveGame();
 
     if (Gdx.input.isKeyJustPressed(Keys.V)) {
-      LoadGame();
+      LoadGame("SavedData.ser");
     }
 
     //Removed and simplified logic
@@ -611,15 +712,10 @@ public class GameScreen implements Screen {
       displayTimer();
       //Update Scripts
       GameObjectManager.objManager.doUpdate(Gdx.graphics.getDeltaTime());
+      updateCustomerLabel();
       //New rendering system
       RenderManager.renderer.onRender(game.batch);
 
-      // Draws the chefs
-      for (int i = 0; i < masterChef.returnChefCount(); i++) {
-        if (masterChef.getChef(i).isFrozen) {  // if frozen, need to update timer and sprite
-          masterChef.getChef(i).drawTimer(game.batch);
-        }
-      }
       // Mutes or plays the music
       if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
         if (gameMusic.isPlaying()) {
@@ -628,20 +724,35 @@ public class GameScreen implements Screen {
           gameMusic.play();
         }
       }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+        powerup.doSpeedPowerup();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+        powerup.buyReputation();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+        powerup.superFood();
+      }
+      if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+        powerup.tetrisSuperFood();
+      }
     } else {
-      pauseStage.act(Gdx.graphics.getDeltaTime());
       pauseStage.draw();
     }
+    // THIS IS SAM'S CODE:
+//    LeaderBoard x = new LeaderBoard();
+//    x.createJSONFile();
+//    try {
+//      x.readJSONData();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
 
-    if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-      Paused = !Paused;
-    }
     game.batch.end();
 
     // The following code must occur after the batch is ended.
     // Otherwise, it causes issues with customer positioning.
     if (!Paused) { // displays the game UI if the game is not paused
-      gameUIStage.act(Gdx.graphics.getDeltaTime());
       gameUIStage.draw();
     }
   }
@@ -650,6 +761,8 @@ public class GameScreen implements Screen {
   /**
    * Finds all the collisions and assigns the names Also has a convenience function to disregard the
    * chef collision
+   *
+   * @author Amy Cross
    */
   public void createCollisionListener() {
     world.setContactListener(new ContactListener() {
@@ -705,16 +818,25 @@ public class GameScreen implements Screen {
     });
   }
 
-  public void SaveGame() {
+  /**
+   * Save the game.
+   *
+   * @author Felix Seanor
+   */
+  public void SaveGame(){
     SaveState Saving = new SaveState();
-    Saving.SaveState(this, "SavedData.ser");
+    Saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds, Stations, customerCounters, assemblyStations);
 
   }
 
-  public void LoadGame() {
+  /**
+   * Load the game from save
+   * @author Felix Seanor
+   */
+  public void LoadGame(String path){
     SaveState Saving = new SaveState();
 
-    GameState state = Saving.LoadState("SavedData.ser");
+    GameState state = Saving.LoadState(path);
 
     LoadState(state);
     masterChef.LoadState(state);
@@ -724,15 +846,17 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Loads the state of a previous state of the world, all LoadGame to a full sweep
-   *
+   * Loads the state of a previous state of the world, all LoadGame to a full sweep.
    * @param state
+   *
+   * @author Felix Seanor
    */
   public void LoadState(GameState state) {
 
     int i = 0;
     timer = state.Timer;
     seconds = state.seconds;
+    difficulty = state.difficulty;
     for (GameObject station : Stations) {
       Scriptable scriptable = station.GetScript(0);
       if (scriptable instanceof Station) {
@@ -751,42 +875,43 @@ public class GameScreen implements Screen {
     }
   }
 
-  public void SaveState(GameState state) {
-    List<List<ItemState>> itemsOnCounters = new LinkedList<>();
 
-    state.Timer = timer;
-    state.seconds = seconds;
-    for (GameObject station : Stations) {
-      Scriptable scriptable = station.GetScript(0);
-      if (scriptable instanceof Station) {
-        itemsOnCounters.add(((Station) scriptable).SaveState());
-      }
-
-    }
-
-    for (GameObject station : customerCounters) {
-      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
-    }
-
-    for (GameObject station : assemblyStations) {
-      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
-    }
-
-    state.FoodOnCounters = itemsOnCounters;
-
-
+  public Difficulty getDifficulty() {
+    return difficulty;
   }
 
-  /**
-   * Resizes the stage when the window is resized so that the buttons are in the correct place.
-   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
-   */
+  public int getTimer() {
+    return timer;
+  }
+
+  public float getSeconds() {
+    return seconds;
+  }
+
+  public List<GameObject> getStations() {
+    return Stations;
+  }
+
+  public List<GameObject> getCustomerCounters() {
+    return customerCounters;
+  }
+
+  public List<GameObject> getAssemblyStations() {
+    return assemblyStations;
+  }
+
+
+
+//  /**
+//   * Resizes the stage when the window is resized so that the buttons are in the correct place.
+//   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
+//   */
   @Override
   public void resize(int width, int height) {
-    pauseStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-    gameUIStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+    pauseStage.getViewport().update(width, height, true);
+    gameUIStage.getViewport().update(width, height, true);
+//    viewport.update(width, height);
   }
-
 
   @Override
   public void pause() {
@@ -802,6 +927,7 @@ public class GameScreen implements Screen {
 
   /**
    * Disposes of all sprites from memory to keep it optimised
+   * @author Felix Seanor
    */
   @Override
   public void dispose() {

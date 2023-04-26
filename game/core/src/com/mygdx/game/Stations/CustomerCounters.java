@@ -2,18 +2,28 @@ package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-
+/**
+ * This handles serving food to customers
+ */
 public class CustomerCounters extends Station {
 
+
+  /**
+   * Customer Controller, can the item give be accepted
+   */
   Function<Item, Boolean> script;
 
-  public CustomerCounters(Function<Item, Boolean> script) {
+  public CustomerCounters(Function<Item, Boolean> script, CookingParams params) {
+
+    super(params);
     this.script = script;
+
   }
 
 
@@ -84,6 +94,13 @@ public class CustomerCounters extends Station {
             heldItem.image.setSize(imageSize, imageSize);
         }
     }
+
+
+    @Override
+    public void moveAnim(){
+      return;
+    }
+
 
     @Override
     public void Update(float dt) {

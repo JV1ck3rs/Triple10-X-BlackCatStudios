@@ -3,6 +3,12 @@ package com.mygdx.game.Items;
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameState.ItemState;
 
+/**
+ * Item class, instatiates item Enum into a physical item in the game.
+ * stores cooking progress ect.
+ *
+ * Last modified 09/04/23
+ */
 public class Item {
 
   public ItemEnum name;
@@ -54,5 +60,10 @@ public class Item {
   @Override
   public boolean equals(Object obj) {
     return obj instanceof Item && ((Item) obj).name == name;
+  }
+
+  public static String GetRecipePath(ItemEnum name){
+    return "Recipe/"+name.name()+"Recipe.png";
+
   }
 }

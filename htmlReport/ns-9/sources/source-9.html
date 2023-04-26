@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ToasterStationTests</title>
+  <title>Coverage Report > TrashCan</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">piazzapanictests.tests</a>
+    <a href="../index.html">com.mygdx.game.Stations</a>
 </div>
 
-<h1>Coverage Summary for Class: ToasterStationTests (piazzapanictests.tests)</h1>
+<h1>Coverage Summary for Class: TrashCan (com.mygdx.game.Stations)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">ToasterStationTests</td>
+  <td class="name">TrashCan</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (2/2)
+    (0/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (2/2)
+    (0/7)
   </span>
 </td>
 </tr>
@@ -74,49 +74,51 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package piazzapanictests.tests;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Stations;
 &nbsp;
-&nbsp;import static org.junit.Assert.assertEquals;
-&nbsp;import static org.junit.Assert.assertNull;
-&nbsp;import static org.junit.Assert.assertTrue;
+&nbsp;import com.mygdx.game.Core.Interactions.Interactable;
+&nbsp;import com.mygdx.game.Core.Scriptable;
+&nbsp;import com.mygdx.game.Items.Item;
 &nbsp;
-&nbsp;import com.badlogic.gdx.Gdx;
-&nbsp;import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-&nbsp;import com.badlogic.gdx.maps.MapObject;
-&nbsp;import com.badlogic.gdx.maps.tiled.TiledMap;
-&nbsp;import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-&nbsp;import com.badlogic.gdx.math.Rectangle;
-&nbsp;import com.badlogic.gdx.maps.objects.RectangleMapObject;
-&nbsp;import com.badlogic.gdx.math.Vector2;
-&nbsp;import com.badlogic.gdx.physics.box2d.*;
-&nbsp;import com.mygdx.game.Chef;
-&nbsp;import com.badlogic.gdx.maps.MapLayer;
-&nbsp;import com.mygdx.game.Core.BlackSprite;
-&nbsp;import com.mygdx.game.Core.GameObject;
+<b class="nc">&nbsp;public class TrashCan extends Scriptable implements Interactable {</b>
 &nbsp;
-&nbsp;import com.mygdx.game.RecipeAndComb.RecipeDict;
-&nbsp;import com.mygdx.game.Stations.ChopStation;
-&nbsp;import java.util.ArrayList;
-&nbsp;import java.util.List;
-&nbsp;import org.junit.runner.RunWith;
-&nbsp;import piazzapanictests.tests.GdxTestRunner;
 &nbsp;
-&nbsp;import org.junit.Test;
-&nbsp;import org.junit.runner.RunWith;
+&nbsp;    @Override
+&nbsp;    public boolean GiveItem(Item item){
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
 &nbsp;
-&nbsp;/**
-&nbsp; * Tests for the toaster station.
-&nbsp; *
-&nbsp; * @author Hubert Solecki
-&nbsp; */
 &nbsp;
-&nbsp;@RunWith(GdxTestRunner.class)
-<b class="fc">&nbsp;public class ToasterStationTests extends MasterTestClass {</b>
+&nbsp;    @Override
+&nbsp;    public Item RetrieveItem(){
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
 &nbsp;
-&nbsp;  @Test
-&nbsp;  public void testPass() {
-<b class="fc">&nbsp;    assertTrue(true);</b>
-&nbsp;  }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean CanRetrieve(){
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean CanGive(){
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean CanInteract() {
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean Interact() {
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -141,7 +143,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>

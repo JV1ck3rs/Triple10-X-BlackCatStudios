@@ -18,32 +18,31 @@ import java.util.Random;
  * Assigns all attributes and animation and interactions that the customer will go through in the
  * game including which dish they will pick.
  *
+ * @author Felix Seanor
+ * @author Jack Vickers
+ * @author Amy Cross
  * @author Robin Graham
  */
 public class Customer extends PathfindingAgent implements Person {
 
-  private final float waitHeight;
-  private final float waitWidth;
+
   private int currentSpriteAnimation;
   private final int MAX_ANIMATION = 4;
   private TextureAtlas customerAtlas;
   private float stateTime = 0;
 
-  private int size;
   private String spriteOrientation, spriteState;
-  private final String lastOrientation;
   public final int customerNumber;
 
   private GameObject HeldItem;
 
-  private boolean idle;   // customer will be invisible during idle because out of map
-  private boolean waitingAtCounter;   // customer will be waiting at the counter for their dish
-  private boolean eaten;
+  public boolean waitingAtCounter;   // customer will be waiting at the counter for their dish
+  public boolean eaten;
 
   public ItemEnum dish;
 
   public GameObject foodIcon;
-  Random rand = new Random();
+  public GameObject foodRecipe;
 
   /**
    * Initialises the customer and certain variables that we are going to use to interact with the
@@ -58,29 +57,30 @@ public class Customer extends PathfindingAgent implements Person {
     spriteOrientation = "north";
 
     // sprite.setPosition(posX, posY);
-    this.idle = false;
     this.waitingAtCounter = false;
     this.customerNumber = customerNumber;
-    this.lastOrientation = "north";
     this.eaten = false;
-    this.waitWidth = 235;
-    this.waitHeight = 340 - customerNumber * 32;
     this.customerAtlas = texture;
-
 
     System.out.println("customer " + customerNumber + ": " + dish);
 
     BlackTexture iconTex = new BlackTexture(Item.GetItemPath(this.dish));
-    iconTex.setSize(20,20);
+    iconTex.setSize(20, 20);
     foodIcon = new GameObject(iconTex);
 
     BlackTexture tex = new BlackTexture(Item.GetItemPath(dish));
-    tex.setSize(20,20);
+    tex.setSize(20, 20);
     HeldItem = new GameObject(tex);
     HeldItem.isVisible = false;
 
-
     foodIcon.isVisible = false;
+    try {
+      foodRecipe = new GameObject(new BlackTexture(Item.GetRecipePath(this.dish)));
+    } catch (Exception e) {
+      foodRecipe = new GameObject(new BlackTexture(Item.GetItemPath(this.dish)));
+    }
+
+    foodRecipe.isVisible = false;
   }
 
   @Override
@@ -88,8 +88,6 @@ public class Customer extends PathfindingAgent implements Person {
     gameObject.getSprite().setSprite(customerAtlas.createSprite("north1"));
     gameObject.getSprite().layer = 2;
     gameObject.image.setSize(25,45);
-  //  gameObject.position.x = 148;
-  //  gameObject.position.y = 66;
 
   }
 
@@ -119,25 +117,11 @@ public class Customer extends PathfindingAgent implements Person {
     }
     setTexture(spriteState);
     spriteOrientation = newOrientation;
-
-//    switch (spriteOrientation) {
-//      case "north":
-//        gameObject.position.y += 2;
-//        break;
-//      case "south":
-//        gameObject.position.y -= 2;
-//        break;
-//      case "east":
-//        gameObject.position.x += 2;
-//        break;
-//      case "west":
-//        gameObject.position.x -= 2;
-//        break;
-//    }
   }
 
   /**
    * Sets the customer texture for each customer.
+   * @author Felix Seanor
    */
   @Override
   public void setTexture(String texture) {
@@ -146,7 +130,6 @@ public class Customer extends PathfindingAgent implements Person {
       texture = texture.replace("idle", "");
       texture += "1";
     }
-//    System.out.println(texture);
     gameObject.getSprite().sprite.setRegion(customerAtlas.findRegion(texture));
   }
 
@@ -154,14 +137,15 @@ public class Customer extends PathfindingAgent implements Person {
    * Gets the move of the customer and direction and sets the animations accordingly.
    *
    * @return currentDirection direction of the customer
+   * @author Felix Seanor
+   * @author Amy Cross
    */
   @Override
   public String getMove() {
     Vector2 dir = GetMoveDir().nor();
     String newOrientation;
-//    System.out.println(dir);
-    if(dir.dot(dir)<=0)
-      newOrientation = "idle" + spriteOrientation.replace("idle","");
+    if (dir.dot(dir) <= 0)
+      newOrientation = "idle" + spriteOrientation.replace("idle", "");
     else {
       if (Math.abs(dir.dot(new Vector2(1, 0))) < Math.abs(dir.dot(new Vector2(0, 1)))) {
         //North prefered
@@ -179,14 +163,19 @@ public class Customer extends PathfindingAgent implements Person {
           newOrientation = "west";
       }
     }
-      return newOrientation;
+    return newOrientation;
   }
 
+
+  public GameObject returnHeldItem(){
+    return HeldItem;
+  }
 
   /**
    * Returns the x of the customer.
    *
    * @return int posX the x position of the customer
+   * @author Felix Seanor
    */
   public float getX() {
     return gameObject.position.x;
@@ -196,33 +185,11 @@ public class Customer extends PathfindingAgent implements Person {
    * Returns the y of the customer.
    *
    * @return int posY the y position of the customer
+   * @author Felix Seanor
+   * @author Amy Cross
    */
   public float getY() {
     return gameObject.position.y;
-  }
-
-  /**
-   * Returns if the customer has been fed and then sets its appropriate flag.
-   */
-  public void fed() {
-    idle = false;
-    waitingAtCounter = false;
-    eaten = true;
-  }
-
-  /**
-   * Picks the dish for the customer at random.
-   *
-   * @return String of the name of the dish that the customer is assigned
-   */
-  private String pickDish() {
-    Random random = new Random();
-    boolean choice = random.nextBoolean();
-    if (choice) {
-      return "burger";
-    } else {
-      return "salad";
-    }
   }
 
   /**
@@ -230,6 +197,7 @@ public class Customer extends PathfindingAgent implements Person {
    *
    * @param customerAtlasArray array of customer sprites
    * @return Atlas atlas of the customer object
+   * @author Amy Cross
    */
   public static TextureAtlas getCustomerAtlas(ArrayList<TextureAtlas> customerAtlasArray) {
     /*
@@ -238,7 +206,6 @@ public class Customer extends PathfindingAgent implements Person {
     */
     int randomIndex = (int) (Math.random() * customerAtlasArray.size());
     TextureAtlas atlas = customerAtlasArray.get(randomIndex);
-//    customerAtlasArray.remove(randomIndex);
     return atlas;
   }
 
@@ -246,6 +213,7 @@ public class Customer extends PathfindingAgent implements Person {
    * Checks if the customer is waiting or not.
    *
    * @return Boolean value for result
+   * @author Felix Seanor
    */
   public boolean isWaiting() {
     return waitingAtCounter;
@@ -255,28 +223,27 @@ public class Customer extends PathfindingAgent implements Person {
    * Gets the dish that the customer has.
    *
    * @return Dish dish which is the object the customer has
+   * @author Amy Cross
    */
   public ItemEnum getDish() {
     return dish;
   }
 
   /**
-   * Draws the customer batch onto the screen given its x and y and direction variables.
-   *
-   * @param batch the batch in which we draw onto
-   */
-
-
-  /**
    * Checks if the customer has successfully been fed.
    *
    * @return Boolean value of if the customer has been fed
+   * @author Amy Cross
    */
   public boolean getFed() {
     return eaten;
   }
 
 
+  /**
+   * Display the item in the world and update its coordinates.
+   * @author Felix Seanor
+   */
   public void displayItem(){
 
 
@@ -302,6 +269,9 @@ public class Customer extends PathfindingAgent implements Person {
 
   }
 
+  /**
+   * hide the held item.
+   */
   public void hideItem(){
     if(HeldItem != null)
       HeldItem.isVisible = false;
@@ -318,6 +288,9 @@ public class Customer extends PathfindingAgent implements Person {
 
   }
 
+  /**
+   * Destroy the customer.
+   */
   public void Destroy(){
     HeldItem.Destroy();
     foodIcon.Destroy();

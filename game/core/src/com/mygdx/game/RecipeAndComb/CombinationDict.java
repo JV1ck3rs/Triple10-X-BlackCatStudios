@@ -6,6 +6,10 @@ import com.mygdx.game.Items.ItemEnum;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Takes an input of items and returns a new item if applicable
+ * @author Jack Hinton, Jack Vickers
+ */
 public class CombinationDict {
 
   public static CombinationDict combinations;

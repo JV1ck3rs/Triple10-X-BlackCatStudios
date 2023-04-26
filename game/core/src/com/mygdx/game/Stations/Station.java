@@ -2,10 +2,12 @@ package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
+import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.Recipe;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
@@ -29,20 +31,35 @@ public abstract class Station extends Scriptable implements Interactable {
   public Recipe currentRecipe;
   GameObject heldItem;
   public int imageSize = 18;
-  GameObject bubble;
+  GameObject bubble, bubble2;
+  GameObject animation;
+  public float stationTimeDecrease;
 
-  public Station() {
+  private float BurnSpeed;
+  float CookingSpeed;
+
+  public Station(CookingParams params) {
     item = null;
     locked = false;
     recipes = RecipeDict.recipes;
     combinations = CombinationDict.combinations;
     currentRecipe = null;
+    stationTimeDecrease = 0;
+    BurnSpeed = params.BurnSpeed;
+    CookingSpeed = params.CookSpeed;
   }
 
   public void init() {
     bubble = new GameObject(new BlackTexture("Timer/01.png"));
-    bubble.setPosition(gameObject.position.x + (gameObject.getWidth()/2) - (bubble.getWidth()/2), gameObject.position.y + (gameObject.getHeight()) + 2);
+    bubble.setPosition(
+        gameObject.position.x + (gameObject.getWidth() / 2) - (bubble.getWidth() / 2),
+        gameObject.position.y + (gameObject.getHeight()) + 2);
     bubble.isVisible = false;
+    bubble2 = new GameObject(new BlackTexture("Timer/Warning.png"));
+    bubble2.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight());
+    bubble2.isVisible = false;
+    if(animation != null)
+      moveAnim();
   }
 
   /**
@@ -61,6 +78,8 @@ public abstract class Station extends Scriptable implements Interactable {
   public abstract Item RetrieveItem();
 
   public abstract void updatePictures();
+
+  public abstract void moveAnim();
 
   /**
    * Sets the station to a "locked" state
@@ -81,28 +100,41 @@ public abstract class Station extends Scriptable implements Interactable {
   }
 
 
-  public void changeItem(Item item){
+  public boolean checkRepairTool(Item item) {
+    if(item.name == ItemEnum.RepairTool) {
+      setLocked(false);
+      return true;
+    }
+    return false;
+  }
+
+  public void changeItem(Item item) {
     this.item = item;
     updatePictures();
   }
 
-  public void deleteItem(){
+  public void deleteItem() {
     item = null;
     updatePictures();
   }
 
-  public void LoadState(List<ItemState> state){
-    if(state.get(0) == null || state.get(0).item == null)
+  public void LoadState(List<ItemState> state) {
+    if (state.get(0) == null || state.get(0).item == null) {
       return;
+    }
 
     item = new Item(state.get(0));
+    updatePictures();
   }
-  public List<ItemState> SaveState(){
+
+  public void decreaseCookTime(){ stationTimeDecrease += 1;}
+
+  public List<ItemState> SaveState() {
 
     LinkedList<ItemState> states = new LinkedList<>();
 
     states.add(new ItemState(item));
-    return states ;
+    return states;
   }
 
 

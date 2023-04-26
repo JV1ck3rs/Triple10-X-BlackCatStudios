@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > CustomerCounters</title>
+  <title>Coverage Report > Recipe</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.mygdx.game.Stations</a>
+    <a href="../index.html">com.mygdx.game.RecipeAndComb</a>
 </div>
 
-<h1>Coverage Summary for Class: CustomerCounters (com.mygdx.game.Stations)</h1>
+<h1>Coverage Summary for Class: Recipe (com.mygdx.game.RecipeAndComb)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">CustomerCounters</td>
+  <td class="name">Recipe</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/10)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/27)
+    (4/4)
   </span>
 </td>
 </tr>
@@ -74,96 +74,27 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Stations;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.RecipeAndComb;
 &nbsp;
-&nbsp;import com.mygdx.game.Core.BlackTexture;
-&nbsp;import com.mygdx.game.Core.GameObject;
-&nbsp;import com.mygdx.game.Items.Item;
+&nbsp;import com.mygdx.game.Items.ItemEnum;
 &nbsp;
-&nbsp;import java.util.function.Consumer;
-&nbsp;import java.util.function.Function;
+&nbsp;import java.util.ArrayList;
 &nbsp;
+&nbsp;/**
+&nbsp; * The recipe class, List of steps -&gt; Item
+&nbsp; * @author Jack Hinton
+&nbsp; */
+&nbsp;public class Recipe {
 &nbsp;
-&nbsp;public class CustomerCounters extends Station {
+<b class="fc">&nbsp;    public ArrayList&lt;Step&gt; RecipeSteps = new ArrayList&lt;&gt;();</b>
+&nbsp;    public ItemEnum endItem;
 &nbsp;
-&nbsp;  Function&lt;Item, Boolean&gt; script;
-&nbsp;
-<b class="nc">&nbsp;  public CustomerCounters(Function&lt;Item, Boolean&gt; script) {</b>
-<b class="nc">&nbsp;    this.script = script;</b>
-&nbsp;  }
-&nbsp;
-&nbsp;
-&nbsp;  @Override
-&nbsp;  public boolean GiveItem(Item item) {
-<b class="nc">&nbsp;    changeItem(item);</b>
-<b class="nc">&nbsp;    GiveFood();</b>
-<b class="nc">&nbsp;    return true;</b>
-&nbsp;  }
-&nbsp;
-&nbsp;
-&nbsp;  @Override
-&nbsp;  public Item RetrieveItem() {
-<b class="nc">&nbsp;    returnItem = item;</b>
-<b class="nc">&nbsp;    deleteItem();</b>
-<b class="nc">&nbsp;    currentRecipe = null;</b>
-<b class="nc">&nbsp;    return returnItem;</b>
-&nbsp;  }
-&nbsp;
-&nbsp;
-&nbsp;  @Override
-&nbsp;  public boolean CanRetrieve() {
-<b class="nc">&nbsp;    return item != null;</b>
-&nbsp;  }
-&nbsp;
-&nbsp;
-&nbsp;  @Override
-&nbsp;  public boolean CanGive() {
-<b class="nc">&nbsp;    return item == null;</b>
-&nbsp;  }
-&nbsp;
-&nbsp;
-&nbsp;  @Override
-&nbsp;  public boolean CanInteract() {
-<b class="nc">&nbsp;    return false;</b>
-&nbsp;  }
-&nbsp;
-&nbsp;
-&nbsp;  @Override
-&nbsp;  public boolean Interact() {
-<b class="nc">&nbsp;    return false;</b>
-&nbsp;  }
-&nbsp;
-&nbsp;
-&nbsp;  public void GiveFood() {
-<b class="nc">&nbsp;    boolean answer = script.apply(item);</b>
-<b class="nc">&nbsp;    if (answer) {</b>
-<b class="nc">&nbsp;      deleteItem();</b>
-&nbsp;    }
-&nbsp;  }
-&nbsp;
-&nbsp;    @Override
-&nbsp;    public void updatePictures() {
-<b class="nc">&nbsp;        if(item == null) {</b>
-<b class="nc">&nbsp;            if(heldItem == null)</b>
-&nbsp;                return;
-<b class="nc">&nbsp;            heldItem.Destroy();</b>
-<b class="nc">&nbsp;            heldItem = null;</b>
-&nbsp;            return;
-&nbsp;        }
-<b class="nc">&nbsp;        if(heldItem == null){</b>
-<b class="nc">&nbsp;            heldItem = new GameObject( new BlackTexture(Item.GetItemPath(item.name)));</b>
-<b class="nc">&nbsp;            heldItem.image.setSize(imageSize, imageSize);</b>
-<b class="nc">&nbsp;            heldItem.setPosition(gameObject.position.x, gameObject.position.y+ ((gameObject.getHeight()/2)-10));</b>
-&nbsp;        }
-&nbsp;        else {
-<b class="nc">&nbsp;            heldItem.image = new BlackTexture(Item.GetItemPath(item.name));</b>
-<b class="nc">&nbsp;            heldItem.image.setSize(imageSize, imageSize);</b>
-&nbsp;        }
+<b class="fc">&nbsp;    public Recipe(ItemEnum endItem, ArrayList&lt;Step&gt; stepList){</b>
+<b class="fc">&nbsp;        this.endItem = endItem;</b>
+<b class="fc">&nbsp;        RecipeSteps.addAll(stepList);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    @Override
-&nbsp;    public void Update(float dt) {
-<b class="nc">&nbsp;    }</b>
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -188,7 +119,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-06 22:11</div>
+    <div style="float:right;">generated on 2023-04-24 20:42</div>
 </div>
 </body>
 </html>
