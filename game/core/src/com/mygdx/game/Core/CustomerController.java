@@ -95,6 +95,7 @@ public class CustomerController extends Scriptable
   private int CustomerFrustrationStart = 80;
 
   boolean updateFrustration = true;
+  int numCustomersServed = 0;
 
   /**
    * Creates the customer controller
@@ -276,6 +277,10 @@ public class CustomerController extends Scriptable
 
   public CustomerGroups getCurrentWaitingCustomerGroup() {
     return currentWaiting;
+  }
+
+  public int getNumberOfCustomersServed() {
+    return numCustomersServed;
   }
 
   public int getRemainingNumberOfCustomers() {
@@ -606,6 +611,7 @@ public class CustomerController extends Scriptable
     if (Gdx.input.isKeyJustPressed(
         Keys.S) && currentWaiting != null) {
       Customer customer = currentWaiting.RemoveFirstCustomer();
+      numCustomersServed += 1;
       SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
       ChangeMoney(MoneyPerCustomer);
       SetWaitingForOrderTarget();

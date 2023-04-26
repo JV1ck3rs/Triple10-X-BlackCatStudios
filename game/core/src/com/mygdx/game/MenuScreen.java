@@ -96,7 +96,6 @@ public class MenuScreen implements Screen {
     table.setFillParent(true);
     table.align(Align.center);
     stage.addActor(table);
-    table.debug();
 
     // Only creates and adds the load button if there is a save file
     if (Gdx.files.internal("SavedData.ser").exists()) {
@@ -116,7 +115,7 @@ public class MenuScreen implements Screen {
           new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) { // if clicked, load the game
-              gameScreen = new GameScreen(root, root.map, false, -1, true, Difficulty.Relaxing);
+              gameScreen = new GameScreen(root, root.map, -1, true, Difficulty.Relaxing);
               root.setScreen(gameScreen);
               dispose();
             }
@@ -215,7 +214,7 @@ public class MenuScreen implements Screen {
     easyBtn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        gameScreen = new GameScreen(root, root.map, false, -1, false, Difficulty.Relaxing);
+        gameScreen = new GameScreen(root, root.map, -1, false, Difficulty.Relaxing);
         root.setScreen(gameScreen);
         dispose();
       }
@@ -241,7 +240,7 @@ public class MenuScreen implements Screen {
     mediumBtn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        gameScreen = new GameScreen(root, root.map, false, -1, false, Difficulty.Stressful);
+        gameScreen = new GameScreen(root, root.map, -1, false, Difficulty.Stressful);
         root.setScreen(gameScreen);
         dispose();
       }
@@ -266,7 +265,7 @@ public class MenuScreen implements Screen {
     hardBtn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        gameScreen = new GameScreen(root, root.map, false, -1, false, Difficulty.Mindbreaking);
+        gameScreen = new GameScreen(root, root.map, -1, false, Difficulty.Mindbreaking);
         root.setScreen(gameScreen);
         dispose();
       }
