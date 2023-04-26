@@ -38,8 +38,9 @@ public class LeaderBoard {
 
   public LeaderboardData getDataFromRegexMatch(String string, Pattern pattern){
     Matcher matcher = pattern.matcher(string);
-    int score = Integer.parseInt(matcher.group(1));
-    String name = matcher.group(0);
+    boolean match = matcher.find();
+    int score = Integer.parseInt(matcher.group(2));
+    String name = matcher.group(1);
 
     LeaderboardData data = new LeaderboardData();
     data.name = name;
@@ -60,12 +61,16 @@ public class LeaderBoard {
 
 //\<([a-z]+)?,([\d]+)\>
 
-    Pattern pattern = Pattern.compile("<([a-z]+)?,([\\d]+)>",Pattern.CASE_INSENSITIVE);
-   String[] matches =  pattern.split(data);
+    Pattern pattern = Pattern.compile("<([a-zA-Z]+)?,([\\d]+)>",Pattern.CASE_INSENSITIVE);
+    Pattern splitPattern = Pattern.compile(" ");
+   String[] matches =  splitPattern.split(data);
 
     List<LeaderboardData> leaderboardDataList = new LinkedList<>();
 
+
     for (int i = 0; i < matches.length; i++) {
+      if(matches[i] == "")
+        continue;
       leaderboardDataList.add(getDataFromRegexMatch(matches[i],pattern));
     }
     return leaderboardDataList;
@@ -96,6 +101,7 @@ public class LeaderBoard {
     try {
       BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
       writer.write(writing);
+      writer.close();
 
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -109,6 +115,9 @@ public class LeaderBoard {
     highscores.add(data);
 
     highscores.sort(Comparator.naturalOrder());
+
+    if(highscores.size()<=MaxHighscorers)
+      return highscores;
 
     return highscores.subList(0,MaxHighscorers);
   }
