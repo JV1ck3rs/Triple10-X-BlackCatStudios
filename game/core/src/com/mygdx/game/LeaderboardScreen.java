@@ -62,10 +62,11 @@ public class LeaderboardScreen implements Screen {
     }
     // Creates the font for the labels
     FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
-    FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("Minecraft.ttf"));
+    FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("ka1.ttf"));
     params.size = 20;
-    params.color = Color.WHITE;
-    params.shadowColor = Color.BLACK;
+    Color colour = new Color(0x5584AC);
+    params.color = colour;
+    params.shadowColor = Color.WHITE;
     params.shadowOffsetX = 3;
     params.shadowOffsetY = 3;
     BitmapFont font = gen.generateFont(params);
@@ -76,7 +77,8 @@ public class LeaderboardScreen implements Screen {
     Label score1 = new Label("1.     " + scores.get(0).toString(),
         fontStyle);
     score1.setFontScale((scaleX + scaleY) / 2);
-    table.add(score1).center().row();
+    score1.setColor(Color.WHITE);
+    table.add(score1).center().padTop(35 * scaleY).row();
     Label score2 = new Label("2.     " + scores.get(1).toString(),
         fontStyle);
     score2.setFontScale((scaleX + scaleY) / 2);
@@ -92,7 +94,7 @@ public class LeaderboardScreen implements Screen {
     Label score5 = new Label("5.     " + scores.get(4).toString(),
         fontStyle);
     score5.setFontScale((scaleX + scaleY) / 2);
-    table.add(score5).center().row();
+    table.add(score5).center().padBottom(25 * scaleY).row();
 
     if (numberOfCustomersServed >= 0) {
       // Creates a skin for the text field using the clean-crispy-ui.json file
