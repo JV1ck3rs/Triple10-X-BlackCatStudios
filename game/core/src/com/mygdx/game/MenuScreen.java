@@ -23,6 +23,8 @@ import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.RenderManager;
 
+import java.io.IOException;
+
 /**
  * Implements the screen that's displayed for the start of the game
  *
@@ -85,6 +87,8 @@ public class MenuScreen implements Screen {
     scenariobtnDown = new TextureRegion(mainMenuAtlas.findRegion("scenarioButtonDown"));
     exitbtn = new TextureRegion(mainMenuAtlas.findRegion("exitButton"));
     exitbtnDown = new TextureRegion(mainMenuAtlas.findRegion("exitButtonDown"));
+    TextureRegion highScoresBtnUp = new TextureRegion(new Texture("HighScoresUp.png"));
+    TextureRegion highScoresBtnDown = new TextureRegion(new Texture("HighScoresDown.png"));
 
     stage = new Stage();
 
@@ -130,6 +134,8 @@ public class MenuScreen implements Screen {
         new TextureRegion(scenariobtnDown));
     Drawable drawableExitbtnUp = new TextureRegionDrawable(new TextureRegion(exitbtn));
     Drawable drawableExitbtnDown = new TextureRegionDrawable(new TextureRegion(exitbtnDown));
+    Drawable drawableHighScoresBtnUp = new TextureRegionDrawable(new TextureRegion(highScoresBtnUp));
+    Drawable drawableHighScoresBtnDown = new TextureRegionDrawable(new TextureRegion(highScoresBtnDown));
 
     Button.ButtonStyle playbtnStyle = new Button.ButtonStyle();
     playBtn = new Button();
@@ -152,12 +158,23 @@ public class MenuScreen implements Screen {
     table.add(scenarioBtn).width(250 * scaleX).height(50 * scaleY).padBottom(25 * scaleY);
     table.row();
 
+    Button.ButtonStyle highScoresBtnStyle = new Button.ButtonStyle();
+    Button highScoresBtn = new Button();
+    highScoresBtn.setStyle(highScoresBtnStyle);
+    highScoresBtnStyle.up = drawableHighScoresBtnUp;
+    highScoresBtnStyle.down = drawableHighScoresBtnDown;
+    table.add(highScoresBtn).width(250 * scaleX).height(50 * scaleY).padBottom(25 * scaleY);
+    table.row();
+
     Button.ButtonStyle exitbtnStyle = new Button.ButtonStyle();
     exitBtn = new Button();
     exitBtn.setStyle(exitbtnStyle);
     exitbtnStyle.up = drawableExitbtnUp;
     exitbtnStyle.down = drawableExitbtnDown;
     table.add(exitBtn).width(250 * scaleX).height(50 * scaleY);
+
+
+
 
     table.setBackground(new TextureRegionDrawable(mainMenuAtlas.findRegion("menuPP")));
 
@@ -174,6 +191,20 @@ public class MenuScreen implements Screen {
       public void clicked(InputEvent event, float x, float y) {
         ScenarioModeConfigScreen scenarioConfigScreen = new ScenarioModeConfigScreen(root);
         root.setScreen(scenarioConfigScreen);
+        dispose();
+      }
+    });
+
+    highScoresBtn.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y){
+        LeaderboardScreen leaderboardScreen = null;
+        try {
+          leaderboardScreen = new LeaderboardScreen(root, null, -1);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+        root.setScreen(leaderboardScreen);
         dispose();
       }
     });
