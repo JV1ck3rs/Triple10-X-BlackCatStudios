@@ -78,8 +78,9 @@ public class MenuScreen implements Screen {
     this.root = root;
 
     mainMenuAtlas = new TextureAtlas(Gdx.files.internal("mainMenu.atlas"));
-    playbtnUp = new TextureRegion(mainMenuAtlas.findRegion("playButton"));
-    playbtnDown = new TextureRegion(mainMenuAtlas.findRegion("playButtonDown"));
+
+    playbtnUp = new TextureRegion(new TextureRegion(new Texture("EndlessGameUp.png")));
+    playbtnDown = new TextureRegion(new TextureRegion(new Texture("EndlessGameDown.png")));
     scenariobtn = new TextureRegion(mainMenuAtlas.findRegion("scenarioButton"));
     scenariobtnDown = new TextureRegion(mainMenuAtlas.findRegion("scenarioButtonDown"));
     exitbtn = new TextureRegion(mainMenuAtlas.findRegion("exitButton"));
