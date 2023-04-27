@@ -185,7 +185,7 @@ public class GameScreen implements Screen {
         33, 34, 35, 36, 37, 38, 39};
 
     //Fixed the hideous mechanism for creating collidable objects
-    for (int n = 0; n < 17; n++) {
+    for (int n = 0; n < 18; n++) {
       MapLayer layer = map.getLayers().get(n);
       String name = layer.getName();
 
@@ -243,6 +243,8 @@ public class GameScreen implements Screen {
           case "potato":
             constructMachines.CreateFoodCrates(rect, ItemEnum.Potato);
             break;
+          case "toolbox":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.RepairTool);
         }
       }
     }
