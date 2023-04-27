@@ -259,6 +259,9 @@ public class GameScreen implements Screen {
     // Calculates the scale of the screen to the original size of the game
     scaleX = Gdx.graphics.getWidth() / 640f;
     scaleY = Gdx.graphics.getHeight() / 480f;
+    if (loadSave) { // if the game is being loaded from a save
+        LoadGame("SavedData.ser");
+    }
     isEndlessMode = CCParams.NoCustomers == -1;
     setupGameUI();
     setupPauseMenu();
