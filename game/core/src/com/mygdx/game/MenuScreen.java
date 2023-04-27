@@ -55,6 +55,7 @@ public class MenuScreen implements Screen {
   Button playBtn;
   Button scenarioBtn;
   Button exitBtn;
+  Button highScoresBtn;
 
   /**
    * constructs the screen including the position of the buttons and their hitboxes;
@@ -113,7 +114,7 @@ public class MenuScreen implements Screen {
       loadButton.setStyle(loadbtnStyle);
       loadbtnStyle.up = drawableLoadbtnUp;
       loadbtnStyle.down = drawableLoadbtnDown;
-      table.add(loadButton).width(250 * scaleX).height(50 * scaleY).padTop(90 * scaleY).row();
+      table.add(loadButton).width(210 * scaleX).height(35 * scaleY).padTop(90 * scaleY).row();
 
       // Adds a click listener to the load button
       loadButton.addListener(
@@ -143,9 +144,9 @@ public class MenuScreen implements Screen {
     playbtnStyle.up = drawablePlaybtnUp;
     playbtnStyle.down = drawablePlaybtnDown;
     if (Gdx.files.internal("SavedData.ser").exists()) {
-      table.add(playBtn).width(250 * scaleX).height(50 * scaleY).padTop(25 * scaleY).padBottom(25 * scaleY).row();
+      table.add(playBtn).width(210 * scaleX).height(35 * scaleY).padTop(25 * scaleY).padBottom(25 * scaleY).row();
     } else {
-      table.add(playBtn).width(250 * scaleX).height(50 * scaleY).padTop(75 * scaleY)
+      table.add(playBtn).width(210 * scaleX).height(35 * scaleY).padTop(75 * scaleY)
           .padBottom(25 * scaleY);
       table.row();
     }
@@ -155,15 +156,15 @@ public class MenuScreen implements Screen {
     scenarioBtn.setStyle(scenariobtnStyle);
     scenariobtnStyle.up = drawableScenariobtnUp;
     scenariobtnStyle.down = drawableScenariobtnDown;
-    table.add(scenarioBtn).width(250 * scaleX).height(50 * scaleY).padBottom(25 * scaleY);
+    table.add(scenarioBtn).width(210 * scaleX).height(35 * scaleY).padBottom(25 * scaleY);
     table.row();
 
     Button.ButtonStyle highScoresBtnStyle = new Button.ButtonStyle();
-    Button highScoresBtn = new Button();
+    highScoresBtn = new Button();
     highScoresBtn.setStyle(highScoresBtnStyle);
     highScoresBtnStyle.up = drawableHighScoresBtnUp;
     highScoresBtnStyle.down = drawableHighScoresBtnDown;
-    table.add(highScoresBtn).width(250 * scaleX).height(50 * scaleY).padBottom(25 * scaleY);
+    table.add(highScoresBtn).width(210 * scaleX).height(35 * scaleY).padBottom(25 * scaleY);
     table.row();
 
     Button.ButtonStyle exitbtnStyle = new Button.ButtonStyle();
@@ -171,7 +172,7 @@ public class MenuScreen implements Screen {
     exitBtn.setStyle(exitbtnStyle);
     exitbtnStyle.up = drawableExitbtnUp;
     exitbtnStyle.down = drawableExitbtnDown;
-    table.add(exitBtn).width(250 * scaleX).height(50 * scaleY);
+    table.add(exitBtn).width(210 * scaleX).height(35 * scaleY);
 
 
 
@@ -224,7 +225,7 @@ public class MenuScreen implements Screen {
     // after the load button
     table.clearChildren();
     if (Gdx.files.internal("SavedData.ser").exists()) {
-      table.add(loadButton).width(250 * scaleX).height(50 * scaleY).padTop(90 * scaleY)
+      table.add(loadButton).width(210 * scaleX).height(35 * scaleY).padTop(90 * scaleY)
           .padBottom(25 * scaleY).colspan(3).row();
     }
 
@@ -303,9 +304,11 @@ public class MenuScreen implements Screen {
       }
     });
 
-    table.add(scenarioBtn).width(250 * scaleX).height(50 * scaleY).padBottom(25 * scaleY).colspan(3)
+    table.add(scenarioBtn).width(210 * scaleX).height(35 * scaleY).padBottom(25 * scaleY).colspan(3)
         .row();
-    table.add(exitBtn).width(250 * scaleX).height(50 * scaleY).colspan(3).row();
+    table.add(highScoresBtn).width(210 * scaleX).height(35 * scaleY).padBottom(25 * scaleY)
+        .colspan(3).row();
+    table.add(exitBtn).width(210 * scaleX).height(35 * scaleY).colspan(3).row();
   }
 
 
