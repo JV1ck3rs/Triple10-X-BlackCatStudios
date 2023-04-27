@@ -56,11 +56,17 @@ import com.mygdx.game.Stations.*;
  * This is the main class of the game which runs all the logic and rendering Here all the outside
  * objects are created and drawn as well as interactions registered
  *
+ * Black Cat Studios and Team Triple 10s
+ *
  * @author Robin Graham
  * @author Riko Puusepp
  * @author Kelvin Chen
  * @author Amy Cross
  * @author Labib Zabeneh
+ * @author Felix Seanor
+ * @author Jack Vickers
+ * @author Jack Hinton
+ * @author Sam Toner
  */
 public class GameScreen implements Screen {
 
@@ -118,7 +124,7 @@ public class GameScreen implements Screen {
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
    * manage the logic of the render as well as setting the camera and map
-   *
+   * Mixture of BlackCatStudios and TeamTriple10
    * @param game base Object which is used to draw on
    * @author Amy Cross
    * @author Felix Seanor
@@ -126,22 +132,25 @@ public class GameScreen implements Screen {
    * @author Jack Vickers
    * @author Jack Hinton
    */
-  public GameScreen(MyGdxGame game, TiledMap map, int numCustomers, boolean loadSave,
+  public GameScreen(MyGdxGame game, TiledMap map, int numCustomers,
       Difficulty difficultyLevel) {
+    //Triple10s
     this.game = game;
     camera = new OrthographicCamera();
     recipeScreen = new showRecipeInstructions();
     //recipeScreen.showRecipeInstruction();
+    //BlackCatStudios
     CameraFunctions camera1 = CameraFunctions.camera;
     camera1.updateCamera(camera);
     viewport = new FitViewport(720, 1280, camera);
-
+//Triple10s
     camera.setToOrtho(false, viewportWidth, viewportHeight);
     camera.update();
 
     gameMusic = Gdx.audio.newMusic(Gdx.files.internal("gameMusic.mp3"));
     gameMusic.setLooping(true);
 
+    //BlackCatStudios
     recipeScreen.createInstructionPage("Empty");
 
     world = new World(new Vector2(0, 0), true);
@@ -185,7 +194,7 @@ public class GameScreen implements Screen {
         33, 34, 35, 36, 37, 38, 39};
 
     //Fixed the hideous mechanism for creating collidable objects
-    for (int n = 0; n < 17; n++) {
+    for (int n = 0; n < 18; n++) {
       MapLayer layer = map.getLayers().get(n);
       String name = layer.getName();
 
@@ -243,13 +252,16 @@ public class GameScreen implements Screen {
           case "potato":
             constructMachines.CreateFoodCrates(rect, ItemEnum.Potato);
             break;
+          case "toolbox":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.RepairTool);
         }
       }
     }
 
+    //Team  Triple10
     timerLabel = new Label("TIME: " + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
+    //BlackCatStudios
     moneyLabel = new Label("Money: ¥" + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
@@ -269,7 +281,7 @@ public class GameScreen implements Screen {
 
   /**
    * Sets up the UI elements which will be displayed during the game.
-   *
+   * BlackCatStudio's code
    * @author Jack Vickers
    */
   private void setupGameUI() {
@@ -316,6 +328,9 @@ public class GameScreen implements Screen {
 
   }
 
+  /**
+   * BlackCatStudio's code
+   */
   private void updateCustomerLabel() {
     if (isEndlessMode) {
       modeLabel.setText("Customers served: " + customerController.getNumberOfCustomersServed());
@@ -327,7 +342,7 @@ public class GameScreen implements Screen {
 
   /**
    * Creates the pause menu.
-   *
+   *BlackCatStudio's code
    * @author Jack Vickers
    * @date 07/04/2023
    */
@@ -443,7 +458,7 @@ public class GameScreen implements Screen {
 
   /**
    * End game sequence
-   *
+   *BlackCatStudio's code
    * @param values
    */
   public void EndGame(EndOfGameValues values) {
@@ -456,7 +471,7 @@ public class GameScreen implements Screen {
 
   /**
    * Plays the game music when the screen is shown.
-   *
+   * BlackCatStudio's code
    * @author Amy Cross
    * @author Jack Vickers
    */
@@ -470,11 +485,12 @@ public class GameScreen implements Screen {
 
   /**
    * Displays the timer.
-   *
+   * Mixture of BlackCatStudios and Team Triple10s
    * @author Amy Cross
    * @author Felix Seanor
    */
   public void displayTimer() {
+    //Team Triple10s
     seconds += Gdx.graphics.getDeltaTime();
     if (seconds >= 1f) {
       timer++;
@@ -484,7 +500,7 @@ public class GameScreen implements Screen {
     timerFont.draw(game.batch, str, 380, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
     timerLabel.setText(str);
-
+    //BlackCatStudios
     CharSequence str2 = "Money: ¥" + customerController.Money;
     timerFont.draw(game.batch, str2, 500, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
@@ -502,7 +518,7 @@ public class GameScreen implements Screen {
 
   /**
    * Calls all logic updates and sprite draws as well as checks if game has been completed
-   *
+   * Mainly BlackCatStudios code based on Team Triple10s design
    * @param delta The time in seconds since the last render.
    * @author Felix Seanor
    * @author Amy Cross
@@ -510,6 +526,7 @@ public class GameScreen implements Screen {
    */
   @Override
   public void render(float delta) {
+    //Team Triple10s
     //create world
     Gdx.gl.glClearColor(0, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -519,6 +536,7 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
+    //Black Cat Studios
 //    if(Gdx.input.isKeyJustPressed(Keys.B))
 //      SaveGame();
 
@@ -588,7 +606,7 @@ public class GameScreen implements Screen {
   /**
    * Finds all the collisions and assigns the names Also has a convenience function to disregard the
    * chef collision
-   *
+   * Team Triple 10s
    * @author Amy Cross
    */
   public void createCollisionListener() {
@@ -610,7 +628,7 @@ public class GameScreen implements Screen {
 
       /**
        * outputs when two objects have stopped colliding
-       *
+       * Team Triple 10s
        * @param contact The object containing decollision information
        */
       @Override
@@ -623,7 +641,7 @@ public class GameScreen implements Screen {
 
       /**
        * Finds out when the two chefs have collided to ignore this collision
-       *
+       *Team Triple 10s
        * @param contact The object containing collision information
        * @param oldManifold Needed by the override
        */
@@ -647,7 +665,7 @@ public class GameScreen implements Screen {
 
   /**
    * Save the game.
-   *
+   * BlackCatStudios Code
    * @author Felix Seanor
    */
   public void SaveGame() {
@@ -660,7 +678,7 @@ public class GameScreen implements Screen {
 
   /**
    * Load the game from save
-   *
+   *BlackCatStudios Code
    * @author Felix Seanor
    */
   public void LoadGame(String path) {
@@ -677,7 +695,7 @@ public class GameScreen implements Screen {
 
   /**
    * Loads the state of a previous state of the world, all LoadGame to a full sweep.
-   *
+   * BlackCatStudios Code
    * @param state
    * @author Felix Seanor
    */
@@ -734,6 +752,7 @@ public class GameScreen implements Screen {
   //  /**
 //   * Resizes the stage when the window is resized so that the buttons are in the correct place.
 //   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
+   // Team Triple 10s
 //   */
   @Override
   public void resize(int width, int height) {

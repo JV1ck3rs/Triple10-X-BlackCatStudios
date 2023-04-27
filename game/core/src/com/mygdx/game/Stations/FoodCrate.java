@@ -7,6 +7,8 @@ import com.mygdx.game.Items.ItemEnum;
 
 /**
  * This lets chef pick up raw ingredients
+ * BlackCatStudio's Code
+ * @author Jack Hinton
  */
 public class FoodCrate extends Scriptable implements Interactable {
   // TODO: Write more tests for this class

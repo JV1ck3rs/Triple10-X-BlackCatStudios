@@ -6,7 +6,10 @@ import com.mygdx.game.Core.GameState.ItemState;
 /**
  * Item class, instatiates item Enum into a physical item in the game.
  * stores cooking progress ect.
- *
+ * BlackCatStudio's Code
+ * @author Jack Hinton
+ * @author Felix Seanor
+ * @author Jack Vickers
  * Last modified 09/04/23
  */
 public class Item {

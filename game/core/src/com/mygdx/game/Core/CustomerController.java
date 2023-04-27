@@ -22,9 +22,13 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.function.Consumer;
 
-/*
+/**
   This script controls the customers and handles their logic through a variety of secondary scripts.
   Also handles when the current game should end.
+
+  BlackCatStudio's Code
+  @author Felix Seanor
+  @author Jack Vickers
 
   Last modified: 23/04/2023
  */
@@ -416,6 +420,7 @@ public class CustomerController extends Scriptable
 
   /**
    * Removes the first currently seated customer and makes them walk outside and despawn.
+   * @author Felix Seanor
    */
   void RemoveCurrentlySeatedCustomers() {
     CustomerGroups groups = SittingCustomers.get(0);
@@ -438,6 +443,7 @@ public class CustomerController extends Scriptable
 
   /**
    * Trys to remove customers when they reach the exit.
+   * @author Felix Seanor
    */
   void TryDeleteCustomers() {
     List<Integer> removals = new LinkedList<>();
@@ -474,6 +480,7 @@ public class CustomerController extends Scriptable
    * Creates a new customer group of a random size, and gives them a list of foods to order.
    *
    * @author Felix Seanor
+   * @author Jack Vickers
    */
 
 
@@ -505,6 +512,11 @@ public class CustomerController extends Scriptable
   }
 
 
+  /**
+   * Lets a new customer group wapk through the door
+   * @author Felix Seanor
+   * @author Jack Vickers
+   */
   void CreateNewCustomer() {
     Table table = GetTable();
 

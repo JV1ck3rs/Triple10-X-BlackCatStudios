@@ -16,7 +16,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * This is the leaderboard class that stores highscore data in a fson format <name,score>
+ * Call read FSON to get the highscore data
+ * Call WriteHighscores to write a value into the highscores
+ * BlackCatStudio's code
+ * @author Felix Seanor
+ * @author Jack Vickers
+ * @author Sam Toner
+ */
 public class LeaderBoard {
 
   static String filepath = Gdx.files.internal("leadboard.Fson").path();

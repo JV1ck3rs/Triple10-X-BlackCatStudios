@@ -6,6 +6,12 @@ import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.LinkedList;
 
+/**
+ * Returns Difficulty settings
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ * @author Jack Vickers
+ */
 public class DifficultyMaster {
 
 

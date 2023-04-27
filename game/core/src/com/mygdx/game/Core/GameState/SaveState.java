@@ -21,6 +21,12 @@ import java.util.LinkedList;
 import java.util.List;
 import jdk.javadoc.internal.doclets.toolkit.util.DocFinder.Output;
 
+/**
+ * Loads or saves states of the game to or from the disk
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ * @author Jack Vickers
+ */
 public class SaveState {
 
 

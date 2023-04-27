@@ -19,6 +19,7 @@ import java.util.List;
  * Defines a station object with its given name and attributes we also have the ability to "lock" a
  * station so it can only interact with one item at a time
  *
+ * @author Jack Hinton
  * @author Robin Graham
  */
 public abstract class Station extends Scriptable implements Interactable {

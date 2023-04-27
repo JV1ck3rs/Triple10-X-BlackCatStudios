@@ -6,6 +6,12 @@ import com.mygdx.game.Items.ItemEnum;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Saved data for customer groups
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ * @author Jack Vickers
+ */
 public class CustomerGroupState implements Serializable {
 
   public ItemEnum[] orders;

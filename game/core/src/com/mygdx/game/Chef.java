@@ -30,6 +30,8 @@ import java.util.Stack;
  * Creates the chef object which will interact with every object on the map and assemble dishes to
  * be fed to the customer The class also handles all sprite animations and movement.
  *
+ * BlackCatStudio's Code with a few methods from Team Triple 10
+ *
  * @author Robin Graham
  * @author Amy Cross
  * @author Labib Zabeneh
@@ -75,7 +77,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Initialise the chef object and sets its spawn position.
-   *
+   * Black cat studios code
    * @param world the world in which our objects lie
    * @param id    the individual id of each chef i.e 0,1,2....
    * @author Felix Seanor
@@ -93,11 +95,13 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Initialised the chefs data
+   * Mixture of Triple 10s and BlackCatStudios
    * @author Felix Seanor
    */
   @Override
   public void Start() {
     //Reorganised to fit work flow and requires access to data not yet created
+    //Triple 10s
     gameObject.getSprite().setSprite(chefAtlas.createSprite("south1"));
     currentSpriteAnimation = 1;
     spriteOrientation = "south";
@@ -110,9 +114,11 @@ public class Chef extends PathfindingAgent implements Person {
     this.lastOrientation = "south";
 
     defineChef();
+
+
     timerAtlas = new TextureAtlas(Gdx.files.internal("Timer/timer.txt"));
     timerSprite = timerAtlas.createSprite("01");
-
+//Black Cat studios
     for (int i = 0; i < CarryCapacity; i++) {
       HeldItemGameObjects.add(new GameObject(new BlackTexture(Item.GetItemPath(ItemEnum.Buns))));
       HeldItemGameObjects.get(i).isVisible = false;
@@ -126,6 +132,7 @@ public class Chef extends PathfindingAgent implements Person {
   /**
    * Defines all box2d associated variables for the chef and sets its hitbox to be used for
    * collisions.
+   * This is Team Triple 10s code
    */
   public void defineChef() {
     BodyDef bdef = new BodyDef();
@@ -206,12 +213,14 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Updates the chef position and shows the animation depending on its direction and speed.
+   * This is a mixture of BlackCatStudios and Team Triple10
    */
   @Override
   public void updateSpriteFromInput(String newOrientation) {
 
     Vector2 dir = GetMoveDir().nor();
 
+    //BlackCatStudios
 //    System.out.println(dir);
     if (dir.dot(dir) <= 0) {
       newOrientation = "idle" + spriteOrientation.replace("idle", "");
@@ -236,7 +245,7 @@ public class Chef extends PathfindingAgent implements Person {
     }
 
 //    System.out.println(newOrientation + " : " + spriteOrientation + " : " + lastOrientation);
-
+  //Team Triple 10
     if (newOrientation.contains("idle")) {
       spriteState = newOrientation;
     } else {
@@ -256,7 +265,10 @@ public class Chef extends PathfindingAgent implements Person {
       }
       spriteState = newOrientation + currentSpriteAnimation;
     }
+
+    //Black Cat studios
     setTexture(spriteState);
+    //Team Triple 10s
     spriteOrientation = newOrientation;
 
     //cant figure out how to speed the character up it doesnt want to function
@@ -266,6 +278,8 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Sets the texture of the chef.
+   * Black Studios and Triple 10s
+   * @author Amy Cross
    * @author Felix Seanor
    */
   @Override
@@ -276,7 +290,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Returns the x position of the chef.
-   *
+   *Black Studios and Triple 10s
    * @return int posX
    * @author Felix Seanor
    * @author Amy Cross
@@ -287,7 +301,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Returns the y position of the chef.
-   *
+   *Black Studios and Triple 10s
    * @return int posY
    * @author Felix Seanor
    * @author Amy Cross
@@ -298,7 +312,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Returns the width of the chef.
-   *
+   *Black Studios and Triple 10s
    * @return int width
    * @author Felix Seanor
    * @author Amy Cross
@@ -309,7 +323,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Returns the height of the chef.
-   *
+   *Black Studios and Triple 10s
    * @return int height
    * @author Felix Seanor
    * @author Amy Cross
@@ -320,6 +334,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Gets the input from the user and orientates the chef accordingly.
+   * Black Studios and Triple 10s
    * @author Felix Seanor
    * @author Amy Cross
    */
@@ -348,7 +363,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Returns a boolean value if the user is pressing the ctrl key.
-   *
+   * Triple 10s code
    * @return boolean
    * @author Amy Cross
    */
@@ -358,7 +373,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Freezes the chef for a set period of time at its given station.
-   *
+   * Triple 10s code
    * @param seconds time used to freeze chef
    * @param station station chef is currently on
    * @author Amy Cross
@@ -374,6 +389,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Unfreezes the chef after the timer is finished.
+   * Triple 10s code
    * @author Amy Cross
    */
   public void unfreeze() {
@@ -385,6 +401,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Stops the chef from moving and sets sprite animation to "idle".
+   * Triple 10s code
    *    * @author Amy Cross
    */
 //  public void stop() {
@@ -405,7 +422,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Gets the inventory count of the chef, so the number of items they are currently holding.
-   *
+   * BlackCatStudios Code
    * @return The number of items the chef is holding.
    * @author Jack Vickers
    */
@@ -415,7 +432,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Gets the inventory of the chef, so the item they are currently holding.
-   *
+   *BlackCatStudios Code
    * @return Ingredient ingredient
    * @author Jack Vickers
    */
@@ -427,7 +444,7 @@ public class Chef extends PathfindingAgent implements Person {
   /**
    * Chooses a random sprite for the chef and makes sure both (or mroe) chef assets are different to
    * each other.
-   *
+   * Team Triple 10s
    * @param chefAtlasArray array of chef Atlas's
    * @return Atlas atlas of the chef atlas we are using
    * @author Amy Cross
@@ -441,6 +458,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Can fetch (take item from chef)
+   *  BlackCatStudios Code
    * @return heldItems > 0
    */
   public boolean CanFetchItem() {
@@ -454,6 +472,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Can an item be given to the chef
+   * BlackCatStudios Code
    * @return
    * @author Felix Seanor
    */
@@ -480,6 +499,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Give item to chef
+   * BlackCatStudios Code
    * @param item
    * @return
    * @author Felix Seanor
@@ -496,6 +516,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Drops the item from the top of the chef's stack.
+   * BlackCatStudios Code
    * @author Felix Seanor
    */
   public void DropItem() {
@@ -507,6 +528,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Brings the item at the bottom of the stack to the top
+   * BlackCatStudios Code
    * @author Felix Seanor
    */
   public void CycleStack(){
@@ -524,7 +546,7 @@ public class Chef extends PathfindingAgent implements Person {
 
   /**
    * Clears the inventory of the chef.
-   *
+   * BlackCatStudios Code
    * @author Hubert Solecki
    * @date 21/04/2023
    */
@@ -535,7 +557,7 @@ public class Chef extends PathfindingAgent implements Person {
   /**
    * Draws the timer onto the screen and runs the animation for the set time Then unfreezes the chef
    * after timer is finished.
-   *
+   * Team Triple 10s code
    * @param batch that we are drawing to
    * @author Amy Cross
    */
@@ -558,10 +580,17 @@ public class Chef extends PathfindingAgent implements Person {
     }
   }
 
+  /**
+   * BlackCatStudios Code
+   */
   public void changeSpeed(){
 
       speed =  2600;
   }
+
+  /**
+   * BlackCatStudios Code
+   */
   public void decreaseSpeed(){
     speed = oldSpeed;
 

@@ -2,6 +2,8 @@ package com.mygdx.game.Items;
 
 /**
  * All items in the game
+ * BlackCatStudio's Code
+ * @author Jack Hinton
  */
 public enum ItemEnum
 {

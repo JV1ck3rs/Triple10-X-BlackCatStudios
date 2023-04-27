@@ -18,6 +18,8 @@ import java.util.Arrays;
 
 /**
  * Converts some items into their fried forms
+ * BlackCatStudio's Code
+ * @author Jack Hinton
  */
 public class HobStation extends Station {
 

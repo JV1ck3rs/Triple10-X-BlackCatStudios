@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Abstracts rendering behind a list of sorted GameObjects
+ * BlackCatStudio's Code
  * @author Felix Seanor
  */
 public class RenderManager {

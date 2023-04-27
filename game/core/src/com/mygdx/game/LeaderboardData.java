@@ -1,5 +1,11 @@
 package com.mygdx.game;
 
+/**
+ * This stores leaderboard data
+ * BlackCatStudio's code
+ * @author  Felix Seanor
+ * @author  Jack Vickers
+ */
 public class LeaderboardData implements
     Comparable<LeaderboardData> {
 
