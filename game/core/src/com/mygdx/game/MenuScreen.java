@@ -121,7 +121,7 @@ public class MenuScreen implements Screen {
           new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) { // if clicked, load the game
-              gameScreen = new GameScreen(root, root.map, -1, Difficulty.Relaxing);
+              gameScreen = new GameScreen(root, root.map, -1, Difficulty.Relaxing, true);
               root.setScreen(gameScreen);
               dispose();
             }
@@ -247,7 +247,7 @@ public class MenuScreen implements Screen {
     easyBtn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        gameScreen = new GameScreen(root, root.map, -1, Difficulty.Relaxing);
+        gameScreen = new GameScreen(root, root.map, -1, Difficulty.Relaxing, false);
         root.setScreen(gameScreen);
         dispose();
       }
@@ -273,7 +273,7 @@ public class MenuScreen implements Screen {
     mediumBtn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        gameScreen = new GameScreen(root, root.map, -1, Difficulty.Stressful);
+        gameScreen = new GameScreen(root, root.map, -1, Difficulty.Stressful, false);
         root.setScreen(gameScreen);
         dispose();
       }
@@ -298,7 +298,7 @@ public class MenuScreen implements Screen {
     hardBtn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        gameScreen = new GameScreen(root, root.map, -1, Difficulty.Mindbreaking);
+        gameScreen = new GameScreen(root, root.map, -1, Difficulty.Mindbreaking, false);
         root.setScreen(gameScreen);
         dispose();
       }

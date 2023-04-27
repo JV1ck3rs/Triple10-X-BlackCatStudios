@@ -199,7 +199,7 @@ public class ScenarioModeConfigScreen implements Screen {
         errorMessage.setText("Please enter a number which is greater than 0");
       } else {
         numCustomers = Integer.parseInt(textField.getText());
-        gameScreen = new GameScreen(game, game.map, numCustomers, difficultyLevel);
+        gameScreen = new GameScreen(game, game.map, numCustomers, difficultyLevel, false);
         game.setScreen(gameScreen);
       }
     } else {

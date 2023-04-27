@@ -133,7 +133,7 @@ public class GameScreen implements Screen {
    * @author Jack Hinton
    */
   public GameScreen(MyGdxGame game, TiledMap map, int numCustomers,
-      Difficulty difficultyLevel) {
+      Difficulty difficultyLevel, boolean loadSave) {
     //Triple10s
     this.game = game;
     camera = new OrthographicCamera();
