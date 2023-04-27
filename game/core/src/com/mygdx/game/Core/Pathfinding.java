@@ -13,6 +13,7 @@ import java.util.function.Function;
 
 /**
  * A* Pathfinding module
+ *   BlackCatStudio's Code
  * @author Felix Seanor
  */
 public class Pathfinding {

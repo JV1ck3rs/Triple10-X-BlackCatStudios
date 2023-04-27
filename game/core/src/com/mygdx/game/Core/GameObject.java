@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Abstracts rendering, position and script execution to one instantiatable object
+ *   BlackCatStudio's Code
  * @author Felix Seanor
  * @author Jack Hinton
  * @author Jack Vickers

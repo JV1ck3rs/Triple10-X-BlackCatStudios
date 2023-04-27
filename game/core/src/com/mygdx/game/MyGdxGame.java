@@ -9,7 +9,7 @@ import com.mygdx.game.Core.TextureDictionary;
 /**
  * Creates the initial base layer and main objects such as sprite batches and screens Also declares
  * the render, create and dispose functions
- *
+ * Mixture of BlackCatStudios Code and TeamTriple10s
  * @author Labib Zabeneh
  * @author Robin Graham
  * @author Riko Puusepp
@@ -30,11 +30,14 @@ public class MyGdxGame extends Game {
    */
   @Override
   public void create() {
+    //Triple10s
     batch = new SpriteBatch();
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx");
+    //BlackCatStudios
     textureDictionary = new TextureDictionary();
     leaderBoard = new LeaderBoard();
     soundFrame = new soundFrame();
+    //Triple10s
     menu = new MenuScreen(this);
     setScreen(menu);
   }

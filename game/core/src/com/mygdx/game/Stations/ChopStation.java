@@ -15,6 +15,8 @@ import java.util.Arrays;
 
 /**
  * Chopping station. Turns items into chopped form
+ * BlackCatStudio's Code
+ * @author Jack Hinton
  */
 public class ChopStation extends Station {
 

@@ -6,6 +6,9 @@ import java.util.*;
 
 /**
  * This manages references to every gameobject and loose scripts
+ *   BlackCatStudio's Code
+ * @author Felix Seanor
+ * @author Jack Hinton
  */
 public class GameObjectManager {
 

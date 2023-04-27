@@ -4,6 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 
+/**
+ * Tracks all the different inputs into the game and gives names to them for ease of use
+ * Also prevents key reuse
+ *   BlackCatStudio's Code
+ * @author Felix Seanor
+ * @author Jack Vickers
+ */
 public class Inputs {
 
   public static final int SPAWN_NEW_CHEF = Keys.MINUS;

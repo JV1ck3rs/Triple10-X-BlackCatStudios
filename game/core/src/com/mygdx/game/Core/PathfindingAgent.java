@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * A pathfinding agent abstraction
+ *   BlackCatStudio's Code
  * @author Felix Seanor
  * Last modified 10/04/23
  */

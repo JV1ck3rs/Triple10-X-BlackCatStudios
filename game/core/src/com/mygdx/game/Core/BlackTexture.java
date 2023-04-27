@@ -7,6 +7,7 @@ import org.w3c.dom.Text;
 
 /**
  * an abstraction for texture region
+ * BlackCatStudio's Code
  * @author Felix Seanor
  */
 public class BlackTexture extends Renderable {

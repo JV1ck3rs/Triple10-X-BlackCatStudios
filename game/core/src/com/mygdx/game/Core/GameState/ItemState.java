@@ -3,6 +3,12 @@ package com.mygdx.game.Core.GameState;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
+/**
+ * Saved data for items
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ * @author Jack Vickers
+ */
 public class ItemState implements java.io.Serializable{
   public ItemEnum item;
   public int step;

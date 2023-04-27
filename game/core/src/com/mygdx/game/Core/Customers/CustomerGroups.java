@@ -15,6 +15,11 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 import java.util.function.Consumer;
 
+/**
+ * This manages a group (wave) of customers. It stores their current status in lists such eating lining up
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ */
 public class CustomerGroups {
 
   public List<Customer> Members = new LinkedList<>();

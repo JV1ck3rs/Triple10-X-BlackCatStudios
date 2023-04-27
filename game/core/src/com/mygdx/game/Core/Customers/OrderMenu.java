@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * This manages the foods that can be given and offers different randomisation patterns
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ */
 public class OrderMenu
 {
 

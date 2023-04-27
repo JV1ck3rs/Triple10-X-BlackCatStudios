@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 /**
  * Toasts items such as bun
+ * @author Jack Hinton
  */
 public class ToasterStation extends Station{
 
