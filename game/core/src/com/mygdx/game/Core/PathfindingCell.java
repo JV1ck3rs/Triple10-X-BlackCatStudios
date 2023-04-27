@@ -4,6 +4,7 @@ import java.nio.file.Path;
 
 /**
  * Stored A* data for each discorvered cell
+ * BlackCatStudio's Code
  * @author Felix Seanor
  */
 public class PathfindingCell implements Comparable<PathfindingCell> {

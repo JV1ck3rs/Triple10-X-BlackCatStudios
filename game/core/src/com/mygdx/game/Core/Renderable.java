@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Abstraction of renderable images
+ * BlackCatStudio's Code
  * @author Felix Seanor
  */
 public abstract class Renderable {

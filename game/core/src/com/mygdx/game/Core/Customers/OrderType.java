@@ -6,6 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This is a type of order and contains how many times in relation to others this has been ordered
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ */
 public class OrderType
 {
   //Order class burger salad ect

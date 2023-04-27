@@ -1,7 +1,11 @@
 package com.mygdx.game.Core;
 import com.badlogic.gdx.math.Vector2;
 
-
+/**
+ * Structure for finding how far through a given ray a point is
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ */
 public class RayPoint {
 
   /** position ray starts at*/

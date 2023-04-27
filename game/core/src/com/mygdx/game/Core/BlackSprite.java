@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * an abstraction for GDX sprite
+ * BlackCatStudio's Code
  * @author Felix Seanor
  */
 public class BlackSprite extends Renderable {

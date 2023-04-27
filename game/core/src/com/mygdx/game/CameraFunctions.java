@@ -4,6 +4,12 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ * This extracts the camera functions and allows all methods access to the camera
+ * BlackCatStudio's Code
+ * @author Sam Toner
+ *
+ */
 public class CameraFunctions {
     public static CameraFunctions camera;
     OrthographicCamera gameScreenCamera;

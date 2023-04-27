@@ -9,6 +9,11 @@ import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.TextureDictionary;
 import java.util.HashMap;
 
+/**
+ * This class shows how to create food from their recipes when clicked
+ * BlackCatStudio's code
+ * @author Sam Toner
+ */
 public class showRecipeInstructions {
     HashMap<String, String> recipeMap = new HashMap<>();
     public GameObject imageObject;

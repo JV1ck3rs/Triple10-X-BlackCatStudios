@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * Recipe dictionary, given an item input return a recipe
+ * BlackCatStudio's Code
  * @author Jack Hinton
  */
 public class RecipeDict {

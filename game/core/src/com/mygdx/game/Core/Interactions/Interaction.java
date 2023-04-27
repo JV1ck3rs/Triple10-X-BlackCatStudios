@@ -5,6 +5,13 @@ import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Core.Scriptable;
 import java.util.List;
 
+/**
+ * The interaction class that returns the closest applicable interactable script
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ * @author Jack Hinton
+ * @author Jack Vickers
+ */
 public class Interaction {
 
   public enum InteractionType {

@@ -21,6 +21,12 @@ import com.mygdx.game.Stations.TrashCan;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Contains procedures for constructing machines and physics bodies
+ * Contains code from both BlackCatStudios and Team Triple 10
+ * @author Jack Hinton
+ * @author Amy Cross
+ */
 public class ConstructMachines
 {
   public List<GameObject> Stations = new LinkedList();
@@ -40,7 +46,7 @@ public class ConstructMachines
   /**
    * Create a bin given a rectangle
    * @param rect
-   * @author Jack Vickers
+   * @author Jack Hinton
    */
  public void CreateBin(Rectangle rect) {
     GameObject Bin = new GameObject(null);
@@ -54,7 +60,7 @@ public class ConstructMachines
   /**
    * Create a hob
    * @param rect
-   * @author Jack Vickers
+   * @author Jack Hinton
    */
   public void CreateHobs(Rectangle rect) {
     GameObject Hob = new GameObject(null);
@@ -69,7 +75,7 @@ public class ConstructMachines
   /**
    * Create a toaster
    * @param rect
-   * @author Jack Vickers
+   * @author Jack Hinton
    */
   public void CreateToaster(Rectangle rect) {
     GameObject Toast = new GameObject(null);
@@ -84,7 +90,7 @@ public class ConstructMachines
   /**
    * Create chopping station
    * @param rect
-   * @author Jack Vickers
+   * @author Jack Hinton
    */
   public  void CreateChopping(Rectangle rect) {
     GameObject Chop = new GameObject(null);
@@ -99,7 +105,7 @@ public class ConstructMachines
   /**
    * Create an oven
    * @param rect
-   * @author Jack Vickers
+   * @author Jack Hinton
    */
   public void CreateOven(Rectangle rect) {
     GameObject Oven = new GameObject(null);
@@ -115,7 +121,7 @@ public class ConstructMachines
    * Create a food create with an item inside
    * @param rect
    * @param item
-   * @author Jack Vickers
+   * @author Jack Hinton
    */
   public void CreateFoodCrates(Rectangle rect, ItemEnum item) {
     GameObject Crate = new GameObject(null);
@@ -129,7 +135,7 @@ public class ConstructMachines
   /**
    * Create an assembly station
    * @param rect
-   * @author Jack Vickers
+   * @author Jack Hinton
    */
   public void CreateAssembly(Rectangle rect) {
     GameObject Ass = new GameObject(null);
@@ -144,7 +150,7 @@ public class ConstructMachines
   /**
    * Create a customer counter
    * @param rect
-   * @author Jack Vickers
+   * @author Jack Hinton
    */
   public  void CreateCustomerCounters(Rectangle rect) {
     GameObject Cust = new GameObject(null);
@@ -168,7 +174,7 @@ public class ConstructMachines
    * @param height the height of the world
    * @param type   the type of the world
    * @param name   the name of the world
-   *
+   * Team Triple 10s code mainly
    * @author Amy Cross
    * @author Felix Seanor
    */
@@ -178,6 +184,7 @@ public class ConstructMachines
     bdef.position.set((x + width / 2), (y + height / 2));
     if (type == "Static") {
       bdef.type = BodyDef.BodyType.StaticBody;
+      //BlackCatStudios Extension
       pathfinding.addStaticObject((int) x, (int) y, (int) width, (int) height);
 
 

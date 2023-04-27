@@ -4,6 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The table class stores where customers should go to sit after getting their food
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ */
 public class Table
 {
 

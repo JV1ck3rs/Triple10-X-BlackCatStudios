@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import java.util.Collections;
@@ -21,7 +22,7 @@ import java.io.IOException;
 
 /**
  * This class creates and displays the leaderboard screen.
- *
+ * BlackCatStudio's Code
  * @author Azzam Amirul Bahri
  * @author Jack Vickers
  */
@@ -31,6 +32,7 @@ public class LeaderboardScreen implements Screen {
   float scaleX;
   float scaleY;
   Stage stage;
+  TextField textField;
 
   public LeaderboardScreen(MyGdxGame game, EndOfGameValues values, int numberOfCustomersServed)
       throws IOException {
@@ -58,71 +60,91 @@ public class LeaderboardScreen implements Screen {
     for (int i = scores.size(); i < LeaderBoard.MaxHighscorers; i++) {
       scores.add(new LeaderboardData(0, "N/A"));
     }
+    // Creates the font for the labels
+    FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("ka1.ttf"));
+    params.size = 20;
+    Color colour = new Color(0x5584AC);
+    params.color = colour;
+    params.shadowColor = Color.WHITE;
+    params.shadowOffsetX = 3;
+    params.shadowOffsetY = 3;
+    BitmapFont font = gen.generateFont(params);
+    Label.LabelStyle fontStyle = new Label.LabelStyle();
+    fontStyle.font = font;
 
     // Creates labels which will be used to display the scores
-    Label score1 = new Label("1. " + scores.get(0).toString(),
-        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    Label score1 = new Label("1.     " + scores.get(0).toString(),
+        fontStyle);
     score1.setFontScale((scaleX + scaleY) / 2);
-    table.add(score1).align(Align.left).row();
-    Label score2 = new Label("2. " + scores.get(1).toString(),
-        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    score1.setColor(Color.WHITE);
+    table.add(score1).center().padTop(35 * scaleY).row();
+    Label score2 = new Label("2.     " + scores.get(1).toString(),
+        fontStyle);
     score2.setFontScale((scaleX + scaleY) / 2);
-    table.add(score2).align(Align.left).row();
-    Label score3 = new Label("3. " + scores.get(2).toString(),
-        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    table.add(score2).center().row();
+    Label score3 = new Label("3.     " + scores.get(2).toString(),
+        fontStyle);
     score3.setFontScale((scaleX + scaleY) / 2);
-    table.add(score3).align(Align.left).row();
-    Label score4 = new Label("4. " + scores.get(3).toString(),
-        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    table.add(score3).center().row();
+    Label score4 = new Label("4.     " + scores.get(3).toString(),
+        fontStyle);
     score4.setFontScale((scaleX + scaleY) / 2);
-    table.add(score4).align(Align.left).row();
-    Label score5 = new Label("5. " + scores.get(4).toString(),
-        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    table.add(score4).center().row();
+    Label score5 = new Label("5.     " + scores.get(4).toString(),
+        fontStyle);
     score5.setFontScale((scaleX + scaleY) / 2);
-    table.add(score5).align(Align.left).row();
-
+    table.add(score5).center().padBottom(25 * scaleY).row();
 
     if (numberOfCustomersServed >= 0) {
       // Creates a skin for the text field using the clean-crispy-ui.json file
       Skin skin = new Skin(Gdx.files.internal("clean-crispy-ui.json"));
 
       // Creates a text field which will be used to enter the player's name
-      TextField textField = new TextField("", skin);
+      textField = new TextField("", skin);
       textField.getStyle().font.getData().setScale(1.50f * (scaleX + scaleY) / 2);
       textField.setAlignment(Align.center);
       stage.addActor(textField); // Adds the text field to the stage
       table.add(textField).width(250 * scaleX)
           .height(50 * scaleY); // Adds the text field to the table
       table.row();
+    }
+    // Creates a button which will be used to save the player's score
+    TextureRegion saveScoreTexture;
+    TextureRegion saveScoreDownTexture;
+    if (numberOfCustomersServed >= 0) {
+      saveScoreTexture = new TextureRegion(new Texture("SaveExitUp.png"));
+      saveScoreDownTexture = new TextureRegion(new Texture("SaveExitDown.png"));
+    } else {
+      saveScoreTexture = new TextureRegion(new Texture("ExitUp.png"));
+      saveScoreDownTexture = new TextureRegion(new Texture("ExitDown.png"));
+    }
+    Drawable drawableScoreBtnUp = new TextureRegionDrawable(saveScoreTexture);
+    Drawable drawableScoreBtnDown = new TextureRegionDrawable(saveScoreDownTexture);
+    Button.ButtonStyle scoreBtnStyle = new Button.ButtonStyle();
+    Button scoreBtn = new Button();
+    scoreBtn.setStyle(scoreBtnStyle);
+    scoreBtnStyle.up = drawableScoreBtnUp;
+    scoreBtnStyle.down = drawableScoreBtnDown;
+    scoreBtn.align(Align.left);
+    table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(25 * scaleY)
+        .padRight(10 * scaleY);
+    table.row();
 
-      // Creates a button which will be used to save the player's score
-      TextureRegion saveScoreTexture = new TextureRegion(new Texture("SaveExitUp.png"));
-      TextureRegion saveScoreDownTexture = new TextureRegion(new Texture("SaveExitDown.png"));
-      Drawable drawableScoreBtnUp = new TextureRegionDrawable(saveScoreTexture);
-      Drawable drawableScoreBtnDown = new TextureRegionDrawable(saveScoreDownTexture);
-      Button.ButtonStyle scoreBtnStyle = new Button.ButtonStyle();
-      Button scoreBtn = new Button();
-      scoreBtn.setStyle(scoreBtnStyle);
-      scoreBtnStyle.up = drawableScoreBtnUp;
-      scoreBtnStyle.down = drawableScoreBtnDown;
-      scoreBtn.align(Align.left);
-      table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(25 * scaleY)
-          .padRight(10 * scaleY);
-      table.row();
-
-      // Adds a click listener to the button
-      scoreBtn.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
+    // Adds a click listener to the button
+    scoreBtn.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        if (numberOfCustomersServed >= 0) {
           LeaderboardData data = new LeaderboardData();
           data.score = numberOfCustomersServed;
           data.name = textField.getText();
           game.leaderBoard.WriteHighscores(data);
-          game.setScreen(new MenuScreen(game));
-          dispose();
         }
-      });
-    }
+        game.setScreen(new MenuScreen(game));
+        dispose();
+      }
+    });
   }
 
   /**

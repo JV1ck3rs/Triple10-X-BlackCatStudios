@@ -10,6 +10,11 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class containing procedures to execute powerups
+ * BlackCatStudio's Code
+ * @author Sam Toner
+ */
 public class Powerup {
 
   MasterChef mc;

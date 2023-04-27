@@ -10,6 +10,7 @@ import java.util.LinkedList;
 /**
  * Uses an enum containing all the names of the sound effects Uses an array of all the sounds,
  * must have the same index as the enum Uses a hashmap to store the IDs for each sound
+ * BlackCatStudio's code
  * @author Sam Toner
  * @author Felix Seanor
  */

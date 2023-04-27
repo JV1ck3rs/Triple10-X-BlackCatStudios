@@ -1,10 +1,13 @@
 package com.mygdx.game.Core.ValueStructures;
 
+/**
+ * Values for the end of game procedure
+ * BlackCatStudio's Code
+ * @author  Felix Seanor
+ */
 public class EndOfGameValues
 {
   public float score;
-  /**For endless if not endless set to -1*/
-  public int HighScorePoints;
   public boolean Won;
 
 }
