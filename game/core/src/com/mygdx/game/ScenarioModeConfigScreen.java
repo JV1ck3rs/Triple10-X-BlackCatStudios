@@ -74,8 +74,6 @@ public class ScenarioModeConfigScreen implements Screen {
     table.setFillParent(true);
     table.align(Align.center);
 
-
-
     // Creates the title and instructions for the scenario mode config screen
     Label title = new Label("Scenario Mode Options", new LabelStyle(new BitmapFont(), Color.WHITE));
     title.setFontScale(1.50f * (scaleX + scaleY) / 2);

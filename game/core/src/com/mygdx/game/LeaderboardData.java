@@ -38,6 +38,6 @@ public class LeaderboardData implements
    */
   @Override
   public String toString() {
-    return name + " ".repeat(5 - name.length()) + "    " + score;
+    return score + "     " + name + " ".repeat(5 - name.length());
   }
 }
