@@ -66,7 +66,7 @@ public class Item {
   }
 
   public static String GetRecipePath(ItemEnum name){
-    return "Recipe/"+name.name()+"Recipe.png";
+    return "Recipes/"+name.name()+"Recipe.png";
 
   }
 }

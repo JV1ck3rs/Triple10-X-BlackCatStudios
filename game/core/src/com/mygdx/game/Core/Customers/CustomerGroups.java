@@ -122,8 +122,20 @@ public class CustomerGroups {
     for(int i = 0; i<Members.size(); i++){
       if(Members.get(i).foodIcon.isClicked() && Members.get(i).foodIcon.isVisible){
         Members.get(i).foodRecipe.isVisible = true;
+        Members.get(i).recipeCloseButton.isVisible = true;
+        Members.get(i).foodRecipeOpen = true;
       }
     }
+
+    for(int i = 0; i<Members.size(); i++){
+      if(Members.get(i).foodRecipeOpen){
+        if(Members.get(i).recipeCloseButton.isClicked()){
+          Members.get(i).foodRecipe.isVisible = false;
+          Members.get(i).recipeCloseButton.isVisible = false;
+        }
+      }
+    }
+
   }
 
 
