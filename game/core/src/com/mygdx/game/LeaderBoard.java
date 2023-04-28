@@ -127,14 +127,13 @@ public class LeaderBoard {
     int i = 0;
     while (i < highscores.size() - 1) {
       if (data.score >= highscores.get(i).score) {
-        highscores.set(i, data);
+        highscores.add(i, data);
+        highscores.remove(5);
         break;
       }
       i++;
     }
     return highscores;
-
-//    return highscores.subList(0,MaxHighscorers);
   }
 
 

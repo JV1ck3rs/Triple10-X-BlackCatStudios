@@ -33,6 +33,8 @@ public class LeaderBoardTests {
    */
   @Test
   public void testSaveDataToLeaderBoard() {
+    File leaderboardFile = new File("leadboard.Fson");
+    leaderboardFile.delete();
     LeaderboardData data = new LeaderboardData();
     data.score = 100;
     data.name = "TestName";
@@ -42,19 +44,20 @@ public class LeaderBoardTests {
     List<LeaderboardData> data2 = leaderBoard.readFSONData();
     assertEquals("The data in the leaderboard should be the same as the data written to it", data,
         data2.get(0));
-    File leaderboardFile = new File("leadboard.Fson");
     leaderboardFile.delete();
   }
 
   /**
-   * Tests that 5 pairs of names and scores can be saved to the leaderbaord.
-   * This is the limit of the leaderboard.
+   * Tests that 5 pairs of names and scores can be saved to the leaderbaord. This is the limit of
+   * the leaderboard.
    *
    * @author Jack Vickers
    * @date 28/04/2023
    */
   @Test
   public void testSave5RecordsToLeaderBoard() {
+    File leaderboardFile = new File("leadboard.Fson");
+    leaderboardFile.delete();
     LeaderboardData data = new LeaderboardData();
     data.score = 100;
     data.name = "TestName";
@@ -68,13 +71,21 @@ public class LeaderBoardTests {
       assertEquals("The data in the leaderboard should be the same as the data written to it", data,
           leaderBoardRecords.get(i));
     }
-    File leaderboardFile = new File("leadboard.Fson");
     leaderboardFile.delete();
   }
 
-
+  /**
+   * Test that scores are correctly updated when a new score is added to the leaderboard when it is
+   * full.
+   *
+   * @author Jack Vickers
+   * @date 28/04/2023
+   */
   @Test
   public void testSaveWhenLeaderBoardFull() {
+    File leaderboardFile = new File("leadboard.Fson");
+    leaderboardFile.delete();
+
     List<LeaderboardData> scoresList = new ArrayList<>();
     LeaderBoard leaderBoard = new LeaderBoard();
     leaderBoard.createFSONFile();
@@ -114,14 +125,40 @@ public class LeaderBoardTests {
     assertEquals("The 1st score in the list should be score6", score6,
         leaderBoardRecords.get(0));
 
+    assertEquals("The 2nd score in the list should be score1", score1,
+        leaderBoardRecords.get(1));
+
+    assertEquals("The 3rd score in the list should be score2", score2,
+        leaderBoardRecords.get(2));
+
+    assertEquals("The 4th score in the list should be score3", score3,
+        leaderBoardRecords.get(3));
+
+    assertEquals("The 5th score in the list should be score4", score4,
+        leaderBoardRecords.get(4));
+
     LeaderboardData score7 = new LeaderboardData();
     score7.score = 9;
     score7.name = "NewP";
+    leaderBoard.WriteHighscores(score7);
+    leaderBoardRecords = leaderBoard.readFSONData();
 
-    File leaderboardFile = new File("leadboard.Fson");
+    assertEquals("The 1st score in the list should be score6", score6,
+        leaderBoardRecords.get(0));
+    assertEquals("The 2nd score in the list should be score1", score1,
+        leaderBoardRecords.get(1));
+    assertEquals("The 3rd score in the list should be score7", score7,
+        leaderBoardRecords.get(2));
+    assertEquals("The 4th score in the list should be score2", score2,
+        leaderBoardRecords.get(3));
+    assertEquals("The 5th score in the list should be score3", score3,
+        leaderBoardRecords.get(4));
+
+    LeaderboardData score8 = new LeaderboardData();
+    score8.score = 1;
+    leaderBoard.WriteHighscores(score8);
+    assertFalse("The leaderboard should not contain score8", leaderBoardRecords.contains(score8));
     leaderboardFile.delete();
-
-
   }
 
 }

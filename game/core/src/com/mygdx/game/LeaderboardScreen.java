@@ -82,7 +82,7 @@ public class LeaderboardScreen implements Screen {
     errorMessage.setFontScale(1.10f * (scaleX + scaleY) / 2);
     errorMessage.setAlignment(Align.left);
     //errorMessage.setPosition(0,0);
-    table.add(errorMessage).padTop(80 * scaleY).colspan(3);
+    table.add(errorMessage).padTop(90 * scaleY);
     table.row();
 
     // Creates labels which will be used to display the scores
@@ -90,7 +90,7 @@ public class LeaderboardScreen implements Screen {
         fontStyle);
     score1.setFontScale((scaleX + scaleY) / 2);
     score1.setColor(Color.WHITE);
-    table.add(score1).center().padTop(35 * scaleY).row();
+    table.add(score1).center().padTop(10 * scaleY).row();
     Label score2 = new Label("2.     " + scores.get(1).toString(),
         fontStyle);
     score2.setFontScale((scaleX + scaleY) / 2);
@@ -139,8 +139,7 @@ public class LeaderboardScreen implements Screen {
     scoreBtnStyle.up = drawableScoreBtnUp;
     scoreBtnStyle.down = drawableScoreBtnDown;
     scoreBtn.align(Align.left);
-    table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(25 * scaleY)
-        .padRight(10 * scaleY);
+    table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(20 * scaleY);
     table.row();
 
     // Adds a click listener to the button
@@ -174,17 +173,6 @@ public class LeaderboardScreen implements Screen {
     // String namePattern = "[^\\p{P}|^\\d+]+";
     boolean result = textField.getText().matches("[a-zA-Z]+");
     return result;
-    /**return validInput = true;
-    char[] chars = textField.getText().toCharArray();
-
-    for (char c : chars) {
-      if(!Character.isLetter(c)) {
-        return false;
-      }
-    }
-
-    return true;
-     */
   }
 
   /**
