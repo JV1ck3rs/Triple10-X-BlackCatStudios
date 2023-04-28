@@ -156,7 +156,7 @@ public class LeaderboardScreen implements Screen {
             dispose();
           } else {
             System.out.println("WRONG");
-            errorMessage.setText("Please input only letters with no numbers");
+            errorMessage.setText("Please input only letters with no numbers up to 5 characters!");
 
           }
         } else {
@@ -171,8 +171,11 @@ public class LeaderboardScreen implements Screen {
     boolean validInput = false;
 
     // String namePattern = "[^\\p{P}|^\\d+]+";
-    boolean result = textField.getText().matches("[a-zA-Z]+");
-    return result;
+
+    boolean result1 = textField.getText().matches("[a-zA-Z]+");
+    boolean result2 = textField.getText().length() <= 5;
+    return (result1 && result2);
+
   }
 
   /**
