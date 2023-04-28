@@ -21,7 +21,8 @@ import java.io.IOException;
 
 /**
  * This class creates and displays the victory screen
- *
+ * Black cat studios and a bit of Team Triple 10s
+ * Most of the Triple10s code has been heavily modified and refactors + additional code
  * @author Robin Graham
  * @author Felix Seanor
  * @author Jack Vickers
@@ -45,18 +46,22 @@ public class EndScreen implements Screen {
   /**
    * Assigns all the necessary variables needed for the victory screen and other objects such as the
    * image used
-   *
+   *  BlackCat studios and Team Triple 10s
    * @param root                    the base object to interact with
    * @param time                    the integer time value set for timer
    * @param numberOfCustomersServed
    */
   public EndScreen(final MyGdxGame root, GameScreen gscreen, int time, EndOfGameValues values,
       int numberOfCustomersServed) {
+
+    //Triple 10s
     this.root = root;
 
 
     //this might cause issues if so, change back to new GameScreen
     gameScreen = gscreen;
+
+    //Black cat studios
     if (values.Won) {
       victoryScreen = new Texture(Gdx.files.internal("SuccessBG.png"));
     } else {
@@ -125,7 +130,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   *
+   * Team Triple 10s
    */
   @Override
   public void show() {
@@ -134,6 +139,7 @@ public class EndScreen implements Screen {
 
   /**
    * Displays the timer onto the screen with the set time defined
+   * Team Triple 10s
    */
   public void displayTimer() {
     CharSequence str = "Final Time: " + timer;
@@ -142,7 +148,10 @@ public class EndScreen implements Screen {
     timerLabel.setText(str);
   }
 
-
+  /**
+   * Shows victory status for win or fail
+   * Team Triple 10s
+   */
   public void displayVictoryStatus() {
     timerFont.draw(root.batch, VictoryOrLoss.getText(), 400, 400);
     timerFont.getData().setScale(3f, 3f);
@@ -151,7 +160,7 @@ public class EndScreen implements Screen {
 
   /**
    * Renders the stage and assets
-   *
+   * Team Triple 10s
    * @param delta used for working with time
    */
   @Override
@@ -168,7 +177,7 @@ public class EndScreen implements Screen {
 
   /**
    * Resize the window
-   *
+   * Team Triple 10s
    * @param width  of the window
    * @param height of the window
    */
@@ -178,7 +187,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   *
+   *Team Triple 10s
    */
   @Override
   public void pause() {
@@ -186,7 +195,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   *
+   *Team Triple 10s
    */
   @Override
   public void resume() {
@@ -194,7 +203,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   *
+   *Team Triple 10s
    */
   @Override
   public void hide() {
@@ -202,7 +211,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   *
+   *Team Triple 10s
    */
   @Override
   public void dispose() {

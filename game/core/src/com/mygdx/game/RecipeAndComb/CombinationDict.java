@@ -8,7 +8,9 @@ import java.util.Map;
 
 /**
  * Takes an input of items and returns a new item if applicable
- * @author Jack Hinton, Jack Vickers
+ * BlackCatStudio's Code
+ * @author Jack Hinton
+ * @author Jack Vickers
  */
 public class CombinationDict {
 

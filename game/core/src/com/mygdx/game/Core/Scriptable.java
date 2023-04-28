@@ -2,6 +2,8 @@ package com.mygdx.game.Core;
 
 /**
  * The methods gets called and helps to update scripts every frame
+ * BlackCatStudio's Code
+ * @author Felix Seanor
  */
 public class Scriptable {
 

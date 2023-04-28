@@ -3,6 +3,11 @@ package com.mygdx.game.Core.ValueStructures;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.List;
 
+/**
+ * This is a structure containing parameters to construct the Customer Controller
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ */
 public class CustomerControllerParams
 {
   public int MoneyStart;

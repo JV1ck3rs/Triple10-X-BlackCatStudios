@@ -25,6 +25,7 @@ import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.ItemEnum;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -56,11 +57,17 @@ import com.mygdx.game.Stations.*;
  * This is the main class of the game which runs all the logic and rendering Here all the outside
  * objects are created and drawn as well as interactions registered
  *
+ * Black Cat Studios and Team Triple 10s
+ *
  * @author Robin Graham
  * @author Riko Puusepp
  * @author Kelvin Chen
  * @author Amy Cross
  * @author Labib Zabeneh
+ * @author Felix Seanor
+ * @author Jack Vickers
+ * @author Jack Hinton
+ * @author Sam Toner
  */
 public class GameScreen implements Screen {
 
@@ -118,7 +125,7 @@ public class GameScreen implements Screen {
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
    * manage the logic of the render as well as setting the camera and map
-   *
+   * Mixture of BlackCatStudios and TeamTriple10
    * @param game base Object which is used to draw on
    * @author Amy Cross
    * @author Felix Seanor
@@ -126,22 +133,25 @@ public class GameScreen implements Screen {
    * @author Jack Vickers
    * @author Jack Hinton
    */
-  public GameScreen(MyGdxGame game, TiledMap map, int numCustomers, boolean loadSave,
-      Difficulty difficultyLevel) {
+  public GameScreen(MyGdxGame game, TiledMap map, int numCustomers,
+      Difficulty difficultyLevel, boolean loadSave) {
+    //Triple10s
     this.game = game;
     camera = new OrthographicCamera();
     recipeScreen = new showRecipeInstructions();
     //recipeScreen.showRecipeInstruction();
+    //BlackCatStudios
     CameraFunctions camera1 = CameraFunctions.camera;
     camera1.updateCamera(camera);
     viewport = new FitViewport(720, 1280, camera);
-
+//Triple10s
     camera.setToOrtho(false, viewportWidth, viewportHeight);
     camera.update();
 
     gameMusic = Gdx.audio.newMusic(Gdx.files.internal("gameMusic.mp3"));
     gameMusic.setLooping(true);
 
+    //BlackCatStudios
     recipeScreen.createInstructionPage("Empty");
 
     world = new World(new Vector2(0, 0), true);
@@ -158,15 +168,23 @@ public class GameScreen implements Screen {
 
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams);
+    masterChef = new MasterChef(3, world, camera, pathfinding, difficultyState.chefParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = difficultyState.ccParams;
 
     CCParams.NoCustomers = numCustomers;
-    customerController = new CustomerController(new Vector2(200, 100), new Vector2(360, 180),
-        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, new Vector2(190, 390),
-        new Vector2(190, 290), new Vector2(290, 290));
+    List<Vector2> tables = getTablesDirty(map);
+
+    Vector2[] tabr = new Vector2[tables.size()];
+
+    int z = 0;
+    for (Vector2 t:tables
+    ) {   tabr[z++] = t;
+    }
+
+    customerController = new CustomerController(new Vector2(224, 0), new Vector2(360, 180),
+        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams,tabr);
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     GameObjectManager.objManager.AppendLooseScript(customerController);
@@ -185,7 +203,7 @@ public class GameScreen implements Screen {
         33, 34, 35, 36, 37, 38, 39};
 
     //Fixed the hideous mechanism for creating collidable objects
-    for (int n = 0; n < 17; n++) {
+    for (int n = 0; n < 18; n++) {
       MapLayer layer = map.getLayers().get(n);
       String name = layer.getName();
 
@@ -198,6 +216,8 @@ public class GameScreen implements Screen {
             name);
 
         switch (name) {
+          case "tables":
+            break;
           case "bin":
             constructMachines.CreateBin(rect);
             break;
@@ -243,13 +263,17 @@ public class GameScreen implements Screen {
           case "potato":
             constructMachines.CreateFoodCrates(rect, ItemEnum.Potato);
             break;
+          case "toolbox":
+            constructMachines.CreateFoodCrates(rect, ItemEnum.RepairTool);
         }
       }
+
     }
 
+    //Team  Triple10
     timerLabel = new Label("TIME: " + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
+    //BlackCatStudios
     moneyLabel = new Label("Money: ¥" + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
@@ -259,14 +283,42 @@ public class GameScreen implements Screen {
     // Calculates the scale of the screen to the original size of the game
     scaleX = Gdx.graphics.getWidth() / 640f;
     scaleY = Gdx.graphics.getHeight() / 480f;
+    if (loadSave) { // if the game is being loaded from a save
+        LoadGame("SavedData.ser");
+    }
     isEndlessMode = CCParams.NoCustomers == -1;
     setupGameUI();
     setupPauseMenu();
   }
 
+
+
+  private List<Vector2> getTablesDirty(TiledMap map){
+    List<Vector2> tables = new LinkedList<>();
+    for (int n = 0; n < 18; n++) {
+      MapLayer layer = map.getLayers().get(n);
+      String name = layer.getName();
+
+      if (!name.contains("tables"))
+        continue;
+
+      for (MapObject object : layer.getObjects()
+          .getByType(RectangleMapObject.class)) {
+
+        Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+
+        tables.add(rect.getPosition(new Vector2()));
+
+      }
+    }
+
+    return  tables;
+  }
+
   /**
    * Sets up the UI elements which will be displayed during the game.
-   *
+   * BlackCatStudio's code
    * @author Jack Vickers
    */
   private void setupGameUI() {
@@ -313,6 +365,9 @@ public class GameScreen implements Screen {
 
   }
 
+  /**
+   * BlackCatStudio's code
+   */
   private void updateCustomerLabel() {
     if (isEndlessMode) {
       modeLabel.setText("Customers served: " + customerController.getNumberOfCustomersServed());
@@ -324,7 +379,7 @@ public class GameScreen implements Screen {
 
   /**
    * Creates the pause menu.
-   *
+   *BlackCatStudio's code
    * @author Jack Vickers
    * @date 07/04/2023
    */
@@ -440,7 +495,7 @@ public class GameScreen implements Screen {
 
   /**
    * End game sequence
-   *
+   *BlackCatStudio's code
    * @param values
    */
   public void EndGame(EndOfGameValues values) {
@@ -453,7 +508,7 @@ public class GameScreen implements Screen {
 
   /**
    * Plays the game music when the screen is shown.
-   *
+   * BlackCatStudio's code
    * @author Amy Cross
    * @author Jack Vickers
    */
@@ -467,11 +522,12 @@ public class GameScreen implements Screen {
 
   /**
    * Displays the timer.
-   *
+   * Mixture of BlackCatStudios and Team Triple10s
    * @author Amy Cross
    * @author Felix Seanor
    */
   public void displayTimer() {
+    //Team Triple10s
     seconds += Gdx.graphics.getDeltaTime();
     if (seconds >= 1f) {
       timer++;
@@ -481,7 +537,7 @@ public class GameScreen implements Screen {
     timerFont.draw(game.batch, str, 380, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
     timerLabel.setText(str);
-
+    //BlackCatStudios
     CharSequence str2 = "Money: ¥" + customerController.Money;
     timerFont.draw(game.batch, str2, 500, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
@@ -499,7 +555,7 @@ public class GameScreen implements Screen {
 
   /**
    * Calls all logic updates and sprite draws as well as checks if game has been completed
-   *
+   * Mainly BlackCatStudios code based on Team Triple10s design
    * @param delta The time in seconds since the last render.
    * @author Felix Seanor
    * @author Amy Cross
@@ -507,6 +563,7 @@ public class GameScreen implements Screen {
    */
   @Override
   public void render(float delta) {
+    //Team Triple10s
     //create world
     Gdx.gl.glClearColor(0, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -516,6 +573,7 @@ public class GameScreen implements Screen {
     mapRenderer.setView(camera);
     mapRenderer.render();
 
+    //Black Cat Studios
 //    if(Gdx.input.isKeyJustPressed(Keys.B))
 //      SaveGame();
 
@@ -585,7 +643,7 @@ public class GameScreen implements Screen {
   /**
    * Finds all the collisions and assigns the names Also has a convenience function to disregard the
    * chef collision
-   *
+   * Team Triple 10s
    * @author Amy Cross
    */
   public void createCollisionListener() {
@@ -607,7 +665,7 @@ public class GameScreen implements Screen {
 
       /**
        * outputs when two objects have stopped colliding
-       *
+       * Team Triple 10s
        * @param contact The object containing decollision information
        */
       @Override
@@ -620,7 +678,7 @@ public class GameScreen implements Screen {
 
       /**
        * Finds out when the two chefs have collided to ignore this collision
-       *
+       *Team Triple 10s
        * @param contact The object containing collision information
        * @param oldManifold Needed by the override
        */
@@ -644,7 +702,7 @@ public class GameScreen implements Screen {
 
   /**
    * Save the game.
-   *
+   * BlackCatStudios Code
    * @author Felix Seanor
    */
   public void SaveGame() {
@@ -657,7 +715,7 @@ public class GameScreen implements Screen {
 
   /**
    * Load the game from save
-   *
+   *BlackCatStudios Code
    * @author Felix Seanor
    */
   public void LoadGame(String path) {
@@ -674,7 +732,7 @@ public class GameScreen implements Screen {
 
   /**
    * Loads the state of a previous state of the world, all LoadGame to a full sweep.
-   *
+   * BlackCatStudios Code
    * @param state
    * @author Felix Seanor
    */
@@ -731,6 +789,7 @@ public class GameScreen implements Screen {
   //  /**
 //   * Resizes the stage when the window is resized so that the buttons are in the correct place.
 //   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
+   // Team Triple 10s
 //   */
   @Override
   public void resize(int width, int height) {
@@ -741,6 +800,7 @@ public class GameScreen implements Screen {
   @Override
   public void pause() {
   }
+
 
   @Override
   public void resume() {

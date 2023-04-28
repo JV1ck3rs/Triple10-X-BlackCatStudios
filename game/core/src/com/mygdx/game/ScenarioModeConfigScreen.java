@@ -26,7 +26,7 @@ import com.mygdx.game.Core.GameState.Difficulty;
 /**
  * Implements the screen that the allows the user to configure the number of customers for the
  * scenario mode.
- *
+ * BlackCatStudios
  * @author Jack Vickers
  * @date 04/04/2023
  */
@@ -199,7 +199,7 @@ public class ScenarioModeConfigScreen implements Screen {
         errorMessage.setText("Please enter a number which is greater than 0");
       } else {
         numCustomers = Integer.parseInt(textField.getText());
-        gameScreen = new GameScreen(game, game.map, numCustomers, false, difficultyLevel);
+        gameScreen = new GameScreen(game, game.map, numCustomers, difficultyLevel, false);
         game.setScreen(gameScreen);
       }
     } else {

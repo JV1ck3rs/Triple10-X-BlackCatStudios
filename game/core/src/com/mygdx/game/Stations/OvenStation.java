@@ -12,6 +12,8 @@ import java.util.Arrays;
 
 /**
  * Bakes potatoes and pizzas
+ * BlackCatStudio's Code
+ * @author Jack Hinton
  */
 public class OvenStation extends Station {
 

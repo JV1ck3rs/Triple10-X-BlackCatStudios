@@ -17,7 +17,7 @@ import java.util.Random;
 /**
  * Assigns all attributes and animation and interactions that the customer will go through in the
  * game including which dish they will pick.
- *
+ * Mixture of BlackCatStudios and Team Triple 10s
  * @author Felix Seanor
  * @author Jack Vickers
  * @author Amy Cross
@@ -47,16 +47,18 @@ public class Customer extends PathfindingAgent implements Person {
   /**
    * Initialises the customer and certain variables that we are going to use to interact with the
    * game. We also set the spawn randomiser and the interval between when each customer arrives
-   *
+   * Mixture of BlackCatStudios and Team Triple 10s
    * @param customerNumber the ID of each individual customer which will be interacted with
    */
   public Customer(int customerNumber, ItemEnum Order, TextureAtlas texture) {
 
+    //Triple 10s
     dish = Order;
     currentSpriteAnimation = 1;
     spriteOrientation = "north";
 
     // sprite.setPosition(posX, posY);
+    //Black Cat studios
     this.waitingAtCounter = false;
     this.customerNumber = customerNumber;
     this.eaten = false;
@@ -83,7 +85,17 @@ public class Customer extends PathfindingAgent implements Person {
     foodRecipe.isVisible = false;
   }
 
+  /**
+   * Returns animation frame
+   * Team Triple 10s code
+   * @author Team Triple 10
+   * @return
+   */
   public String getCurrentOrientation(){return spriteOrientation;}
+
+  /**
+   * Black Cat studios code
+   */
   @Override
   public void Start() {
     gameObject.getSprite().setSprite(customerAtlas.createSprite("north1"));
@@ -94,6 +106,9 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Updates the sprite to follow the correct animation.
+   * Mainly Team Triple 10s code
+   * @author Team Triple 10
+   *
    */
   @Override
   public void updateSpriteFromInput(String newOrientation) {
@@ -122,6 +137,7 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Sets the customer texture for each customer.
+   * BlackCatStudio's Code
    * @author Felix Seanor
    */
   @Override
@@ -136,7 +152,7 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Gets the move of the customer and direction and sets the animations accordingly.
-   *
+   * BlackCatStudios Code
    * @return currentDirection direction of the customer
    * @author Felix Seanor
    * @author Amy Cross
@@ -167,14 +183,17 @@ public class Customer extends PathfindingAgent implements Person {
     return newOrientation;
   }
 
-
+  /**
+   * Black Cat studios Code
+   * @return
+   */
   public GameObject returnHeldItem(){
     return HeldItem;
   }
 
   /**
    * Returns the x of the customer.
-   *
+   *Black Cat studios Code
    * @return int posX the x position of the customer
    * @author Felix Seanor
    */
@@ -184,7 +203,7 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Returns the y of the customer.
-   *
+   * Black Cat studios Code
    * @return int posY the y position of the customer
    * @author Felix Seanor
    * @author Amy Cross
@@ -195,7 +214,7 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Assigns the sprite for the customer at random.
-   *
+   * Team Triple 10s code
    * @param customerAtlasArray array of customer sprites
    * @return Atlas atlas of the customer object
    * @author Amy Cross
@@ -212,7 +231,7 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Checks if the customer is waiting or not.
-   *
+   * Black Cat studios Code
    * @return Boolean value for result
    * @author Felix Seanor
    */
@@ -222,7 +241,7 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Gets the dish that the customer has.
-   *
+   * Team Triple 10s code
    * @return Dish dish which is the object the customer has
    * @author Amy Cross
    */
@@ -232,7 +251,7 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Checks if the customer has successfully been fed.
-   *
+   *Team Triple 10s code
    * @return Boolean value of if the customer has been fed
    * @author Amy Cross
    */
@@ -243,6 +262,7 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Display the item in the world and update its coordinates.
+   * BlackCatStudios Code
    * @author Felix Seanor
    */
   public void displayItem(){
@@ -272,12 +292,19 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * hide the held item.
+   * BlackCatStudios Code
+   * @author Felix Seanor
    */
   public void hideItem(){
     if(HeldItem != null)
       HeldItem.isVisible = false;
   }
 
+  /**
+   *  BlackCatStudios Code
+   *  @author Felix Seanor
+   * @param dt
+   */
   @Override
   public void Update(float dt){
     super.Update(dt);
@@ -291,10 +318,13 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Destroy the customer.
+   *  BlackCatStudios Code
+   *   @author Felix Seanor
    */
   public void Destroy(){
     HeldItem.Destroy();
     foodIcon.Destroy();
     gameObject.Destroy();
+
   }
 }

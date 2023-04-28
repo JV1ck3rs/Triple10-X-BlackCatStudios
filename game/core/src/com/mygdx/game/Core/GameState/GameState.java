@@ -6,6 +6,12 @@ import java.nio.file.attribute.GroupPrincipal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class containing saved data of the game, to be saved to disk or loaded back in
+ * BlackCatStudio's Code
+ * @author Felix Seanor
+ * @author Jack Vickers
+ */
 public class GameState implements Serializable
 {
   public int Money;

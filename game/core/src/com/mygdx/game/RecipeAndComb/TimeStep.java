@@ -6,6 +6,8 @@ import static java.lang.Math.min;
 
 /**
  * This is a time step. A certain amount of time must pass before this step completes
+ * BlackCatStudio's Code
+ * @author Jack Hinton
  */
 public class TimeStep extends Step {
 

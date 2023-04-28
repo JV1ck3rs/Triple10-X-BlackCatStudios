@@ -25,6 +25,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class manages the chefs and their inputs. Letting the player control them.
+ * This class is the players main access point into the game outside of UI elements.
+ *   BlackCatStudio's Code and a few functions from team triple 10s
+ * @author Felix Seanor
+ * @author Jack Vickers
+ * @author Jack Hinton
+ * @author Sam Toner
+ */
 public class MasterChef extends Scriptable {
 
   public float maxRange = 25;
@@ -67,8 +76,8 @@ World world;
 
   /**
    * Generates a chef array which can be used to get random chef sprites from the chef class.
-   *
-   * @author Felix Seanor
+   * Team Triple 10s code
+   * @author Amy Cross
    */
   public void generateChefArray() {
     String filename;
@@ -118,8 +127,8 @@ World world;
 
     for (int i = 0; i < count; i++) {
       Vector2 pos = new Vector2(0,0);
-      pos.x = 750 + 32 * i;
-      pos.y = 300;
+      pos.x = 576 + 32 * i;
+      pos.y = 232;
         CreateNewChef(pos,i);
     }
 
@@ -320,7 +329,7 @@ World world;
    */
   public void AddNewChefIn(){
     if(chefs.size()<5)
-      CreateNewChef(new Vector2(750,300), chefs.size());
+      CreateNewChef(new Vector2(576,232), chefs.size());
   }
 
   public void LoadState(GameState state){

@@ -22,7 +22,7 @@ import java.io.IOException;
 
 /**
  * This class creates and displays the leaderboard screen.
- *
+ * BlackCatStudio's Code
  * @author Azzam Amirul Bahri
  * @author Jack Vickers
  */
