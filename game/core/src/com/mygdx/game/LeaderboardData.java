@@ -31,6 +31,15 @@ public class LeaderboardData implements
     return name.compareTo(o.name);
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if(obj instanceof LeaderboardData) {
+      LeaderboardData data = (LeaderboardData) obj;
+      return data.score == score && data.name.equals(name);
+    }
+    return false;
+  }
+
   /**
    * Returns a string representation of the leaderboard data.
    *

@@ -21,8 +21,8 @@ import java.util.List;
 import java.io.IOException;
 
 /**
- * This class creates and displays the leaderboard screen.
- * BlackCatStudio's Code
+ * This class creates and displays the leaderboard screen. BlackCatStudio's Code
+ *
  * @author Azzam Amirul Bahri
  * @author Jack Vickers
  */
@@ -78,11 +78,11 @@ public class LeaderboardScreen implements Screen {
     // Creates the error message label which will be used to tell
     // the user if they have entered an invalid text for highscores.
     errorMessage = new Label("",
-            new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     errorMessage.setFontScale(1.10f * (scaleX + scaleY) / 2);
     errorMessage.setAlignment(Align.left);
     //errorMessage.setPosition(0,0);
-    table.add(errorMessage).padTop(80 * scaleY).colspan(3);
+    table.add(errorMessage).padTop(90 * scaleY);
     table.row();
 
     // Creates labels which will be used to display the scores
@@ -90,7 +90,7 @@ public class LeaderboardScreen implements Screen {
         fontStyle);
     score1.setFontScale((scaleX + scaleY) / 2);
     score1.setColor(Color.WHITE);
-    table.add(score1).center().padTop(5 * scaleY).row();
+    table.add(score1).center().padTop(10 * scaleY).row();
     Label score2 = new Label("2.     " + scores.get(1).toString(),
         fontStyle);
     score2.setFontScale((scaleX + scaleY) / 2);
@@ -107,8 +107,6 @@ public class LeaderboardScreen implements Screen {
         fontStyle);
     score5.setFontScale((scaleX + scaleY) / 2);
     table.add(score5).center().padBottom(25 * scaleY).row();
-
-
 
     if (numberOfCustomersServed >= 0) {
       // Creates a skin for the text field using the clean-crispy-ui.json file
@@ -141,8 +139,7 @@ public class LeaderboardScreen implements Screen {
     scoreBtnStyle.up = drawableScoreBtnUp;
     scoreBtnStyle.down = drawableScoreBtnDown;
     scoreBtn.align(Align.left);
-    table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(25 * scaleY)
-        .padRight(10 * scaleY);
+    table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(20 * scaleY);
     table.row();
 
     // Adds a click listener to the button
@@ -150,7 +147,7 @@ public class LeaderboardScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         if (numberOfCustomersServed >= 0) {
-          if (checkInput()) {
+          if (InputChecker.checkLeaderboardName(textField.getText())) {
             LeaderboardData data = new LeaderboardData();
             data.score = numberOfCustomersServed;
             data.name = textField.getText();
@@ -168,17 +165,6 @@ public class LeaderboardScreen implements Screen {
         }
       }
     });
-  }
-
-  private boolean checkInput(){
-    boolean validInput = false;
-
-    // String namePattern = "[^\\p{P}|^\\d+]+";
-
-    boolean result1 = textField.getText().matches("[a-zA-Z]+");
-    boolean result2 = textField.getText().length() <= 5;
-    return (result1 && result2);
-
   }
 
   /**

@@ -30,10 +30,6 @@ public class LeaderBoard {
   static String filepath = Gdx.files.internal("leadboard.Fson").path();
   static int MaxHighscorers = 5;
 
-  public void LeaderBoard() {
-
-  }
-
   public void createFSONFile() {
     File jsonFile = new File(filepath);
     try {
@@ -124,21 +120,20 @@ public class LeaderBoard {
     List<LeaderboardData> highscores = readFSONData();
     Collections.sort(highscores);
     Collections.reverse(highscores);
-    if (highscores.size()<=MaxHighscorers) {
+    if (highscores.size()<MaxHighscorers) {
       highscores.add(data);
       return highscores;
     }
     int i = 0;
     while (i < highscores.size() - 1) {
       if (data.score >= highscores.get(i).score) {
-        highscores.set(i, data);
+        highscores.add(i, data);
+        highscores.remove(5);
         break;
       }
       i++;
     }
     return highscores;
-
-//    return highscores.subList(0,MaxHighscorers);
   }
 
 

@@ -189,19 +189,10 @@ public class ScenarioModeConfigScreen implements Screen {
    */
   private void checkInput(Difficulty difficultyLevel) {
     int numCustomers = 5;
-    if (textField.getText().length() > 3) { // Checks if the user has entered a number out of the
-      // integer range
-      errorMessage.setText("Please enter a number which is less than 100");
-    } else if (textField.getText().matches("[0-9]+")) {
-      if (Integer.parseInt(textField.getText()) > 100) {
-        errorMessage.setText("The maximum number of customers is 100. Please enter a lower number");
-      } else if (Integer.parseInt(textField.getText()) <= 0) {
-        errorMessage.setText("Please enter a number which is greater than 0");
-      } else {
-        numCustomers = Integer.parseInt(textField.getText());
-        gameScreen = new GameScreen(game, game.map, numCustomers, difficultyLevel, false);
-        game.setScreen(gameScreen);
-      }
+    if (InputChecker.checkCustomerNumberInput(textField.getText())) {
+      numCustomers = Integer.parseInt(textField.getText());
+      gameScreen = new GameScreen(game, game.map, numCustomers, difficultyLevel, false);
+      game.setScreen(gameScreen);
     } else {
       errorMessage.setText("Please enter a positive number which is less than 100");
     }
