@@ -34,6 +34,8 @@ public class LeaderboardScreen implements Screen {
   Stage stage;
   TextField textField;
 
+  Label errorMessage;
+
   public LeaderboardScreen(MyGdxGame game, EndOfGameValues values, int numberOfCustomersServed)
       throws IOException {
     // Calculates the scale of the screen to the original size of the game
@@ -73,12 +75,22 @@ public class LeaderboardScreen implements Screen {
     Label.LabelStyle fontStyle = new Label.LabelStyle();
     fontStyle.font = font;
 
+    // Creates the error message label which will be used to tell
+    // the user if they have entered an invalid text for highscores.
+    errorMessage = new Label("",
+            new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    errorMessage.setFontScale(1.10f * (scaleX + scaleY) / 2);
+    errorMessage.setAlignment(Align.left);
+    //errorMessage.setPosition(0,0);
+    table.add(errorMessage).padTop(80 * scaleY).colspan(3);
+    table.row();
+
     // Creates labels which will be used to display the scores
     Label score1 = new Label("1.     " + scores.get(0).toString(),
         fontStyle);
     score1.setFontScale((scaleX + scaleY) / 2);
     score1.setColor(Color.WHITE);
-    table.add(score1).center().padTop(35 * scaleY).row();
+    table.add(score1).center().padTop(5 * scaleY).row();
     Label score2 = new Label("2.     " + scores.get(1).toString(),
         fontStyle);
     score2.setFontScale((scaleX + scaleY) / 2);
@@ -95,6 +107,8 @@ public class LeaderboardScreen implements Screen {
         fontStyle);
     score5.setFontScale((scaleX + scaleY) / 2);
     table.add(score5).center().padBottom(25 * scaleY).row();
+
+
 
     if (numberOfCustomersServed >= 0) {
       // Creates a skin for the text field using the clean-crispy-ui.json file
@@ -136,15 +150,43 @@ public class LeaderboardScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         if (numberOfCustomersServed >= 0) {
-          LeaderboardData data = new LeaderboardData();
-          data.score = numberOfCustomersServed;
-          data.name = textField.getText();
-          game.leaderBoard.WriteHighscores(data);
+          if (checkInput()) {
+            LeaderboardData data = new LeaderboardData();
+            data.score = numberOfCustomersServed;
+            data.name = textField.getText();
+            game.leaderBoard.WriteHighscores(data);
+            game.setScreen(new MenuScreen(game));
+            dispose();
+          } else {
+            System.out.println("WRONG");
+            errorMessage.setText("Please input only letters with no numbers");
+
+          }
+        } else {
+          game.setScreen(new MenuScreen(game));
+          dispose();
         }
-        game.setScreen(new MenuScreen(game));
-        dispose();
       }
     });
+  }
+
+  private boolean checkInput(){
+    boolean validInput = false;
+
+    // String namePattern = "[^\\p{P}|^\\d+]+";
+    boolean result = textField.getText().matches("[a-zA-Z]+");
+    return result;
+    /**return validInput = true;
+    char[] chars = textField.getText().toCharArray();
+
+    for (char c : chars) {
+      if(!Character.isLetter(c)) {
+        return false;
+      }
+    }
+
+    return true;
+     */
   }
 
   /**
