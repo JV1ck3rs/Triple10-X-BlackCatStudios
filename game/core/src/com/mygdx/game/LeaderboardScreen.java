@@ -78,7 +78,6 @@ public class LeaderboardScreen implements Screen {
         fontStyle);
     score1.setFontScale((scaleX + scaleY) / 2);
     score1.setColor(Color.WHITE);
-    scores.remove(1);
     table.add(score1).center().padTop(35 * scaleY).row();
     Label score2 = new Label("2.     " + scores.get(1).toString(),
         fontStyle);
