@@ -108,12 +108,11 @@ public class CustomerController extends Scriptable
    * @param path    Pathfinding Module.
    * @param CallUpGameFinish Game Finish Function.
    * @param params Parameter class
-   * @param TablePositions Where the tables are, TEMPORARY
+   * @param tables Where the tables are, TEMPORARY
    * @author Felix Seanor
    */
   public CustomerController(Vector2 DoorPosition, Vector2 OrderArea, Pathfinding path,
-      Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params, Vector2... TablePositions){
-    tables = new LinkedList<>();
+      Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params,Vector2... tables){
     FrustrationCallBack = (CustomerGroups a)   -> FrustrationLeave(a);
     MoneyPerCustomer = params.MoneyPerCustomer;
     CallEndGame = CallUpGameFinish;
@@ -140,16 +139,13 @@ public class CustomerController extends Scriptable
 
     FrustrationTimer.position.set(300, 10);
 
+    SetTables(tables);
+
     if (Waves != -1) {
       Reputation = Math.min(Reputation, Waves);
     }
     generateCustomerArray();
 
-    int ID = 0;
-    for (Vector2 pos : TablePositions
-    ) {
-      tables.add(new Table(pos, ID++, 30));
-    }
 
     pathfinding = path;
     OrderAreaTarget = OrderArea;
@@ -174,6 +170,7 @@ public class CustomerController extends Scriptable
           for (int i = 0; i < loopValue; i++) {
             customersPerWave.add(1);
           }
+
           loopValue = 0;
         } else {
           loopValue -= 2;
@@ -188,6 +185,16 @@ public class CustomerController extends Scriptable
     return numCustomersPerWave;
   }
 
+
+  public void SetTables(Vector2... tab){
+    int ID = 0;
+    tables = new LinkedList<>();
+    for (Vector2 pos : tab
+    ) {
+      tables.add(new Table(pos.add(5,10), ID++, 35));
+    }
+
+  }
 
   public void CalculateWavesFromNoCustomers(int NoCustomers) {
     MaxCustomers = NoCustomers;
@@ -662,8 +669,7 @@ public class CustomerController extends Scriptable
     int success = currentWaiting.SeeIfDishIsCorrect(item);
 
     if (success != -1) {
-      currentWaiting.MembersSeatedOrWalking.add(currentWaiting.MembersInLine.remove(success));
-      currentWaiting.updateFrustrationOnSucessfulService();
+      currentWaiting.FeedSpecificCustomer(success);
       SetCustomerTarget(currentWaiting.MembersSeatedOrWalking.get(
           currentWaiting.MembersSeatedOrWalking.size() - 1), currentWaiting.table.GetNextSeat());
       SetWaitingForOrderTarget();

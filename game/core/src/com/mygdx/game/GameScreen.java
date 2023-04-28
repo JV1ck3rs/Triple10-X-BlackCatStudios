@@ -25,6 +25,7 @@ import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.ItemEnum;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -167,15 +168,23 @@ public class GameScreen implements Screen {
 
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams);
+    masterChef = new MasterChef(3, world, camera, pathfinding, difficultyState.chefParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = difficultyState.ccParams;
 
     CCParams.NoCustomers = numCustomers;
-    customerController = new CustomerController(new Vector2(200, 100), new Vector2(360, 180),
-        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, new Vector2(190, 390),
-        new Vector2(190, 290), new Vector2(290, 290));
+    List<Vector2> tables = getTablesDirty(map);
+
+    Vector2[] tabr = new Vector2[tables.size()];
+
+    int z = 0;
+    for (Vector2 t:tables
+    ) {   tabr[z++] = t;
+    }
+
+    customerController = new CustomerController(new Vector2(224, 0), new Vector2(360, 180),
+        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams,tabr);
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     GameObjectManager.objManager.AppendLooseScript(customerController);
@@ -207,6 +216,8 @@ public class GameScreen implements Screen {
             name);
 
         switch (name) {
+          case "tables":
+            break;
           case "bin":
             constructMachines.CreateBin(rect);
             break;
@@ -256,6 +267,7 @@ public class GameScreen implements Screen {
             constructMachines.CreateFoodCrates(rect, ItemEnum.RepairTool);
         }
       }
+
     }
 
     //Team  Triple10
@@ -277,6 +289,31 @@ public class GameScreen implements Screen {
     isEndlessMode = CCParams.NoCustomers == -1;
     setupGameUI();
     setupPauseMenu();
+  }
+
+
+
+  private List<Vector2> getTablesDirty(TiledMap map){
+    List<Vector2> tables = new LinkedList<>();
+    for (int n = 0; n < 18; n++) {
+      MapLayer layer = map.getLayers().get(n);
+      String name = layer.getName();
+
+      if (!name.contains("tables"))
+        continue;
+
+      for (MapObject object : layer.getObjects()
+          .getByType(RectangleMapObject.class)) {
+
+        Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+
+        tables.add(rect.getPosition(new Vector2()));
+
+      }
+    }
+
+    return  tables;
   }
 
   /**
@@ -763,6 +800,7 @@ public class GameScreen implements Screen {
   @Override
   public void pause() {
   }
+
 
   @Override
   public void resume() {

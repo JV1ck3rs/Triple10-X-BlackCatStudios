@@ -127,8 +127,8 @@ World world;
 
     for (int i = 0; i < count; i++) {
       Vector2 pos = new Vector2(0,0);
-      pos.x = 750 + 32 * i;
-      pos.y = 300;
+      pos.x = 576 + 32 * i;
+      pos.y = 232;
         CreateNewChef(pos,i);
     }
 
@@ -329,7 +329,7 @@ World world;
    */
   public void AddNewChefIn(){
     if(chefs.size()<5)
-      CreateNewChef(new Vector2(750,300), chefs.size());
+      CreateNewChef(new Vector2(576,232), chefs.size());
   }
 
   public void LoadState(GameState state){

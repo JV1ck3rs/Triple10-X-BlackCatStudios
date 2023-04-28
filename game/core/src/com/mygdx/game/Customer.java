@@ -325,5 +325,6 @@ public class Customer extends PathfindingAgent implements Person {
     HeldItem.Destroy();
     foodIcon.Destroy();
     gameObject.Destroy();
+
   }
 }

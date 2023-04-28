@@ -1,18 +1,17 @@
 package com.mygdx.game.Core.Customers;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.BlackSprite;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CustomerGroupState;
 import com.mygdx.game.Customer;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import com.badlogic.gdx.math.Vector2;
 import java.util.function.Consumer;
 
 /**
@@ -202,6 +201,10 @@ public class CustomerGroups {
   public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave) {
     Frustration -= dt;
     if (Frustration <= 0) {
+      for (Customer customer:Members
+      ) {
+        customer.foodIcon.isVisible = false;
+      }
       CauseLeave.accept(this);
     }
   }
