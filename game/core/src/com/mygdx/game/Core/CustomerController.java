@@ -620,6 +620,8 @@ public class CustomerController extends Scriptable
     customer.GivePath(pathfinding.FindPath((int) customer.gameObject.position.x,
         (int) customer.gameObject.position.y, (int) target.x, (int) target.y,
         DistanceTest.Manhatten));
+    customer.foodRecipe.isVisible = false;
+    customer.recipeCloseButton.isVisible = false;
 
   }
 

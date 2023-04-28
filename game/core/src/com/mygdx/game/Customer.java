@@ -79,6 +79,7 @@ public class Customer extends PathfindingAgent implements Person {
 
     BlackTexture closeButtonTex = new BlackTexture("Items/CloseButton.png");
     closeButtonTex.setSize(40, 40);
+    closeButtonTex.layer = 10;
     recipeCloseButton = new GameObject(closeButtonTex);
     recipeCloseButton.setPosition(470,470);
     recipeCloseButton.isVisible = false;
