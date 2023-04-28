@@ -21,8 +21,8 @@ import java.util.List;
 import java.io.IOException;
 
 /**
- * This class creates and displays the leaderboard screen.
- * BlackCatStudio's Code
+ * This class creates and displays the leaderboard screen. BlackCatStudio's Code
+ *
  * @author Azzam Amirul Bahri
  * @author Jack Vickers
  */
@@ -78,7 +78,7 @@ public class LeaderboardScreen implements Screen {
     // Creates the error message label which will be used to tell
     // the user if they have entered an invalid text for highscores.
     errorMessage = new Label("",
-            new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     errorMessage.setFontScale(1.10f * (scaleX + scaleY) / 2);
     errorMessage.setAlignment(Align.left);
     //errorMessage.setPosition(0,0);
@@ -147,7 +147,7 @@ public class LeaderboardScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         if (numberOfCustomersServed >= 0) {
-          if (checkInput()) {
+          if (InputChecker.checkLeaderboardName(textField.getText())) {
             LeaderboardData data = new LeaderboardData();
             data.score = numberOfCustomersServed;
             data.name = textField.getText();
@@ -165,17 +165,6 @@ public class LeaderboardScreen implements Screen {
         }
       }
     });
-  }
-
-  private boolean checkInput(){
-    boolean validInput = false;
-
-    // String namePattern = "[^\\p{P}|^\\d+]+";
-
-    boolean result1 = textField.getText().matches("[a-zA-Z]+");
-    boolean result2 = textField.getText().length() <= 5;
-    return (result1 && result2);
-
   }
 
   /**
