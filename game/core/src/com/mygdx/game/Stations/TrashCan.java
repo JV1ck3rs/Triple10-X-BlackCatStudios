@@ -44,8 +44,8 @@ public class TrashCan extends Scriptable implements Interactable {
 
 
     @Override
-    public boolean Interact() {
-        return false;
+    public float Interact() {
+        return 0;
     }
 
 

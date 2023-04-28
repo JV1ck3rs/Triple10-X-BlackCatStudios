@@ -143,7 +143,7 @@ class MasterTestClass {
     // Sets up the pathfinding using values taken from GameScreen class
     Pathfinding pathfinding = new Pathfinding(32 / 4, 32 * 32, 18 * 32);
     // Instantiates the MasterChef class
-    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams);
+    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
   }
 

@@ -54,7 +54,7 @@ public class CustomerController extends Scriptable
   Consumer<EndOfGameValues> CallEndGame;
 
   public int Reputation;
-  public int Money;
+  public static int Money;
   int MaxMoney;
   int MaxReputation;
   int MoneyPerCustomer;

@@ -17,13 +17,14 @@ import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.Station;
-
 import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
+
+import static java.lang.Math.min;
 
 
 /**
@@ -53,9 +54,9 @@ public class Chef extends PathfindingAgent implements Person {
   private TextureAtlas chefAtlas;
   public boolean isFrozen;
   private String lastOrientation;
-
+  private float locktime;
+  private float lockprogress = 0;
   private boolean ModifiedStack = false;
-
   List<Vector2> path;
 
   private Station currentStation;
@@ -372,31 +373,34 @@ public class Chef extends PathfindingAgent implements Person {
 //  }
 
   /**
-   * Freezes the chef for a set period of time at its given station.
-   * Triple 10s code
-   * @param seconds time used to freeze chef
-   * @param station station chef is currently on
+   * Freezes the chef for a set period of time.
+   * Triple 10 & BlackCatStudios code
+   * @param locktime time the chef will be frozen
    * @author Amy Cross
+   * @author Jack Hinton
    */
-  public void freeze(int seconds, Station station) {
-    this.currentStation = station;
-    currentStation.setLocked(true);
+  public void freeze(float locktime) {
     isFrozen = true;
-    currentTimerFrame = 1;
-    frameTime = seconds * 0.1f;
-    animationTime = frameTime;
+    this.locktime = locktime;
   }
 
   /**
-   * Unfreezes the chef after the timer is finished.
-   * Triple 10s code
+   * Unfreezes the chef.
+   * Triple 10 & BlackCatStudios code
    * @author Amy Cross
+   * @author Jack Hinton
    */
   public void unfreeze() {
     isFrozen = false;
-    currentStation.setLocked(false);
-    //this.currentStation = new Station("none");
-    currentTimerFrame = 1;
+  }
+
+  public boolean freezeTimer(float dt) {
+    lockprogress = min(lockprogress + dt, locktime);
+    if (lockprogress == locktime) {
+      lockprogress = 0;
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -494,7 +498,11 @@ public class Chef extends PathfindingAgent implements Person {
 
     soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
 
-    return Optional.ofNullable(heldItems.pop());
+    return Optional.ofNullable(heldItems.peek());
+  }
+
+  public void popItem() {
+    heldItems.pop();
   }
 
   /**

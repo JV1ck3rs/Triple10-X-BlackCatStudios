@@ -1,6 +1,7 @@
 package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.ItemState;
@@ -35,9 +36,10 @@ public abstract class Station extends Scriptable implements Interactable {
   GameObject bubble, bubble2;
   GameObject animation;
   public float stationTimeDecrease;
-
+  public int price = 100;
   private float BurnSpeed;
   float CookingSpeed;
+  public static int numOvens;
 
   public Station(CookingParams params) {
     item = null;
@@ -102,8 +104,9 @@ public abstract class Station extends Scriptable implements Interactable {
 
 
   public boolean checkRepairTool(Item item) {
-    if(item.name == ItemEnum.RepairTool) {
+    if(item.name == ItemEnum.RepairTool && CustomerController.Money >= price) {
       setLocked(false);
+      CustomerController.Money = CustomerController.Money - price;
       return true;
     }
     return false;

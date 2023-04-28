@@ -99,11 +99,9 @@ public class ChopStation extends Station {
   public void checkItem(){
     if(ItemWhiteList.contains(item.name)) {
       currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-      bubble.isVisible = true;
     }
     else {
       currentRecipe = null;
-      bubble.isVisible = false;
     }
   }
 
@@ -119,8 +117,10 @@ public class ChopStation extends Station {
 
 
   @Override
-  public boolean Interact() {
-    return interacted = true;
+  public float Interact() {
+    bubble.isVisible = true;
+    interacted = true;
+    return maxProgress;
   }
 
   public void Cut(float dt) {
@@ -131,6 +131,7 @@ public class ChopStation extends Station {
       checkItem();
       soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
       interacted = false;
+      bubble.isVisible = false;
     }
     progressBar();
   }
@@ -161,7 +162,7 @@ public class ChopStation extends Station {
       heldItem = new GameObject(new BlackTexture(Item.GetItemPath(item.name)));
       heldItem.image.setSize(imageSize, imageSize);
       heldItem.setPosition(gameObject.position.x + (gameObject.PhysicalWidth / 2) - 12,
-          gameObject.position.y + (gameObject.getHeight() / 2) + 5);
+          gameObject.position.y + (gameObject.getHeight()) - imageSize - 7);
     } else {
       heldItem.image = new BlackTexture(Item.GetItemPath(item.name));
       heldItem.image.setSize(imageSize, imageSize);

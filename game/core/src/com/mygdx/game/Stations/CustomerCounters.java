@@ -65,8 +65,8 @@ public class CustomerCounters extends Station {
 
 
   @Override
-  public boolean Interact() {
-    return false;
+  public float Interact() {
+    return 0;
   }
 
 

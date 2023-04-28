@@ -168,7 +168,7 @@ public class GameScreen implements Screen {
 
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    masterChef = new MasterChef(3, world, camera, pathfinding, difficultyState.chefParams);
+    masterChef = new MasterChef(3, world, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = difficultyState.ccParams;

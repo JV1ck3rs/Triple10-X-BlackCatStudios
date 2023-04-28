@@ -1,7 +1,5 @@
 package piazzapanictests.tests;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
