@@ -52,8 +52,7 @@ public class CustomerGroups {
         i = i;
       }
 
-      Customer custLogic = new Customer(CustomerStart + i, OrderMenu.get(i),
-          Customer.getCustomerAtlas(customerAtlas));
+      Customer custLogic = new Customer(CustomerStart + i, OrderMenu.get(i), Customer.getCustomerAtlas(customerAtlas));
       GameObject customer = new GameObject(new BlackSprite());
       customer.position.set(Spawn);
       customer.attachScript(custLogic);

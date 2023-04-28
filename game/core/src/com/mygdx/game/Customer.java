@@ -84,6 +84,7 @@ public class Customer extends PathfindingAgent implements Person {
     recipeCloseButton.isVisible = false;
 
 
+
     foodIcon.isVisible = false;
     try {
       foodRecipe = new GameObject(new BlackTexture(Item.GetRecipePath(this.dish)));
