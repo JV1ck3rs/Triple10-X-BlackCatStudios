@@ -49,5 +49,5 @@ public interface Interactable {
    * @return
    * @author Jack Hinton
    */
-  public boolean Interact();
+  public float Interact();
 }

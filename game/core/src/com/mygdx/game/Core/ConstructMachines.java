@@ -19,6 +19,7 @@ import com.mygdx.game.Stations.ToasterStation;
 import com.mygdx.game.Stations.TrashCan;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Contains procedures for constructing machines and physics bodies
@@ -32,14 +33,15 @@ public class ConstructMachines
   public List<GameObject> customerCounters = new LinkedList();
   public List<GameObject> assemblyStations = new LinkedList();
   DifficultyState difficultyState;
-
   CustomerController customerController;
-
+  int numHobs, numChopping;
   Pathfinding pathfinding;
   public ConstructMachines(CustomerController customerController, DifficultyState state, Pathfinding pathfinding){
     difficultyState = state;
     this.customerController = customerController;
     this.pathfinding = pathfinding;
+    numHobs = 0;
+    numChopping = 0;
   }
 
   /**
@@ -62,6 +64,7 @@ public class ConstructMachines
    * @author Jack Hinton
    */
   public void CreateHobs(Rectangle rect) {
+    numHobs++;
     GameObject Hob = new GameObject(null);
     Hob.setPosition(rect.getX(), rect.getY());
     Hob.setWidthAndHeight(rect.getWidth(), rect.getHeight());
@@ -69,6 +72,9 @@ public class ConstructMachines
     Hob.attachScript(HS);
     Stations.add(Hob);
     HS.init();
+    if(numHobs > 1){
+        HS.setLocked(true);
+    }
   }
 
   /**
@@ -92,6 +98,7 @@ public class ConstructMachines
    * @author Jack Hinton
    */
   public  void CreateChopping(Rectangle rect) {
+    numChopping++;
     GameObject Chop = new GameObject(null);
     Chop.setPosition(rect.getX(), rect.getY());
     Chop.setWidthAndHeight(rect.getWidth(), rect.getHeight());
@@ -99,6 +106,9 @@ public class ConstructMachines
     Chop.attachScript(CS);
     Stations.add(Chop);
     CS.init();
+    if(numChopping > 1){
+        CS.setLocked(true);
+    }
   }
 
   /**
@@ -106,14 +116,16 @@ public class ConstructMachines
    * @param rect
    * @author Jack Hinton
    */
-  public void CreateOven(Rectangle rect) {
+  public void CreateOven(Rectangle rect, CustomerController customerController) {
+    Consumer<Boolean> custController = (Boolean a) -> customerController.updateMenu(a);
     GameObject Oven = new GameObject(null);
     Oven.setPosition(rect.getX(), rect.getY());
     Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    OvenStation OS = new OvenStation(difficultyState.cookingParams);
+    OvenStation OS = new OvenStation(difficultyState.cookingParams, custController);
     Oven.attachScript(OS);
     Stations.add(Oven);
     OS.init();
+    OS.setLocked(true);
   }
 
   /**

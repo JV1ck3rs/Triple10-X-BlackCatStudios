@@ -1,6 +1,7 @@
 package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.ItemState;
@@ -32,12 +33,13 @@ public abstract class Station extends Scriptable implements Interactable {
   public Recipe currentRecipe;
   GameObject heldItem;
   public int imageSize = 18;
-  GameObject bubble, bubble2;
+  GameObject bubble, bubble2, bubble3;
   GameObject animation;
   public float stationTimeDecrease;
-
+  public int price = 100;
   private float BurnSpeed;
   float CookingSpeed;
+  public static int numOvens;
 
   public Station(CookingParams params) {
     item = null;
@@ -59,6 +61,10 @@ public abstract class Station extends Scriptable implements Interactable {
     bubble2 = new GameObject(new BlackTexture("Timer/Warning.png"));
     bubble2.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight());
     bubble2.isVisible = false;
+    bubble3 = new GameObject(new BlackTexture("Timer/RepairBubble.png"));
+    bubble3.setPosition(gameObject.position.x + gameObject.getWidth()/2 - bubble3.getWidth()/2,
+            gameObject.position.y + gameObject.getHeight()/2 - bubble3.getHeight()/2);
+    bubble3.isVisible = false;
     if(animation != null)
       moveAnim();
   }
@@ -88,6 +94,7 @@ public abstract class Station extends Scriptable implements Interactable {
    * @param locked assignes variable to either true or false
    */
   public void setLocked(boolean locked) {
+    bubble3.isVisible = locked;
     this.locked = locked;
   }
 
@@ -102,8 +109,9 @@ public abstract class Station extends Scriptable implements Interactable {
 
 
   public boolean checkRepairTool(Item item) {
-    if(item.name == ItemEnum.RepairTool) {
+    if(item.name == ItemEnum.RepairTool && CustomerController.Money >= price) {
       setLocked(false);
+      CustomerController.Money = CustomerController.Money - price;
       return true;
     }
     return false;
@@ -117,6 +125,7 @@ public abstract class Station extends Scriptable implements Interactable {
   public void deleteItem() {
     item = null;
     updatePictures();
+    animation.isVisible = false;
   }
 
   public void LoadState(List<ItemState> state) {

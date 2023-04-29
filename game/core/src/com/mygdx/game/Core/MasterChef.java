@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Chef;
 import com.mygdx.game.Core.GameState.ChefParams;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Interactions.Interactable;
@@ -39,7 +40,7 @@ World world;
   List<Chef> chefs;
 
   ChefParams chefParams;
-
+  CookingParams cookingParams;
   private Pathfinding pathfind;
 
   private GameObject SelectionArrow;
@@ -103,11 +104,11 @@ World world;
    * @param pathfinding pathfinding module
    * @author Felix Seanor
    */
-  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding, ChefParams params) {
+  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding, ChefParams params, CookingParams cookParams) {
 
 
     chefParams =  params;
-
+    cookingParams = cookParams;
     chefs = new LinkedList<>();
     chefAtlasArray = new ArrayList<TextureAtlas>();
     this.pathfind = pathfinding;
@@ -185,7 +186,9 @@ World world;
       return;
     }
 
-    ((Interactable) script).GiveItem(itemToGive.get());
+    if(((Interactable) script).GiveItem(itemToGive.get())){
+      chefs.get(currentControlledChef).popItem();
+    }
   }
 
   /**
@@ -234,7 +237,10 @@ World world;
       return;
     }
 
-    ((Interactable) script).Interact();
+    float locktime = ((Interactable) script).Interact();
+    if(locktime > 0) {
+      chefs.get(currentControlledChef).freeze(locktime);
+    }
   }
 
   /**
@@ -245,7 +251,9 @@ World world;
     for (int i = 0; i < chefs.size(); i++) {
       if (Gdx.input.isKeyPressed(Input.Keys.NUM_1
           + i)) // increments to next number for each chef 1,2,3 ect (dont go above 9) {
-        SelectChef(i);
+        if(!chefs.get(i).isFrozen) {
+          SelectChef(i);
+        }
       for (Chef c : chefs
       ) {
        // c.stop();
@@ -253,6 +261,16 @@ World world;
     }
   }
 
+  void checkFrozen(float dt){
+    for (Chef chef : chefs) {
+      if (chef.isFrozen) {
+        boolean ready = chef.freezeTimer(dt * cookingParams.ChopSpeed);
+        if (ready) {
+          chef.unfreeze();
+        }
+      }
+    }
+  }
 
   boolean KeyPressedNow(int key){
     return Gdx.input.isKeyJustPressed(key);
@@ -268,8 +286,11 @@ World world;
    */
   @Override
   public void Update(float dt) {
+    checkFrozen(dt);
     selectChef();
-
+    if(chefs.get(currentControlledChef).isFrozen) {
+      return;
+    }
     chefs.get(currentControlledChef).updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
 
 

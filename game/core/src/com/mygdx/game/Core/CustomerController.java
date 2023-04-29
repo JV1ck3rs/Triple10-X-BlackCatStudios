@@ -54,7 +54,7 @@ public class CustomerController extends Scriptable
   Consumer<EndOfGameValues> CallEndGame;
 
   public int Reputation;
-  public int Money;
+  public static int Money;
   int MaxMoney;
   int MaxReputation;
   int MoneyPerCustomer;
@@ -121,7 +121,7 @@ public class CustomerController extends Scriptable
     Reputation = params.Reputation;
     MaxReputation = 5; // set the max reputation to 5
     CustomerFrustrationStart = params.FrustrationStart;
-    CustomerFrustrationStart = 1;
+    //CustomerFrustrationStart = 1;
     groupSize.y = Math.min(params.MaxCustomersPerWave, groupSize.y);
     groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
 
@@ -240,6 +240,15 @@ public class CustomerController extends Scriptable
 
   public OrderMenu getMenu() {
     return menu;
+  }
+
+  /**
+   * Used to update the ordermenu when an oven has been bought
+   * @author Jack Hinton
+   */
+  public void updateMenu(boolean a) {
+    menu.ovenAdded();
+    menu.Restock();
   }
 
   public ArrayList<Integer> getCustomersPerScenarioWave() {
@@ -620,6 +629,8 @@ public class CustomerController extends Scriptable
     customer.GivePath(pathfinding.FindPath((int) customer.gameObject.position.x,
         (int) customer.gameObject.position.y, (int) target.x, (int) target.y,
         DistanceTest.Manhatten));
+    customer.foodRecipe.isVisible = false;
+    customer.recipeCloseButton.isVisible = false;
 
   }
 

@@ -39,7 +39,9 @@ public class Customer extends PathfindingAgent implements Person {
   public ItemEnum dish;
 
   public GameObject foodIcon;
+  public boolean foodRecipeOpen = false;
   public GameObject foodRecipe;
+  public GameObject recipeCloseButton;
 
   /**
    * Initialises the customer and certain variables that we are going to use to interact with the
@@ -71,6 +73,15 @@ public class Customer extends PathfindingAgent implements Person {
     tex.setSize(20, 20);
     HeldItem = new GameObject(tex);
     HeldItem.isVisible = false;
+
+    BlackTexture closeButtonTex = new BlackTexture("Items/CloseButton.png");
+    closeButtonTex.setSize(40, 40);
+    closeButtonTex.layer = 10;
+    recipeCloseButton = new GameObject(closeButtonTex);
+    recipeCloseButton.setPosition(470,470);
+    recipeCloseButton.isVisible = false;
+
+
 
     foodIcon.isVisible = false;
     try {

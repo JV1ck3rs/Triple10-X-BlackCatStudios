@@ -1,6 +1,7 @@
 package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
@@ -8,6 +9,7 @@ import com.mygdx.game.Items.ItemEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  * Bakes potatoes and pizzas
@@ -21,10 +23,12 @@ public class OvenStation extends Station {
     public float maxProgress;
     public float progress;
     public static ArrayList<ItemEnum> ItemWhiteList;
+    Consumer<Boolean> OvenMade;
 
 
-    public OvenStation(CookingParams params) {
+    public OvenStation(CookingParams params, Consumer<Boolean> customerController) {
         super(params);
+        OvenMade = customerController;
         ready = false;
         maxProgress = 10;
         animation = new GameObject(new BlackTexture("Items/OvenActive.png"));
@@ -41,7 +45,12 @@ public class OvenStation extends Station {
     @Override
     public boolean GiveItem(Item item) {
         if (getLocked()) {
-            return checkRepairTool(item);
+            boolean repaired = checkRepairTool(item);
+            if(repaired){
+                OvenMade.accept(true);
+                deleteItem();
+            }
+            return repaired;
         }
         if (this.item != null) {
             return false;
@@ -72,6 +81,7 @@ public class OvenStation extends Station {
 
     @Override
     public boolean CanGive() {
+
         return item == null;
     }
 
@@ -83,8 +93,8 @@ public class OvenStation extends Station {
 
 
     @Override
-    public boolean Interact() {
-        return false;
+    public float Interact() {
+        return 0;
     }
 
 
