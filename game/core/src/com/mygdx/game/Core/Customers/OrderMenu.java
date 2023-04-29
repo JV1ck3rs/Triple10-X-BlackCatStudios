@@ -3,7 +3,6 @@ package com.mygdx.game.Core.Customers;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 /**

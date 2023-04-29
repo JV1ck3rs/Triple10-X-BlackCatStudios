@@ -5,7 +5,6 @@ import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**

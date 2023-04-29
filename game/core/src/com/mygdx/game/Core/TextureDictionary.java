@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.HashMap;
 
 /**
- * Tries to reuse and store texture where possible. Otherwise load in from disk
+ * Tries to reuse and store texture where possible. Otherwise, load in from disk
  * BlackCatStudio's Code
  * @author Felix Seanor
  * Last modified 15/04/2023

@@ -1,6 +1,5 @@
 package com.mygdx.game.Core;
 
-import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;

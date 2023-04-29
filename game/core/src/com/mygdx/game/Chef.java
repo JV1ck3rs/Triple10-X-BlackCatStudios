@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,7 +12,6 @@ import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.Inputs;
 import com.mygdx.game.Core.PathfindingAgent;
-import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.Station;
