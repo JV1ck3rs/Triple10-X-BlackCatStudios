@@ -31,7 +31,6 @@ public class DifficultyMaster {
         case Mindbreaking:
           return getMindBreaking();
       }
-
       //return default otherwise (prevent crashing at all cost)
       return getStressful();
   }
@@ -60,7 +59,7 @@ public class DifficultyMaster {
 
 
 
-    chefParams.MoveSpeed = 150;
+    chefParams.MoveSpeed = 200;
 
     cookingParams.CookSpeed = 2;
     cookingParams.ChopSpeed = 1.5f;
@@ -97,7 +96,7 @@ public class DifficultyMaster {
 
 
 
-    chefParams.MoveSpeed = 100;
+    chefParams.MoveSpeed = 250;
 
     cookingParams.CookSpeed = 1;
     cookingParams.ChopSpeed = 1f;
@@ -133,7 +132,7 @@ public class DifficultyMaster {
 
 
 
-    chefParams.MoveSpeed = 75;
+    chefParams.MoveSpeed = 280;
 
     cookingParams.CookSpeed = .75f;
     cookingParams.ChopSpeed = .75f;

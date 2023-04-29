@@ -181,7 +181,5 @@ public class ChopStation extends Station {
       Cut(dt);
     }
     choppingSFX.DoSoundCheck();
-
-
   }
 }

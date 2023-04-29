@@ -114,7 +114,12 @@ public class EndScreen implements Screen {
       public void changed(ChangeEvent event, Actor actor) {
 //        gameScreen.gameMusic.stop();
         try {
-          root.setScreen(new LeaderboardScreen(root, values, numberOfCustomersServed));
+          if (numberOfCustomersServed < 0) {
+            root.setScreen(new MenuScreen(root));
+
+          } else {
+            root.setScreen(new LeaderboardScreen(root, values, numberOfCustomersServed));
+          }
         } catch (IOException e) {
           throw new RuntimeException(e);
         }

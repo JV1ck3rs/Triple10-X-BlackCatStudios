@@ -500,15 +500,6 @@ public class CustomerController extends Scriptable
       return CustomersRemaining;
     }
 
-//    int rnd = rand.nextInt((int) groupSize.y - (int) groupSize.x) + (int) groupSize.x;
-//
-//    int minimumCustomerDraw = WavesLeft() * (int) groupSize.x;
-//    int MaxDraw = (CustomersRemaining - rnd) - WavesLeft() * (int) groupSize.y;
-//
-//    minimumCustomerDraw = CustomersRemaining - minimumCustomerDraw;
-//
-//    return Math.min(minimumCustomerDraw, rnd) + Math.max(0, MaxDraw);
-
     // gets the number of customer for the current wave from the list of customers per wave
     return customersPerWave.get(currentWave - 1);
 
@@ -520,7 +511,7 @@ public class CustomerController extends Scriptable
 
 
   /**
-   * Lets a new customer group wapk through the door
+   * Lets a new customer group walk through the door
    * @author Felix Seanor
    * @author Jack Vickers
    */
@@ -627,6 +618,8 @@ public class CustomerController extends Scriptable
 
   /**
    * Test remove customers.
+   *
+   * @author Felix Seanor
    */
   void RemoveCustomerTest() {
     if (Gdx.input.isKeyJustPressed(
