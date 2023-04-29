@@ -93,7 +93,7 @@ public class GameScreen implements Screen {
 
   public MasterChef masterChef;
 
-
+  public int numOvens = 0;
   public GameObject exitLogo = new GameObject(new BlackTexture("Exit.png"));
 
   // game timer and displayTimer
@@ -234,7 +234,7 @@ public class GameScreen implements Screen {
             constructMachines.CreateToaster(rect);
             break;
           case "oven":
-            constructMachines.CreateOven(rect);
+            constructMachines.CreateOven(rect, customerController);
             break;
           case "customer counter":
             constructMachines.CreateCustomerCounters(rect);

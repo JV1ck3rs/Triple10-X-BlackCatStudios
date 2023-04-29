@@ -41,6 +41,13 @@ public class OrderMenu
 
     OrderCatagories.add(burgers);
     OrderCatagories.add(salads);
+  }
+
+  /**
+   * Used to add potatoes and pizzas to the order menu when an oven has been added
+   * @author Jack Hinton
+   */
+  public void ovenAdded(){
     OrderCatagories.add(potato);
     OrderCatagories.add(pizza);
   }

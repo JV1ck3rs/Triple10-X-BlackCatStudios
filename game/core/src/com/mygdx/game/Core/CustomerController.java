@@ -242,6 +242,15 @@ public class CustomerController extends Scriptable
     return menu;
   }
 
+  /**
+   * Used to update the ordermenu when an oven has been bought
+   * @author Jack Hinton
+   */
+  public void updateMenu(boolean a) {
+    menu.ovenAdded();
+    menu.Restock();
+  }
+
   public ArrayList<Integer> getCustomersPerScenarioWave() {
     return customersPerWave;
   }

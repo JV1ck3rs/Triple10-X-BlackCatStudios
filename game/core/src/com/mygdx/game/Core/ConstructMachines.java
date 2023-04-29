@@ -20,6 +20,7 @@ import com.mygdx.game.Stations.ToasterStation;
 import com.mygdx.game.Stations.TrashCan;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Contains procedures for constructing machines and physics bodies
@@ -116,11 +117,12 @@ public class ConstructMachines
    * @param rect
    * @author Jack Hinton
    */
-  public void CreateOven(Rectangle rect) {
+  public void CreateOven(Rectangle rect, CustomerController customerController) {
+    Consumer<Boolean> custController = (Boolean a) -> customerController.updateMenu(a);
     GameObject Oven = new GameObject(null);
     Oven.setPosition(rect.getX(), rect.getY());
     Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    OvenStation OS = new OvenStation(difficultyState.cookingParams);
+    OvenStation OS = new OvenStation(difficultyState.cookingParams, custController);
     Oven.attachScript(OS);
     Stations.add(Oven);
     OS.init();
