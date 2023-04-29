@@ -21,8 +21,8 @@ import java.util.List;
 import java.io.IOException;
 
 /**
- * This class creates and displays the leaderboard screen.
- * BlackCatStudio's Code
+ * This class creates and displays the leaderboard screen. BlackCatStudio's Code
+ *
  * @author Azzam Amirul Bahri
  * @author Jack Vickers
  */
@@ -33,6 +33,8 @@ public class LeaderboardScreen implements Screen {
   float scaleY;
   Stage stage;
   TextField textField;
+
+  Label errorMessage;
 
   public LeaderboardScreen(MyGdxGame game, EndOfGameValues values, int numberOfCustomersServed)
       throws IOException {
@@ -73,12 +75,22 @@ public class LeaderboardScreen implements Screen {
     Label.LabelStyle fontStyle = new Label.LabelStyle();
     fontStyle.font = font;
 
+    // Creates the error message label which will be used to tell
+    // the user if they have entered an invalid text for highscores.
+    errorMessage = new Label("",
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    errorMessage.setFontScale(1.10f * (scaleX + scaleY) / 2);
+    errorMessage.setAlignment(Align.left);
+    //errorMessage.setPosition(0,0);
+    table.add(errorMessage).padTop(90 * scaleY);
+    table.row();
+
     // Creates labels which will be used to display the scores
     Label score1 = new Label("1.     " + scores.get(0).toString(),
         fontStyle);
     score1.setFontScale((scaleX + scaleY) / 2);
     score1.setColor(Color.WHITE);
-    table.add(score1).center().padTop(35 * scaleY).row();
+    table.add(score1).center().padTop(10 * scaleY).row();
     Label score2 = new Label("2.     " + scores.get(1).toString(),
         fontStyle);
     score2.setFontScale((scaleX + scaleY) / 2);
@@ -127,8 +139,7 @@ public class LeaderboardScreen implements Screen {
     scoreBtnStyle.up = drawableScoreBtnUp;
     scoreBtnStyle.down = drawableScoreBtnDown;
     scoreBtn.align(Align.left);
-    table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(25 * scaleY)
-        .padRight(10 * scaleY);
+    table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(20 * scaleY);
     table.row();
 
     // Adds a click listener to the button
@@ -136,13 +147,22 @@ public class LeaderboardScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         if (numberOfCustomersServed >= 0) {
-          LeaderboardData data = new LeaderboardData();
-          data.score = numberOfCustomersServed;
-          data.name = textField.getText();
-          game.leaderBoard.WriteHighscores(data);
+          if (InputChecker.checkLeaderboardName(textField.getText())) {
+            LeaderboardData data = new LeaderboardData();
+            data.score = numberOfCustomersServed;
+            data.name = textField.getText();
+            game.leaderBoard.WriteHighscores(data);
+            game.setScreen(new MenuScreen(game));
+            dispose();
+          } else {
+            System.out.println("WRONG");
+            errorMessage.setText("Please input only letters with no numbers up to 5 characters!");
+
+          }
+        } else {
+          game.setScreen(new MenuScreen(game));
+          dispose();
         }
-        game.setScreen(new MenuScreen(game));
-        dispose();
       }
     });
   }
