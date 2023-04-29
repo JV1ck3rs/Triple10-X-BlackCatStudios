@@ -47,7 +47,10 @@ public class OvenStation extends Station {
         if (getLocked()) {
             boolean repaired = checkRepairTool(item);
             if(repaired){
-                OvenMade.accept(true);
+                if(numOvens<1) {
+                    OvenMade.accept(true);
+                    numOvens++;
+                }
                 deleteItem();
             }
             return repaired;

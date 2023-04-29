@@ -273,6 +273,7 @@ class MasterTestClass {
     Fry.setWidthAndHeight(rect.getWidth(),
         rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
     hobStation = new HobStation(state.cookingParams); // creates frying station
+
     Fry.attachScript(hobStation); // attaches frying station to frying game object
     hobStation.init();
     new RecipeDict(); // creates recipe dictionary

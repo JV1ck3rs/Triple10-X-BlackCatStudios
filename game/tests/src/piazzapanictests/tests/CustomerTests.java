@@ -162,6 +162,7 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void TestDishCreation(){
     instantiateCustomerScripts(Difficulty.Mindbreaking);
+    cust.updateMenu(true);
 
   List<ItemEnum> order =  cust.getMenu().CreateNewOrder(1000, Randomisation.TrueRandom);
 
@@ -171,7 +172,6 @@ public class CustomerTests extends MasterTestClass {
     boolean containsSalad = order.contains(ItemEnum.TomatoOnionLettuceSalad) && order.contains(ItemEnum.LettuceTomatoSalad) && order.contains(ItemEnum.LettuceOnionSalad);
     boolean containsPotato = order.contains(ItemEnum.BakedPotato) && order.contains(ItemEnum.MeatBake) && order.contains(ItemEnum.CheeseBake);
     boolean containsPizza = order.contains(ItemEnum.CheesePizzaCooked) && order.contains(ItemEnum.MeatPizzaCooked) && order.contains(ItemEnum.VegPizzaCooked);
-
     assertTrue(containsPizza);
     assertTrue(containsBurger);
     assertTrue(containsPotato);

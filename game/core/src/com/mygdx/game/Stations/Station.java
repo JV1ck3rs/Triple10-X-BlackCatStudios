@@ -125,7 +125,9 @@ public abstract class Station extends Scriptable implements Interactable {
   public void deleteItem() {
     item = null;
     updatePictures();
-    animation.isVisible = false;
+    if(animation!=null) {
+      animation.isVisible = false;
+    }
   }
 
   public void LoadState(List<ItemState> state) {

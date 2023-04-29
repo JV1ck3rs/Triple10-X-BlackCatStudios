@@ -186,7 +186,7 @@ public class ToasterStationTests extends MasterTestClass {
     }
     instantiateWorldAndToasterStation();
     assertFalse("The chef should not be able to interact with the toaster", toasterStation.CanInteract());
-    assertFalse("The chef should not be able to interact with the toaster", toasterStation.Interact());
+    assertEquals("The chef should not be able to interact with the toaster", 0.0, toasterStation.Interact(), 0.1);
     toasterStation.GiveItem(new Item(ItemEnum.Buns));
     toasterStation.Update(4);
     Item test = toasterStation.RetrieveItem();
