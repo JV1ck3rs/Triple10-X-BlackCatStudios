@@ -163,6 +163,7 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void TestDishCreation() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
+    cust.updateMenu(true);
 
     List<ItemEnum> order = cust.getMenu().CreateNewOrder(1000, Randomisation.TrueRandom);
 

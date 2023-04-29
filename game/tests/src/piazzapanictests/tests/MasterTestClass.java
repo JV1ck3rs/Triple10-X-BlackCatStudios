@@ -35,7 +35,10 @@ import com.mygdx.game.Stations.TrashCan;
 
 import com.mygdx.game.Stations.*;
 import com.mygdx.game.soundFrame;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 class MasterTestClass {
 
@@ -142,7 +145,7 @@ class MasterTestClass {
     // Sets up the pathfinding using values taken from GameScreen class
     Pathfinding pathfinding = new Pathfinding(32 / 4, 32 * 32, 18 * 32);
     // Instantiates the MasterChef class
-    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams);
+    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
   }
 
@@ -269,6 +272,7 @@ class MasterTestClass {
     Fry.setWidthAndHeight(rect.getWidth(),
         rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
     hobStation = new HobStation(state.cookingParams); // creates frying station
+
     Fry.attachScript(hobStation); // attaches frying station to frying game object
     hobStation.init();
     new RecipeDict(); // creates recipe dictionary
@@ -341,7 +345,8 @@ class MasterTestClass {
     Oven = new GameObject(null); // creates oven game object
     Oven.setPosition(0, 0); // sets oven station position (done to avoid NullPointerException)
     Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight()); // sets oven station width and height (done to avoid NullPointerException)
-    ovenStation = new OvenStation(state.cookingParams); // creates oven station
+    Consumer<Boolean> custController = (Boolean a) -> cust.updateMenu(a);
+    ovenStation = new OvenStation(state.cookingParams, custController); // creates oven station
     Oven.attachScript(ovenStation); // attaches oven station to oven game object
     ovenStation.init();
     new RecipeDict(); // creates recipe dictionary

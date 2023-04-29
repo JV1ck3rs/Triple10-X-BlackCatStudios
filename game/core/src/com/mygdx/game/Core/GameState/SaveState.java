@@ -1,15 +1,10 @@
 package com.mygdx.game.Core.GameState;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
+
 import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.GameObject;
-import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Core.MasterChef;
 import com.mygdx.game.Core.Scriptable;
-import com.mygdx.game.GameScreen;
 import com.mygdx.game.Stations.Station;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,7 +14,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
-import jdk.javadoc.internal.doclets.toolkit.util.DocFinder.Output;
 
 /**
  * Loads or saves states of the game to or from the disk

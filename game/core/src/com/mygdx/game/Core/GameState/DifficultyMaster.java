@@ -1,7 +1,6 @@
 package com.mygdx.game.Core.GameState;
 
 
-import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.LinkedList;

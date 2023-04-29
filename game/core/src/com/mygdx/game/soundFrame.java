@@ -1,9 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.LinkedList;
 

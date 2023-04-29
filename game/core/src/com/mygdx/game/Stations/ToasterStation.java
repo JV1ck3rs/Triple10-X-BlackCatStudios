@@ -80,8 +80,8 @@ public class ToasterStation extends Station{
 
 
   @Override
-  public boolean Interact() {
-    return false;
+  public float Interact() {
+    return 0;
   }
 
 
@@ -133,7 +133,7 @@ public class ToasterStation extends Station{
 
     @Override
     public void moveAnim(){
-        animation.setPosition(gameObject.position.x + 2, gameObject.position.y + 6);
+        animation.setPosition(gameObject.position.x + 3, gameObject.position.y + gameObject.getHeight() - animation.getHeight());
     }
 
 

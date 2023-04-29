@@ -2,25 +2,21 @@ package com.mygdx.game.Core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Chef;
 import com.mygdx.game.Core.GameState.ChefParams;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Core.Interactions.Interaction;
 import com.mygdx.game.Core.Interactions.Interaction.InteractionType;
 import com.mygdx.game.Items.Item;
-import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.soundFrame;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +41,7 @@ public class MasterChef extends Scriptable {
   List<Chef> chefs;
 
   ChefParams chefParams;
-
+  CookingParams cookingParams;
   private Pathfinding pathfind;
 
   private GameObject SelectionArrow;
@@ -110,11 +106,11 @@ public class MasterChef extends Scriptable {
    * @param pathfinding pathfinding module
    * @author Felix Seanor
    */
-  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding,
-      ChefParams params) {
+  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding, ChefParams params, CookingParams cookParams) {
 
-    chefParams = params;
 
+    chefParams =  params;
+    cookingParams = cookParams;
     chefs = new LinkedList<>();
     chefAtlasArray = new ArrayList<TextureAtlas>();
     this.pathfind = pathfinding;
@@ -194,7 +190,9 @@ public class MasterChef extends Scriptable {
       return;
     }
 
-    ((Interactable) script).GiveItem(itemToGive.get());
+    if(((Interactable) script).GiveItem(itemToGive.get())){
+      chefs.get(currentControlledChef).popItem();
+    }
   }
 
   /**
@@ -244,7 +242,10 @@ public class MasterChef extends Scriptable {
       return;
     }
 
-    ((Interactable) script).Interact();
+    float locktime = ((Interactable) script).Interact();
+    if(locktime > 0) {
+      chefs.get(currentControlledChef).freeze(locktime);
+    }
   }
 
   /**
@@ -256,9 +257,9 @@ public class MasterChef extends Scriptable {
     for (int i = 0; i < chefs.size(); i++) {
       if (Gdx.input.isKeyPressed(Input.Keys.NUM_1
           + i)) // increments to next number for each chef 1,2,3 ect (dont go above 9) {
-      {
-        SelectChef(i);
-      }
+        if(!chefs.get(i).isFrozen) {
+          SelectChef(i);
+        }
       for (Chef c : chefs
       ) {
         // c.stop();
@@ -266,6 +267,16 @@ public class MasterChef extends Scriptable {
     }
   }
 
+  void checkFrozen(float dt){
+    for (Chef chef : chefs) {
+      if (chef.isFrozen) {
+        boolean ready = chef.freezeTimer(dt * cookingParams.ChopSpeed);
+        if (ready) {
+          chef.unfreeze();
+        }
+      }
+    }
+  }
 
   boolean KeyPressedNow(int key) {
     return Gdx.input.isKeyJustPressed(key);
@@ -281,10 +292,13 @@ public class MasterChef extends Scriptable {
    */
   @Override
   public void Update(float dt) {
+    checkFrozen(dt);
     selectChef();
+    if(chefs.get(currentControlledChef).isFrozen) {
+      return;
+    }
+    chefs.get(currentControlledChef).updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
 
-    chefs.get(currentControlledChef)
-        .updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
 
     if (KeyPressedNow(Inputs.CYCLE_STACK)) {
       CycleItemStack();

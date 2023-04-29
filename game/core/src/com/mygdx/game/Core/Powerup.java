@@ -1,12 +1,9 @@
 package com.mygdx.game.Core;
 
-import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.Customers.OrderType;
 import com.mygdx.game.Customer;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.Stations.Station;
 
-import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 

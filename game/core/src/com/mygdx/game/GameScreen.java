@@ -93,7 +93,7 @@ public class GameScreen implements Screen {
 
   public MasterChef masterChef;
 
-
+  public int numOvens = 0;
   public GameObject exitLogo = new GameObject(new BlackTexture("Exit.png"));
 
   // game timer and displayTimer
@@ -169,7 +169,7 @@ public class GameScreen implements Screen {
 
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    masterChef = new MasterChef(3, world, camera, pathfinding, difficultyState.chefParams);
+    masterChef = new MasterChef(3, world, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = difficultyState.ccParams;
@@ -235,7 +235,7 @@ public class GameScreen implements Screen {
             constructMachines.CreateToaster(rect);
             break;
           case "oven":
-            constructMachines.CreateOven(rect);
+            constructMachines.CreateOven(rect, customerController);
             break;
           case "customer counter":
             constructMachines.CreateCustomerCounters(rect);

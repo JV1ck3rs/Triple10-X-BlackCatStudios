@@ -105,8 +105,9 @@ public class AssemblyStation extends Station {
 
 
   @Override
-  public boolean Interact() {
-    return combine();
+  public float Interact() {
+    combine();
+    return 0;
   }
 
 

@@ -1,9 +1,7 @@
 package com.mygdx.game.Core;
 
-import com.badlogic.gdx.Game;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * This contains the code for the powerup purchase menu UI

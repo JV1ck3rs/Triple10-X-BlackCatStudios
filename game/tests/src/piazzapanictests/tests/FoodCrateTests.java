@@ -1,6 +1,7 @@
 package piazzapanictests.tests;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
+
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,6 @@ public class FoodCrateTests extends  MasterTestClass {
   public void testCannotInteract() {
     instantiateWorldAndFoodCrate();
     assertFalse(FC.CanInteract());
-    assertFalse(FC.Interact());
+    assertEquals(0.0, FC.Interact(), 0.1);
   }
 }

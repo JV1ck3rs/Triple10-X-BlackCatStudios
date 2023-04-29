@@ -1,6 +1,5 @@
 package com.mygdx.game.Core;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Collections;
 import java.util.Comparator;

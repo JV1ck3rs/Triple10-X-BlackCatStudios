@@ -5,7 +5,6 @@ import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -65,8 +64,8 @@ public class CustomerCounters extends Station {
 
 
   @Override
-  public boolean Interact() {
-    return false;
+  public float Interact() {
+    return 0;
   }
 
 

@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,17 +12,17 @@ import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.Inputs;
 import com.mygdx.game.Core.PathfindingAgent;
-import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.Station;
-
 import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
+
+import static java.lang.Math.min;
 
 
 /**
@@ -53,9 +52,9 @@ public class Chef extends PathfindingAgent implements Person {
   private TextureAtlas chefAtlas;
   public boolean isFrozen;
   private String lastOrientation;
-
+  private float locktime;
+  private float lockprogress = 0;
   private boolean ModifiedStack = false;
-
   List<Vector2> path;
 
   private Station currentStation;
@@ -364,32 +363,46 @@ public class Chef extends PathfindingAgent implements Person {
 //    return Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT);
 //  }
 
-//  /**
-//   * Freezes the chef for a set period of time at its given station.
-//   * Triple 10s code
-//   * @param seconds time used to freeze chef
-//   * @param station station chef is currently on
-//   * @author Amy Cross
-//   */
-//  public void freeze(int seconds, Station station) {
-//    this.currentStation = station;
-//    currentStation.setLocked(true);
-//    isFrozen = true;
-//    currentTimerFrame = 1;
-//    frameTime = seconds * 0.1f;
-//    animationTime = frameTime;
-//  }
+  /**
+   * Freezes the chef for a set period of time.
+   * Triple 10 & BlackCatStudios code
+   * @param locktime time the chef will be frozen
+   * @author Amy Cross
+   * @author Jack Hinton
+   */
+  public void freeze(float locktime) {
+    isFrozen = true;
+    this.locktime = locktime;
+  }
 
-//  /**
-//   * Unfreezes the chef after the timer is finished.
-//   * Triple 10s code
-//   * @author Amy Cross
-//   */
-//  public void unfreeze() {
-//    isFrozen = false;
-//    currentStation.setLocked(false);
-//    //this.currentStation = new Station("none");
-//    currentTimerFrame = 1;
+  /**
+   * Unfreezes the chef.
+   * Triple 10 & BlackCatStudios code
+   * @author Amy Cross
+   * @author Jack Hinton
+   */
+  public void unfreeze() {
+    isFrozen = false;
+  }
+
+  public boolean freezeTimer(float dt) {
+    lockprogress = min(lockprogress + dt, locktime);
+    if (lockprogress == locktime) {
+      lockprogress = 0;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Stops the chef from moving and sets sprite animation to "idle".
+   * Triple 10s code
+   *    * @author Amy Cross
+   */
+//  public void stop() {
+//    b2body.setLinearVelocity(0, 0);
+//    spriteState = "idle" + lastOrientation;
+//    setTexture(spriteState);
 //  }
 
   /**
@@ -420,6 +433,22 @@ public class Chef extends PathfindingAgent implements Person {
    */
   public int getCarryCapacity() {
     return CarryCapacity;
+  }
+
+
+  /**
+   * Chooses a random sprite for the chef and makes sure both (or mroe) chef assets are different to
+   * each other.
+   * Team Triple 10s
+   * @param chefAtlasArray array of chef Atlas's
+   * @return Atlas atlas of the chef atlas we are using
+   * @author Amy Cross
+   */
+  private TextureAtlas getChefAtlas(ArrayList<TextureAtlas> chefAtlasArray) {
+    int randomIndex = (int) (Math.random() * chefAtlasArray.size());
+    TextureAtlas atlas = chefAtlasArray.get(randomIndex);
+    chefAtlasArray.remove(randomIndex);
+    return atlas;
   }
 
   /**
@@ -460,7 +489,11 @@ public class Chef extends PathfindingAgent implements Person {
 
     soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
 
-    return Optional.ofNullable(heldItems.pop());
+    return Optional.ofNullable(heldItems.peek());
+  }
+
+  public void popItem() {
+    heldItems.pop();
   }
 
   /**

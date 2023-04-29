@@ -1,7 +1,5 @@
 package piazzapanictests.tests;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
@@ -189,7 +187,7 @@ public class OvenStationTests extends MasterTestClass {
         ovenStation.Update(10);
         ovenStation.Interact();
         assertFalse("The chef should not be able to interact with the oven", ovenStation.CanInteract());
-        assertFalse("The chef should not be able to interact with the oven", ovenStation.Interact());
+        assertEquals("The chef should not be able to interact with the oven", 0.0, ovenStation.Interact(), 0.1);
         Item test = ovenStation.RetrieveItem();
         assertNotEquals("The progress of the item retrieved from the toaster should not be 0 if the update function works as it will cook the item", 0, test.progress);
     }
