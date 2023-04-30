@@ -297,7 +297,7 @@ public class MasterChef extends Scriptable {
     if(chefs.get(currentControlledChef).isFrozen) {
       return;
     }
-    chefs.get(currentControlledChef).updateSpriteFromInput(chefs.get(currentControlledChef).getMove());
+    chefs.get(currentControlledChef).updateSpriteFromInput("");
 
 
     if (KeyPressedNow(Inputs.CYCLE_STACK)) {

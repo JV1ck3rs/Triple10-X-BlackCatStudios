@@ -435,22 +435,6 @@ public class Chef extends PathfindingAgent implements Person {
     return CarryCapacity;
   }
 
-
-  /**
-   * Chooses a random sprite for the chef and makes sure both (or mroe) chef assets are different to
-   * each other.
-   * Team Triple 10s
-   * @param chefAtlasArray array of chef Atlas's
-   * @return Atlas atlas of the chef atlas we are using
-   * @author Amy Cross
-   */
-  private TextureAtlas getChefAtlas(ArrayList<TextureAtlas> chefAtlasArray) {
-    int randomIndex = (int) (Math.random() * chefAtlasArray.size());
-    TextureAtlas atlas = chefAtlasArray.get(randomIndex);
-    chefAtlasArray.remove(randomIndex);
-    return atlas;
-  }
-
   /**
    * Can fetch (take item from chef)
    *  BlackCatStudios Code

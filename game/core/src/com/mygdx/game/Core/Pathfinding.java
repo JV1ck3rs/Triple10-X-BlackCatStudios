@@ -152,6 +152,17 @@ public class Pathfinding {
 
   }
 
+  /**
+   * Finds a path from x,y to goalX, goalY
+   * @param x x coordinate
+   * @param y y coordinate
+   * @param goalX goal x coordinate
+   * @param goalY goal y coordinate
+   * @param distanceTest distance test to use (Manhatten or Euclidean)
+   * @return a list of points to follow to get to the goal. Empty if no path found.
+   *
+   * @author Felix Seanor
+   */
   public List<Vector2> FindPath(int x, int y, int goalX, int goalY,
       final DistanceTest distanceTest) {
     HashMap<Integer, PathfindingCell> ReachedCells = new HashMap<>();

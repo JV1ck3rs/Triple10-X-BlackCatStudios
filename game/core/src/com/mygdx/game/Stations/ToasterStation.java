@@ -12,9 +12,10 @@ import java.util.Arrays;
 
 /**
  * Toasts items such as bun
+ *
  * @author Jack Hinton
  */
-public class ToasterStation extends Station{
+public class ToasterStation extends Station {
 
   boolean interacted;
   boolean ready;
@@ -35,19 +36,22 @@ public class ToasterStation extends Station{
   }
 
 
-    @Override
-    public boolean GiveItem(Item item) {
-        if (getLocked()) {
-            return checkRepairTool(item);
-        }
-        if (this.item != null) {
-            return false;
-        }
-        animation.isVisible = true;
-        changeItem(item);
-        checkItem();
-        return true;
+  @Override
+  public boolean GiveItem(Item item) {
+    if (getLocked()) {
+      return checkRepairTool(item);
     }
+    if (this.item != null) {
+      return false;
+    }
+    if (ItemWhiteList.contains(item.name)) {
+      animation.isVisible = true;
+      changeItem(item);
+      checkItem();
+      return true;
+    }
+    return false;
+  }
 
 
   @Override
@@ -85,16 +89,15 @@ public class ToasterStation extends Station{
   }
 
 
-    public void checkItem() {
-        if (ItemWhiteList.contains(item.name)) {
-            currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-            bubble.isVisible = true;
-        }
-        else{
-            currentRecipe = null;
-            bubble.isVisible = false;
-        }
+  public void checkItem() {
+    if (ItemWhiteList.contains(item.name)) {
+      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
+      bubble.isVisible = true;
+    } else {
+      currentRecipe = null;
+      bubble.isVisible = false;
     }
+  }
 
 
   public void Cook(float dt) {
@@ -121,27 +124,28 @@ public class ToasterStation extends Station{
   }
 
 
-    public float getCookingTime(){
-        return item.progress;
+  public float getCookingTime() {
+    return item.progress;
+  }
+
+  @Override
+  public void updatePictures() {
+    return;
+  }
+
+
+  @Override
+  public void moveAnim() {
+    animation.setPosition(gameObject.position.x + 3,
+        gameObject.position.y + gameObject.getHeight() - animation.getHeight());
+  }
+
+
+  @Override
+  public void Update(float dt) {
+    if (currentRecipe != null) {
+      Cook(dt);
     }
-
-    @Override
-    public void updatePictures() {
-        return;
-    }
-
-
-    @Override
-    public void moveAnim(){
-        animation.setPosition(gameObject.position.x + 3, gameObject.position.y + gameObject.getHeight() - animation.getHeight());
-    }
-
-
-    @Override
-    public void Update(float dt) {
-        if (currentRecipe != null) {
-            Cook(dt);
-        }
 
   }
 }
