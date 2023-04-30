@@ -104,7 +104,7 @@ public class EndScreen implements Screen {
     scenariobtnStyle.up = drawableScenariobtnUp;
     scenariobtnStyle.down = drawableScenariobtnDown;
 
-    table.add(scenariobtn).width(250 * scaleX).height(50 * scaleY).pad(200,25,25,25);
+    table.add(scenariobtn).width(250 * scaleX).height(50 * scaleY).pad(scaleY*200,25,25,25);
     table.row();
 
 

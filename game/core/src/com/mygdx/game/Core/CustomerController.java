@@ -351,6 +351,13 @@ public class CustomerController extends Scriptable
   @Override
   public void Update(float dt) {
     super.Update(dt);
+
+    if(Gdx.input.isKeyJustPressed(Inputs.SELL_RESTURANT))
+    {
+      Reputation = 0;
+      EndGame();;
+    }
+
     if (currentWaiting != null) {
       currentWaiting.showIcons();
       currentWaiting.checkClicks();
