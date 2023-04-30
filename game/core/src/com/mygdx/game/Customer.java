@@ -66,7 +66,7 @@ public class Customer extends PathfindingAgent implements Person {
     this.eaten = false;
     this.customerAtlas = texture;
 
-    System.out.println("customer " + customerNumber + ": " + dish);
+//    System.out.println("customer " + customerNumber + ": " + dish);
 
     BlackTexture iconTex = new BlackTexture(Item.GetItemPath(this.dish));
     iconTex.setSize(20, 20);

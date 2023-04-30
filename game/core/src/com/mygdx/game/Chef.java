@@ -342,7 +342,7 @@ public class Chef extends PathfindingAgent implements Person {
   public String getMove() {
     String newOrientation = this.lastOrientation;
     if (isFrozen) {
-      System.out.println("Frozen");
+//      System.out.println("Frozen");
       return "idle" + this.lastOrientation;
     } else {
       if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_LEFT)) {
@@ -562,7 +562,7 @@ public class Chef extends PathfindingAgent implements Person {
    * @author Amy Cross
    */
   public void drawTimer(SpriteBatch batch) {
-    System.out.println("draw");
+//    System.out.println("draw");
     timerSprite.setPosition(gameObject.position.x, gameObject.position.y + getHeight());
     if (currentTimerFrame <= 7) {
 //      System.out.println(animationTime);

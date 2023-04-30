@@ -1,6 +1,8 @@
 package com.mygdx.game.Core;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -12,20 +14,36 @@ import java.util.LinkedList;
  */
 public class PowerupPurchaseMenu extends Scriptable {
 
+  BlackTexture backgroundTexture = new BlackTexture("PowerupAssets/BackGround.png");
+  BlackTexture speedPowerUpTexture = new BlackTexture("PowerupAssets/SpeedPowerUp.png");
+  BlackTexture reputationPowerUpTexture = new BlackTexture("PowerupAssets/ReputationPowerUp.png");
+  BlackTexture superFoodPowerupTexture = new BlackTexture("PowerupAssets/SuperFoodPowerUp.png");
+  BlackTexture tetrisSuperFoodPowerupTexture = new BlackTexture("PowerupAssets/TetrisSuperFoodPowerup.png");
+  BlackTexture frustrationSuperFoodPowerUpTexture = new BlackTexture("PowerupAssets/FrustrationPowerup.png");
+  BlackTexture closeMenuTexture = new BlackTexture("Items/CloseButton.png");
+  BlackTexture buyButtonTexture = new BlackTexture("BUYBUTTON.png");
+
   // Create objects for the power-up screen
-  GameObject background = new GameObject(new BlackTexture(""));
-  GameObject speedPowerUpButton = new GameObject(new BlackTexture(""));
-  GameObject reputationPowerUpButton = new GameObject(new BlackTexture(""));
-  GameObject superFoodPowerUpButton = new GameObject(new BlackTexture(""));
-  GameObject tetrisSuperFoodPowerUpButton = new GameObject(new BlackTexture(""));
-  GameObject stopFrustrationPowerUpButton = new GameObject(new BlackTexture(""));
-  GameObject closeMenuButton = new GameObject(new BlackTexture(""));
+  GameObject background = new GameObject(backgroundTexture);
+  GameObject speedPowerUpButton = new GameObject(speedPowerUpTexture);
+  GameObject reputationPowerUpButton = new GameObject(reputationPowerUpTexture);
+  GameObject superFoodPowerUpButton = new GameObject(superFoodPowerupTexture);
+  GameObject tetrisSuperFoodPowerUpButton = new GameObject(tetrisSuperFoodPowerupTexture);
+  GameObject stopFrustrationPowerUpButton = new GameObject(frustrationSuperFoodPowerUpTexture);
+  GameObject closeMenuButton = new GameObject(closeMenuTexture);
+
+  GameObject speedBuyButton = new GameObject(buyButtonTexture);
+  GameObject reputationBuyButton = new GameObject(buyButtonTexture);
+  GameObject superFoodBuyButton = new GameObject(buyButtonTexture);
+  GameObject tetrisSuperFoodBuyButton = new GameObject(buyButtonTexture);
+  GameObject stopFrustruationBuyButton = new GameObject(buyButtonTexture);
+
   CustomerController cc;
   Powerup powerup;
 
   HashMap<String, Integer> prices = new HashMap<>();
 
-  public void PowerupPurchaseMenu(CustomerController cc, Powerup powerup) {
+  public PowerupPurchaseMenu(CustomerController cc, Powerup powerup) {
     this.cc = cc;
     this.powerup = powerup;
 
@@ -34,6 +52,32 @@ public class PowerupPurchaseMenu extends Scriptable {
     prices.put("SuperFood", 75);
     prices.put("TetrisSuperFood", 100);
     prices.put("Frustration", 75);
+  }
+
+  public void initialiseState(){
+    hidePowerMenu();
+    backgroundTexture.layer = 19;
+    background.setPosition(250,50);
+    speedPowerUpTexture.layer = 20;
+    speedPowerUpButton.setPosition(350,450);
+    reputationPowerUpTexture.layer = 20;
+    reputationPowerUpButton.setPosition(350, 400);
+    superFoodPowerupTexture.layer = 20;
+    superFoodPowerUpButton.setPosition(350, 350);
+    tetrisSuperFoodPowerupTexture.layer = 20;
+    tetrisSuperFoodPowerUpButton.setPosition(350, 300);
+    frustrationSuperFoodPowerUpTexture.layer = 20;
+    stopFrustrationPowerUpButton.setPosition(350, 250);
+    closeMenuTexture.layer = 20;
+    closeMenuButton.setPosition(700, 500);
+
+    buyButtonTexture.layer = 20;
+    speedBuyButton.setPosition(450, 450);
+    reputationBuyButton.setPosition(450, 400);
+    superFoodBuyButton.setPosition(450, 350);
+    tetrisSuperFoodBuyButton.setPosition(450, 300);
+    stopFrustruationBuyButton.setPosition(450, 250);
+
   }
 
 
@@ -45,6 +89,13 @@ public class PowerupPurchaseMenu extends Scriptable {
     tetrisSuperFoodPowerUpButton.isVisible = true;
     stopFrustrationPowerUpButton.isVisible = true;
     closeMenuButton.isVisible = true;
+
+    speedBuyButton.isVisible = true;
+    reputationBuyButton.isVisible = true;
+    superFoodBuyButton.isVisible = true;
+    tetrisSuperFoodBuyButton.isVisible = true;
+    stopFrustruationBuyButton.isVisible = true;
+
   }
 
   public void hidePowerMenu() {
@@ -55,30 +106,40 @@ public class PowerupPurchaseMenu extends Scriptable {
     tetrisSuperFoodPowerUpButton.isVisible = false;
     stopFrustrationPowerUpButton.isVisible = false;
     closeMenuButton.isVisible = false;
+
+    speedBuyButton.isVisible = false;
+    reputationBuyButton.isVisible = false;
+    superFoodBuyButton.isVisible = false;
+    tetrisSuperFoodBuyButton.isVisible = false;
+    stopFrustruationBuyButton.isVisible = false;
   }
 
 
   @Override
   public void Update(float dt) {
+    System.out.println("Check");
     if (background.isVisible) {
       Integer money = cc.Money;
-      if (speedPowerUpButton.isClicked() && money > prices.get("Speed")) {
+      if (speedBuyButton.isClicked() && money > prices.get("Speed")) {
         cc.Money -= prices.get("Speed");
         powerup.doSpeedPowerup();
-      } else if (reputationPowerUpButton.isClicked() && money > prices.get("Reputation")) {
+      } else if (reputationBuyButton.isClicked() && money > prices.get("Reputation")) {
         cc.Money -= prices.get("Reputation");
         powerup.buyReputation();
-      } else if (superFoodPowerUpButton.isClicked() && money > prices.get("SuperFood")) {
+      } else if (superFoodBuyButton.isClicked() && money > prices.get("SuperFood")) {
         cc.Money -= prices.get("SuperFood");
         powerup.superFood();
-      } else if (tetrisSuperFoodPowerUpButton.isClicked() && money > prices.get(
+      } else if (tetrisSuperFoodBuyButton.isClicked() && money > prices.get(
           "TetrisSuperFood")) {
         cc.Money -= prices.get("TetrisSuperFood");
         powerup.tetrisSuperFood();
-      } else if (stopFrustrationPowerUpButton.isClicked() && money > prices.get("Frustration")) {
+      } else if (stopFrustruationBuyButton.isClicked() && money > prices.get("Frustration")) {
         cc.Money -= prices.get("Frustration");
         powerup.stopFrustration();
       } else if (closeMenuButton.isClicked()) {
+        System.out.println("CLOSING");
+        hidePowerMenu();
+      } else if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
         hidePowerMenu();
       }
     }
