@@ -1,14 +1,11 @@
 package com.mygdx.game.Core;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.function.Function;
 
 
 /**
@@ -155,6 +152,17 @@ public class Pathfinding {
 
   }
 
+  /**
+   * Finds a path from x,y to goalX, goalY
+   * @param x x coordinate
+   * @param y y coordinate
+   * @param goalX goal x coordinate
+   * @param goalY goal y coordinate
+   * @param distanceTest distance test to use (Manhatten or Euclidean)
+   * @return a list of points to follow to get to the goal. Empty if no path found.
+   *
+   * @author Felix Seanor
+   */
   public List<Vector2> FindPath(int x, int y, int goalX, int goalY,
       final DistanceTest distanceTest) {
     HashMap<Integer, PathfindingCell> ReachedCells = new HashMap<>();

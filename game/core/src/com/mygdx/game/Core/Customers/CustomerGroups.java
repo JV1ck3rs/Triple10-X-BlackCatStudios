@@ -15,8 +15,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * This manages a group (wave) of customers. It stores their current status in lists such eating lining up
- * BlackCatStudio's Code
+ * This manages a group (wave) of customers. It stores their current status in lists such eating
+ * lining up BlackCatStudio's Code
+ *
  * @author Felix Seanor
  */
 public class CustomerGroups {
@@ -52,7 +53,8 @@ public class CustomerGroups {
         i = i;
       }
 
-      Customer custLogic = new Customer(CustomerStart + i, OrderMenu.get(i), Customer.getCustomerAtlas(customerAtlas));
+      Customer custLogic = new Customer(CustomerStart + i, OrderMenu.get(i),
+          Customer.getCustomerAtlas(customerAtlas));
       GameObject customer = new GameObject(new BlackSprite());
       customer.position.set(Spawn);
       customer.attachScript(custLogic);
@@ -65,23 +67,24 @@ public class CustomerGroups {
   }
 
 
-  void addMemberToLine(Customer customer){
+  void addMemberToLine(Customer customer) {
     MembersInLine.add(customer);
     customer.waitingAtCounter = true;
   }
 
-  void addMemberToSitting(Customer customer){
+  void addMemberToSitting(Customer customer) {
     MembersSeatedOrWalking.add(customer);
     customer.waitingAtCounter = false;
   }
 
   /**
    * Create customer group from saved state
+   *
    * @param state
    * @param customerAtlas
    * @author Felix Seanor
    */
-  public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas){
+  public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas) {
     Orders = Arrays.asList(state.orders);
     Frustration = state.frustration;
     RecoveryValue = FrustrationRecovery * Frustration;
@@ -98,37 +101,42 @@ public class CustomerGroups {
     }
   }
 
-  public void showIcons(){
-    for(int i =0; i<MembersInLine.size(); i++){
-//      System.out.println(MembersInLine.get(i));
+  public List<ItemEnum> getOrders() {
+    return Orders;
+  }
+
+  public void showIcons() {
+    for (int i = 0; i < MembersInLine.size(); i++) {
+      System.out.println(MembersInLine.get(i));
       List<Vector2> path = MembersInLine.get(i).getPath();
       MembersInLine.get(i).foodIcon.getBlackTexture().height = 25;
       MembersInLine.get(i).foodIcon.getBlackTexture().width = 25;
-      MembersInLine.get(i).foodIcon.setPosition(MembersInLine.get(i).getX()+15, MembersInLine.get(i).getY()+10);
+      MembersInLine.get(i).foodIcon.setPosition(MembersInLine.get(i).getX() + 15,
+          MembersInLine.get(i).getY() + 10);
       MembersInLine.get(i).foodIcon.image.layer = 10;
-      if(path.isEmpty()){
+      if (path.isEmpty()) {
         MembersInLine.get(i).foodIcon.isVisible = true;
       }
     }
   }
 
-  public void removeIcons(Customer customer){
-        customer.foodIcon.isVisible = false;
+  public void removeIcons(Customer customer) {
+    customer.foodIcon.isVisible = false;
   }
 
 
-  public void checkClicks(){
-    for(int i = 0; i<Members.size(); i++){
-      if(Members.get(i).foodIcon.isClicked() && Members.get(i).foodIcon.isVisible){
+  public void checkClicks() {
+    for (int i = 0; i < Members.size(); i++) {
+      if (Members.get(i).foodIcon.isClicked() && Members.get(i).foodIcon.isVisible) {
         Members.get(i).foodRecipe.isVisible = true;
         Members.get(i).recipeCloseButton.isVisible = true;
         Members.get(i).foodRecipeOpen = true;
       }
     }
 
-    for(int i = 0; i<Members.size(); i++){
-      if(Members.get(i).foodRecipeOpen){
-        if(Members.get(i).recipeCloseButton.isClicked()){
+    for (int i = 0; i < Members.size(); i++) {
+      if (Members.get(i).foodRecipeOpen) {
+        if (Members.get(i).recipeCloseButton.isClicked()) {
           Members.get(i).foodRecipe.isVisible = false;
           Members.get(i).recipeCloseButton.isVisible = false;
         }
@@ -138,11 +146,11 @@ public class CustomerGroups {
   }
 
 
-  public Customer RemoveFirstCustomer(){
+  public Customer RemoveFirstCustomer() {
     Customer customer = MembersInLine.remove(0);
     addMemberToSitting(customer);
     removeIcons(customer);
-    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size()-1);
+    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size() - 1);
   }
 
   /**
@@ -165,6 +173,7 @@ public class CustomerGroups {
 
   /**
    * Is supplied dish in this group
+   *
    * @param item
    * @return
    * @author Felix Seanor
@@ -175,18 +184,19 @@ public class CustomerGroups {
 
   /**
    * Increases Frustration after a successful service (adds more time on)
+   *
    * @author Felix Seanor
    */
   public void updateFrustrationOnSucessfulService() {
     Frustration += RecoveryValue;
   }
 
-  public Customer FeedSpecificCustomer(int i){
+  public Customer FeedSpecificCustomer(int i) {
     Customer customer = MembersInLine.remove(i);
     addMemberToSitting(customer);
     removeIcons(customer);
 
-    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size()-1);
+    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size() - 1);
   }
 
   /**
@@ -212,7 +222,7 @@ public class CustomerGroups {
   public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave) {
     Frustration -= dt;
     if (Frustration <= 0) {
-      for (Customer customer:Members
+      for (Customer customer : Members
       ) {
         customer.foodIcon.isVisible = false;
       }
@@ -222,11 +232,12 @@ public class CustomerGroups {
 
   /**
    * Save the current state of this group into CustomerGroupState
+   *
    * @param leaving if this group is leaving
    * @return the current state of this group
    * @author Felix Seanor
    */
-  public CustomerGroupState SaveState(boolean leaving){
+  public CustomerGroupState SaveState(boolean leaving) {
     CustomerGroupState state = new CustomerGroupState();
     state.customerPositions = new Vector2[Members.size()];
     state.customersInGroupOrdering = new int[MembersInLine.size()];
@@ -258,14 +269,14 @@ public class CustomerGroups {
 
   /**
    * Destroy this entire group
+   *
    * @author Felix Seanor
    */
-  public void destroy()
-{
-  for (Customer cust: Members
-  ) {
-    cust.Destroy();
+  public void destroy() {
+    for (Customer cust : Members
+    ) {
+      cust.Destroy();
+    }
   }
-}
 
 }

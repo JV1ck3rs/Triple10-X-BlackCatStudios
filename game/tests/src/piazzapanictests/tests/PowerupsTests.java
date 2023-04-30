@@ -16,41 +16,41 @@ import org.junit.runner.RunWith;
 import com.badlogic.gdx.math.Vector2;
 
 
-
 /**
- Testing pathfinding
- @author Felix Seanor
+ * Testing pathfinding
+ *
+ * @author Felix Seanor
  **/
 @RunWith(GdxTestRunner.class)
-public class PowerupsTests extends MasterTestClass
-{
+public class PowerupsTests extends MasterTestClass {
+
   @Test
-  public void SpeedUpTest(){
+  public void SpeedUpTest() {
     instantiateCustomerScripts();
     instantiateMasterChef();
 
-    Powerup powerup = new Powerup(masterChef,cust);
+    Powerup powerup = new Powerup(masterChef, cust);
 
     float currentSpeed = masterChef.getChef(0).speed;
     powerup.doSpeedPowerup();
-    float newSpeed=  masterChef.getChef(0).speed;
+    float newSpeed = masterChef.getChef(0).speed;
 
-    assertTrue("New Speed must greater after the power up", newSpeed>currentSpeed);
+    assertTrue("New Speed must greater after the power up", newSpeed > currentSpeed);
 
   }
 
   @Test
-  public void buyReputation(){
+  public void buyReputation() {
     instantiateCustomerScripts();
     instantiateMasterChef();
 
-    Powerup powerup = new Powerup(masterChef,cust);
+    Powerup powerup = new Powerup(masterChef, cust);
 
     int reputation = cust.Reputation;
     powerup.buyReputation();
     int nrep = cust.Reputation;
 
-    assertTrue("New reputation must greater after the power up", nrep>reputation);
+    assertTrue("New reputation must greater after the power up", nrep > reputation);
 
   }
 }

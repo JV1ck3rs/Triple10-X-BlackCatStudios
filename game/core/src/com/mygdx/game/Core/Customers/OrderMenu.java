@@ -3,7 +3,6 @@ package com.mygdx.game.Core.Customers;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -41,6 +40,13 @@ public class OrderMenu
 
     OrderCatagories.add(burgers);
     OrderCatagories.add(salads);
+  }
+
+  /**
+   * Used to add potatoes and pizzas to the order menu when an oven has been added
+   * @author Jack Hinton
+   */
+  public void ovenAdded(){
     OrderCatagories.add(potato);
     OrderCatagories.add(pizza);
   }

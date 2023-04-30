@@ -94,7 +94,7 @@ public class GameScreen implements Screen {
 
   public MasterChef masterChef;
 
-
+  public int numOvens = 0;
   public GameObject exitLogo = new GameObject(new BlackTexture("Exit.png"));
 
 
@@ -123,6 +123,7 @@ public class GameScreen implements Screen {
   float scaleY;
   boolean isEndlessMode;
   FitViewport viewport;
+  EndScreen endScreen;
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
@@ -173,7 +174,7 @@ public class GameScreen implements Screen {
 
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    masterChef = new MasterChef(3, world, camera, pathfinding, difficultyState.chefParams);
+    masterChef = new MasterChef(3, world, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = difficultyState.ccParams;
@@ -239,7 +240,7 @@ public class GameScreen implements Screen {
             constructMachines.CreateToaster(rect);
             break;
           case "oven":
-            constructMachines.CreateOven(rect);
+            constructMachines.CreateOven(rect, customerController);
             break;
           case "customer counter":
             constructMachines.CreateCustomerCounters(rect);
@@ -519,9 +520,14 @@ public class GameScreen implements Screen {
    * @param values
    */
   public void EndGame(EndOfGameValues values) {
-    EndScreen screen = new EndScreen(game, this, timer, values, customerController.getNumberOfCustomersServed());
-    game.setScreen(screen);
-
+    if (!isEndlessMode) {
+      endScreen = new EndScreen(game, this, timer, values, -1);
+    } else {
+      endScreen = new EndScreen(game, this, timer, values,
+          customerController.getNumberOfCustomersServed());
+    }
+    gameMusic.stop();
+    game.setScreen(endScreen);
 
   }
 

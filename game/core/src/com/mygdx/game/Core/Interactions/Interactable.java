@@ -1,7 +1,6 @@
 package com.mygdx.game.Core.Interactions;
 
 import com.mygdx.game.Items.Item;
-import java.util.Optional;
 
 /**
  * Interface for interactions. An interaction looks to find this on GameObjects Scripts
@@ -50,5 +49,5 @@ public interface Interactable {
    * @return
    * @author Jack Hinton
    */
-  public boolean Interact();
+  public float Interact();
 }

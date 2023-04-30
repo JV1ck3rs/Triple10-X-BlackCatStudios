@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,17 +12,17 @@ import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.Inputs;
 import com.mygdx.game.Core.PathfindingAgent;
-import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.Station;
-
 import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
+
+import static java.lang.Math.min;
 
 
 /**
@@ -53,9 +52,9 @@ public class Chef extends PathfindingAgent implements Person {
   private TextureAtlas chefAtlas;
   public boolean isFrozen;
   private String lastOrientation;
-
+  private float locktime;
+  private float lockprogress = 0;
   private boolean ModifiedStack = false;
-
   List<Vector2> path;
 
   private Station currentStation;
@@ -105,8 +104,6 @@ public class Chef extends PathfindingAgent implements Person {
     gameObject.getSprite().setSprite(chefAtlas.createSprite("south1"));
     currentSpriteAnimation = 1;
     spriteOrientation = "south";
-
-    oldSpeed = speed;
 
     isFrozen = false;
     //sprite.setPosition(posX, posY); unnessary now
@@ -221,7 +218,6 @@ public class Chef extends PathfindingAgent implements Person {
     Vector2 dir = GetMoveDir().nor();
 
     //BlackCatStudios
-//    System.out.println(dir);
     if (dir.dot(dir) <= 0) {
       newOrientation = "idle" + spriteOrientation.replace("idle", "");
     } else {
@@ -244,7 +240,7 @@ public class Chef extends PathfindingAgent implements Person {
       }
     }
 
-//    System.out.println(newOrientation + " : " + spriteOrientation + " : " + lastOrientation);
+
   //Team Triple 10
     if (newOrientation.contains("idle")) {
       spriteState = newOrientation;
@@ -270,10 +266,6 @@ public class Chef extends PathfindingAgent implements Person {
     setTexture(spriteState);
     //Team Triple 10s
     spriteOrientation = newOrientation;
-
-    //cant figure out how to speed the character up it doesnt want to function
-    // gameObject.position.x = (b2body.getPosition().x) - getWidth() / 2;
-    //gameObject.position.y = b2body.getPosition().y;
   }
 
   /**
@@ -342,7 +334,7 @@ public class Chef extends PathfindingAgent implements Person {
   public String getMove() {
     String newOrientation = this.lastOrientation;
     if (isFrozen) {
-//      System.out.println("Frozen");
+      System.out.println("Frozen");
       return "idle" + this.lastOrientation;
     } else {
       if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_LEFT)) {
@@ -372,31 +364,34 @@ public class Chef extends PathfindingAgent implements Person {
 //  }
 
   /**
-   * Freezes the chef for a set period of time at its given station.
-   * Triple 10s code
-   * @param seconds time used to freeze chef
-   * @param station station chef is currently on
+   * Freezes the chef for a set period of time.
+   * Triple 10 & BlackCatStudios code
+   * @param locktime time the chef will be frozen
    * @author Amy Cross
+   * @author Jack Hinton
    */
-  public void freeze(int seconds, Station station) {
-    this.currentStation = station;
-    currentStation.setLocked(true);
+  public void freeze(float locktime) {
     isFrozen = true;
-    currentTimerFrame = 1;
-    frameTime = seconds * 0.1f;
-    animationTime = frameTime;
+    this.locktime = locktime;
   }
 
   /**
-   * Unfreezes the chef after the timer is finished.
-   * Triple 10s code
+   * Unfreezes the chef.
+   * Triple 10 & BlackCatStudios code
    * @author Amy Cross
+   * @author Jack Hinton
    */
   public void unfreeze() {
     isFrozen = false;
-    currentStation.setLocked(false);
-    //this.currentStation = new Station("none");
-    currentTimerFrame = 1;
+  }
+
+  public boolean freezeTimer(float dt) {
+    lockprogress = min(lockprogress + dt, locktime);
+    if (lockprogress == locktime) {
+      lockprogress = 0;
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -440,22 +435,6 @@ public class Chef extends PathfindingAgent implements Person {
     return CarryCapacity;
   }
 
-
-  /**
-   * Chooses a random sprite for the chef and makes sure both (or mroe) chef assets are different to
-   * each other.
-   * Team Triple 10s
-   * @param chefAtlasArray array of chef Atlas's
-   * @return Atlas atlas of the chef atlas we are using
-   * @author Amy Cross
-   */
-  private TextureAtlas getChefAtlas(ArrayList<TextureAtlas> chefAtlasArray) {
-    int randomIndex = (int) (Math.random() * chefAtlasArray.size());
-    TextureAtlas atlas = chefAtlasArray.get(randomIndex);
-    chefAtlasArray.remove(randomIndex);
-    return atlas;
-  }
-
   /**
    * Can fetch (take item from chef)
    *  BlackCatStudios Code
@@ -494,7 +473,11 @@ public class Chef extends PathfindingAgent implements Person {
 
     soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
 
-    return Optional.ofNullable(heldItems.pop());
+    return Optional.ofNullable(heldItems.peek());
+  }
+
+  public void popItem() {
+    heldItems.pop();
   }
 
   /**
@@ -554,37 +537,35 @@ public class Chef extends PathfindingAgent implements Person {
     heldItems.clear();
   }
 
-  /**
-   * Draws the timer onto the screen and runs the animation for the set time Then unfreezes the chef
-   * after timer is finished.
-   * Team Triple 10s code
-   * @param batch that we are drawing to
-   * @author Amy Cross
-   */
-  public void drawTimer(SpriteBatch batch) {
+//  /**
+//   * Draws the timer onto the screen and runs the animation for the set time Then unfreezes the chef
+//   * after timer is finished.
+//   * Team Triple 10s code
+//   * @param batch that we are drawing to
+//   * @author Amy Cross
+//   */
+//  public void drawTimer(SpriteBatch batch) {
 //    System.out.println("draw");
-    timerSprite.setPosition(gameObject.position.x, gameObject.position.y + getHeight());
-    if (currentTimerFrame <= 7) {
-//      System.out.println(animationTime);
-      if (animationTime <= 0) {
-        currentTimerFrame++;
-        animationTime = frameTime;
-        String state = "0" + currentTimerFrame;
-        timerSprite.setRegion(timerAtlas.findRegion(state));
-      }
-      timerSprite.draw(batch);
-      animationTime -= Gdx.graphics.getDeltaTime();
-//      System.out.println(animationTime);
-    } else {
-      unfreeze();
-    }
-  }
+//    timerSprite.setPosition(gameObject.position.x, gameObject.position.y + getHeight());
+//    if (currentTimerFrame <= 7) {
+//      if (animationTime <= 0) {
+//        currentTimerFrame++;
+//        animationTime = frameTime;
+//        String state = "0" + currentTimerFrame;
+//        timerSprite.setRegion(timerAtlas.findRegion(state));
+//      }
+//      timerSprite.draw(batch);
+//      animationTime -= Gdx.graphics.getDeltaTime();
+//    } else {
+//      unfreeze();
+//    }
+//  }
 
   /**
    * BlackCatStudios Code
    */
   public void changeSpeed(){
-
+      oldSpeed = speed;
       speed =  2600;
   }
 

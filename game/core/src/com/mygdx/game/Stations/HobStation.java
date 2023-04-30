@@ -1,7 +1,6 @@
 package com.mygdx.game.Stations;
 
 
-import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.ContinousSound;
 import com.mygdx.game.Core.GameObject;
@@ -10,7 +9,6 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 
-import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.soundFrame;
 import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
@@ -114,8 +112,9 @@ public class HobStation extends Station {
   }
 
   @Override
-  public boolean Interact() {
-    return interacted = true;
+  public float Interact() {
+    interacted = true;
+    return 0;
   }
 
 
@@ -178,7 +177,7 @@ public class HobStation extends Station {
       heldItem = new GameObject(new BlackTexture(Item.GetItemPath(item.name)));
       heldItem.image.setSize(imageSize, imageSize);
       heldItem.setPosition(gameObject.position.x + 4,
-          gameObject.position.y + (gameObject.getHeight() / 2) + 2);
+          gameObject.position.y + (gameObject.getHeight() / 2) + 8);
     } else {
       heldItem.image = new BlackTexture(Item.GetItemPath(item.name));
       heldItem.image.setSize(imageSize, imageSize);

@@ -22,13 +22,9 @@ Testing pathfinding
 @RunWith(GdxTestRunner.class)
 
 public class PathfindingTests {
-
-
   Pathfinding pathfinding;
-
   void SetUpPathfinding(){
     pathfinding = new Pathfinding(GameScreen.TILE_WIDTH/4,GameScreen.viewportWidth,GameScreen.viewportWidth);
-
   }
 
 
@@ -71,7 +67,10 @@ public class PathfindingTests {
     Boolean Fails = path.contains(new Vector2(0,5*stepSize));
 
     assertEquals("The path must avoid the obstical", false, Fails);
-    }
   }
+
+}
+
+
 
 

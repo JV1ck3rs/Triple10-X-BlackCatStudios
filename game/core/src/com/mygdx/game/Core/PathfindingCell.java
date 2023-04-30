@@ -1,6 +1,5 @@
 package com.mygdx.game.Core;
 
-import java.nio.file.Path;
 
 /**
  * Stored A* data for each discorvered cell

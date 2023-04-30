@@ -37,6 +37,6 @@ public class TrashCanTests extends MasterTestClass {
 
         assertFalse("Cannot interact with trashcan", trashCan.CanInteract());
 
-        assertFalse("Cannot interact with trashcan", trashCan.Interact());
+        assertEquals("Cannot interact with trashcan", 0.0, trashCan.Interact(), 0.1);
     }
 }
