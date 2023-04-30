@@ -144,6 +144,7 @@ public class OvenStation extends Station {
     @Override
     public void moveAnim(){
         animation.setPosition(gameObject.position.x, gameObject.position.y);
+        animation.
     }
 
 
