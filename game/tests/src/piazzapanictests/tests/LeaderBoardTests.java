@@ -58,9 +58,7 @@ public class LeaderBoardTests {
   public void testSave5RecordsToLeaderBoard() {
     File leaderboardFile = new File("leadboard.Fson");
     leaderboardFile.delete();
-    LeaderboardData data = new LeaderboardData();
-    data.score = 100;
-    data.name = "TestName";
+    LeaderboardData data = new LeaderboardData(100, "Test");
     LeaderBoard leaderBoard = new LeaderBoard();
     leaderBoard.createFSONFile();
     for (int i = 0; i < 5; i++) {
@@ -159,6 +157,15 @@ public class LeaderBoardTests {
     leaderBoard.WriteHighscores(score8);
     assertFalse("The leaderboard should not contain score8", leaderBoardRecords.contains(score8));
     leaderboardFile.delete();
+  }
+
+  @Test
+  public void testLeaderbpardDataToString() {
+    LeaderboardData data = new LeaderboardData(100, "Test");
+    assertEquals("The string should be the same as the data", "100     Test ", data.toString());
+    data.score = 10;
+    data.name = "A";
+    assertEquals("The string should be the same as the data", "10     A    ", data.toString());
   }
 
 }

@@ -31,7 +31,7 @@ public class Powerup {
             mc.downgradeSpeed();
           }
         },
-        60000
+        20000
     );
   }
 
