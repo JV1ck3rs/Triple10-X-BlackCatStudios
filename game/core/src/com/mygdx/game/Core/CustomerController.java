@@ -121,7 +121,7 @@ public class CustomerController extends Scriptable
     Reputation = params.Reputation;
     MaxReputation = 5; // set the max reputation to 5
     CustomerFrustrationStart = params.FrustrationStart;
-    //CustomerFrustrationStart = 1;
+//    CustomerFrustrationStart = 1;
     groupSize.y = Math.min(params.MaxCustomersPerWave, groupSize.y);
     groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
 

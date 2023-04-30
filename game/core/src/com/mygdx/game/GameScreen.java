@@ -602,6 +602,16 @@ public class GameScreen implements Screen {
 
     //Begins drawing the game batch
     game.batch.begin();
+    // Mutes or plays the music
+    if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
+      if (gameMusic.isPlaying()) {
+        soundFrame.SoundEngine.muteSound();
+        gameMusic.stop();
+      } else {
+        soundFrame.SoundEngine.unmuteSound();
+        gameMusic.play();
+      }
+    }
 
     if (!Paused) {
       displayTimer();
@@ -610,15 +620,6 @@ public class GameScreen implements Screen {
       updateCustomerLabel();
       //New rendering system
       RenderManager.renderer.onRender(game.batch);
-
-      // Mutes or plays the music
-      if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
-        if (gameMusic.isPlaying()) {
-          gameMusic.pause();
-        } else {
-          gameMusic.play();
-        }
-      }
       if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
         powerup.doSpeedPowerup();
       }
