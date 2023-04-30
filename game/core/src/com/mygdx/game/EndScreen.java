@@ -37,7 +37,7 @@ public class EndScreen implements Screen {
   int timer;
   private final BitmapFont timerFont;
   private final Label timerLabel;
-  private final Label VictoryOrLoss;
+//  private final Label VictoryOrLoss;
   private final Table table;
   float scaleX;
   float scaleY;
@@ -81,14 +81,9 @@ public class EndScreen implements Screen {
     timerLabel = new Label("TIME: " + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     String VL = (values.Won)? "won!" : "lost.";
-    VictoryOrLoss = new Label("You " + VL,
-        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
 
     BlackTexture uptex = new BlackTexture("ExitUp.png");
     BlackTexture downtex = new BlackTexture("ExitDown.png");
-
-
 
     table = new Table();
     table.setFillParent(true);
@@ -97,17 +92,14 @@ public class EndScreen implements Screen {
     Drawable drawableScenariobtnUp = new TextureRegionDrawable(uptex.textureRegion);
     Drawable drawableScenariobtnDown = new TextureRegionDrawable(downtex.textureRegion);
 
-
     Button scenariobtn = new Button();
     Button.ButtonStyle scenariobtnStyle = new Button.ButtonStyle();
     scenariobtn.setStyle(scenariobtnStyle);
     scenariobtnStyle.up = drawableScenariobtnUp;
     scenariobtnStyle.down = drawableScenariobtnDown;
 
-    table.add(scenariobtn).width(250 * scaleX).height(50 * scaleY).pad(200,25,25,25);
+    table.add(scenariobtn).width(250 * scaleX).height(50 * scaleY).pad(200*scaleY,25,25,25);
     table.row();
-
-
 
     ChangeListener playbtnMouseListener = new ChangeListener() {
       @Override
@@ -126,7 +118,6 @@ public class EndScreen implements Screen {
         dispose();
       }
     };
-
     scenariobtn.addListener(playbtnMouseListener);
 
 
@@ -147,20 +138,12 @@ public class EndScreen implements Screen {
    * Team Triple 10s
    */
   public void displayTimer() {
-    CharSequence str = "Final Time: " + timer;
+    CharSequence str = "Final Time: " + timer + "s";
     timerFont.draw(root.batch, str, 400, 300);
     timerFont.getData().setScale(3f, 3f);
     timerLabel.setText(str);
   }
 
-  /**
-   * Shows victory status for win or fail
-   * Team Triple 10s
-   */
-  public void displayVictoryStatus() {
-    timerFont.draw(root.batch, VictoryOrLoss.getText(), 400, 400);
-    timerFont.getData().setScale(3f, 3f);
-  }
 
 
   /**
@@ -176,7 +159,6 @@ public class EndScreen implements Screen {
     stage.draw();
     root.batch.begin();
     displayTimer();
-    displayVictoryStatus();
     root.batch.end();
   }
 

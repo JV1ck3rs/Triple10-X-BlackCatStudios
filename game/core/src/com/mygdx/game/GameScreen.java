@@ -323,12 +323,16 @@ public class GameScreen implements Screen {
    * @author Jack Vickers
    */
   private void setupGameUI() {
+    // sets up a stage for the UI
     gameUIStage = new Stage();
     Gdx.input.setInputProcessor(gameUIStage);
     Table gameUITable = new Table();
     gameUIStage.addActor(gameUITable);
     gameUITable.setFillParent(true);
     gameUITable.align(Align.top);
+    // creates a label which displays whether the game is the endless mode or scenario mode
+    // This label gets updates elsewhere to show either number of customers left or number
+    // of customers served depending on the mode.
     if (isEndlessMode) {
       modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
           Color.WHITE));
@@ -341,6 +345,7 @@ public class GameScreen implements Screen {
       gameUITable.add(modeLabel).align(Align.topLeft).expandX();
     }
     updateCustomerLabel();
+    // Creates the pause button
     TextureRegion pauseBtn = new TextureRegion(new Texture("PauseUp.png"));
     TextureRegion pauseBtnDown = new TextureRegion(new Texture("PauseDown.png"));
     Drawable pauseBtnDrawable = new TextureRegionDrawable(pauseBtn);
@@ -360,6 +365,8 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(pauseStage); // set the input processor to the pause stage
       }
     });
+
+
     //TODO: Possibly use this function for the powerup menu in the future
 
     //TODO: Add a level which displays the number of customers remaining for the scenario mode
