@@ -3,32 +3,32 @@
 #PRESS SPACE TO FLIP BURGER
 #PRESS SPACE TO FLIP BURGER
 #PRESS SPACE TO FLIP BURGER
-FE customer 0: LettuceTomatoSalad
-FGcustomer 0: CheeseBurger
-FH customer 0: LettuceTomatoSalad
-FIcustomer 0: Burger
-KJcustomer 0: Burger
-KMcustomer 0: LettuceOnionSalad
-KNcustomer 0: LettuceOnionSalad
-KOcustomer 0: LettuceOnionSalad
-KPcustomer 0: LettuceOnionSalad
-KPcustomer 1: CheeseBurger
-KP%customer 2: TomatoOnionLettuceSalad
-KPcustomer 3: LettuceOnionSalad
-KPcustomer 4: LettuceOnionSalad
-KS customer 0: LettuceTomatoSalad
-KScustomer 1: CheeseBurger
-KScustomer 2: Burger
-KS%customer 3: TomatoOnionLettuceSalad
-WXPRESS SPACE TO FLIP BURGER
-WXPRESS SPACE TO FLIP BURGER
-WXPRESS SPACE TO FLIP BURGER
-W]PRESS SPACE TO FLIP BURGER
-W]PRESS SPACE TO FLIP BURGER
-W]PRESS SPACE TO FLIP BURGER
-W]PRESS SPACE TO FLIP BURGER
-ãä2Game state printed to: ../assets/TestingData.ser
-ãå%customer 0: TomatoOnionLettuceSalad
-ãåcustomer 1: CheeseBurger
-ïó$com.mygdx.game.Items.Item@26e5b0f8
-ïó$com.mygdx.game.Items.Item@22da30fc
+FE%customer 0: TomatoOnionLettuceSalad
+FH%customer 0: TomatoOnionLettuceSalad
+FIcustomer 0: CheeseBurger
+FJcustomer 0: CheeseBurger
+FKcustomer 0: Burger
+FKcustomer 1: LettuceOnionSalad
+FKcustomer 2: CheeseBurger
+FKcustomer 3: CheeseBurger
+FKcustomer 4: Burger
+FMcustomer 0: CheeseBurger
+FNcustomer 1: Burger
+FPcustomer 0: CheeseBurger
+FPcustomer 1: LettuceOnionSalad
+FP%customer 2: TomatoOnionLettuceSalad
+FP%customer 3: TomatoOnionLettuceSalad
+TUPRESS SPACE TO FLIP BURGER
+TUPRESS SPACE TO FLIP BURGER
+TUPRESS SPACE TO FLIP BURGER
+TZPRESS SPACE TO FLIP BURGER
+TZPRESS SPACE TO FLIP BURGER
+TZPRESS SPACE TO FLIP BURGER
+TZPRESS SPACE TO FLIP BURGER
+âà2Game state printed to: ../assets/TestingData.ser
+âä%customer 0: TomatoOnionLettuceSalad
+âäcustomer 1: CheeseBurger
+çècustomer 0: CheeseBurger
+çìcustomer 0: Burger
+ïó$com.mygdx.game.Items.Item@79191f18
+ïó$com.mygdx.game.Items.Item@7d2684e3

@@ -104,7 +104,7 @@ public class EndScreen implements Screen {
     scenariobtnStyle.up = drawableScenariobtnUp;
     scenariobtnStyle.down = drawableScenariobtnDown;
 
-    table.add(scenariobtn).width(250 * scaleX).height(50 * scaleY).pad(200,25,25,25);
+    table.add(scenariobtn).width(250 * scaleX).height(50 * scaleY).pad(scaleY*200,25,25,25);
     table.row();
 
 
@@ -114,7 +114,12 @@ public class EndScreen implements Screen {
       public void changed(ChangeEvent event, Actor actor) {
 //        gameScreen.gameMusic.stop();
         try {
-          root.setScreen(new LeaderboardScreen(root, values, numberOfCustomersServed));
+          if (numberOfCustomersServed < 0) {
+            root.setScreen(new MenuScreen(root));
+
+          } else {
+            root.setScreen(new LeaderboardScreen(root, values, numberOfCustomersServed));
+          }
         } catch (IOException e) {
           throw new RuntimeException(e);
         }

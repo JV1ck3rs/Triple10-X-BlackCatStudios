@@ -90,16 +90,15 @@ class MasterTestClass {
   }
 
   void instantiateCustomerScripts() {
-
     instantiateCustomerScripts(Difficulty.Stressful);
   }
 
-  void instantiateCustomerScripts(Difficulty difficaulty) {
+  void instantiateCustomerScripts(Difficulty difficulty) {
 
     GameObjectManager.objManager = null;
     TextureDictionary dico = new TextureDictionary();
 
-    DifficultyState difficultyState = DifficultyMaster.getDifficulty(difficaulty);
+    DifficultyState difficultyState = DifficultyMaster.getDifficulty(difficulty);
     pathfinding = new Pathfinding(GameScreen.TILE_WIDTH / 4, GameScreen.viewportWidth,
         GameScreen.viewportWidth);
 

@@ -1,7 +1,16 @@
 package piazzapanictests.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.GameObjectManager;
@@ -13,6 +22,9 @@ import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.GameScreen;
+import com.mygdx.game.Items.Item;
+import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.ScenarioModeConfigScreen;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.junit.Test;
@@ -32,10 +44,11 @@ public class ScenarioModeTests {
    *
    * @param difficulty  The difficulty of the game.
    * @param noCustomers The number of customers in the game.
+   * @param frustration The time that it takes for the customer to become frustrated.
    * @author Jack Vickers
    * @date 19/04/2023
    */
-  void InstantiateCustomerScripts(Difficulty difficulty, int noCustomers) {
+  void InstantiateCustomerScripts(Difficulty difficulty, int noCustomers, int frustration) {
     GameObjectManager.objManager = null;
     TextureDictionary dico = new TextureDictionary();
     DifficultyState difficultyState = DifficultyMaster.getDifficulty(difficulty);
@@ -44,6 +57,7 @@ public class ScenarioModeTests {
     manager = new GameObjectManager();
     params = difficultyState.ccParams;
     params.NoCustomers = noCustomers;
+    params.FrustrationStart = frustration;
     cust = new CustomerController(new Vector2(0, 0), new Vector2(32, 0), pathfinding,
         (EndOfGameValues a) -> EndGame(a), params, new Vector2(190, 390), new Vector2(190, 290),
         new Vector2(290, 290));
@@ -58,7 +72,7 @@ public class ScenarioModeTests {
    */
   @Test
   public void testWaveSetupWithMoreThan10Customers() {
-    InstantiateCustomerScripts(Difficulty.Relaxing, 37);
+    InstantiateCustomerScripts(Difficulty.Relaxing, 37, 50);
     ArrayList<Integer> customersPerScenarioWave = cust.getCustomersPerScenarioWave();
     int totalCustomers = 0;
     for (int i : customersPerScenarioWave) {
@@ -82,7 +96,7 @@ public class ScenarioModeTests {
    */
   @Test
   public void testWaveSetupWithLessThan10Customers() {
-    InstantiateCustomerScripts(Difficulty.Relaxing, 5);
+    InstantiateCustomerScripts(Difficulty.Relaxing, 5, 50);
     ArrayList<Integer> customersPerScenarioWave = cust.getCustomersPerScenarioWave();
     int totalCustomers = 0;
     for (int i : customersPerScenarioWave) {
@@ -104,7 +118,7 @@ public class ScenarioModeTests {
    */
   @Test
   public void testWaveSetupWith10Customers() {
-    InstantiateCustomerScripts(Difficulty.Relaxing, 10);
+    InstantiateCustomerScripts(Difficulty.Relaxing, 10, 50);
     ArrayList<Integer> customersPerScenarioWave = cust.getCustomersPerScenarioWave();
     int totalCustomers = 0;
     for (int i : customersPerScenarioWave) {
@@ -129,7 +143,7 @@ public class ScenarioModeTests {
    */
   @Test
   public void testWaveSetupWith6Customers() {
-    InstantiateCustomerScripts(Difficulty.Relaxing, 6);
+    InstantiateCustomerScripts(Difficulty.Relaxing, 6, 50);
     ArrayList<Integer> customersPerScenarioWave = cust.getCustomersPerScenarioWave();
     int totalCustomers = 0;
     for (int i : customersPerScenarioWave) {
@@ -154,7 +168,7 @@ public class ScenarioModeTests {
    */
   @Test
   public void testWaveSetupWith100Customers() {
-    InstantiateCustomerScripts(Difficulty.Relaxing, 100);
+    InstantiateCustomerScripts(Difficulty.Relaxing, 100, 50);
     ArrayList<Integer> customersPerScenarioWave = cust.getCustomersPerScenarioWave();
     int totalCustomers = 0;
     for (int i : customersPerScenarioWave) {
@@ -172,4 +186,48 @@ public class ScenarioModeTests {
   void EndGame(EndOfGameValues val) {
     vals = val;
   }
+
+  /**
+   * This test checks whether the game ends when the player has fed all the customers in the
+   * scenario mode.
+   *
+   * @author Jack Vickers
+   * @date 29/04/2023
+   */
+  @Test
+  public void testGameEndsWin() {
+    // Instantiates the customer scripts and sets the number of customers to 1
+    InstantiateCustomerScripts(Difficulty.Relaxing, 1, 50);
+    // Creates the waiting customer group
+    cust.CanAcceptNewCustomer();
+    // Gets the item that the customer wants
+    Item itemToGive = new Item(cust.getCurrentWaitingCustomerGroup().getOrders().get(0));
+    // Gives the customer the item they want
+    cust.tryGiveFood(itemToGive);
+    // Checks whether the game has ended
+    cust.CanAcceptNewCustomer();
+    assertTrue("The game should have ended as a win", vals.Won);
+  }
+
+  /**
+   * This test checks whether the game ends when the player has lost all their reputation points in
+   * the scenario mode.
+   *
+   * @author Jack Vickers
+   * @date 29/04/2023
+   */
+  @Test
+  public void testGameEndsLoss() {
+    // Instantiates the customer scripts, sets the number of customers to 1, and sets
+    // the customer frustration time to 0.
+    // Setting the number of customers to 1 means that the number of reputation
+    // points also gets set to 1.
+    InstantiateCustomerScripts(Difficulty.Relaxing, 1, 0);
+    // Creates the waiting customer group
+    cust.CanAcceptNewCustomer();
+    // Since frustration time is set to
+    cust.FrustrationLeave(cust.getCurrentWaitingCustomerGroup());
+    assertFalse("The game should have ended as a loss", vals.Won);
+  }
+
 }

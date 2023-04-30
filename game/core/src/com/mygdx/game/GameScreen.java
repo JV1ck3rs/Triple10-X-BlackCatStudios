@@ -121,6 +121,7 @@ public class GameScreen implements Screen {
   float scaleY;
   boolean isEndlessMode;
   FitViewport viewport;
+  EndScreen endScreen;
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
@@ -499,9 +500,14 @@ public class GameScreen implements Screen {
    * @param values
    */
   public void EndGame(EndOfGameValues values) {
-    EndScreen screen = new EndScreen(game, this, timer, values, customerController.getNumberOfCustomersServed());
-    game.setScreen(screen);
-
+    if (!isEndlessMode) {
+      endScreen = new EndScreen(game, this, timer, values, -1);
+    } else {
+      endScreen = new EndScreen(game, this, timer, values,
+          customerController.getNumberOfCustomersServed());
+    }
+    gameMusic.stop();
+    game.setScreen(endScreen);
 
   }
 

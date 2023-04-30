@@ -12,145 +12,148 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 /**
- * Bakes potatoes and pizzas
- * BlackCatStudio's Code
+ * Bakes potatoes and pizzas BlackCatStudio's Code
+ *
  * @author Jack Hinton
  */
 public class OvenStation extends Station {
 
-    boolean interacted;
-    boolean ready;
-    public float maxProgress;
-    public float progress;
-    public static ArrayList<ItemEnum> ItemWhiteList;
-    Consumer<Boolean> OvenMade;
+  boolean interacted;
+  boolean ready;
+  public float maxProgress;
+  public float progress;
+  public static ArrayList<ItemEnum> ItemWhiteList;
+  Consumer<Boolean> OvenMade;
 
 
-    public OvenStation(CookingParams params, Consumer<Boolean> customerController) {
-        super(params);
-        OvenMade = customerController;
-        ready = false;
-        maxProgress = 10;
-        animation = new GameObject(new BlackTexture("Items/OvenActive.png"));
-        animation.isVisible = false;
-        if (ItemWhiteList == null) {
-            ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Potato, ItemEnum.CheesePotato, ItemEnum.MeatPotato,
-                    ItemEnum.CheesePizza, ItemEnum.MeatPizza, ItemEnum.VegPizza, ItemEnum.CheesePizzaCooked,
-                    ItemEnum.MeatPizzaCooked, ItemEnum.VegPizzaCooked, ItemEnum.BakedPotato, ItemEnum.CheeseBake,
-                    ItemEnum.MeatBake));
-        }
+  public OvenStation(CookingParams params, Consumer<Boolean> customerController) {
+    super(params);
+    OvenMade = customerController;
+    ready = false;
+    maxProgress = 10;
+    animation = new GameObject(new BlackTexture("Items/OvenActive.png"));
+    animation.isVisible = false;
+    if (ItemWhiteList == null) {
+      ItemWhiteList = new ArrayList<>(
+          Arrays.asList(ItemEnum.Potato, ItemEnum.CheesePotato, ItemEnum.MeatPotato,
+              ItemEnum.CheesePizza, ItemEnum.MeatPizza, ItemEnum.VegPizza,
+              ItemEnum.CheesePizzaCooked,
+              ItemEnum.MeatPizzaCooked, ItemEnum.VegPizzaCooked, ItemEnum.BakedPotato,
+              ItemEnum.CheeseBake,
+              ItemEnum.MeatBake));
     }
+  }
 
 
-    @Override
-    public boolean GiveItem(Item item) {
-        if (getLocked()) {
-            boolean repaired = checkRepairTool(item);
-            if(repaired){
-                if(numOvens<1) {
-                    OvenMade.accept(true);
-                    numOvens++;
-                }
-                deleteItem();
-            }
-            return repaired;
+  @Override
+  public boolean GiveItem(Item item) {
+    if (getLocked()) {
+      boolean repaired = checkRepairTool(item);
+      if (repaired) {
+        if (numOvens < 1) {
+          OvenMade.accept(true);
+          numOvens++;
         }
-        if (this.item != null) {
-            return false;
-        }
-        changeItem(item);
-        checkItem();
-        animation.isVisible = true;
-        return true;
-    }
-
-
-    @Override
-    public Item RetrieveItem() {
-        bubble.isVisible = false;
-        returnItem = item;
         deleteItem();
-        currentRecipe = null;
-        animation.isVisible = false;
-        return returnItem;
+      }
+      return repaired;
     }
-
-
-    @Override
-    public boolean CanRetrieve() {
-        return item != null;
+    if (this.item != null || !ItemWhiteList.contains(item.name)) {
+      return false;
     }
+    changeItem(item);
+    checkItem();
+    animation.isVisible = true;
+    return true;
+  }
 
 
-    @Override
-    public boolean CanGive() {
+  @Override
+  public Item RetrieveItem() {
+    bubble.isVisible = false;
+    returnItem = item;
+    deleteItem();
+    currentRecipe = null;
+    animation.isVisible = false;
+    return returnItem;
+  }
 
-        return item == null;
+
+  @Override
+  public boolean CanRetrieve() {
+    return item != null;
+  }
+
+
+  @Override
+  public boolean CanGive() {
+
+    return item == null;
+  }
+
+
+  @Override
+  public boolean CanInteract() {
+    return false;
+  }
+
+
+  @Override
+  public float Interact() {
+    return 0;
+  }
+
+
+  public void checkItem() {
+    if (ItemWhiteList.contains(item.name)) {
+      currentRecipe = recipes.RecipeMap.get(item.name);
+      bubble.isVisible = true;
+    } else {
+      currentRecipe = null;
+      bubble.isVisible = false;
     }
+  }
 
 
-    @Override
-    public boolean CanInteract(){
-        return false;
+  public void Cook(float dt) {
+    ready = currentRecipe.RecipeSteps.get(item.step)
+        .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
+    if (ready) {
+      changeItem(new Item(currentRecipe.endItem));
+      checkItem();
+      return;
     }
+    progressBar();
+  }
 
 
-    @Override
-    public float Interact() {
-        return 0;
+  public void progressBar() {
+    bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
+  }
+
+
+  public int getProgress() {
+    progress = item.progress / maxProgress;
+    return (int) (progress / 0.125) + 1;
+  }
+
+
+  @Override
+  public void updatePictures() {
+    return;
+  }
+
+
+  @Override
+  public void moveAnim() {
+    animation.setPosition(gameObject.position.x, gameObject.position.y);
+  }
+
+
+  @Override
+  public void Update(float dt) {
+    if (currentRecipe != null) {
+      Cook(dt);
     }
-
-
-    public void checkItem() {
-        if (ItemWhiteList.contains(item.name)) {
-            currentRecipe = recipes.RecipeMap.get(item.name);
-            bubble.isVisible = true;
-        }
-        else{
-            currentRecipe = null;
-            bubble.isVisible = false;
-        }
-    }
-
-
-    public void Cook(float dt) {
-        ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt-stationTimeDecrease, interacted, maxProgress);
-        if (ready) {
-            changeItem(new Item(currentRecipe.endItem));
-            checkItem();
-            return;
-        }
-        progressBar();
-    }
-
-
-    public void progressBar(){
-        bubble.image = new BlackTexture("Timer/0"+getProgress()+".png");
-    }
-
-
-    public int getProgress() {
-        progress = item.progress / maxProgress;
-        return (int) (progress/0.125) + 1;
-    }
-
-
-    @Override
-    public void updatePictures() {
-        return;
-    }
-
-
-    @Override
-    public void moveAnim(){
-        animation.setPosition(gameObject.position.x, gameObject.position.y);
-    }
-
-
-    @Override
-    public void Update(float dt) {
-        if (currentRecipe != null) {
-            Cook(dt);
-        }
-    }
+  }
 }

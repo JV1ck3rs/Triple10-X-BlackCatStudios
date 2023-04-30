@@ -105,8 +105,6 @@ public class Chef extends PathfindingAgent implements Person {
     currentSpriteAnimation = 1;
     spriteOrientation = "south";
 
-    oldSpeed = speed;
-
     isFrozen = false;
     //sprite.setPosition(posX, posY); unnessary now
     //MyGdxGame.buildObject(world, posX, posY, sprite.getWidth(), sprite.getHeight(), "Dynamic");
@@ -220,7 +218,6 @@ public class Chef extends PathfindingAgent implements Person {
     Vector2 dir = GetMoveDir().nor();
 
     //BlackCatStudios
-//    System.out.println(dir);
     if (dir.dot(dir) <= 0) {
       newOrientation = "idle" + spriteOrientation.replace("idle", "");
     } else {
@@ -243,7 +240,7 @@ public class Chef extends PathfindingAgent implements Person {
       }
     }
 
-//    System.out.println(newOrientation + " : " + spriteOrientation + " : " + lastOrientation);
+
   //Team Triple 10
     if (newOrientation.contains("idle")) {
       spriteState = newOrientation;
@@ -269,10 +266,6 @@ public class Chef extends PathfindingAgent implements Person {
     setTexture(spriteState);
     //Team Triple 10s
     spriteOrientation = newOrientation;
-
-    //cant figure out how to speed the character up it doesnt want to function
-    // gameObject.position.x = (b2body.getPosition().x) - getWidth() / 2;
-    //gameObject.position.y = b2body.getPosition().y;
   }
 
   /**
@@ -442,22 +435,6 @@ public class Chef extends PathfindingAgent implements Person {
     return CarryCapacity;
   }
 
-
-  /**
-   * Chooses a random sprite for the chef and makes sure both (or mroe) chef assets are different to
-   * each other.
-   * Team Triple 10s
-   * @param chefAtlasArray array of chef Atlas's
-   * @return Atlas atlas of the chef atlas we are using
-   * @author Amy Cross
-   */
-  private TextureAtlas getChefAtlas(ArrayList<TextureAtlas> chefAtlasArray) {
-    int randomIndex = (int) (Math.random() * chefAtlasArray.size());
-    TextureAtlas atlas = chefAtlasArray.get(randomIndex);
-    chefAtlasArray.remove(randomIndex);
-    return atlas;
-  }
-
   /**
    * Can fetch (take item from chef)
    *  BlackCatStudios Code
@@ -560,37 +537,35 @@ public class Chef extends PathfindingAgent implements Person {
     heldItems.clear();
   }
 
-  /**
-   * Draws the timer onto the screen and runs the animation for the set time Then unfreezes the chef
-   * after timer is finished.
-   * Team Triple 10s code
-   * @param batch that we are drawing to
-   * @author Amy Cross
-   */
-  public void drawTimer(SpriteBatch batch) {
-    System.out.println("draw");
-    timerSprite.setPosition(gameObject.position.x, gameObject.position.y + getHeight());
-    if (currentTimerFrame <= 7) {
-//      System.out.println(animationTime);
-      if (animationTime <= 0) {
-        currentTimerFrame++;
-        animationTime = frameTime;
-        String state = "0" + currentTimerFrame;
-        timerSprite.setRegion(timerAtlas.findRegion(state));
-      }
-      timerSprite.draw(batch);
-      animationTime -= Gdx.graphics.getDeltaTime();
-//      System.out.println(animationTime);
-    } else {
-      unfreeze();
-    }
-  }
+//  /**
+//   * Draws the timer onto the screen and runs the animation for the set time Then unfreezes the chef
+//   * after timer is finished.
+//   * Team Triple 10s code
+//   * @param batch that we are drawing to
+//   * @author Amy Cross
+//   */
+//  public void drawTimer(SpriteBatch batch) {
+//    System.out.println("draw");
+//    timerSprite.setPosition(gameObject.position.x, gameObject.position.y + getHeight());
+//    if (currentTimerFrame <= 7) {
+//      if (animationTime <= 0) {
+//        currentTimerFrame++;
+//        animationTime = frameTime;
+//        String state = "0" + currentTimerFrame;
+//        timerSprite.setRegion(timerAtlas.findRegion(state));
+//      }
+//      timerSprite.draw(batch);
+//      animationTime -= Gdx.graphics.getDeltaTime();
+//    } else {
+//      unfreeze();
+//    }
+//  }
 
   /**
    * BlackCatStudios Code
    */
   public void changeSpeed(){
-
+      oldSpeed = speed;
       speed =  2600;
   }
 

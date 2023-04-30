@@ -40,6 +40,7 @@ public class ScenarioModeConfigScreen implements Screen {
   TextField textField;
   TextureAtlas scenarioConfigAtlas;
   Label errorMessage;
+  Button hardBtn;
 
   /**
    * Constructor for the scenario mode config screen.
@@ -162,7 +163,7 @@ public class ScenarioModeConfigScreen implements Screen {
     Drawable drawableHardBtnUp = new TextureRegionDrawable(hardBtnTexture);
     Drawable drawableHardBtnDown = new TextureRegionDrawable(hardBtnDownTexture);
     Button.ButtonStyle hardBtnStyle = new Button.ButtonStyle();
-    Button hardBtn = new Button();
+    hardBtn = new Button();
     hardBtn.setStyle(hardBtnStyle);
     hardBtnStyle.up = drawableHardBtnUp;
     hardBtnStyle.down = drawableHardBtnDown;
@@ -180,6 +181,10 @@ public class ScenarioModeConfigScreen implements Screen {
     });
   }
 
+  public Button getHardBtn() {
+    return hardBtn;
+  }
+
   /**
    * Checks the user text input and sets the number of customers in the game.
    *
@@ -187,7 +192,7 @@ public class ScenarioModeConfigScreen implements Screen {
    * @author Jack Vickers
    * @date 19/04/2023
    */
-  private void checkInput(Difficulty difficultyLevel) {
+  public void checkInput(Difficulty difficultyLevel) {
     int numCustomers = 5;
     if (InputChecker.checkCustomerNumberInput(textField.getText())) {
       numCustomers = Integer.parseInt(textField.getText());
