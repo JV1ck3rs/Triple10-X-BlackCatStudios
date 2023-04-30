@@ -689,6 +689,10 @@ public class CustomerController extends Scriptable
     return success != -1;
   }
 
+  public List<Customer> getMemberSeatedOrWalking() {
+    return currentWaiting.MembersSeatedOrWalking;
+  }
+
   /**
    * Checks to see if the current customer group can be expelled from the currenly waiting slot
    *
