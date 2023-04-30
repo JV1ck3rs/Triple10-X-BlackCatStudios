@@ -7,38 +7,39 @@ import com.mygdx.game.Core.TextureDictionary;
 import java.util.HashMap;
 
 /**
- * This class shows how to create food from their recipes when clicked
- * BlackCatStudio's code
+ * This class shows how to create food from their recipes when clicked BlackCatStudio's code
+ *
  * @author Sam Toner
  */
 public class showRecipeInstructions {
-    HashMap<String, String> recipeMap = new HashMap<>();
-    public GameObject imageObject;
 
-    public showRecipeInstructions(){
-        recipeMap.put("Empty", "Recipes/EmptyRecipe.png");
-        recipeMap.put("salad", "speech_dish1.png");
-        recipeMap.put("burger", "Recipes/BurgerRecipe.png");
-    }
-  
+  HashMap<String, String> recipeMap = new HashMap<>();
+  public GameObject imageObject;
 
-    public void changeInstructionPage(String dish){
-        Texture tex = TextureDictionary.textures.Get(recipeMap.get(dish));
-        imageObject.getBlackTexture().changeTexture(tex);
-    }
+  public showRecipeInstructions() {
+    recipeMap.put("Empty", "Recipes/EmptyRecipe.png");
+    recipeMap.put("salad", "speech_dish1.png");
+    recipeMap.put("burger", "Recipes/BurgerRecipe.png");
+  }
 
-    public void makeVisible(){
-        imageObject.isVisible = true;
-    }
 
-    public void makeInvisible(){
-        imageObject.isVisible = false;
-    }
+  public void changeInstructionPage(String dish) {
+    Texture tex = TextureDictionary.textures.Get(recipeMap.get(dish));
+    imageObject.getBlackTexture().changeTexture(tex);
+  }
 
-    public void removeInstructionPage(){
-        imageObject = null;
-    }
+  public void makeVisible() {
+    imageObject.isVisible = true;
+  }
 
-    public void createInstructionPage(String empty) {
-    }
+  public void makeInvisible() {
+    imageObject.isVisible = false;
+  }
+
+  public void removeInstructionPage() {
+    imageObject = null;
+  }
+
+  public void createInstructionPage(String empty) {
+  }
 }

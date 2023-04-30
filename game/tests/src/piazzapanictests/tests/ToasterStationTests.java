@@ -60,14 +60,6 @@ public class ToasterStationTests extends MasterTestClass {
     assertNotNull("The toaster station should have an item on it", toasterStation.item);
     toasterStation.RetrieveItem(); //attempts to retrieve the bun from the toaster for testing
     assertNull("There should be no item on the toaster station", toasterStation.RetrieveItem());
-    toasterStation.GiveItem(new Item(ItemEnum.ToastedBuns));
-    assertNotNull("The toaster station should have an item on it", toasterStation.item);
-    toasterStation.RetrieveItem();
-    assertNull("There should be no item on the toaster station", toasterStation.RetrieveItem());
-    toasterStation.GiveItem(new Item(ItemEnum.Burger));
-    assertNotNull("The toaster station should have an item on it", toasterStation.item);
-    toasterStation.RetrieveItem();
-    assertNull("There should be no item on the toaster station", toasterStation.RetrieveItem());
   }
 
   /**
@@ -97,6 +89,7 @@ public class ToasterStationTests extends MasterTestClass {
       toasterStation.GiveItem(testing); // gives the current test item to the toaster
       if (!(testing.equals(buns))) { // if the item currently being tested is not a valid item
         assertNull("Current recipe on toaster should be null if an incorrect item is on the toaster (i.e. not in toaster white list) and therefore cannot be toasted", toasterStation.currentRecipe);
+        assertFalse("False should be returned when invalid item is given to the toaster", toasterStation.GiveItem(testing));
       } else {
         assertNotNull("There is a valid item on the toaster (buns) the current recipe should not be null showing it can be toasted", toasterStation.currentRecipe);
       }

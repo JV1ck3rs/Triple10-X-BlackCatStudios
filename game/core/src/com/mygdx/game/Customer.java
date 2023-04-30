@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 /**
  * Assigns all attributes and animation and interactions that the customer will go through in the
- * game including which dish they will pick.
- * Mixture of BlackCatStudios and Team Triple 10s
+ * game including which dish they will pick. Mixture of BlackCatStudios and Team Triple 10s
+ *
  * @author Felix Seanor
  * @author Jack Vickers
  * @author Amy Cross
@@ -47,6 +47,7 @@ public class Customer extends PathfindingAgent implements Person {
    * Initialises the customer and certain variables that we are going to use to interact with the
    * game. We also set the spawn randomiser and the interval between when each customer arrives
    * Mixture of BlackCatStudios and Team Triple 10s
+   *
    * @param customerNumber the ID of each individual customer which will be interacted with
    */
   public Customer(int customerNumber, ItemEnum Order, TextureAtlas texture) {
@@ -78,10 +79,8 @@ public class Customer extends PathfindingAgent implements Person {
     closeButtonTex.setSize(40, 40);
     closeButtonTex.layer = 10;
     recipeCloseButton = new GameObject(closeButtonTex);
-    recipeCloseButton.setPosition(470,470);
+    recipeCloseButton.setPosition(470, 470);
     recipeCloseButton.isVisible = false;
-
-
 
     foodIcon.isVisible = false;
     try {
@@ -94,12 +93,14 @@ public class Customer extends PathfindingAgent implements Person {
   }
 
   /**
-   * Returns animation frame
-   * Team Triple 10s code
-   * @author Team Triple 10
+   * Returns animation frame Team Triple 10s code
+   *
    * @return
+   * @author Team Triple 10
    */
-  public String getCurrentOrientation(){return spriteOrientation;}
+  public String getCurrentOrientation() {
+    return spriteOrientation;
+  }
 
   /**
    * Black Cat studios code
@@ -108,15 +109,14 @@ public class Customer extends PathfindingAgent implements Person {
   public void Start() {
     gameObject.getSprite().setSprite(customerAtlas.createSprite("north1"));
     gameObject.getSprite().layer = 2;
-    gameObject.image.setSize(25,45);
+    gameObject.image.setSize(25, 45);
 
   }
 
   /**
-   * Updates the sprite to follow the correct animation.
-   * Mainly Team Triple 10s code
-   * @author Team Triple 10
+   * Updates the sprite to follow the correct animation. Mainly Team Triple 10s code
    *
+   * @author Team Triple 10
    */
   @Override
   public void updateSpriteFromInput(String newOrientation) {
@@ -143,15 +143,16 @@ public class Customer extends PathfindingAgent implements Person {
     spriteOrientation = newOrientation;
   }
 
+
   /**
-   * Sets the customer texture for each customer.
-   * BlackCatStudio's Code
+   * Sets the customer texture for each customer. BlackCatStudio's Code
+   *
    * @author Felix Seanor
    */
   @Override
   public void setTexture(String texture) {
 
-    if(texture.contains("idle")) {
+    if (texture.contains("idle")) {
       texture = texture.replace("idle", "");
       texture += "1";
     }
@@ -161,6 +162,7 @@ public class Customer extends PathfindingAgent implements Person {
   /**
    * Gets the move of the customer and direction and sets the animations accordingly.
    * BlackCatStudios Code
+   *
    * @return currentDirection direction of the customer
    * @author Felix Seanor
    * @author Amy Cross
@@ -169,23 +171,25 @@ public class Customer extends PathfindingAgent implements Person {
   public String getMove() {
     Vector2 dir = GetMoveDir().nor();
     String newOrientation;
-    if (dir.dot(dir) <= 0)
+    if (dir.dot(dir) <= 0) {
       newOrientation = "idle" + spriteOrientation.replace("idle", "");
-    else {
+    } else {
       if (Math.abs(dir.dot(new Vector2(1, 0))) < Math.abs(dir.dot(new Vector2(0, 1)))) {
         //North prefered
 
-        if (dir.dot(new Vector2(0, 1)) > 0)
+        if (dir.dot(new Vector2(0, 1)) > 0) {
           newOrientation = "north";
-        else
+        } else {
           newOrientation = "south";
+        }
 
 
       } else {
-        if (dir.dot(new Vector2(1, 0)) > 0)
+        if (dir.dot(new Vector2(1, 0)) > 0) {
           newOrientation = "east";
-        else
+        } else {
           newOrientation = "west";
+        }
       }
     }
     return newOrientation;
@@ -193,15 +197,16 @@ public class Customer extends PathfindingAgent implements Person {
 
   /**
    * Black Cat studios Code
+   *
    * @return
    */
-  public GameObject returnHeldItem(){
+  public GameObject returnHeldItem() {
     return HeldItem;
   }
 
   /**
-   * Returns the x of the customer.
-   *Black Cat studios Code
+   * Returns the x of the customer. Black Cat studios Code
+   *
    * @return int posX the x position of the customer
    * @author Felix Seanor
    */
@@ -210,8 +215,8 @@ public class Customer extends PathfindingAgent implements Person {
   }
 
   /**
-   * Returns the y of the customer.
-   * Black Cat studios Code
+   * Returns the y of the customer. Black Cat studios Code
+   *
    * @return int posY the y position of the customer
    * @author Felix Seanor
    * @author Amy Cross
@@ -221,10 +226,10 @@ public class Customer extends PathfindingAgent implements Person {
   }
 
   /**
-   * Assigns the sprite for the customer at random.
-   * Team Triple 10s code
+   * Assigns the sprite for the customer at random. Team Triple 10s code
+   *
    * @param customerAtlasArray array of customer sprites
-   * @return Atlas atlas of the customer object
+   * @return atlas of the customer object
    * @author Amy Cross
    */
   public static TextureAtlas getCustomerAtlas(ArrayList<TextureAtlas> customerAtlasArray) {
@@ -237,19 +242,19 @@ public class Customer extends PathfindingAgent implements Person {
     return atlas;
   }
 
-  /**
-   * Checks if the customer is waiting or not.
-   * Black Cat studios Code
-   * @return Boolean value for result
-   * @author Felix Seanor
-   */
-  public boolean isWaiting() {
-    return waitingAtCounter;
-  }
+//  /**
+//   * Checks if the customer is waiting or not.
+//   * Black Cat studios Code
+//   * @return Boolean value for result
+//   * @author Felix Seanor
+//   */
+//  public boolean isWaiting() {
+//    return waitingAtCounter;
+//  }
 
   /**
-   * Gets the dish that the customer has.
-   * Team Triple 10s code
+   * Gets the dish that the customer has. Team Triple 10s code
+   *
    * @return Dish dish which is the object the customer has
    * @author Amy Cross
    */
@@ -258,8 +263,8 @@ public class Customer extends PathfindingAgent implements Person {
   }
 
   /**
-   * Checks if the customer has successfully been fed.
-   *Team Triple 10s code
+   * Checks if the customer has successfully been fed. Team Triple 10s code
+   *
    * @return Boolean value of if the customer has been fed
    * @author Amy Cross
    */
@@ -269,67 +274,68 @@ public class Customer extends PathfindingAgent implements Person {
 
 
   /**
-   * Display the item in the world and update its coordinates.
-   * BlackCatStudios Code
+   * Display the item in the world and update its coordinates. BlackCatStudios Code
+   *
    * @author Felix Seanor
    */
-  public void displayItem(){
+  public void displayItem() {
 
+    HeldItem.isVisible = true;
 
+    HeldItem.position.x = gameObject.position.x;
+    HeldItem.position.y = gameObject.position.y;
+    HeldItem.image.layer = gameObject.getSprite().layer + 1;
 
-      HeldItem.isVisible = true;
-
-      HeldItem.position.x = gameObject.position.x;
-      HeldItem.position.y = gameObject.position.y ;
-      HeldItem.image.layer = gameObject.getSprite().layer+1;
-
-      if (spriteOrientation.contains("north")) {
-        HeldItem.position.y += HeldItem.image.GetHeight();
-        HeldItem.position.x += 2;
-        HeldItem.image.layer -= 2;
-      } else if (spriteOrientation.contains("south")) {
-        HeldItem.position.y -= HeldItem.image.GetHeight();
-      } else if (spriteOrientation.contains("east")) {
-        HeldItem.position.x += HeldItem.image.GetWidth();
-      } else if (spriteOrientation.contains("west")) {
-        HeldItem.position.x -= HeldItem.image.GetWidth();
-      }
+    if (spriteOrientation.contains("north")) {
+      HeldItem.position.y += HeldItem.image.GetHeight();
+      HeldItem.position.x += 2;
+      HeldItem.image.layer -= 2;
+    } else if (spriteOrientation.contains("south")) {
+      HeldItem.position.y -= HeldItem.image.GetHeight();
+    } else if (spriteOrientation.contains("east")) {
+      HeldItem.position.x += HeldItem.image.GetWidth();
+    } else if (spriteOrientation.contains("west")) {
+      HeldItem.position.x -= HeldItem.image.GetWidth();
+    }
 
 
   }
 
   /**
-   * hide the held item.
-   * BlackCatStudios Code
+   * hide the held item. BlackCatStudios Code
+   *
    * @author Felix Seanor
    */
-  public void hideItem(){
-    if(HeldItem != null)
+  public void hideItem() {
+    if (HeldItem != null) {
       HeldItem.isVisible = false;
+    }
   }
 
   /**
-   *  BlackCatStudios Code
-   *  @author Felix Seanor
+   * BlackCatStudios Code
+   *
    * @param dt
+   * @author Felix Seanor
    */
   @Override
-  public void Update(float dt){
+  public void Update(float dt) {
     super.Update(dt);
 
-    if(!eaten && !waitingAtCounter)
+    if (!eaten && !waitingAtCounter) {
       displayItem();
-    else
+    } else {
       hideItem();
+    }
 
   }
 
   /**
-   * Destroy the customer.
-   *  BlackCatStudios Code
-   *   @author Felix Seanor
+   * Destroy the customer. BlackCatStudios Code
+   *
+   * @author Felix Seanor
    */
-  public void Destroy(){
+  public void Destroy() {
     HeldItem.Destroy();
     foodIcon.Destroy();
     gameObject.Destroy();
