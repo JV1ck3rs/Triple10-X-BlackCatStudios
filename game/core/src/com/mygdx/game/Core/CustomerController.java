@@ -351,6 +351,13 @@ public class CustomerController extends Scriptable
   @Override
   public void Update(float dt) {
     super.Update(dt);
+
+    if(Gdx.input.isKeyJustPressed(Inputs.SELL_RESTURANT))
+    {
+      Reputation = 0;
+      EndGame();;
+    }
+
     if (currentWaiting != null) {
       currentWaiting.showIcons();
       currentWaiting.checkClicks();
@@ -680,6 +687,10 @@ public class CustomerController extends Scriptable
       ChangeMoney(MoneyPerCustomer);
     }
     return success != -1;
+  }
+
+  public List<Customer> getMemberSeatedOrWalking() {
+    return currentWaiting.MembersSeatedOrWalking;
   }
 
   /**
