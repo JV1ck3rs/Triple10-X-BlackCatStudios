@@ -32,7 +32,7 @@ public class CombinationDict {
         ItemEnum.TomatoOnionLettuceSalad);
     CombinationMap.put(ItemEnum.CutTomato.name() + " " + ItemEnum.LettuceOnionSalad.name(),
         ItemEnum.TomatoOnionLettuceSalad);
-    CombinationMap.put(ItemEnum.CutOnion.name() + " " + ItemEnum.LettuceTomatoSalad.name(),
+    CombinationMap.put(ItemEnum.LettuceTomatoSalad.name() + " " + ItemEnum.CutOnion.name(),
         ItemEnum.TomatoOnionLettuceSalad);
 
     //Burgers
@@ -40,9 +40,9 @@ public class CombinationDict {
     CombinationMap.put(ItemEnum.Cheese.name() + " " + ItemEnum.Burger.name(), ItemEnum.CheeseBurger);
 
     //Pizzas
-    CombinationMap.put(ItemEnum.TomSauce.name() + " " + ItemEnum.PizzaBase.name(), ItemEnum.TomPizza);
-    CombinationMap.put(ItemEnum.Cheese.name() + " " + ItemEnum.TomPizza.name(), ItemEnum.CheesePizza);
-    CombinationMap.put(ItemEnum.Mince.name() + " " + ItemEnum.CheesePizza.name(), ItemEnum.MeatPizza);
+    CombinationMap.put(ItemEnum.PizzaBase.name() + " " + ItemEnum.TomSauce.name(), ItemEnum.TomPizza);
+    CombinationMap.put(ItemEnum.TomPizza.name() + " " + ItemEnum.Cheese.name(), ItemEnum.CheesePizza);
+    CombinationMap.put(ItemEnum.CheesePizza.name() + " " + ItemEnum.Mince.name(), ItemEnum.MeatPizza);
     CombinationMap.put(ItemEnum.CutOnion.name() + " " + ItemEnum.CheesePizza.name(), ItemEnum.VegPizza);
 
     //Potatoes
