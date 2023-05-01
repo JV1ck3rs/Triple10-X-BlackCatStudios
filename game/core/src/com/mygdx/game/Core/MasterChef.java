@@ -340,7 +340,6 @@ public class MasterChef extends Scriptable {
         getCurrentChef().GivePath(path);
       }
     }
-
     MoveArrow();
   }
 

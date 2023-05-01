@@ -2,6 +2,7 @@ package piazzapanictests.tests;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
@@ -225,5 +226,49 @@ public class HobStationTests extends MasterTestClass {
         hobStation.GetInteracted());
   }
 
+  /**
+   * Tests that the hob station cannot be used when it is locked.
+   *
+   * @author Jack Vickers
+   */
+  @Test
+  public void testCannotUseWhileLocked() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+    }
+    instantiateWorldAndHobsStation();
+    hobStation.setLocked(true);
+    assertFalse("The hob station should not be able to be interacted with when locked",
+        hobStation.GiveItem(new Item(ItemEnum.RawPatty)));
+    assertNull("There should be no item on the hob station when it is locked so retrieve should return null",
+        hobStation.RetrieveItem());
+  }
+
+  /**
+   * Tests that the hob station can be used when it is unlocked.
+   *
+   * @Author Jack Vickers
+   */
+  @Test
+  public void testCanUseWhenUnlocked() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+    }
+    instantiateWorldAndHobsStation();
+    instantiateCustomerScripts(Difficulty.Relaxing);
+    // ensures that there is definitely enough money to unlock the oven (100 coins)
+    for (int i = 0; i < 100; i++) {
+      customerController.ChangeMoney(100);
+    }
+    hobStation.setLocked(true);
+    hobStation.GiveItem(
+        new Item(ItemEnum.RepairTool)); // gives the repair tool to the hob station to unlock it
+    assertFalse("The hob station should be unlocked", hobStation.getLocked());
+    assertTrue("Should be able to give an item to the hob station when it is unlocked",
+        hobStation.GiveItem(new Item(ItemEnum.RawPatty)));
+    assertNotNull(
+        "There should be an item on the hob station when it is unlocked so retrieve should not return null",
+        hobStation.RetrieveItem());
+  }
 
 }

@@ -6,13 +6,16 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Core.DistanceTest;
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.Stations.ChopStation;
 import com.mygdx.game.Stations.FoodCrate;
 
+import java.util.List;
 import java.util.Stack;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -541,6 +544,12 @@ public class ChefTests extends MasterTestClass {
     GameObjectManager.objManager.DestroyGameObject(Chop);
   }
 
+  /**
+   * Tests that cycling the chef's item stack works correctly.
+   *
+   * @author Felix Seanor
+   * @date 25/04/2023
+   */
   @Test
   public void TestStackCycle(){
 
@@ -560,6 +569,31 @@ public class ChefTests extends MasterTestClass {
     assertTrue("First Item must be lettuce", inv.pop().name == ItemEnum.Mince);
     assertTrue("Second Item must be mince", inv.pop().name == ItemEnum.Buns);
     assertTrue("Third Item must be buns", inv.pop().name == ItemEnum.Lettuce);
+  }
 
+  /**
+   * Tests that the chef's orientation is correctly set when it moves along its path.
+   */
+  @Test
+  public void testUpdateSpriteFromInputWithPathfinding() {
+    instantiateWorldAndChefs();
+    SetUpPathfinding();
+    int stepSize = GameScreen.TILE_WIDTH/4;
+    List<Vector2> pathA = pathfinding.FindPath(0,0,0,1, DistanceTest.Euclidean);
+    chef[0].GivePath(pathA);
+    chef[0].updateSpriteFromInput("");
+    assertEquals("The sprite should be facing north", "north", chef[0].getSpriteOrientation());
+    List<Vector2> pathB = pathfinding.FindPath(0,0,1,0, DistanceTest.Euclidean);
+    chef[0].GivePath(pathB);
+    chef[0].updateSpriteFromInput("");
+    assertEquals("The sprite should be facing east", "east", chef[0].getSpriteOrientation());
+    List<Vector2> pathC = pathfinding.FindPath(0,0,0,-1, DistanceTest.Euclidean);
+    chef[0].GivePath(pathC);
+    chef[0].updateSpriteFromInput("");
+    assertEquals("The sprite should be facing south", "south", chef[0].getSpriteOrientation());
+    List<Vector2> pathD = pathfinding.FindPath(0,0,-1,0, DistanceTest.Euclidean);
+    chef[0].GivePath(pathD);
+    chef[0].updateSpriteFromInput("");
+    assertEquals("The sprite should be facing west", "west", chef[0].getSpriteOrientation());
   }
 }

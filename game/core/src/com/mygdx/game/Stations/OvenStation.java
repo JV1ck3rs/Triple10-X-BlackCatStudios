@@ -7,6 +7,7 @@ import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.soundFrame;
 import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class OvenStation extends Station {
 
   public void checkItem() {
     if (ItemWhiteList.contains(item.name)) {
-      currentRecipe = recipes.RecipeMap.get(item.name);
+      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
       bubble.isVisible = true;
       if (item.name == ItemEnum.CheesePizzaCooked || item.name == ItemEnum.MeatPizzaCooked || item.name == ItemEnum.VegPizzaCooked) {
         bubble4.isVisible = true;

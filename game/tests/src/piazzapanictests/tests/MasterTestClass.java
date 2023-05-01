@@ -78,6 +78,10 @@ class MasterTestClass {
 
   GameObject CustCount;
 
+  void SetUpPathfinding(){
+    pathfinding = new Pathfinding(GameScreen.TILE_WIDTH/4,GameScreen.viewportWidth,GameScreen.viewportWidth);
+  }
+
   /**
    * Instantiates the world.
    *

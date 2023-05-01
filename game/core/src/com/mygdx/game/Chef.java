@@ -232,6 +232,10 @@ public class Chef extends PathfindingAgent implements Person {
     spriteOrientation = newOrientation;
   }
 
+  public String getSpriteOrientation() {
+    return spriteOrientation;
+  }
+
   /**
    * Sets the texture of the chef.
    * Black Studios and Triple 10s
@@ -500,30 +504,6 @@ public class Chef extends PathfindingAgent implements Person {
   public void ClearInventory() {
     heldItems.clear();
   }
-
-//  /**
-//   * Draws the timer onto the screen and runs the animation for the set time Then unfreezes the chef
-//   * after timer is finished.
-//   * Team Triple 10s code
-//   * @param batch that we are drawing to
-//   * @author Amy Cross
-//   */
-//  public void drawTimer(SpriteBatch batch) {
-//    System.out.println("draw");
-//    timerSprite.setPosition(gameObject.position.x, gameObject.position.y + getHeight());
-//    if (currentTimerFrame <= 7) {
-//      if (animationTime <= 0) {
-//        currentTimerFrame++;
-//        animationTime = frameTime;
-//        String state = "0" + currentTimerFrame;
-//        timerSprite.setRegion(timerAtlas.findRegion(state));
-//      }
-//      timerSprite.draw(batch);
-//      animationTime -= Gdx.graphics.getDeltaTime();
-//    } else {
-//      unfreeze();
-//    }
-//  }
 
   /**
    * BlackCatStudios Code

@@ -1,9 +1,11 @@
 package piazzapanictests.tests;
 
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import java.util.*;
 
 import org.junit.Test;
@@ -13,7 +15,7 @@ import static org.junit.Assert.*;
 
 /**
  * Tests for the oven stations. Ovens only interact with pizzas and jacket potatoes.
- *
+ * <p>
  * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
  *
  * @author Hubert Solecki
@@ -102,7 +104,8 @@ public class OvenStationTests extends MasterTestClass {
           testing))) { // if the valid item is not being tested, the current recipe on the oven station should be null
         assertNull("Current recipe should be null if an incorrect item is placed on the oven",
             ovenStation.currentRecipe);
-        assertFalse("Giving an invalid item to the oven should return false", ovenStation.GiveItem(testing));
+        assertFalse("Giving an invalid item to the oven should return false",
+            ovenStation.GiveItem(testing));
       } else {
         assertNotNull(
             "The current recipe on the oven should not be null if there is a correct item in the oven",
@@ -220,5 +223,46 @@ public class OvenStationTests extends MasterTestClass {
     assertNotEquals(
         "The progress of the item retrieved from the toaster should not be 0 if the update function works as it will cook the item",
         0, test.progress);
+  }
+
+  /**
+   * Tests that the oven station cannot be used while locked.
+   */
+  @Test
+  public void testCannotUseWhileLocked() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a new game object manager making sure it is not null when needed
+    }
+    instantiateWorldAndOvenStation();
+    ovenStation.setLocked(true);
+    assertFalse("You should not be able to give anything to an oven while it is locked",
+        ovenStation.GiveItem(new Item(ItemEnum.CheesePizza)));
+    assertNull("There should be nothing in the oven", ovenStation.RetrieveItem());
+  }
+
+  /**
+   * Tests that the oven station can be unlocked and that a valid item can be given to it
+   * afterwards.
+   */
+  @Test
+  public void testCanUnlockOven() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a new game object manager making sure it is not null when needed
+    }
+    instantiateWorldAndOvenStation();
+    instantiateCustomerScripts(Difficulty.Relaxing);
+    // ensures that there is enough money to unlock the oven
+    for (int i = 0; i < 100; i++) {
+      customerController.ChangeMoney(100);
+    }
+    ovenStation.setLocked(true);
+    ovenStation.GiveItem(new Item(ItemEnum.RepairTool)); // should unlock the oven
+    assertFalse("The oven should not be locked", ovenStation.getLocked());
+    Item itemToGive = new Item(ItemEnum.CheesePizza);
+    assertTrue("The oven should be able to be given an item", ovenStation.GiveItem(itemToGive));
+    assertEquals("The item in the oven should be the same as the item given", itemToGive,
+        ovenStation.RetrieveItem());
   }
 }
