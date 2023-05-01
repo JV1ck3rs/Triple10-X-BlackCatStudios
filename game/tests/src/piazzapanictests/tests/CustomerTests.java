@@ -61,7 +61,7 @@ public class CustomerTests extends MasterTestClass {
     cust.CanAcceptNewCustomer();
     float frustration = cust.getCurrentWaitingCustomerGroup().Frustration;
 
-    cust.getCurrentWaitingCustomerGroup().CheckFrustration(1, null);
+    cust.getCurrentWaitingCustomerGroup().CheckFrustration(1, null, true);
     assertNotEquals(frustration, cust.getCurrentWaitingCustomerGroup().Frustration);
 
   }

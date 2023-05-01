@@ -86,6 +86,7 @@ public class GameScreen implements Screen {
   public CustomerController customerController;
 
   public Powerup powerup;
+  public PowerupPurchaseMenu powerupPurchaseMenu;
 
 
   // map
@@ -95,6 +96,7 @@ public class GameScreen implements Screen {
 
   public int numOvens = 0;
   public GameObject exitLogo = new GameObject(new BlackTexture("Exit.png"));
+
 
   // game timer and displayTimer
   private float seconds = 0f;
@@ -117,11 +119,15 @@ public class GameScreen implements Screen {
 
   Stage pauseStage; // stage for the pause menu
   Stage gameUIStage; // stage for the game UI
+  Stage instructionsStage; // stage for the instructions
   float scaleX;
   float scaleY;
   boolean isEndlessMode;
   FitViewport viewport;
   EndScreen endScreen;
+  boolean isInstructionsVisible;
+  Button resumeButton;
+  Button instructionsResumeButton;
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
@@ -188,9 +194,12 @@ public class GameScreen implements Screen {
         pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams,tabr);
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
+    powerup = new Powerup(masterChef, customerController); // powerup object
+    powerupPurchaseMenu = new PowerupPurchaseMenu(customerController, powerup);
+    powerupPurchaseMenu.initialiseState();
+    GameObjectManager.objManager.AppendLooseScript(powerupPurchaseMenu);
     GameObjectManager.objManager.AppendLooseScript(customerController);
 
-    powerup = new Powerup(masterChef, customerController); // powerup object
 
     constructMachines = new ConstructMachines(customerController, difficultyState, pathfinding);
 
@@ -288,8 +297,8 @@ public class GameScreen implements Screen {
         LoadGame("SavedData.ser");
     }
     isEndlessMode = CCParams.NoCustomers == -1;
-    setupGameUI();
     setupPauseMenu();
+    setupGameUI();
   }
 
 
@@ -337,27 +346,120 @@ public class GameScreen implements Screen {
       modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
           Color.WHITE));
       modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
-      gameUITable.add(modeLabel).align(Align.topLeft).expandX();
+      gameUITable.add(modeLabel).expandX().align(Align.topLeft).uniform();
     } else {
       modeLabel = new Label("SCENARIO MODE",
           new Label.LabelStyle(new BitmapFont(), Color.WHITE));
       modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
-      gameUITable.add(modeLabel).align(Align.topLeft).expandX();
+      gameUITable.add(modeLabel).expandX().align(Align.topLeft).uniform();
     }
     updateCustomerLabel();
+
+    // The following block of code creates the instruction button and adds it to the table
+    TextureRegion instructionBtn = new TextureRegion(new Texture("HowToPlayUp.png"));
+    TextureRegion instructionBtnDown = new TextureRegion(new Texture("HowToPlayDown.png"));
+    Drawable drawableInstructionBtn = new TextureRegionDrawable(instructionBtn);
+    Drawable drawableInstructionBtnDown = new TextureRegionDrawable(instructionBtnDown);
+    Button.ButtonStyle instructionButtonStyle = new Button.ButtonStyle();
+    Button instructionButton = new Button();
+    instructionButton.setStyle(instructionButtonStyle);
+    instructionButtonStyle.up = drawableInstructionBtn;
+    instructionButtonStyle.down = drawableInstructionBtnDown;
+    gameUITable.add(instructionButton).width(100 * scaleX).height(30 * scaleY).align(Align.center).uniform();
+
+    // The following block of code adds a listener to the instruction button
+    instructionButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        Gdx.input.setInputProcessor(instructionsStage);
+        isInstructionsVisible = true;
+      }
+    });
+
+    // Creates an instruction stage an table which will be used to display the game instructions
+    instructionsStage = new Stage();
+    Image instructionImage = new Image(new Texture("Controls.png")); //TODO: TEST THIS VICKERS
+    instructionImage.setSize(instructionsStage.getWidth(), instructionsStage.getHeight());
+    instructionImage.setPosition(0, 0);
+    Image iconsImage = new Image(new Texture("Icons.png"));
+    iconsImage.setPosition(0, 0);
+    iconsImage.setSize(instructionsStage.getWidth(), instructionsStage.getHeight());
+    instructionsStage.addActor(instructionImage);
+    Table instructionsTable = new Table();
+    instructionsStage.addActor(instructionsTable);
+    instructionsTable.setFillParent(true);
+    instructionsTable.align(Align.top);
+
+
+
+    // The following block of code creates the resume button and adds it to the instructions table
+    TextureRegion resumeBtn = new TextureRegion(new Texture("ResumeUp.png"));
+    TextureRegion resumeBtnDown = new TextureRegion(new Texture("ResumeDown.png"));
+    Drawable drawableResumeBtn = new TextureRegionDrawable(resumeBtn);
+    Drawable drawableResumeBtnDown = new TextureRegionDrawable(resumeBtnDown);
+    Button.ButtonStyle instructionsResumeButtonStyle = new Button.ButtonStyle();
+    instructionsResumeButton = new Button();
+    instructionsResumeButton.setStyle(instructionsResumeButtonStyle);
+    instructionsResumeButtonStyle.up = drawableResumeBtn;
+    instructionsResumeButtonStyle.down = drawableResumeBtnDown;
+    instructionsTable.add(instructionsResumeButton).width(150 * scaleX).height(30 * scaleY).expandX().align(Align.topLeft).pad(10);
+    instructionsTable.row();
+
+    // The following block of code adds a click listener to the resume button
+    instructionsResumeButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        Gdx.input.setInputProcessor(gameUIStage); // set the input processor to the game UI stage
+        isInstructionsVisible = false;
+        instructionsStage.clear();
+        instructionsStage.addActor(instructionImage);
+        instructionsStage.addActor(instructionsTable);
+      }
+    });
+
+    TextureRegion iconsBtnUpTexture = new TextureRegion(new Texture("IconsUp.png"));
+    TextureRegion iconsBtnDownTexture = new TextureRegion(new Texture("IconsDown.png"));
+    Drawable iconsBtnUpDrawable = new TextureRegionDrawable(iconsBtnUpTexture);
+    Drawable iconsBtnDownDrawable = new TextureRegionDrawable(iconsBtnDownTexture);
+    Button.ButtonStyle iconsButtonStyle = new Button.ButtonStyle();
+    Button iconsButton = new Button();
+    iconsButton.setStyle(iconsButtonStyle);
+    iconsButtonStyle.up = iconsBtnUpDrawable;
+    iconsButtonStyle.down = iconsBtnDownDrawable;
+    gameUITable.add(iconsButton).width(100 * scaleX).height(30 * scaleY).expandX().align(Align.center).uniform();
+    iconsButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        Gdx.input.setInputProcessor(instructionsStage);
+        isInstructionsVisible = true;
+        instructionsStage.clear();
+        instructionsStage.addActor(iconsImage);
+        instructionsStage.addActor(instructionsTable);
+      }
+    });
+
     // Creates the pause button
     TextureRegion pauseBtn = new TextureRegion(new Texture("PauseUp.png"));
     TextureRegion pauseBtnDown = new TextureRegion(new Texture("PauseDown.png"));
+    TextureRegion powerUpMenuBtn = new TextureRegion(new Texture("PowerupAssets/PowerUpMenuButton.png"));
     Drawable pauseBtnDrawable = new TextureRegionDrawable(pauseBtn);
     Drawable pauseBtnDrawableDown = new TextureRegionDrawable(pauseBtnDown);
+    Drawable powerUpButtonUp =  new TextureRegionDrawable(powerUpMenuBtn);
     Button.ButtonStyle pauseButtonStyle = new Button.ButtonStyle();
+    Button.ButtonStyle powerUpButtonStyle = new Button.ButtonStyle();
     Button pauseButton = new Button();
+    Button powerUpButton = new Button();
     pauseButton.setStyle(pauseButtonStyle);
+    powerUpButton.setStyle(powerUpButtonStyle);
     pauseButtonStyle.up = pauseBtnDrawable;
     pauseButtonStyle.down = pauseBtnDrawableDown;
+    powerUpButtonStyle.up = powerUpButtonUp;
+    powerUpButtonStyle.down = powerUpButtonUp;
     gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).align(Align.topRight)
-        .expandX();
+        .expandX().row();
+    gameUITable.add(powerUpButton).width(48 * scaleX).height(50 * scaleY).expandX().align(Align.right).colspan(2);
     gameUITable.row();
+    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX().align(Align.topRight).uniform();
     pauseButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
@@ -365,11 +467,13 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(pauseStage); // set the input processor to the pause stage
       }
     });
+    powerUpButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        powerupPurchaseMenu.showPowerUpMenu();
+        }
+    });
 
-
-    //TODO: Possibly use this function for the powerup menu in the future
-
-    //TODO: Add a level which displays the number of customers remaining for the scenario mode
 
   }
 
@@ -425,28 +529,6 @@ public class GameScreen implements Screen {
       }
     });
 
-    // The following block of code creates the instruction button and adds it to the table
-    TextureRegion instructionBtn = new TextureRegion(new Texture("HowToPlayUp.png"));
-    TextureRegion instructionBtnDown = new TextureRegion(new Texture("HowToPlayDown.png"));
-    Drawable drawableInstructionBtn = new TextureRegionDrawable(instructionBtn);
-    Drawable drawableInstructionBtnDown = new TextureRegionDrawable(instructionBtnDown);
-    Button.ButtonStyle instructionButtonStyle = new Button.ButtonStyle();
-    Button instructionButton = new Button();
-    instructionButton.setStyle(instructionButtonStyle);
-    instructionButtonStyle.up = drawableInstructionBtn;
-    instructionButtonStyle.down = drawableInstructionBtnDown;
-    pauseTable.add(instructionButton).width(250 * scaleX).height(50 * scaleY)
-        .padBottom(50 * scaleY);
-    pauseTable.row();
-
-    // The following block of code adds a listener to the instruction button
-    instructionButton.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        System.out.println("For now this doesn't do anything");
-      }
-    });
-
     // The following block of code creates the save button and adds it to the table
     TextureRegion saveBtn = new TextureRegion(new Texture("SaveUp.png"));
     TextureRegion saveBtnDown = new TextureRegion(new Texture("SaveDown.png"));
@@ -499,7 +581,6 @@ public class GameScreen implements Screen {
       }
     });
   }
-
 
   /**
    * End game sequence
@@ -587,8 +668,6 @@ public class GameScreen implements Screen {
     mapRenderer.render();
 
     //Black Cat Studios
-//    if(Gdx.input.isKeyJustPressed(Keys.B))
-//      SaveGame();
 
     if (Gdx.input.isKeyJustPressed(Keys.V)) {
       LoadGame("SavedData.ser");
@@ -599,6 +678,8 @@ public class GameScreen implements Screen {
     world.step(1 / 60f, 6, 2);
 
     game.batch.setProjectionMatrix(camera.combined);
+    game.batch.enableBlending();
+
 
     //Begins drawing the game batch
     game.batch.begin();
@@ -613,7 +694,8 @@ public class GameScreen implements Screen {
       }
     }
 
-    if (!Paused) {
+    if (!Paused && !isInstructionsVisible) {
+
       displayTimer();
       //Update Scripts
       GameObjectManager.objManager.doUpdate(Gdx.graphics.getDeltaTime());
@@ -632,23 +714,16 @@ public class GameScreen implements Screen {
       if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
         powerup.tetrisSuperFood();
       }
-    } else {
+    } else if (Paused && !isInstructionsVisible) {
       pauseStage.draw();
+    } else {
+      instructionsStage.draw();
     }
-    // THIS IS SAM'S CODE:
-//    LeaderBoard x = new LeaderBoard();
-//    x.createJSONFile();
-//    try {
-//      x.readJSONData();
-//    } catch (IOException e) {
-//      throw new RuntimeException(e);
-//    }
-
     game.batch.end();
 
     // The following code must occur after the batch is ended.
     // Otherwise, it causes issues with customer positioning.
-    if (!Paused) { // displays the game UI if the game is not paused
+    if (!Paused && !isInstructionsVisible) { // displays the game UI if the game is not paused
       gameUIStage.draw();
     }
   }
