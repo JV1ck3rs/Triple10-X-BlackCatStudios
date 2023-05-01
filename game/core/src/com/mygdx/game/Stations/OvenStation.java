@@ -35,6 +35,7 @@ public class OvenStation extends Station {
     maxProgress = 10;
     animation = new GameObject(new BlackTexture("Items/OvenActive.png"));
     animation.isVisible = false;
+    animation.image.layer= -1;
     if (ItemWhiteList == null) {
       ItemWhiteList = new ArrayList<>(
           Arrays.asList(ItemEnum.Potato, ItemEnum.CheesePotato, ItemEnum.MeatPotato,

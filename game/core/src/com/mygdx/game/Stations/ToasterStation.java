@@ -35,6 +35,8 @@ public class ToasterStation extends Station {
     }
     animation = new GameObject(new BlackTexture("Items/ToasterActive.png"));
     animation.isVisible = false;
+    animation.image.layer= -1;
+
   }
 
 
@@ -64,6 +66,7 @@ public class ToasterStation extends Station {
     bubble.isVisible = false;
     bubble4.isVisible = false;
     animation.isVisible = false;
+
     return returnItem;
   }
 
