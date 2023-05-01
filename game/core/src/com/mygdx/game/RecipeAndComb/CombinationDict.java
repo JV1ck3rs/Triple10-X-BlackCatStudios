@@ -37,13 +37,13 @@ public class CombinationDict {
 
     //Burgers
     CombinationMap.put(ItemEnum.CookedPatty.name() + " " + ItemEnum.ToastedBuns.name(), ItemEnum.Burger);
-    CombinationMap.put(ItemEnum.Cheese.name() + " " + ItemEnum.Burger.name(), ItemEnum.CheeseBurger);
+    CombinationMap.put(ItemEnum.Burger.name() + " " + ItemEnum.Cheese.name(), ItemEnum.CheeseBurger);
 
     //Pizzas
     CombinationMap.put(ItemEnum.PizzaBase.name() + " " + ItemEnum.TomSauce.name(), ItemEnum.TomPizza);
     CombinationMap.put(ItemEnum.TomPizza.name() + " " + ItemEnum.Cheese.name(), ItemEnum.CheesePizza);
     CombinationMap.put(ItemEnum.CheesePizza.name() + " " + ItemEnum.Mince.name(), ItemEnum.MeatPizza);
-    CombinationMap.put(ItemEnum.CutOnion.name() + " " + ItemEnum.CheesePizza.name(), ItemEnum.VegPizza);
+    CombinationMap.put(ItemEnum.CheesePizza.name() + " " + ItemEnum.CutOnion.name(), ItemEnum.VegPizza);
 
     //Potatoes
     CombinationMap.put(ItemEnum.Cheese.name() + " " + ItemEnum.Potato.name(), ItemEnum.CheesePotato);
