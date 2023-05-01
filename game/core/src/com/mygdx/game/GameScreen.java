@@ -367,7 +367,6 @@ public class GameScreen implements Screen {
     instructionButtonStyle.down = drawableInstructionBtnDown;
     gameUITable.add(instructionButton).width(100 * scaleX).height(30 * scaleY).align(Align.center).uniform();
 
-    gameUITable.debug();
 
     // The following block of code adds a listener to the instruction button
     instructionButton.addListener(new ClickListener() {
@@ -380,7 +379,7 @@ public class GameScreen implements Screen {
 
     // Creates an instruction stage an table which will be used to display the game instructions
     instructionsStage = new Stage();
-    Image instructionImage = new Image(new Texture("Controls.png")); //TODO: TEST THIS VICKERS
+    Image instructionImage = new Image(new Texture("Controls.png"));
     instructionImage.setSize(instructionsStage.getWidth(), instructionsStage.getHeight());
     instructionImage.setPosition(0, 0);
     Image iconsImage = new Image(new Texture("Icons.png"));
@@ -460,7 +459,7 @@ public class GameScreen implements Screen {
     gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).align(Align.topRight)
         .expandX();
     gameUITable.add(powerUpButton).width(48 * scaleX).height(50 * scaleY).expandX().align(Align.right);
-    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX().align(Align.topRight).uniform();
+    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX().align(Align.topRight).row();
     pauseButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
@@ -474,8 +473,9 @@ public class GameScreen implements Screen {
         powerupPurchaseMenu.showPowerUpMenu();
         }
     });
-
-
+    Image muteImage = new Image(new Texture("m_key.png"));
+    muteImage.setSize(60, 48 * scaleY);
+    gameUITable.add(muteImage).width(48 * scaleX).height(48 * scaleY).expandX().expandY().colspan(6).align(Align.bottomRight);
   }
 
   /**
