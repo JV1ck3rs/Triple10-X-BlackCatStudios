@@ -26,6 +26,7 @@ import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.GameScreen;
+import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.AssemblyStation;
@@ -55,6 +56,8 @@ class MasterTestClass {
   World world;
   ChopStation chopStation;
 
+  CustomerCounters customerCounter;
+
   TrashCan trashCan;
 
   OvenStation ovenStation;
@@ -73,6 +76,8 @@ class MasterTestClass {
   GameObject Toast;
 
   GameObject Chop;
+
+  GameObject CustCount;
 
   /**
    * Instantiates the world.
@@ -248,6 +253,8 @@ class MasterTestClass {
     return assemblyStation;
   }
 
+
+
   /**
    * Creates the world and hobs station. Also creates the recipe dictionary.
    *
@@ -306,6 +313,28 @@ class MasterTestClass {
     new RecipeDict(); // creates recipe dictionary
     RecipeDict.recipes.implementRecipes(); // implements recipes
     toasterStation.init(); // initialises toaster station
+  }
+
+  void instantiateWorldAndCustomerCounter() {
+    world = new World(new Vector2(0, 0), true);
+    TiledMap map;
+    DifficultyState state = DifficultyMaster.getStressful();
+    soundFrame soundFrame = new soundFrame();
+    map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
+    MapLayer customerCounterLayer = map.getLayers().get(8); // gets customer counter layer
+    MapObject object = customerCounterLayer.getObjects().getByType(RectangleMapObject.class)
+            .get(0); // gets customerCounter object
+    Rectangle rect = ((RectangleMapObject) object).getRectangle(); // gets customer counter rectangle
+    CustCount = new GameObject(null); // creates customer counter game object
+    CustCount.setPosition(0, 0); // sets customer counter position (done to avoid NullPointerException)
+    CustCount.setWidthAndHeight(rect.getWidth(),
+            rect.getHeight()); // sets Customer counter width and height (done to avoid NullPointerException)
+    customerCounter = new CustomerCounters((Item a) -> (cust.tryGiveFood(a)), state.cookingParams); // creates customer counter station
+    CustCount.attachScript(customerCounter); // attaches customer counter station to customer counter game object
+    customerCounter.init();
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
+    customerCounter.init(); // initialises customer counter
   }
 
   void instantiateWorldAndTrashCan() {

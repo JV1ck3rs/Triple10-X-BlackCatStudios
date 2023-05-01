@@ -38,8 +38,14 @@ public class OrderMenu
     potato =  new OrderType(rareStock,    minStock, ItemEnum.BakedPotato, ItemEnum.MeatBake, ItemEnum.CheeseBake);
     pizza =   new OrderType(rareStock,    minStock, ItemEnum.CheesePizzaCooked, ItemEnum.MeatPizzaCooked, ItemEnum.VegPizzaCooked);
 
+    if (OrderTypePerishables.contains(ItemEnum.Burger))
     OrderCatagories.add(burgers);
+    if(OrderTypePerishables.contains(ItemEnum.TomatoOnionLettuceSalad))
     OrderCatagories.add(salads);
+    if(OrderTypePerishables.contains(ItemEnum.BakedPotato))
+    OrderCatagories.add(potato);
+    if(OrderTypePerishables.contains(ItemEnum.CheesePizza))
+      OrderCatagories.add(pizza);
   }
 
   /**

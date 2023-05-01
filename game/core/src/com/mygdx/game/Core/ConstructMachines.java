@@ -34,7 +34,7 @@ public class ConstructMachines
   public List<GameObject> assemblyStations = new LinkedList();
   DifficultyState difficultyState;
   CustomerController customerController;
-  int numHobs, numChopping;
+  int numHobs, numChopping,numOven;
   Pathfinding pathfinding;
   public ConstructMachines(CustomerController customerController, DifficultyState state, Pathfinding pathfinding){
     difficultyState = state;
@@ -125,7 +125,8 @@ public class ConstructMachines
     Oven.attachScript(OS);
     Stations.add(Oven);
     OS.init();
-    OS.setLocked(true);
+    if(numOven++>=1)
+      OS.setLocked(true);
   }
 
   /**

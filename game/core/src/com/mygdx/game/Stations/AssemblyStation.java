@@ -88,7 +88,7 @@ public class AssemblyStation extends Station {
 
   @Override
   public boolean CanRetrieve() {
-    return true;
+    return ingredients.size() > 0;
   }
 
 

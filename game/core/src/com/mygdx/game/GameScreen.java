@@ -154,9 +154,6 @@ public class GameScreen implements Screen {
     gameMusic = Gdx.audio.newMusic(Gdx.files.internal("gameMusic.mp3"));
     gameMusic.setLooping(true);
 
-
-
-
     //BlackCatStudios
     recipeScreen.createInstructionPage("Empty");
 
@@ -165,7 +162,6 @@ public class GameScreen implements Screen {
     exitLogo.getBlackTexture().height = 30;
     exitLogo.getBlackTexture().width = 30;
     exitLogo.position = new Vector2(713, 454);
-
 
     // add map
     mapRenderer = new OrthogonalTiledMapRenderer(map);
@@ -332,12 +328,16 @@ public class GameScreen implements Screen {
    * @author Jack Vickers
    */
   private void setupGameUI() {
+    // sets up a stage for the UI
     gameUIStage = new Stage();
     Gdx.input.setInputProcessor(gameUIStage);
     Table gameUITable = new Table();
     gameUIStage.addActor(gameUITable);
     gameUITable.setFillParent(true);
     gameUITable.align(Align.top);
+    // creates a label which displays whether the game is the endless mode or scenario mode
+    // This label gets updates elsewhere to show either number of customers left or number
+    // of customers served depending on the mode.
     if (isEndlessMode) {
       modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
           Color.WHITE));
@@ -350,6 +350,7 @@ public class GameScreen implements Screen {
       gameUITable.add(modeLabel).align(Align.topLeft).expandX();
     }
     updateCustomerLabel();
+    // Creates the pause button
     TextureRegion pauseBtn = new TextureRegion(new Texture("PauseUp.png"));
     TextureRegion pauseBtnDown = new TextureRegion(new Texture("PauseDown.png"));
     TextureRegion powerUpMenuBtn = new TextureRegion(new Texture("PowerupAssets/PowerUpMenuButton.png"));
@@ -383,6 +384,8 @@ public class GameScreen implements Screen {
         powerupPurchaseMenu.showPowerUpMenu();
         }
     });
+
+
 
     //TODO: Possibly use this function for the powerup menu in the future
 
@@ -616,9 +619,21 @@ public class GameScreen implements Screen {
     world.step(1 / 60f, 6, 2);
 
     game.batch.setProjectionMatrix(camera.combined);
+    game.batch.enableBlending();
+
 
     //Begins drawing the game batch
     game.batch.begin();
+    // Mutes or plays the music
+    if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
+      if (gameMusic.isPlaying()) {
+        soundFrame.SoundEngine.muteSound();
+        gameMusic.stop();
+      } else {
+        soundFrame.SoundEngine.unmuteSound();
+        gameMusic.play();
+      }
+    }
 
     if (!Paused) {
       displayTimer();
@@ -627,15 +642,6 @@ public class GameScreen implements Screen {
       updateCustomerLabel();
       //New rendering system
       RenderManager.renderer.onRender(game.batch);
-
-      // Mutes or plays the music
-      if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
-        if (gameMusic.isPlaying()) {
-          gameMusic.pause();
-        } else {
-          gameMusic.play();
-        }
-      }
       if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
         powerup.doSpeedPowerup();
       }
@@ -718,7 +724,7 @@ public class GameScreen implements Screen {
         Object objectB = contact.getFixtureB().getBody().getUserData();
         if ((objectA.toString().contentEquals("Chef0")) && (objectB.toString()
             .contentEquals("Chef1"))) {
-//          System.out.println("CONTACT");
+          System.out.println("CONTACT");
           contact.setEnabled(false);
         }
       }

@@ -69,6 +69,8 @@ public class CustomerController extends Scriptable
   private int TimerWidth = 50;
   private int TimerHeight = 10;
 
+  Boolean OvensAdded;
+
   /** Frustration Time*/
   private GameObject FrustrationTimer;
   private GameObject FrustrationTimerBackground;
@@ -123,7 +125,7 @@ public class CustomerController extends Scriptable
     Reputation = params.Reputation;
     MaxReputation = 5; // set the max reputation to 5
     CustomerFrustrationStart = params.FrustrationStart;
-    //CustomerFrustrationStart = 1;
+//    CustomerFrustrationStart = 1;
     groupSize.y = Math.min(params.MaxCustomersPerWave, groupSize.y);
     groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
 
@@ -249,8 +251,13 @@ public class CustomerController extends Scriptable
    * @author Jack Hinton
    */
   public void updateMenu(boolean a) {
+
+    if(!OvensAdded)
     menu.ovenAdded();
+
     menu.Restock();
+
+    OvensAdded = a;
   }
 
   public ArrayList<Integer> getCustomersPerScenarioWave() {
@@ -712,6 +719,10 @@ public class CustomerController extends Scriptable
       ChangeMoney(MoneyPerCustomer);
     }
     return success != -1;
+  }
+
+  public List<Customer> getMemberSeatedOrWalking() {
+    return currentWaiting.MembersSeatedOrWalking;
   }
 
   /**
