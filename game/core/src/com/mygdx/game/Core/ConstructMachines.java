@@ -177,7 +177,7 @@ public class ConstructMachines
 
 
   /**
-   * A function which builds the world box in Box2d which is used for all the hitboxes;
+   * This function puts the object onto the pathfinding grid
    *
    * @param x      the starting x of the world
    * @param y      the starting y of the world
