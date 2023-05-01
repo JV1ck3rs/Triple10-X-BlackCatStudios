@@ -346,12 +346,12 @@ public class GameScreen implements Screen {
       modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
           Color.WHITE));
       modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
-      gameUITable.add(modeLabel).expandX().align(Align.topLeft).uniform();
+      gameUITable.add(modeLabel).expandX().align(Align.topLeft);
     } else {
       modeLabel = new Label("SCENARIO MODE",
           new Label.LabelStyle(new BitmapFont(), Color.WHITE));
       modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
-      gameUITable.add(modeLabel).expandX().align(Align.topLeft).uniform();
+      gameUITable.add(modeLabel).expandX().align(Align.topLeft);
     }
     updateCustomerLabel();
 
@@ -366,6 +366,8 @@ public class GameScreen implements Screen {
     instructionButtonStyle.up = drawableInstructionBtn;
     instructionButtonStyle.down = drawableInstructionBtnDown;
     gameUITable.add(instructionButton).width(100 * scaleX).height(30 * scaleY).align(Align.center).uniform();
+
+    gameUITable.debug();
 
     // The following block of code adds a listener to the instruction button
     instructionButton.addListener(new ClickListener() {
@@ -456,9 +458,8 @@ public class GameScreen implements Screen {
     powerUpButtonStyle.up = powerUpButtonUp;
     powerUpButtonStyle.down = powerUpButtonUp;
     gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).align(Align.topRight)
-        .expandX().row();
-    gameUITable.add(powerUpButton).width(48 * scaleX).height(50 * scaleY).expandX().align(Align.right).colspan(2);
-    gameUITable.row();
+        .expandX();
+    gameUITable.add(powerUpButton).width(48 * scaleX).height(50 * scaleY).expandX().align(Align.right);
     gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX().align(Align.topRight).uniform();
     pauseButton.addListener(new ClickListener() {
       @Override
