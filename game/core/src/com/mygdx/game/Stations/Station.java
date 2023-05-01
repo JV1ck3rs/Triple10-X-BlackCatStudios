@@ -141,12 +141,12 @@ public abstract class Station extends Scriptable implements Interactable {
     }
   }
 
-  public void LoadState(List<ItemState> state, Boolean repaired) {
+  public void LoadState(List<ItemState> state, Boolean locked) {
     if (state.get(0) == null || state.get(0).item == null) {
       return;
     }
 
-    setLocked(repaired);
+    setLocked(locked);
     item = new Item(state.get(0));
     updatePictures();
   }

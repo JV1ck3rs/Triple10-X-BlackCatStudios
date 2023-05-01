@@ -1,6 +1,7 @@
 package piazzapanictests.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -10,19 +11,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.mygdx.game.CameraFunctions;
+import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.DistanceTest;
+import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
 import com.mygdx.game.Core.GameState.DifficultyState;
 import com.mygdx.game.Core.GameState.GameState;
+import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.GameState.SaveState;
 import com.mygdx.game.Core.Pathfinding;
 import com.mygdx.game.Core.RenderManager;
 import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.GameScreen;
+import com.mygdx.game.Items.Item;
+import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.MenuScreen;
+import com.mygdx.game.Stations.HobStation;
 import com.mygdx.game.soundFrame;
 import java.util.LinkedList;
 import java.util.List;
@@ -106,6 +114,24 @@ public class SaveTests extends MasterTestClass{
 
     instantiateCustomerScripts();
     instantiateMasterChef();
+
+    CookingParams params = new CookingParams();
+    HobStation station = new HobStation(params);
+    GameObject hobObj = new GameObject(new BlackTexture("Black.png"));
+    hobObj.attachScript(station);
+    station.init();
+
+
+    ItemState itemState = new ItemState(new Item(ItemEnum.Lettuce));
+
+    List<ItemState> states = new LinkedList<>();
+    states.add(itemState);
+    station.LoadState(states,false);
+
+
+    assertFalse("Must be unlocked", station.getLocked());
+    assertTrue("Must have lettuce on it", station.item.name == ItemEnum.Lettuce);
+
 
     cust.LoadState(gstate);
     masterChef.LoadState(gstate);
