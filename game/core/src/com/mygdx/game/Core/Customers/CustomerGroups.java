@@ -153,6 +153,16 @@ public class CustomerGroups {
     return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size() - 1);
   }
 
+  public Customer removeAnyCustomer(Integer customerToRemove){
+    Customer customer = null;
+    if(MembersInLine.size() >= customerToRemove){
+      customer = MembersInLine.get(customerToRemove);
+      MembersInLine.remove(customerToRemove);
+      addMemberToSitting(customer);
+    }
+    return customer;
+  }
+
   /**
    * See if the given dish is correct
    *
@@ -219,15 +229,18 @@ public class CustomerGroups {
    * @param CauseLeave Function causing this customer to leave
    * @author Felix Seanor
    */
-  public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave) {
-    Frustration -= dt;
-    if (Frustration <= 0) {
-      for (Customer customer : Members
-      ) {
-        customer.foodIcon.isVisible = false;
+  public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave, Boolean updateFrustration) {
+    if (updateFrustration){
+      Frustration -= dt;
+      if (Frustration <= 0) {
+        for (Customer customer : Members
+        ) {
+          customer.foodIcon.isVisible = false;
+        }
+        CauseLeave.accept(this);
       }
-      CauseLeave.accept(this);
     }
+
   }
 
   /**
