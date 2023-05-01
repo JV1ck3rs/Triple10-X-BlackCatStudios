@@ -71,7 +71,7 @@ public abstract class Station extends Scriptable implements Interactable {
     bubble3.image.layer=1;
 
     bubble4 = new GameObject(new BlackTexture("Timer/Ready.png"));
-    bubble4.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight());
+    bubble4.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight()/2);
     bubble4.isVisible = false;
     bubble4.image.layer=1;
 
