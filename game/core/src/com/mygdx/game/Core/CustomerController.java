@@ -67,6 +67,8 @@ public class CustomerController extends Scriptable
   private int TimerWidth = 50;
   private int TimerHeight = 10;
 
+  Boolean OvensAdded;
+
   /** Frustration Time*/
   private GameObject FrustrationTimer;
   private GameObject FrustrationTimerBackground;
@@ -247,8 +249,13 @@ public class CustomerController extends Scriptable
    * @author Jack Hinton
    */
   public void updateMenu(boolean a) {
+
+    if(!OvensAdded)
     menu.ovenAdded();
+
     menu.Restock();
+
+    OvensAdded = a;
   }
 
   public ArrayList<Integer> getCustomersPerScenarioWave() {
