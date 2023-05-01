@@ -14,6 +14,8 @@ import static org.junit.Assert.*;
 /**
  * Tests for the oven stations. Ovens only interact with pizzas and jacket potatoes.
  *
+ * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
+ *
  * @author Hubert Solecki
  * @date 24/04/2023
  */

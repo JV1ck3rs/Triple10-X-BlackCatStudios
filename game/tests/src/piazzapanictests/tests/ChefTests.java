@@ -20,6 +20,8 @@ import org.junit.runner.RunWith;
 /**
  * Tests to do with the Chefs.
  *
+ * Satisfies requirements for UR_PREP, UR_PANTRY, UR_CHEF_CONTROLS and UR_INTERACTION
+ *
  * @author Jack Vickers
  * @author Hubert Solecki
  * @author Azzam Amirul Bahri

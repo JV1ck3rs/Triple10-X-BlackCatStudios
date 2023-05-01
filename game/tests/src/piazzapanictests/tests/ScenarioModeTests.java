@@ -42,6 +42,8 @@ public class ScenarioModeTests {
   /**
    * Instantiates the customer scripts so customers can be used for tests.
    *
+   * Satisfies requirements for UR_SCENARIO_MODE, UR_SCENARIO_END
+   *
    * @param difficulty  The difficulty of the game.
    * @param noCustomers The number of customers in the game.
    * @param frustration The time that it takes for the customer to become frustrated.

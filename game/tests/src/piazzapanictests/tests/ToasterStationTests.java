@@ -36,6 +36,8 @@ import static org.junit.Assert.*;
  * Tests for the toaster station.
  * Toaster only interacts with the bun item so no other items need to be used or tested apart from testing for progress for incorrect items.
  *
+ * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
+ *
  * @author Hubert Solecki
  */
 

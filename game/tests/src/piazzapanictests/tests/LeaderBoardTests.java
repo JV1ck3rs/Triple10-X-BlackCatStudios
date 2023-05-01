@@ -28,6 +28,8 @@ public class LeaderBoardTests {
   /**
    * Tests that a name and score can be saved to and retrieved from the leaderboard.
    *
+   * Satisfies requirements for UR_LEADERBOARD
+   *
    * @author Jack Vickers
    * @date 28/04/2023
    */

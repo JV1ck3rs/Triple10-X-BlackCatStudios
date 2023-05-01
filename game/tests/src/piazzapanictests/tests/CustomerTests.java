@@ -30,6 +30,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
+/**
+ * Tests the behaviour of the customers when they order food
+ *
+ * Satisfies requirements for UR_CUSTOMER_ORDER, UR_REPUTATION_POINTS,
+ * UR_CUSTOMER_TIME_LIMIT, UR_ENDLESS_END and UR_INTERACTIONS
+ *
+ * @author Felix Seanor
+ * @author Jack Vickers
+ */
 @RunWith(GdxTestRunner.class)
 
 public class CustomerTests extends MasterTestClass {

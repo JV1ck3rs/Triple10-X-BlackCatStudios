@@ -35,6 +35,8 @@ import static org.junit.Assert.*;
 /**
  * Tests for the chopping station.
  *
+ * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
+ *
  * @author Jack Vickers
  * @author Azzam Amirul Bahri
  */

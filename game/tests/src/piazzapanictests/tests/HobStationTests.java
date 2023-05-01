@@ -16,6 +16,8 @@ import static org.junit.Assert.*;
  * Tests for the frying stations. Hobs only interact with raw patties and cooked patties so no other
  * items need to be used or checked.
  *
+ * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
+ *
  * @author Hubert Solecki
  */
 

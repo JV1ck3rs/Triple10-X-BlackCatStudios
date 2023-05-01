@@ -21,6 +21,8 @@ import org.junit.runner.RunWith;
 /**
  * Tests for the assembly station.
  *
+ * Satisfies requirements for UR_WORKSTATIONS and UR_INTERACTIONS
+ *
  * @author Jack Vickers
  */
 @RunWith(GdxTestRunner.class)

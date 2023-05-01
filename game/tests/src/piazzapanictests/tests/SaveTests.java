@@ -32,6 +32,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Tests for saving the game.
+ *
+ * Satisfies requirements for UR_SAVE_GAME
+ *
+ * @author Felix Seanor
+ */
 @RunWith(GdxTestRunner.class)
 
 public class SaveTests extends MasterTestClass{
