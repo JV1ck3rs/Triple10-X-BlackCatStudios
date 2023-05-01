@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 public class AssemblyStationTests extends MasterTestClass {
 
   /**
-   * Tests that an item can be placed on an assembly station.
+   * Tests that an item can be placed on an asse  mbly station.
    *
    * @author Jack Vickers
    */
@@ -339,7 +339,8 @@ public class AssemblyStationTests extends MasterTestClass {
 
     SaveState saveState = new SaveState();
     // Saves the state of the game
-    GameState saveContents = saveState.SaveState("testAssemblySave.ser", masterChef, cust, Difficulty.Stressful, 0, 0f, stations, customerCounters, assemblyStations);
+    GameState saveContents = saveState.SaveState("testAssemblySave.ser", masterChef,
+        customerController, Difficulty.Stressful, 0, 0f, stations, customerCounters, assemblyStations);
     // Loads the state of the game
     GameState loadedState = saveState.LoadState("testAssemblySave.ser");
     assertEquals("The items on the station after loading should be the same as the items on the station before saving",

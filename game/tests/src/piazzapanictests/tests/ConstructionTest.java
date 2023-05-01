@@ -3,21 +3,14 @@ package piazzapanictests.tests;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.ConstructMachines;
-import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
 import com.mygdx.game.Core.GameState.DifficultyState;
-import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.ItemEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.function.Consumer;
 
 /**
  * Tests that the assets are present.
@@ -26,17 +19,18 @@ import java.util.function.Consumer;
 public class ConstructionTest extends MasterTestClass
 {
   ConstructMachines machines;
-  CustomerController cust = new CustomerController(new Vector2(0, 0), new Vector2(32, 0), pathfinding,
-        (
-  EndOfGameValues a) -> EndGame(a), params, new Vector2(190, 390), new Vector2(190, 290),
-        new Vector2(290, 290));
+
 
   public Rectangle construct(){
+
+
+    DifficultyState difficultyState = DifficultyMaster.getDifficulty(Difficulty.Stressful);
+    params = difficultyState.ccParams;
 
     instantiateCustomerScripts();
 
     DifficultyState state = DifficultyMaster.getDifficulty(Difficulty.Stressful);
-    machines = new ConstructMachines(cust,state,pathfinding);
+    machines = new ConstructMachines(customerController,state,pathfinding);
     Rectangle rect = new Rectangle();
     rect.height=10;
     rect.width=10;
@@ -67,7 +61,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructOven()
   {
     Rectangle rect = construct();
-    machines.CreateOven(rect, cust);
+    machines.CreateOven(rect, customerController);
     assertTrue("Must have constructed stations", machines.Stations.size()>0);
   }
 
@@ -118,7 +112,7 @@ public class ConstructionTest extends MasterTestClass
   {
     Rectangle rect = construct();
     instantiateWorld();
-    machines.buildObject(world,rect.x, rect.y, rect.width,rect.height,"Static","TestObj");
+    machines.buildObject(rect.x, rect.y, rect.width,rect.height,"Static","TestObj");
   }
 
 }

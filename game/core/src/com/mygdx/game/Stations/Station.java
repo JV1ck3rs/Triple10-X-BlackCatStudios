@@ -53,6 +53,7 @@ public abstract class Station extends Scriptable implements Interactable {
   }
 
   public void init() {
+
     bubble = new GameObject(new BlackTexture("Timer/01.png"));
     bubble.setPosition(
         gameObject.position.x + (gameObject.getWidth() / 2) - (bubble.getWidth() / 2),
@@ -140,11 +141,12 @@ public abstract class Station extends Scriptable implements Interactable {
     }
   }
 
-  public void LoadState(List<ItemState> state) {
+  public void LoadState(List<ItemState> state, Boolean locked) {
     if (state.get(0) == null || state.get(0).item == null) {
       return;
     }
 
+    setLocked(locked);
     item = new Item(state.get(0));
     updatePictures();
   }

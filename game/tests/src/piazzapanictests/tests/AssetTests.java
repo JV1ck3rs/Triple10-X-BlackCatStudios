@@ -415,4 +415,42 @@ public class AssetTests {
             Gdx.files.internal("Recipes/TomatoOnionLettuceSaladRecipe.png").exists());
   }
 
+  /**
+   * Tests that the picture for the controls page exists.
+   *
+   * @author Jack Vickers
+   * @date 01/05/2023
+   */
+  @Test
+  public void testControlsImageExists() {
+    assertTrue("This test will only pass when the Controls.png asset exists.",
+            Gdx.files.internal("Controls.png").exists());
+  }
+
+  /**
+   * Tests that the picture for the icons page exists.
+   *
+   * @author Jack Vickers
+   * @date 01/05/2023
+   */
+  @Test
+  public void testIconsImageExists() {
+    assertTrue("This test will only pass when the Icons.png asset exists.",
+            Gdx.files.internal("Icons.png").exists());
+  }
+
+  /**
+   * Tests that the icons exist for the button that opens the icon page.
+   *
+   * @author Jack Vickers
+   * @date 01/05/2023
+   */
+  @Test
+  public void testIconButtonAssetsExist() {
+    assertTrue("This test will only pass when IconsUp.png asset exists.",
+            Gdx.files.internal("IconsUp.png").exists());
+    assertTrue("This test will only pass when IconsDown.png asset exists.",
+            Gdx.files.internal("IconsDown.png").exists());
+  }
+
 }
