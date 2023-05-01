@@ -13,6 +13,8 @@ import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Customer;
 import com.mygdx.game.Items.Item;
+
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -66,6 +68,8 @@ public class CustomerController extends Scriptable
   private float EatingTime = 7;
   private int TimerWidth = 50;
   private int TimerHeight = 10;
+
+  Boolean OvensAdded = false;
 
   /** Frustration Time*/
   private GameObject FrustrationTimer;
@@ -121,7 +125,7 @@ public class CustomerController extends Scriptable
     Reputation = params.Reputation;
     MaxReputation = 5; // set the max reputation to 5
     CustomerFrustrationStart = params.FrustrationStart;
-    //CustomerFrustrationStart = 1;
+//    CustomerFrustrationStart = 1;
     groupSize.y = Math.min(params.MaxCustomersPerWave, groupSize.y);
     groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
 
@@ -247,8 +251,13 @@ public class CustomerController extends Scriptable
    * @author Jack Hinton
    */
   public void updateMenu(boolean a) {
+
+    if(!OvensAdded)
     menu.ovenAdded();
+
     menu.Restock();
+
+    OvensAdded = a;
   }
 
   public ArrayList<Integer> getCustomersPerScenarioWave() {
@@ -347,6 +356,15 @@ public class CustomerController extends Scriptable
 
   }
 
+  public boolean decreaseMoney(float dm){
+    if(Money-dm >= 0){
+      Money -= dm;
+      return true;
+    }else{
+      return false;
+    }
+  }
+
 
   @Override
   public void Update(float dt) {
@@ -419,7 +437,7 @@ public class CustomerController extends Scriptable
     if (currentWaiting == null) {
       return;
     }
-    currentWaiting.CheckFrustration(dt, FrustrationCallBack);
+    currentWaiting.CheckFrustration(dt, FrustrationCallBack, updateFrustration);
   }
 
   /**
@@ -649,7 +667,21 @@ public class CustomerController extends Scriptable
   }
 
   void superFoodUpgrade() {
-    RemoveCustomerTest();
+    Customer customer = currentWaiting.RemoveFirstCustomer();
+    numCustomersServed += 1;
+    SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
+    ChangeMoney(MoneyPerCustomer);
+    SetWaitingForOrderTarget();
+  }
+
+  void removeAnyCustomer(Integer customerToRemove){
+    Customer customer = currentWaiting.removeAnyCustomer(customerToRemove);
+    if(customer != null){
+      numCustomersServed += 1;
+      SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
+      ChangeMoney(MoneyPerCustomer);
+      SetWaitingForOrderTarget();
+    }
   }
 
 
@@ -687,6 +719,10 @@ public class CustomerController extends Scriptable
       ChangeMoney(MoneyPerCustomer);
     }
     return success != -1;
+  }
+
+  public List<Customer> getMemberSeatedOrWalking() {
+    return currentWaiting.MembersSeatedOrWalking;
   }
 
   /**

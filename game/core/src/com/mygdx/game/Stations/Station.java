@@ -33,7 +33,7 @@ public abstract class Station extends Scriptable implements Interactable {
   public Recipe currentRecipe;
   GameObject heldItem;
   public int imageSize = 18;
-  GameObject bubble, bubble2, bubble3;
+  GameObject bubble, bubble2, bubble3, bubble4;
   GameObject animation;
   public float stationTimeDecrease;
   public int price = 100;
@@ -58,13 +58,23 @@ public abstract class Station extends Scriptable implements Interactable {
         gameObject.position.x + (gameObject.getWidth() / 2) - (bubble.getWidth() / 2),
         gameObject.position.y + (gameObject.getHeight()) + 2);
     bubble.isVisible = false;
+    bubble.image.layer=1;
     bubble2 = new GameObject(new BlackTexture("Timer/Warning.png"));
     bubble2.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight());
     bubble2.isVisible = false;
+    bubble2.image.layer=1;
+
     bubble3 = new GameObject(new BlackTexture("Timer/RepairBubble.png"));
     bubble3.setPosition(gameObject.position.x + gameObject.getWidth()/2 - bubble3.getWidth()/2,
             gameObject.position.y + gameObject.getHeight()/2 - bubble3.getHeight()/2);
     bubble3.isVisible = false;
+    bubble3.image.layer=1;
+
+    bubble4 = new GameObject(new BlackTexture("Timer/Ready.png"));
+    bubble4.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight()/2);
+    bubble4.isVisible = false;
+    bubble4.image.layer=1;
+
     if(animation != null)
       moveAnim();
   }

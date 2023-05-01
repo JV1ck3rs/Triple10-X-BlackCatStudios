@@ -33,7 +33,7 @@ import java.util.Optional;
  */
 public class MasterChef extends Scriptable {
 
-  public float maxRange = 25;
+  public float maxRange = 18;
   public int currentControlledChef = 0;
   private static ArrayList<TextureAtlas> chefAtlasArray;
   World world;
@@ -177,8 +177,12 @@ public class MasterChef extends Scriptable {
       return;
     }
 
+    Vector2 interp =  new Vector2(chefs.get(currentControlledChef).gameObject.position);
+
+    interp.add(chefs.get(currentControlledChef).gameObject.getWidth()/2f,0);
+
     Scriptable script = Interaction.FindClosetInteractable(
-        chefs.get(currentControlledChef).gameObject.position, InteractionType.Give, maxRange);
+        interp, InteractionType.Give, maxRange);
 
     if (script == null) {
       return;
@@ -206,8 +210,12 @@ public class MasterChef extends Scriptable {
       return;
     }
 
+    Vector2 interp =  new Vector2(chefs.get(currentControlledChef).gameObject.position);
+
+    interp.add(chefs.get(currentControlledChef).gameObject.getWidth()/2f,0);
+
     Scriptable script = Interaction.FindClosetInteractable(
-        chefs.get(currentControlledChef).gameObject.position, InteractionType.Fetch, maxRange);
+        interp, InteractionType.Fetch, maxRange);
 
     if (script == null) {
       return;
@@ -235,8 +243,12 @@ public class MasterChef extends Scriptable {
    * @author Jack Vickers
    */
   public void Interact() {
+    Vector2 interp =  new Vector2(chefs.get(currentControlledChef).gameObject.position);
+
+    interp.add(chefs.get(currentControlledChef).gameObject.getWidth()/2f,0);
+
     Scriptable script = Interaction.FindClosetInteractable(
-        chefs.get(currentControlledChef).gameObject.position, InteractionType.Interact, maxRange);
+        interp, InteractionType.Interact, maxRange);
 
     if (script == null) {
       return;
@@ -298,8 +310,6 @@ public class MasterChef extends Scriptable {
       return;
     }
     chefs.get(currentControlledChef).updateSpriteFromInput("");
-
-
     if (KeyPressedNow(Inputs.CYCLE_STACK)) {
       CycleItemStack();
     }
@@ -326,15 +336,12 @@ public class MasterChef extends Scriptable {
       Vector3 touchpos = new Vector3();
       touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
       touchpos = camera.unproject(touchpos);
-      if (!(touchpos.x >= 940 && touchpos.y >= 524)) {
+      if (touchpos.y < 524) { // if the ui at the top of the screen is not clicked
         List<Vector2> path = pathfind.FindPath((int) getCurrentChef().gameObject.position.x,
             (int) getCurrentChef().gameObject.position.y, (int) touchpos.x, (int) touchpos.y,
             DistanceTest.Euclidean);
-//      System.out.println(path);
         getCurrentChef().GivePath(path);
       }
-
-
     }
 
     MoveArrow();

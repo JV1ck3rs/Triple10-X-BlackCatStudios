@@ -7,6 +7,8 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 
+import com.mygdx.game.soundFrame;
+import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,6 +35,8 @@ public class ToasterStation extends Station {
     }
     animation = new GameObject(new BlackTexture("Items/ToasterActive.png"));
     animation.isVisible = false;
+    animation.image.layer= -1;
+
   }
 
 
@@ -60,7 +64,9 @@ public class ToasterStation extends Station {
     deleteItem();
     currentRecipe = null;
     bubble.isVisible = false;
+    bubble4.isVisible = false;
     animation.isVisible = false;
+
     return returnItem;
   }
 
@@ -106,6 +112,8 @@ public class ToasterStation extends Station {
 
     if (ready) {
       changeItem(new Item(currentRecipe.endItem));
+      bubble4.isVisible = true;
+      soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
       checkItem();
       return;
     }

@@ -4,27 +4,29 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- * This extracts the camera functions and allows all methods access to the camera
- * BlackCatStudio's Code
- * @author Sam Toner
+ * This extracts the camera functions and allows all methods access to the camera BlackCatStudio's
+ * Code
  *
+ * @author Sam Toner
  */
 public class CameraFunctions {
-    public static CameraFunctions camera;
-    OrthographicCamera gameScreenCamera;
-    public CameraFunctions(){
-        if(camera != null){
-            return;
-        }
-        camera = this;
-    }
 
-    public void updateCamera(OrthographicCamera camera){
-        gameScreenCamera = camera;
-    }
+  public static CameraFunctions camera;
+  OrthographicCamera gameScreenCamera;
 
-    public Vector3 unprojectCamera(Vector3 touchPos){
-        return gameScreenCamera.unproject(touchPos);
+  public CameraFunctions() {
+    if (camera != null) {
+      return;
     }
+    camera = this;
+  }
+
+  public void updateCamera(OrthographicCamera camera) {
+    gameScreenCamera = camera;
+  }
+
+  public Vector3 unprojectCamera(Vector3 touchPos) {
+    return gameScreenCamera.unproject(touchPos);
+  }
 
 }

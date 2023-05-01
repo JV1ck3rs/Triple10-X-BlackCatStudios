@@ -61,7 +61,7 @@ public class DifficultyMaster {
     chefParams.MoveSpeed = 200;
 
     cookingParams.CookSpeed = 2;
-    cookingParams.ChopSpeed = 1.5f;
+    cookingParams.ChopSpeed = 2f;
     cookingParams.BurnSpeed = 1.5f;
 
     diff.cookingParams = cookingParams;
