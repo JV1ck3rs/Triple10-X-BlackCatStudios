@@ -21,43 +21,43 @@ jobs: # what to do
         
       steps: 
       - uses: actions/checkout@v3
-      - name: Set up JDK 11
+      - name: Set up JDK 11 # Sets up the java environment
         uses: actions/setup-java@v3.11.0
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: Run chmod to make gradlew executable
+      - name: Run chmod to make gradlew executable # this is needed so that the gradle commands can be run
         run: chmod +x ./game/gradlew
       - name: Build with Gradle
         uses: gradle/gradle-build-action@6095a76664413da4c8c134ee32e8a8ae900f0f1f
         with:
           arguments: build
           build-root-directory: game
-      - name: Upload Intellij test coverage report
+      - name: Upload Intellij test coverage report # Upload the pre-generated test coverage report
         uses: actions/upload-artifact@v3.1.2
-        if: startsWith(matrix.os, 'ubuntu')
+        if: startsWith(matrix.os, 'ubuntu') # Only does this once per push/ pull
         with:
           name: TestCoverageReport
-          path: htmlReport
+          path: htmlReport # the path at which the test report is found
       - name: Create executable JAR
         uses: gradle/gradle-build-action@6095a76664413da4c8c134ee32e8a8ae900f0f1f
         if: startsWith(matrix.os, 'ubuntu')
         with:
-          arguments: desktop:dist
-          build-root-directory: game
+          arguments: desktop:dist # ./gradlew desktop:dist command
+          build-root-directory: game # the directory to run the command in
       - name: Upload JAR
         uses: actions/upload-artifact@v3.1.2
-        if: startsWith(matrix.os, 'ubuntu')
+        if: startsWith(matrix.os, 'ubuntu') # only does this once per push/ pull
         with:
             name: PiazzaPanic.jar
-            path: game/desktop/build/libs/desktop-1.0.jar
+            path: game/desktop/build/libs/desktop-1.0.jar # the directoory that the generated JAR file is located at
       - name: Upload Checkstyle report
         uses: actions/upload-artifact@v3.1.1
-        if: startsWith(matrix.os, 'ubuntu')
+        if: startsWith(matrix.os, 'ubuntu') # only does this once per push/ pull
         with:
           name: checkstyle-report
           path: game/core/build/reports/checkstyle
-    release:
+    release: # this runs if the push includes a release tag
       runs-on: ubuntu-22.04
       needs: [ "build" ]
       if: startsWith(github.ref, 'refs/tags/')
