@@ -22,11 +22,11 @@ public class CustomerCounterTests extends MasterTestClass {
 
         instantiateCustomerScripts(Difficulty.Relaxing);
         instantiateWorldAndCustomerCounter();
-        cust.CanAcceptNewCustomer();
-        Item itemToGIve = new Item(cust.getCurrentWaitingCustomerGroup().Orders.get(0));
-        Integer value = cust.getCurrentWaitingCustomerGroup().getMembers().size(); // to check of value of group is one less than the original
-        assertTrue(cust.tryGiveFood(itemToGIve));
-        assertEquals("Numbers of customers  seated or walking should be 1", 1, cust.getMemberSeatedOrWalking().size());
+        customerController.CanAcceptNewCustomer();
+        Item itemToGIve = new Item(customerController.getCurrentWaitingCustomerGroup().Orders.get(0));
+        Integer value = customerController.getCurrentWaitingCustomerGroup().getMembers().size(); // to check of value of group is one less than the original
+        assertTrue(customerController.tryGiveFood(itemToGIve));
+        assertEquals("Numbers of customers  seated or walking should be 1", 1, customerController.getMemberSeatedOrWalking().size());
 
     }
 
@@ -38,7 +38,7 @@ public class CustomerCounterTests extends MasterTestClass {
         }
 
         instantiateCustomerScripts(Difficulty.Relaxing);
-        cust.CanAcceptNewCustomer();
+        customerController.CanAcceptNewCustomer();
         instantiateWorldAndCustomerCounter();
         customerCounter.GiveItem(new Item(ItemEnum.Buns));
         assertNotNull(customerCounter.item);
@@ -49,7 +49,7 @@ public class CustomerCounterTests extends MasterTestClass {
     public void TestCustomerCounterCanGiveCanRetrieve(){
         instantiateCustomerScripts();
         instantiateWorldAndCustomerCounter();
-        cust.CanAcceptNewCustomer();
+        customerController.CanAcceptNewCustomer();
         Item item = new Item(ItemEnum.Buns);
 //        if (item == null){
 //
@@ -71,7 +71,7 @@ public class CustomerCounterTests extends MasterTestClass {
     public void TestInteractCustomerCounter(){
         instantiateWorldAndCustomerCounter();
         instantiateCustomerScripts();
-        cust.CanAcceptNewCustomer();
+        customerController.CanAcceptNewCustomer();
 
         assertEquals("Can be interacted",0 , 0, customerCounter.Interact());
         assertFalse(customerCounter.CanInteract());

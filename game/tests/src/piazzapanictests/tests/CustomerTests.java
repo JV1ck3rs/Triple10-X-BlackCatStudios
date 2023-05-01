@@ -28,7 +28,6 @@ import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 
 @RunWith(GdxTestRunner.class)
 
@@ -38,16 +37,16 @@ public class CustomerTests extends MasterTestClass {
   public void TestEndGame() {
     instantiateCustomerScripts();
 
-    cust.SetWaveAmount(0);
-    cust.ModifyReputation(-10);
+    customerController.SetWaveAmount(0);
+    customerController.ModifyReputation(-10);
 
     assertNotNull("The game must do an end state call", vals);
 
     vals = null;
 
-    cust.ModifyReputation(20);
+    customerController.ModifyReputation(20);
 
-    cust.CanAcceptNewCustomer();
+    customerController.CanAcceptNewCustomer();
 
     assertNotNull("The game must do an end state call", vals);
 
@@ -57,12 +56,12 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void TestFrustration() {
     instantiateCustomerScripts();
-    cust.SetWaveAmount(1);
-    cust.CanAcceptNewCustomer();
-    float frustration = cust.getCurrentWaitingCustomerGroup().Frustration;
+    customerController.SetWaveAmount(1);
+    customerController.CanAcceptNewCustomer();
+    float frustration = customerController.getCurrentWaitingCustomerGroup().Frustration;
 
-    cust.getCurrentWaitingCustomerGroup().CheckFrustration(1, null, true);
-    assertNotEquals(frustration, cust.getCurrentWaitingCustomerGroup().Frustration);
+    customerController.getCurrentWaitingCustomerGroup().CheckFrustration(1, null, true);
+    assertNotEquals(frustration, customerController.getCurrentWaitingCustomerGroup().Frustration);
 
   }
 
@@ -70,32 +69,32 @@ public class CustomerTests extends MasterTestClass {
   public void TestCustomerTransference() {
     instantiateCustomerScripts();
 
-    cust.SetWaveAmount(-1);
+    customerController.SetWaveAmount(-1);
 
-    cust.CanAcceptNewCustomer();
+    customerController.CanAcceptNewCustomer();
 
-    CustomerGroups group = cust.getCurrentWaitingCustomerGroup();
+    CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
     assertTrue(group.Members.size() == group.MembersInLine.size());
 
     for (int i = 0; i < group.Members.size(); i++) {
-      assertFalse(cust.DoSatisfactionCheck());
+      assertFalse(customerController.DoSatisfactionCheck());
       group.RemoveFirstCustomer();
 
 
     }
 
     assertTrue(group.Members.size() == group.MembersSeatedOrWalking.size());
-    assertTrue(cust.DoSatisfactionCheck());
+    assertTrue(customerController.DoSatisfactionCheck());
 
-    cust.CanAcceptNewCustomer();
+    customerController.CanAcceptNewCustomer();
 
-    assertNotEquals(cust.SittingCustomerCount(), 0);
+    assertNotEquals(customerController.SittingCustomerCount(), 0);
 
-    cust.SeeIfCustomersShouldLeave(20);
+    customerController.SeeIfCustomersShouldLeave(20);
 
-    assertEquals(cust.SittingCustomerCount(), 0);
+    assertEquals(customerController.SittingCustomerCount(), 0);
 
-    assertNotEquals(cust.LeavingCustomerCount(), 0);
+    assertNotEquals(customerController.LeavingCustomerCount(), 0);
 
 
   }
@@ -103,13 +102,13 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void TestHeldItems() {
     instantiateCustomerScripts();
-    cust.CanAcceptNewCustomer();
+    customerController.CanAcceptNewCustomer();
 
-    cust.SetWaveAmount(-1);
+    customerController.SetWaveAmount(-1);
 
-    cust.CanAcceptNewCustomer();
+    customerController.CanAcceptNewCustomer();
 
-    CustomerGroups group = cust.getCurrentWaitingCustomerGroup();
+    CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
     Customer customer = group.Members.get(0);
     assertNotNull(customer.returnHeldItem());
 
@@ -133,9 +132,9 @@ public class CustomerTests extends MasterTestClass {
   public void TestCustomerGroups() {
     instantiateCustomerScripts();
 
-    cust.CanAcceptNewCustomer();
+    customerController.CanAcceptNewCustomer();
 
-    CustomerGroups group = cust.getCurrentWaitingCustomerGroup();
+    CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
     Customer cust1 = group.Members.get(0);
 
     assertNotEquals("Group must have members", 0, group.Members.size());
@@ -147,7 +146,7 @@ public class CustomerTests extends MasterTestClass {
 
     assertTrue("Must be able to remove a customer by their food", attempt);
 
-    cust.tryGiveFood(new Item(dish));
+    customerController.tryGiveFood(new Item(dish));
 
     assertEquals("A member must be trying to sit down now", group.MembersSeatedOrWalking.size(), 1);
     assertEquals("That member must have the correct dish to be able to sit down", dish,
@@ -163,11 +162,11 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void TestDishCreation() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
-    cust.updateMenu(true);
+    customerController.updateMenu(true);
 
-    List<ItemEnum> order = cust.getMenu().CreateNewOrder(1000, Randomisation.TrueRandom);
+    List<ItemEnum> order = customerController.getMenu().CreateNewOrder(1000, Randomisation.TrueRandom);
 
-    OrderMenu menu = cust.getMenu();
+    OrderMenu menu = customerController.getMenu();
 
     boolean containsBurger =
         order.contains(ItemEnum.Burger) && order.contains(ItemEnum.CheeseBurger);
@@ -187,7 +186,7 @@ public class CustomerTests extends MasterTestClass {
 
     order.clear();
 
-    order = cust.getMenu().CreateNewOrder(1000, Randomisation.Normalised);
+    order = customerController.getMenu().CreateNewOrder(1000, Randomisation.Normalised);
 
     containsBurger = order.contains(ItemEnum.Burger) && order.contains(ItemEnum.CheeseBurger);
     containsSalad = order.contains(ItemEnum.TomatoOnionLettuceSalad) && order.contains(
@@ -210,7 +209,7 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void TryAtlas() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
-    cust.generateCustomerArray();
+    customerController.generateCustomerArray();
 
   }
 
@@ -219,9 +218,9 @@ public class CustomerTests extends MasterTestClass {
   public void UpdateSpriteTest() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
 
-    cust.CanAcceptNewCustomer();
+    customerController.CanAcceptNewCustomer();
 
-    CustomerGroups group = cust.getCurrentWaitingCustomerGroup();
+    CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
 
     Customer customer = group.Members.get(0);
 
@@ -236,9 +235,9 @@ public class CustomerTests extends MasterTestClass {
   public void OrientationTest() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
 
-    cust.CanAcceptNewCustomer();
+    customerController.CanAcceptNewCustomer();
 
-    CustomerGroups group = cust.getCurrentWaitingCustomerGroup();
+    CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
 
     Customer customer = group.Members.get(0);
 
@@ -284,8 +283,8 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void testUpdateSpriteFromInput() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
-    cust.CanAcceptNewCustomer();
-    CustomerGroups group = cust.getCurrentWaitingCustomerGroup();
+    customerController.CanAcceptNewCustomer();
+    CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
     Customer customer = group.Members.get(0);
     customer.updateSpriteFromInput("west");
     assertEquals("west", customer.getCurrentOrientation());

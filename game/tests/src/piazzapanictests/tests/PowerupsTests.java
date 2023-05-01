@@ -3,17 +3,9 @@ package piazzapanictests.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.mygdx.game.Core.DistanceTest;
-import com.mygdx.game.Core.Pathfinding;
 import com.mygdx.game.Core.Powerup;
-import com.mygdx.game.GameScreen;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import com.badlogic.gdx.math.Vector2;
 
 
 /**
@@ -29,7 +21,7 @@ public class PowerupsTests extends MasterTestClass {
     instantiateCustomerScripts();
     instantiateMasterChef();
 
-    Powerup powerup = new Powerup(masterChef, cust);
+    Powerup powerup = new Powerup(masterChef, customerController);
 
     float currentSpeed = masterChef.getChef(0).speed;
     powerup.doSpeedPowerup();
@@ -44,11 +36,11 @@ public class PowerupsTests extends MasterTestClass {
     instantiateCustomerScripts();
     instantiateMasterChef();
 
-    Powerup powerup = new Powerup(masterChef, cust);
+    Powerup powerup = new Powerup(masterChef, customerController);
 
-    int reputation = cust.Reputation;
+    int reputation = customerController.Reputation;
     powerup.buyReputation();
-    int nrep = cust.Reputation;
+    int nrep = customerController.Reputation;
 
     assertTrue("New reputation must greater after the power up", nrep > reputation);
 

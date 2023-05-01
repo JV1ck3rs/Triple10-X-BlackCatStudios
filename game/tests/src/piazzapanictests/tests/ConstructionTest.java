@@ -3,21 +3,14 @@ package piazzapanictests.tests;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.ConstructMachines;
-import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
 import com.mygdx.game.Core.GameState.DifficultyState;
-import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.ItemEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.function.Consumer;
 
 /**
  * Tests that the assets are present.
@@ -37,7 +30,7 @@ public class ConstructionTest extends MasterTestClass
     instantiateCustomerScripts();
 
     DifficultyState state = DifficultyMaster.getDifficulty(Difficulty.Stressful);
-    machines = new ConstructMachines(cust,state,pathfinding);
+    machines = new ConstructMachines(customerController,state,pathfinding);
     Rectangle rect = new Rectangle();
     rect.height=10;
     rect.width=10;
@@ -68,7 +61,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructOven()
   {
     Rectangle rect = construct();
-    machines.CreateOven(rect, cust);
+    machines.CreateOven(rect, customerController);
     assertTrue("Must have constructed stations", machines.Stations.size()>0);
   }
 

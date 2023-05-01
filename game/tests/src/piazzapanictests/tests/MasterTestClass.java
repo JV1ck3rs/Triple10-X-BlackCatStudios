@@ -36,7 +36,6 @@ import com.mygdx.game.Stations.TrashCan;
 
 import com.mygdx.game.Stations.*;
 import com.mygdx.game.soundFrame;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -44,7 +43,7 @@ import java.util.function.Consumer;
 class MasterTestClass {
 
   GameObjectManager manager;
-  CustomerController cust;
+  CustomerController customerController;
   Pathfinding pathfinding;
   EndOfGameValues vals;
   CustomerControllerParams params = new CustomerControllerParams();
@@ -105,7 +104,7 @@ class MasterTestClass {
     manager = new GameObjectManager();
     params = difficultyState.ccParams;
     params.NoCustomers = 5;
-    cust = new CustomerController(new Vector2(0, 0), new Vector2(32, 0), pathfinding,
+    customerController = new CustomerController(new Vector2(0, 0), new Vector2(32, 0), pathfinding,
         (EndOfGameValues a) -> EndGame(a), params, new Vector2(190, 390), new Vector2(190, 290),
         new Vector2(290, 290),
         new Vector2(290, 295));
@@ -330,7 +329,7 @@ class MasterTestClass {
     CustCount.setPosition(0, 0); // sets customer counter position (done to avoid NullPointerException)
     CustCount.setWidthAndHeight(rect.getWidth(),
             rect.getHeight()); // sets Customer counter width and height (done to avoid NullPointerException)
-    customerCounter = new CustomerCounters((Item a) -> (cust.tryGiveFood(a)), state.cookingParams); // creates customer counter station
+    customerCounter = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)), state.cookingParams); // creates customer counter station
     CustCount.attachScript(customerCounter); // attaches customer counter station to customer counter game object
     customerCounter.init();
     new RecipeDict(); // creates recipe dictionary
@@ -375,7 +374,7 @@ class MasterTestClass {
     Oven = new GameObject(null); // creates oven game object
     Oven.setPosition(0, 0); // sets oven station position (done to avoid NullPointerException)
     Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight()); // sets oven station width and height (done to avoid NullPointerException)
-    Consumer<Boolean> custController = (Boolean a) -> cust.updateMenu(a);
+    Consumer<Boolean> custController = (Boolean a) -> customerController.updateMenu(a);
     ovenStation = new OvenStation(state.cookingParams, custController); // creates oven station
     Oven.attachScript(ovenStation); // attaches oven station to oven game object
     ovenStation.init();

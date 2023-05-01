@@ -56,20 +56,10 @@ public class Chef extends PathfindingAgent implements Person {
   private float lockprogress = 0;
   private boolean ModifiedStack = false;
   List<Vector2> path;
-
-  private Station currentStation;
-  Rectangle chefRectangle;
   World world;
 
   private final int id;
 
-
-  private String inventory;
-
-  // timer attributes
-  float animationTime;
-  float frameTime;
-  int currentTimerFrame = 0;
   TextureAtlas timerAtlas;
   Sprite timerSprite;
 
@@ -184,7 +174,6 @@ public class Chef extends PathfindingAgent implements Person {
       obj.position.y = gameObject.position.y + j * 5;
       obj.image.layer = 1 + j;
 
-      //removed multiply by position bc lol whats going on with that
       if (spriteOrientation.contains("north")) {
         obj.position.y += obj.image.GetHeight() / 2;
         obj.image.layer -= CarryCapacity;
