@@ -16,11 +16,24 @@ public class AssetTests {
 
   /**
    * Tests that the chef assets are present.
+   *
+   * @author Jack Vickers
+   * @author Azzam Amirul Bahri
    */
   @Test
   public void testChefAssetExists() {
     assertTrue("This test will only pass when the chef1.png asset exists.",
         Gdx.files.internal("Chefs/Chef1/chef1.png").exists());
+    assertTrue("This test will only pass when the chef2.png asset exists.",
+            Gdx.files.internal("Chefs/Chef2/chef2.png").exists());
+    assertTrue("This test will only pass when the chef3.png asset exists.",
+            Gdx.files.internal("Chefs/Chef3/chef3.png").exists());
+    assertTrue("This test will only pass when the chef4.png asset exists.",
+            Gdx.files.internal("Chefs/Chef4/chef4.png").exists());
+    assertTrue("This test will only pass when the chef5.png asset exists.",
+            Gdx.files.internal("Chefs/Chef5/chef5.png").exists());
+    assertTrue("This test will only pass when the SelectionArrow.png asset exists.",
+            Gdx.files.internal("Chefs/SelectionArrow.png").exists());
   }
 
   /**
@@ -83,6 +96,20 @@ public class AssetTests {
         Gdx.files.internal("LoadUp.png").exists());
     assertTrue("This test will only pass when the LoadDown.png asset exists.",
         Gdx.files.internal("LoadDown.png").exists());
+  }
+
+  /**
+   * Tests that the assets for the save game button are present. This button is displayed on the
+   * pause screen.
+   *
+   * @author Azzam Amirul Bahri
+   */
+  @Test
+  public void testSaveGameButtonImagesExist(){
+    assertTrue("This test will only pass when the SaveUp.png asset exists.",
+            Gdx.files.internal("SaveUp.png").exists());
+    assertTrue("This test will only pass when the SaveDown.png asset exists.",
+            Gdx.files.internal("SaveDown.png").exists());
   }
 
   /**
@@ -179,7 +206,213 @@ public class AssetTests {
     assertTrue("This test will only pass when the PauseDown.png asset exists.",
         Gdx.files.internal("PauseDown.png").exists());
   }
+  /**
+   * Tests that the assets for the resume button are present. This button is displayed on the
+   * pause screen.
+   *
+   * @author Azzam Amirul Bahri
+   */
+  @Test
+  public void testResumeButtonImagesExist() {
+    assertTrue("This test will only pass when the ResumeUp.png asset exists.",
+            Gdx.files.internal("ResumeUp.png").exists());
+    assertTrue("This test will only pass when the ResumeDown.png asset exists.",
+            Gdx.files.internal("ResumeDown.png").exists());
+  }
+  /**
+   * Tests that the assets for the difficulty buttons are present. This button is displayed on the
+   * main menu screen.
+   *
+   * @author Azzam Amirul Bahri
+   */
+  @Test
+  public void testDifficultyButtonsImagesExist() {
+    assertTrue("This test will only pass when the RelaxingUp.png asset exists.",
+            Gdx.files.internal("RelaxingUp.png").exists());
+    assertTrue("This test will only pass when the RelaxingDown.png asset exists.",
+            Gdx.files.internal("RelaxingDown.png").exists());
+    assertTrue("This test will only pass when the StressfulUp.png asset exists.",
+            Gdx.files.internal("StressfulUp.png").exists());
+    assertTrue("This test will only pass when the StressfulDown.png asset exists.",
+            Gdx.files.internal("StressfulDown.png").exists());
+    assertTrue("This test will only pass when the ExtremeUp.png asset exists.",
+            Gdx.files.internal("ExtremeUp.png").exists());
+    assertTrue("This test will only pass when the ExtremeDown.png asset exists.",
+            Gdx.files.internal("ExtremeDown.png").exists());
 
-  //TODO: add tests for pause screen assets
+  }
+
+  /**
+   * Tests that the assets for the high scores button are present. This button is displayed on the
+   * main menu screen.
+   *
+   * @author Azzam Amirul Bahri
+   */
+  @Test
+  public void testHighScoresButtonImagesExist(){
+    assertTrue("This test will only pass when the HighScoresUp.png asset exists.",
+            Gdx.files.internal("HighScoresUp.png").exists());
+    assertTrue("This test will only pass when the HighScoresDown.png asset exists.",
+            Gdx.files.internal("HighScoresDown.png").exists());
+  }
+  /**
+   * Tests that the assets for the how to play button are present. This button is displayed on the
+   * game screen.
+   *
+   * @author Azzam Amirul Bahri
+   */
+  @Test
+  public void testHowToPlayButtonImagesExist(){
+    assertTrue("This test will only pass when the HowToPlayUp.png asset exists.",
+            Gdx.files.internal("HowToPlayUp.png").exists());
+    assertTrue("This test will only pass when the HowToPlayDown.png asset exists.",
+            Gdx.files.internal("HowToPlayDown.png").exists());
+  }
+  /**
+   * Tests that the assets for the save and exit button are present. This button is displayed on the
+   * end game screen.
+   *
+   * @author Azzam Amirul Bahri
+   */
+  @Test
+  public void testSaveExitButtonImagesExist(){
+    assertTrue("This test will only pass when the SaveExitUp.png asset exists.",
+            Gdx.files.internal("SaveExitUp.png").exists());
+    assertTrue("This test will only pass when the SaveExitDown.png asset exists.",
+            Gdx.files.internal("SaveExitDown.png").exists());
+  }
+  /**
+   * Tests that the assets for the piazza panic game map are present.
+   *
+   * @author Azzam Amirul Bahri
+   */
+  @Test
+  public void testPiazzaPanicMapExists(){
+    assertTrue("This test will only pass when the PiazzaPanicMap.tmx asset exists.",
+            Gdx.files.internal("PiazzaPanicMap.tmx").exists());
+  }
+
+  /**
+   * Tests that all assets in the Items folder exist.
+   *
+   * @author Azzam Amirul Bahri
+   */
+  @Test
+  public void testItemsAssetsExist(){
+    assertTrue("This test will only pass when the BakedPotato.png asset exists.",
+            Gdx.files.internal("Items/BakedPotato.png").exists());
+    assertTrue("This test will only pass when the Buns.png asset exists.",
+            Gdx.files.internal("Items/Buns.png").exists());
+    assertTrue("This test will only pass when the Burger.png asset exists.",
+            Gdx.files.internal("Items/Burger.png").exists());
+    assertTrue("This test will only pass when the Cheese.png asset exists.",
+            Gdx.files.internal("Items/Cheese.png").exists());
+    assertTrue("This test will only pass when the CheeseBake.png asset exists.",
+            Gdx.files.internal("Items/CheeseBake.png").exists());
+    assertTrue("This test will only pass when the CheeseBurger.png asset exists.",
+            Gdx.files.internal("Items/CheeseBurger.png").exists());
+    assertTrue("This test will only pass when the CheesePizza.png asset exists.",
+            Gdx.files.internal("Items/CheesePizza.png").exists());
+    assertTrue("This test will only pass when the CheesePizzaCooked.png asset exists.",
+            Gdx.files.internal("Items/CheesePizzaCooked.png").exists());
+    assertTrue("This test will only pass when the CheesePotato.png asset exists.",
+            Gdx.files.internal("Items/CheesePotato.png").exists());
+    assertTrue("This test will only pass when the Cinder.png asset exists.",
+            Gdx.files.internal("Items/Cinder.png").exists());
+    assertTrue("This test will only pass when the CloseButton.png asset exists.",
+            Gdx.files.internal("Items/CloseButton.png").exists());
+    assertTrue("This test will only pass when the CookedPatty.png asset exists.",
+            Gdx.files.internal("Items/CookedPatty.png").exists());
+    assertTrue("This test will only pass when the CutLettuce.png asset exists.",
+            Gdx.files.internal("Items/CutLettuce.png").exists());
+    assertTrue("This test will only pass when the CutOnion.png asset exists.",
+            Gdx.files.internal("Items/CutOnion.png").exists());
+    assertTrue("This test will only pass when the CutTomato.png asset exists.",
+            Gdx.files.internal("Items/CutTomato.png").exists());
+    assertTrue("This test will only pass when the Dough.png asset exists.",
+            Gdx.files.internal("Items/Dough.png").exists());
+    assertTrue("This test will only pass when the Lettuce.png asset exists.",
+            Gdx.files.internal("Items/Lettuce.png").exists());
+    assertTrue("This test will only pass when the LettuceOnionSalad.png asset exists.",
+            Gdx.files.internal("Items/LettuceOnionSalad.png").exists());
+    assertTrue("This test will only pass when the LettuceTomatoSalad.png asset exists.",
+            Gdx.files.internal("Items/LettuceTomatoSalad.png").exists());
+    assertTrue("This test will only pass when the MeatBake.png asset exists.",
+            Gdx.files.internal("Items/MeatBake.png").exists());
+    assertTrue("This test will only pass when the MeatPizza.png asset exists.",
+            Gdx.files.internal("Items/MeatPizza.png").exists());
+    assertTrue("This test will only pass when the MeatPizzaCooked.png asset exists.",
+            Gdx.files.internal("Items/MeatPizzaCooked.png").exists());
+    assertTrue("This test will only pass when the MeatPotato.png asset exists.",
+            Gdx.files.internal("Items/MeatPotato.png").exists());
+    assertTrue("This test will only pass when the Mince.png asset exists.",
+            Gdx.files.internal("Items/Mince.png").exists());
+    assertTrue("This test will only pass when the Onion.png asset exists.",
+            Gdx.files.internal("Items/Onion.png").exists());
+    assertTrue("This test will only pass when the OvenActive.png asset exists.",
+            Gdx.files.internal("Items/OvenActive.png").exists());
+    assertTrue("This test will only pass when the PizzaBase.png asset exists.",
+            Gdx.files.internal("Items/PizzaBase.png").exists());
+    assertTrue("This test will only pass when the Potato.png asset exists.",
+            Gdx.files.internal("Items/Potato.png").exists());
+    assertTrue("This test will only pass when the RawPatty.png asset exists.",
+            Gdx.files.internal("Items/RawPatty.png").exists());
+    assertTrue("This test will only pass when the RepairTool.png asset exists.",
+            Gdx.files.internal("Items/RepairTool.png").exists());
+    assertTrue("This test will only pass when the SuperBurger.png asset exists.",
+            Gdx.files.internal("Items/SuperBurger.png").exists());
+    assertTrue("This test will only pass when the SuperPizza.png asset exists.",
+            Gdx.files.internal("Items/SuperPizza.png").exists());
+    assertTrue("This test will only pass when the SuperPotato.png asset exists.",
+            Gdx.files.internal("Items/SuperPotato.png").exists());
+    assertTrue("This test will only pass when the SuperSalad.png asset exists.",
+            Gdx.files.internal("Items/SuperSalad.png").exists());
+    assertTrue("This test will only pass when the ToastedBuns.png asset exists.",
+            Gdx.files.internal("Items/ToastedBuns.png").exists());
+    assertTrue("This test will only pass when the ToasterActive.png asset exists.",
+            Gdx.files.internal("Items/ToasterActive.png").exists());
+    assertTrue("This test will only pass when the Tomato.png asset exists.",
+            Gdx.files.internal("Items/Tomato.png").exists());
+    assertTrue("This test will only pass when the TomatoOnionLettuceSalad.png asset exists.",
+            Gdx.files.internal("Items/TomatoOnionLettuceSalad.png").exists());
+    assertTrue("This test will only pass when the TomatoOnionSalad.png asset exists.",
+            Gdx.files.internal("Items/TomatoOnionSalad.png").exists());
+    assertTrue("This test will only pass when the TomPizza.png asset exists.",
+            Gdx.files.internal("Items/TomPizza.png").exists());
+    assertTrue("This test will only pass when the TomSauce.png asset exists.",
+            Gdx.files.internal("Items/TomSauce.png").exists());
+    assertTrue("This test will only pass when the VegPizza.png asset exists.",
+            Gdx.files.internal("Items/VegPizza.png").exists());
+    assertTrue("This test will only pass when the VegPizzaCooked.png asset exists.",
+            Gdx.files.internal("Items/VegPizzaCooked.png").exists());
+  }
+
+  /**
+   * Tests that all assets in the Recipes folder exists
+   *
+   * @author Azzam Amirul Bahri
+   */
+
+  @Test
+  public void testRecipesAssetsExist(){
+    assertTrue("This test will only pass when the BakedPotatoRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/BakedPotatoRecipe.png").exists());
+    assertTrue("This test will only pass when the BurgerRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/BurgerRecipe.png").exists());
+    assertTrue("This test will only pass when the CheeseBakeRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/CheeseBakeRecipe.png").exists());
+    assertTrue("This test will only pass when the CheeseBurgerRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/CheeseBurgerRecipe.png").exists());
+    assertTrue("This test will only pass when the EmptyRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/EmptyRecipe.png").exists());
+    assertTrue("This test will only pass when the LettuceOnionSaladRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/LettuceOnionSaladRecipe.png").exists());
+    assertTrue("This test will only pass when the LettuceTomatoSaladRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/LettuceTomatoSaladRecipe.png").exists());
+    assertTrue("This test will only pass when the MeatPotatoRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/MeatPotatoRecipe.png").exists());
+    assertTrue("This test will only pass when the TomatoOnionLettuceSaladRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/TomatoOnionLettuceSaladRecipe.png").exists());
+  }
 
 }
