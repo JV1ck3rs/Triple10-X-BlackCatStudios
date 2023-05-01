@@ -218,12 +218,14 @@ public class MenuScreen implements Screen {
   }
 
   private void createDifficultyButtons() {
+    float initialTopPadding = 75;
     // Need to clear the table so that the difficulty buttons can be added
     // after the load button
     table.clearChildren();
     if (Gdx.files.internal("SavedData.ser").exists()) {
       table.add(loadButton).width(210 * scaleX).height(35 * scaleY).padTop(90 * scaleY)
-          .padBottom(25 * scaleY).colspan(3).row();
+          .colspan(3).row();
+      initialTopPadding = 25;
     }
 
     // Create the easy (relaxing mode) button and add it to the table
@@ -237,7 +239,7 @@ public class MenuScreen implements Screen {
     easyBtnStyle.up = drawableEasyBtnUp;
     easyBtnStyle.down = drawableEasyBtnDown;
     easyBtn.align(Align.left);
-    table.add(easyBtn).width(100 * scaleX).height(40 * scaleY).padBottom(25 * scaleY)
+    table.add(easyBtn).width(100 * scaleX).height(40 * scaleY).padTop(initialTopPadding * scaleY).padBottom(25 * scaleY)
         .padRight(10 * scaleX);
 
     // Adds a click listener to the easy button
@@ -263,7 +265,7 @@ public class MenuScreen implements Screen {
     mediumBtn.align(Align.center);
     // The button is added to the same row of the table as the easy button so that they
     // are side by side
-    table.add(mediumBtn).width(100 * scaleX).height(40 * scaleY).padBottom(25 * scaleY)
+    table.add(mediumBtn).width(100 * scaleX).height(40 * scaleY).padTop(initialTopPadding * scaleY).padBottom(25 * scaleY)
         .padRight(10 * scaleX);
 
     // Adds a click listener to the medium button
@@ -289,7 +291,7 @@ public class MenuScreen implements Screen {
     hardBtn.align(Align.right);
     // The button is added to the same row of the table as the easy & medium buttons so that they
     // are side by side
-    table.add(hardBtn).width(100 * scaleX).height(40 * scaleY).padBottom(25 * scaleY).row();
+    table.add(hardBtn).width(100 * scaleX).height(40 * scaleY).padTop(initialTopPadding * scaleY).padBottom(25 * scaleY).row();
 
     // Adds a click listener to the hard button
     hardBtn.addListener(new ClickListener() {

@@ -7,6 +7,8 @@ import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
+import com.mygdx.game.soundFrame;
+import com.mygdx.game.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -71,6 +73,7 @@ public class OvenStation extends Station {
   @Override
   public Item RetrieveItem() {
     bubble.isVisible = false;
+    bubble4.isVisible = false;
     returnItem = item;
     deleteItem();
     currentRecipe = null;
@@ -108,6 +111,9 @@ public class OvenStation extends Station {
     if (ItemWhiteList.contains(item.name)) {
       currentRecipe = recipes.RecipeMap.get(item.name);
       bubble.isVisible = true;
+      if (item.name == ItemEnum.CheesePizzaCooked || item.name == ItemEnum.MeatPizzaCooked || item.name == ItemEnum.VegPizzaCooked) {
+        bubble4.isVisible = true;
+      }
     } else {
       currentRecipe = null;
       bubble.isVisible = false;
@@ -120,6 +126,8 @@ public class OvenStation extends Station {
         .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
     if (ready) {
       changeItem(new Item(currentRecipe.endItem));
+      bubble4.isVisible = true;
+      soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
       checkItem();
       return;
     }

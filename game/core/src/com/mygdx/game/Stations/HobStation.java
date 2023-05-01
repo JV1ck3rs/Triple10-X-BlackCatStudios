@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Converts some items into their fried forms
- * BlackCatStudio's Code
+ * Converts some items into their fried forms BlackCatStudio's Code
+ *
  * @author Jack Hinton
  */
 public class HobStation extends Station {
@@ -68,15 +68,16 @@ public class HobStation extends Station {
   }
 
 
-    @Override
-    public Item RetrieveItem() {
-        returnItem = item;
-        deleteItem();
-        currentRecipe = null;
-        bubble.isVisible = false;
-        bubble2.isVisible = false;
-        return returnItem;
-    }
+  @Override
+  public Item RetrieveItem() {
+    returnItem = item;
+    deleteItem();
+    currentRecipe = null;
+    bubble.isVisible = false;
+    bubble2.isVisible = false;
+    bubble4.isVisible = false;
+    return returnItem;
+  }
 
 
   @Override
@@ -91,19 +92,22 @@ public class HobStation extends Station {
   }
 
 
-    public void checkItem(){
-        if(ItemWhiteList.contains(item.name)) {
-            currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-            bubble.isVisible = true;
-            if(item.step == 1||currentRecipe.RecipeSteps.size() == 1)
-                bubble2.isVisible = true;
-        }
-        else {
-            currentRecipe = null;
-            bubble.isVisible = false;
-            bubble2.isVisible = false;
-        }
+  public void checkItem() {
+    if (ItemWhiteList.contains(item.name)) {
+      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
+      bubble.isVisible = true;
+      if (item.step == 1 || currentRecipe.RecipeSteps.size() == 1) {
+        bubble2.isVisible = true;
+      }
+      if (currentRecipe.RecipeSteps.size() == 1 && item.name == ItemEnum.CookedPatty) {
+        bubble4.isVisible = true;
+      }
+    } else {
+      currentRecipe = null;
+      bubble.isVisible = false;
+      bubble4.isVisible = false;
     }
+  }
 
 
   @Override
@@ -130,16 +134,14 @@ public class HobStation extends Station {
     FryingSFX.ShouldPlay = !ready;
     if (ready && item.progress == 0) {
       item.step++;
-      System.out.println("PRESS SPACE TO FLIP BURGER");
       bubble2.isVisible = item.step == 1;
 
-      if(item.step == currentRecipe.RecipeSteps.size()){
+      if (item.step == currentRecipe.RecipeSteps.size()) {
         changeItem(new Item(currentRecipe.endItem));
         soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
-        bubble2.isVisible = true;
+        bubble4.isVisible = true;
         checkItem();
-      }
-      else {
+      } else {
         soundFrame.SoundEngine.playSound(soundsEnum.StepAchieved);
       }
       return;
@@ -187,7 +189,7 @@ public class HobStation extends Station {
 
 
   @Override
-  public void moveAnim(){
+  public void moveAnim() {
     return;
   }
 
