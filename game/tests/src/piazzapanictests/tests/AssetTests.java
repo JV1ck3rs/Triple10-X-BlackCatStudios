@@ -448,9 +448,9 @@ public class AssetTests {
   @Test
   public void testIconButtonAssetsExist() {
     assertTrue("This test will only pass when IconsUp.png asset exists.",
-            Gdx.files.internal("Icons/IconsUp.png").exists());
+            Gdx.files.internal("IconsUp.png").exists());
     assertTrue("This test will only pass when IconsDown.png asset exists.",
-            Gdx.files.internal("Icons/IconsDown.png").exists());
+            Gdx.files.internal("IconsDown.png").exists());
   }
 
 }
