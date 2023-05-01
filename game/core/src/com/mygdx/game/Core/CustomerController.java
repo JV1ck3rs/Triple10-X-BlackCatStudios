@@ -816,7 +816,9 @@ public class CustomerController extends Scriptable
         continue;
       }
 
+
       CustomerGroups customerGroups = new CustomerGroups(groupState, CustomerAtlas);
+
       Table table = tables.get(state.CustomerGroupsData[i].Table);
       if (groupState.leaving) { // customers are leaving
         SetCustomerGroupTarget(customerGroups, DoorTarget);

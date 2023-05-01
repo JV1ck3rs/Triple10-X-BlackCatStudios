@@ -835,18 +835,18 @@ public class GameScreen implements Screen {
     for (GameObject station : constructMachines.Stations) {
       Scriptable scriptable = station.GetScript(0);
       if (scriptable instanceof Station) {
-        ((Station) scriptable).LoadState(state.FoodOnCounters.get(i++));
+        ((Station) scriptable).LoadState(state.FoodOnCounters.get(i),state.RepairState.get(i++));
       }
 
 
     }
 
     for (GameObject station : constructMachines.customerCounters) {
-      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++),true);
     }
 
     for (GameObject station : constructMachines.assemblyStations) {
-      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++),true);
     }
   }
 

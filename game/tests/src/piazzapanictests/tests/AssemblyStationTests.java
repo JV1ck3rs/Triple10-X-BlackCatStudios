@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
 public class AssemblyStationTests extends MasterTestClass {
 
   /**
-   * Tests that an item can be placed on an assembly station.
+   * Tests that an item can be placed on an asse  mbly station.
    *
    * @author Jack Vickers
    */

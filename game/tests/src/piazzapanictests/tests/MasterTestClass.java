@@ -107,7 +107,8 @@ class MasterTestClass {
     params.NoCustomers = 5;
     cust = new CustomerController(new Vector2(0, 0), new Vector2(32, 0), pathfinding,
         (EndOfGameValues a) -> EndGame(a), params, new Vector2(190, 390), new Vector2(190, 290),
-        new Vector2(290, 290));
+        new Vector2(290, 290),
+        new Vector2(290, 295));
   }
 
   void EndGame(EndOfGameValues val){
