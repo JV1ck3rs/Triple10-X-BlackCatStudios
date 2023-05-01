@@ -58,23 +58,25 @@ public class Interaction {
 
       debugVision.add(co);
     }
+
+    //Gets every class with a interface implemented or a superclass with an interface
     List<Scriptable> interactables = GameObjectManager.objManager.returnObjectsWithInterface(
         Interactable.class);
 
     float distance = maxRange * maxRange * maxRange;
-    float dst2 = 0;
     Vector2 vct = new Vector2();
     Scriptable currentClosestScript = null;
     Vector2 temp = Vector2.Zero;
     Vector2 ScriptPos;
 
 
-
+//For ever scrpt check if its valid for this type of interaction
+    // E.g. if your putting food down you cant put down on a full station
+    // or a food station as it cannot recieve
     for (Scriptable script : interactables
     ) {
       temp.set(pos);
       ScriptPos = script.gameObject.position;
-      dst2 = (temp.sub(ScriptPos).dot(temp));
 
       if (type == InteractionType.Fetch) {
         if (!((Interactable) script).CanRetrieve()) {
@@ -90,10 +92,10 @@ public class Interaction {
         }
       }
 
+    //2D Seperating Axis theorum with no rotation
+      //Checks if the XY distance is smaller than the two sizes
 
-      dst2 = (float) Math.sqrt(dst2);
-
-      // case 1
+      // case 1 X axis
 
 
       Vector2 L  = new Vector2(1,0);
@@ -107,6 +109,7 @@ public class Interaction {
 
       vct.set(pos).sub(ScriptPos);
 
+      //Case 2 Y axis
 
       float bound = Math.abs(L.dot(vct));
       float lower = maxRange + Math.abs(BW);
@@ -139,26 +142,13 @@ public class Interaction {
 
         debugVision.add(obj);
       }
-
+      //If the minimum vector is smaller than the current distance then accept this as the closest
       if(minVct<distance){
         distance = minVct;
 
         currentClosestScript = script;
       }
 
-
-
-/*
-      if ((pos.x + maxRange) > ScriptPos.x
-          && (pos.x - maxRange) < ScriptPos.x + script.gameObject.getWidth()) {
-        if ((pos.y + maxRange) > ScriptPos.y
-            && (pos.y - maxRange) < ScriptPos.y + script.gameObject.getHeight()) {
-          if (dst2 < distance) {
-            distance = dst2;
-            currentClosestScript = script;
-          }
-        }
-      }*/
 
     }
 
