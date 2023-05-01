@@ -655,6 +655,8 @@ public class GameScreen implements Screen {
     world.step(1 / 60f, 6, 2);
 
     game.batch.setProjectionMatrix(camera.combined);
+    game.batch.enableBlending();
+
 
     //Begins drawing the game batch
     game.batch.begin();
