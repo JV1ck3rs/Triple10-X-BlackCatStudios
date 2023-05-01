@@ -40,9 +40,7 @@ public class Powerup {
   }
 
 
-  public void superFood() {
-    cc.superFoodUpgrade();
-  }
+  public void superFood() { cc.superFoodUpgrade(); }
 
   public void tetrisSuperFood() {
     Customer firstCustomer = cc.currentWaiting.MembersInLine.get(0);
@@ -57,7 +55,11 @@ public class Powerup {
     for (int i = cc.currentWaiting.MembersInLine.size() - 1; i >= 0; i--) {
       Customer current = cc.currentWaiting.MembersInLine.get(i);
       if (toClear.contains(current.getDish())) {
+        cc.SetCustomerTarget(cc.currentWaiting.MembersInLine.get(i), cc.currentWaiting.table.GetNextSeat());
+        cc.currentWaiting.MembersSeatedOrWalking.add(cc.currentWaiting.MembersInLine.get(i));
         cc.currentWaiting.FeedSpecificCustomer(i);
+
+        //cc.removeAnyCustomer(i);
       }
     }
   }

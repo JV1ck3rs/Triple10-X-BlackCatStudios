@@ -154,8 +154,8 @@ public class GameScreen implements Screen {
     gameMusic = Gdx.audio.newMusic(Gdx.files.internal("gameMusic.mp3"));
     gameMusic.setLooping(true);
 
-    powerupPurchaseMenu = new PowerupPurchaseMenu(customerController, powerup);
-    powerupPurchaseMenu.initialiseState();
+
+
 
     //BlackCatStudios
     recipeScreen.createInstructionPage("Empty");
@@ -165,6 +165,7 @@ public class GameScreen implements Screen {
     exitLogo.getBlackTexture().height = 30;
     exitLogo.getBlackTexture().width = 30;
     exitLogo.position = new Vector2(713, 454);
+
 
     // add map
     mapRenderer = new OrthogonalTiledMapRenderer(map);
@@ -193,9 +194,12 @@ public class GameScreen implements Screen {
         pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams,tabr);
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
+    powerup = new Powerup(masterChef, customerController); // powerup object
+    powerupPurchaseMenu = new PowerupPurchaseMenu(customerController, powerup);
+    powerupPurchaseMenu.initialiseState();
+    GameObjectManager.objManager.AppendLooseScript(powerupPurchaseMenu);
     GameObjectManager.objManager.AppendLooseScript(customerController);
 
-    powerup = new Powerup(masterChef, customerController); // powerup object
 
     constructMachines = new ConstructMachines(customerController, difficultyState, pathfinding);
 

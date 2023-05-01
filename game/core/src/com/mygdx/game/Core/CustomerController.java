@@ -13,6 +13,8 @@ import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Customer;
 import com.mygdx.game.Items.Item;
+
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -347,6 +349,15 @@ public class CustomerController extends Scriptable
 
   }
 
+  public boolean decreaseMoney(float dm){
+    if(Money-dm >= 0){
+      Money -= dm;
+      return true;
+    }else{
+      return false;
+    }
+  }
+
 
   @Override
   public void Update(float dt) {
@@ -419,7 +430,7 @@ public class CustomerController extends Scriptable
     if (currentWaiting == null) {
       return;
     }
-    currentWaiting.CheckFrustration(dt, FrustrationCallBack);
+    currentWaiting.CheckFrustration(dt, FrustrationCallBack, updateFrustration);
   }
 
   /**
@@ -649,7 +660,21 @@ public class CustomerController extends Scriptable
   }
 
   void superFoodUpgrade() {
-    RemoveCustomerTest();
+    Customer customer = currentWaiting.RemoveFirstCustomer();
+    numCustomersServed += 1;
+    SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
+    ChangeMoney(MoneyPerCustomer);
+    SetWaitingForOrderTarget();
+  }
+
+  void removeAnyCustomer(Integer customerToRemove){
+    Customer customer = currentWaiting.removeAnyCustomer(customerToRemove);
+    if(customer != null){
+      numCustomersServed += 1;
+      SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
+      ChangeMoney(MoneyPerCustomer);
+      SetWaitingForOrderTarget();
+    }
   }
 
 

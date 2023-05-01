@@ -49,7 +49,7 @@ public class PowerupPurchaseMenu extends Scriptable {
     prices.put("Speed", 50);
     prices.put("Reputation", 60);
     prices.put("SuperFood", 75);
-    prices.put("TetrisSuperFood", 100);
+    prices.put("TetrisSuperFood", 0);
     prices.put("Frustration", 75);
   }
 
@@ -116,23 +116,24 @@ public class PowerupPurchaseMenu extends Scriptable {
 
   @Override
   public void Update(float dt) {
-    System.out.println("Check");
     if (background.isVisible) {
       Integer money = cc.Money;
-      if (speedBuyButton.isClicked() && money > prices.get("Speed")) {
+      System.out.println(money);
+      if (speedBuyButton.isClicked() && money >= prices.get("Speed")) {
         cc.Money -= prices.get("Speed");
+        cc.decreaseMoney(Float.valueOf(prices.get("Speed")));
         powerup.doSpeedPowerup();
-      } else if (reputationBuyButton.isClicked() && money > prices.get("Reputation")) {
+      } else if (reputationBuyButton.isClicked() && money >= prices.get("Reputation")) {
         cc.Money -= prices.get("Reputation");
         powerup.buyReputation();
-      } else if (superFoodBuyButton.isClicked() && money > prices.get("SuperFood")) {
+      } else if (superFoodBuyButton.isClicked() && money >= prices.get("SuperFood")) {
         cc.Money -= prices.get("SuperFood");
         powerup.superFood();
-      } else if (tetrisSuperFoodBuyButton.isClicked() && money > prices.get(
+      } else if (tetrisSuperFoodBuyButton.isClicked() && money >= prices.get(
           "TetrisSuperFood")) {
         cc.Money -= prices.get("TetrisSuperFood");
         powerup.tetrisSuperFood();
-      } else if (stopFrustruationBuyButton.isClicked() && money > prices.get("Frustration")) {
+      } else if (stopFrustruationBuyButton.isClicked() && money >= prices.get("Frustration")) {
         cc.Money -= prices.get("Frustration");
         powerup.stopFrustration();
       } else if (closeMenuButton.isClicked()) {
