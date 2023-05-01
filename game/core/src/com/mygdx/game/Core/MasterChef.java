@@ -310,8 +310,6 @@ public class MasterChef extends Scriptable {
       return;
     }
     chefs.get(currentControlledChef).updateSpriteFromInput("");
-
-
     if (KeyPressedNow(Inputs.CYCLE_STACK)) {
       CycleItemStack();
     }
@@ -338,15 +336,12 @@ public class MasterChef extends Scriptable {
       Vector3 touchpos = new Vector3();
       touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
       touchpos = camera.unproject(touchpos);
-      if (!(touchpos.x >= 940 && touchpos.y >= 524)) {
+      if (touchpos.y < 524) { // if the ui at the top of the screen is not clicked
         List<Vector2> path = pathfind.FindPath((int) getCurrentChef().gameObject.position.x,
             (int) getCurrentChef().gameObject.position.y, (int) touchpos.x, (int) touchpos.y,
             DistanceTest.Euclidean);
-//      System.out.println(path);
         getCurrentChef().GivePath(path);
       }
-
-
     }
 
     MoveArrow();
