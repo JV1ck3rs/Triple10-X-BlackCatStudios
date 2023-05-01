@@ -24,6 +24,7 @@ public class soundFrame {
 
   HashMap<soundsEnum, LinkedList<Long>> soundIDsMap = new HashMap<>();
  public float currentSystemVolume = 1.0f;
+ public float Volume = 1.0f;
 
 
   public soundFrame(){
@@ -41,7 +42,7 @@ public class soundFrame {
    */
   public long playSound(soundsEnum ring) {
     Sound toPlay = Sounds[ring.ordinal()];
-    long soundID = toPlay.play();
+    long soundID = toPlay.play(Volume);
     LinkedList<Long> soundIDs = new LinkedList<>();
 
     if (soundIDsMap.get(ring) == null) {
@@ -132,6 +133,8 @@ public class soundFrame {
     if (volume != 0.0f) {
       currentSystemVolume = volume;
     }
+
+    Volume = volume;
     for (soundsEnum key : soundIDsMap.keySet()) {
       LinkedList<Long> value = soundIDsMap.get(key);
       Sound currentSound = Sounds[key.ordinal()];
