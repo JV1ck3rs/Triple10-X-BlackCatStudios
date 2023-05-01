@@ -112,7 +112,7 @@ public class ConstructionTest extends MasterTestClass
   {
     Rectangle rect = construct();
     instantiateWorld();
-    machines.buildObject(world,rect.x, rect.y, rect.width,rect.height,"Static","TestObj");
+    machines.buildObject(rect.x, rect.y, rect.width,rect.height,"Static","TestObj");
   }
 
 }

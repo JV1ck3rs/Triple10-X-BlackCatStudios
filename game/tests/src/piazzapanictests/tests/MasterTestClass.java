@@ -129,7 +129,7 @@ class MasterTestClass {
     for (int i = 0; i < chef.length; i++) {
       GameObject chefsGameObject = new GameObject(
           new BlackSprite()); // passing in null since chef will define it later
-      chef[i] = new Chef(world, i, getChefAtlasArray().get(chefControl));
+      chef[i] = new Chef(i, getChefAtlasArray().get(chefControl));
       chefsGameObject.attachScript(chef[i]);
       chefsGameObject.image.setSize(18, 40); // set size of sprite
       chef[i].updateSpriteFromInput("idlesouth");
@@ -150,7 +150,7 @@ class MasterTestClass {
     // Sets up the pathfinding using values taken from GameScreen class
     Pathfinding pathfinding = new Pathfinding(32 / 4, 32 * 32, 18 * 32);
     // Instantiates the MasterChef class
-    masterChef = new MasterChef(2, world, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
+    masterChef = new MasterChef(2, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
   }
 
