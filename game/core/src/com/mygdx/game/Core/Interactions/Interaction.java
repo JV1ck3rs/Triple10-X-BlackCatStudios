@@ -1,7 +1,6 @@
 package com.mygdx.game.Core.Interactions;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameObjectManager;
@@ -59,7 +58,7 @@ public class Interaction {
       debugVision.add(co);
     }
 
-    //Gets every class with a interface implemented or a superclass with an interface
+    //Gets every class with an interface implemented or a superclass with an interface
     List<Scriptable> interactables = GameObjectManager.objManager.returnObjectsWithInterface(
         Interactable.class);
 
@@ -70,9 +69,9 @@ public class Interaction {
     Vector2 ScriptPos;
 
 
-//For ever scrpt check if its valid for this type of interaction
+//For all script check if it's valid for this type of interaction.
     // E.g. if your putting food down you cant put down on a full station
-    // or a food station as it cannot recieve
+    // or a food station as it cannot receive
     for (Scriptable script : interactables
     ) {
       temp.set(pos);
@@ -92,7 +91,7 @@ public class Interaction {
         }
       }
 
-    //2D Seperating Axis theorum with no rotation
+    //2D separating Axis theorem with no rotation
       //Checks if the XY distance is smaller than the two sizes
 
       // case 1 X axis
@@ -114,9 +113,9 @@ public class Interaction {
       float bound = Math.abs(L.dot(vct));
       float lower = maxRange + Math.abs(BW);
 
-      float minVct = 0;
+      float minVct;
       if(bound>lower){
-        //seperating axis
+        //separating axis
         continue;
       } else {
         minVct = bound;

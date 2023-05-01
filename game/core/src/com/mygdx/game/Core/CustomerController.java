@@ -67,7 +67,7 @@ public class CustomerController extends Scriptable
   private int TimerWidth = 50;
   private int TimerHeight = 10;
 
-  Boolean OvensAdded;
+  Boolean OvensAdded = false;
 
   /** Frustration Time*/
   private GameObject FrustrationTimer;

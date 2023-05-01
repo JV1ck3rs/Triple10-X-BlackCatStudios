@@ -26,12 +26,13 @@ import java.util.function.Consumer;
 public class ConstructionTest extends MasterTestClass
 {
   ConstructMachines machines;
-  CustomerController cust = new CustomerController(new Vector2(0, 0), new Vector2(32, 0), pathfinding,
-        (
-  EndOfGameValues a) -> EndGame(a), params, new Vector2(190, 390), new Vector2(190, 290),
-        new Vector2(290, 290));
+
 
   public Rectangle construct(){
+
+
+    DifficultyState difficultyState = DifficultyMaster.getDifficulty(Difficulty.Stressful);
+    params = difficultyState.ccParams;
 
     instantiateCustomerScripts();
 
