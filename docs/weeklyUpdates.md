@@ -114,7 +114,8 @@
 </figure>
 
 ###Minutes Taken During Team Meetings
-####Week 1
+
+####Spring Week 5
 **16/02/2023**
 
 Members present - Jack Hinton, Jack Vickers, Felix Seanor, Azzam Amirul Bahri, Hubert Solecki
@@ -129,14 +130,16 @@ Member missing - Sam Toner
 
 Members present - Jack Hinton, Jack Vickers, Felix Seanor, Azzam Amirul Bahri, Hubert Solecki
 Member missing - Sam Toner
+
 - Jack Vickers, Azzam Amirul Bahri, Hubert Solecki started looking at the existing risk deliverable and created a new risk register
 - Jack Hinton and Felix continued working on the method selection and planning document
 
-####Week 2
+####Spring Week 6
 **22/02/2023**
 
 Members Present - Jack Hinton, Jack Vickers, Felix Seanor, Azzam Amirul Bahri, Sam Toner
 Member missing - Hubert Solecki
+
 - Jack Vickers started implementing continuous integration. He created and began using the gradle.yml file in the github workflow folder
 - Azzam Amirul Bahri and Sam Toner worked on updating the requirements deliverable
 - Azzam Amirul Bahri began looking at unit tests
@@ -146,6 +149,7 @@ Member missing - Hubert Solecki
 
 Members present - Jack Hinton, Jack Vickers, Felix Seanor, Azzam Amirul Bahri, Hubert Solecki
 Member missing - Sam Toner
+
 - Jack Vickers finished most of the continuous integration after the previous meeting and so started working on setting up unit tests
 - Jack Hinton and Felix Seanor continued looking at the codebase
 - Hubert Solecki finished his section of the risks deliverable
@@ -154,16 +158,18 @@ Member missing - Sam Toner
 
 Members present - Jack Hinton, Jack Vickers, Felix Seanor, Azzam Amirul Bahri, Hubert Solecki, Sam Toner
 Jack Vickers finished setting up unit tests after the previous meeting and so looked over the method selection and planning document
+
 - Felix Seanor implemented the game object system that we used during assessment 1 after the previous meeting
 - Sam Toner began looking at implementing a proper soundframe and fixing the collision detection system
 - Felix Seanor and Jack Hinton began implementing a proper workstation system similar to what we used for assessment 1 because the game currently uses a strange system for workstations
 - Azzam Amirul Bahri continued researching unit tests.
 
-####Week 3
+####Spring Week 7
 **01/03/2023**
 
 Members Present - Jack Hinton, Jack Vickers, Hubert Solecki, Felix Seanor, Azzam Amirul Bahri
 Not present - Sam Toner
+
 - Jack Vickers and Azzam Amirul Bahri peer reviewed the requirements document which was updated by Sam Toner. They added additional user, functional and nonfunctional requirements to the document in line with the requirements brief
 - Hubert Solecki started updating the gantt chart for the previous and current week
 - Felix Seanor and Jack Hinton continued working on the interaction system for the game
@@ -171,13 +177,14 @@ Not present - Sam Toner
 **03/03/2023**
 
 Members present - Jack Hinton, Jack Vickers, Hubert Solecki, Felix Seanor, Azzam Amirul Bahri, Sam Toner
+
 - Jack Vickers and Azzam Amirul Bahri finished adding additional requirements to the requirements document
 - Jack Vickers, Azzam Amirul Bahri, and Hubert Solecki started work on a test plan for the features required for assessment 1
 - Hubert Solecki completed the gantt chart for the current week
 - Jack Hinton and Felix Seanor continued working on the interaction system
 - Sam Toner worked on implementing the sound frame
 
-####Week 4
+####Spring week 8
 **08/03/2023**
 
 Members present - Jack Hinton, Jack Vickers, Felix Seanor
@@ -190,7 +197,105 @@ Not present - Sam Toner, Azzam Amirul Bahri, Hubert Solecki
 
 Members present - Jack Hinton, Jack Vickers, Sam Toner, Felix Seanor, Azzam Amirul Bahri
 Not Present - Hubert Solecki
+
 - The group held a brief discord meeting
 - We discussed the implementation of pathfinding and changing the control scheme of the game
 - We decided that we would no longer need to use the game’s current collision system because the pathfinding would be set up to stop the chefs from moving over counters and workstations
 - We discussed what each team member needed to be working on
+
+####Spring Week 9
+**10/03/2023**
+
+Members Present - Jack Hinton, Azzam Amirul Bahri, Felix Seanor, Hubert Solecki, Sam Toner, Jack Vickers
+
+- The group discovered a memory leak in the current code and have pursued to fix this issue
+- The group have also discovered that the customers are not dynamically implemented; rather, they are implemented at the start of the game and made to randomly appear throughout the game. This is an issue and the group will seek to change the implementation of customers into a dynamically implemented system.
+- Hubert Solecki, Jack Vickers, Jack Vickers finished the current test plan knowing that they may need to add further tests when further knowledge of the code base is acquired. They have also began to implement the tests into the code base based on the current test plan.
+- Sam Toner is working on displaying recipes within the game and the textures associated with them.
+- Jack Hinton is working on the game screen class and implementing the additional stations in the game and getting them to work.
+- Felix Seanor continues to work on pathfinding
+- Hubert Solecki added the weeks tasks to the gantt chart and made the minutes for todays meeting
+
+####Spring Week 10
+**15/03/2023**
+
+Members Present - Jack Hinton, Felix Seanor, Hubert Solecki, Sam Toner, Jack Vickers, Azzam Amirul Bahri
+
+- Felix Seanor continued working on the customer system
+- Sam Toner continued working on displaying recipes within the game
+- Jack Hinton continued working on the interaction system
+- Jack Vickers and Hubert Solecki organised the test plan to make it more easy to follow, while waiting for the interaction system to be completed.
+
+####Easter Break
+- A few short meetings were held over the Easter break where the team discussed where everyone was up to with work. These meetings were held over discord calls. 
+- Discord was frequently used for chat communications outside of meetings when different team members had questions about the code.
+- Jack Hinton completed work on the interaction system at the start of the break so testing began shortly after.
+- Felix completed pathfinding early in the break.
+- Jack Vickers implemented a pause menu and scenario mode configuration menu, as well as an algorithm which increases the number of customers per wave as a scenario mode goes on.
+- Felix implemented save functionality at the end of the Easter break
+
+####Summer Week 1
+**17/04/2023**
+
+Members present - Jack Hinton, Felix Seanor, Hubert Solecki, Jack Vickers, Azzam Amirul Bahri
+Member not present - Sam Toner
+
+- The team met in person and discussed progress made over the Easter break
+- Jack Vickers, Hubert Solecki, and Azzam Amirul Bahri continued writing tests
+- Felix started working on adding more chefs into the game
+- Jack Hinton started working on implementing the functionality to allow more stations to be bought by the user
+
+**18/04/2023**
+
+Members present - Jack Hinton, Felix Seanor, Hubert Solecki, Jack Vickers, Sam Toner
+Member not present - Azzam Amirul Bahri
+
+- After the last meeting, Felix implemented difficulty levels into the game
+- In this meeting, Felix continued working on adding more chefs into the game using the character creator provided with the asset pack
+- Sam Toner continued working on implementing some powerups and fixing the issue with customer orders and recipes being 
+- Jack Hinton continued working on implementing the functionality to allow more stations to be bought by the user
+- Jack Vickers wrote more tests for the food crate and worked on a fix for scaling the UI to the screen size
+- Hubert continued working on tests for the hob station
+
+**19/04/2023**
+
+Members present - Hubert Solecki, Jack Vickers, Azzam Amirul Bahri, Felix Seanor
+Members not present -Jack Hinton, Sam Toner
+
+- Jack Vickers worked on implementing buttons on the start menu and scenario mode configuration screen for selecting the difficulty of the game
+- Continued testing
+
+**21/04/2023**
+
+Members present - Jack Hinton, Felix Seanor, Hubert Solecki, Jack Vickers, Sam Toner
+Member not present - Azzam Amirul Bahri
+
+- Felix starting working on implementing a frustration bar for the customers
+- The team decided exactly what powerups should be included in the game
+- Sam Toner continued working on the powerups
+- Jack Hinton continued working on implementing the functionality to allow more stations to be bought by the user
+- Continued testing
+
+####Summer Week 2
+**24/03/2023 - 1/5/2023**
+
+Members Present - Everyone over the week
+
+- Testing for game functionality continued attempting automation to ensure that all the requirements were met; additional manual testing was required for the UI
+- Sam continued to work on power ups
+- Testing documentation and architecture documentation were started
+- Further debugging was completed as a result of testing and new tests were written as a result of debugging in some cases
+- Leaderboard back end and leaderboard UI was implemented
+- Further final development and implementation was completed on the game bringing it to almost be finished.
+
+####Summer Week 3
+**1/5/2023 - 3/5/2023**
+
+- The team cleaned up the UI of the game and Jack Vickers added a how to play screen to the game. Felix also fixed some bugs regarding the retrieval of the tomato on the tile map.
+- Azzam continued asset testing
+- Vickers and Azzam started on the testing document main body.
+- Hubert finished the gantt chart and updated the minutes document before helping Vickers and Azzam further with the testing documentation and later the continuous integration document
+- Hinton continued with the architecture diagrams and documentation
+- Sam continued implementing and testing power ups
+- Everyone later finished the documentation and checked through the entire project before sending it off as complete
+
