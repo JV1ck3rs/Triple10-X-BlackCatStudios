@@ -4,6 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import java.util.HashMap;
 
 /**
@@ -94,7 +98,6 @@ public class PowerupPurchaseMenu extends Scriptable {
     superFoodBuyButton.isVisible = true;
     tetrisSuperFoodBuyButton.isVisible = true;
     stopFrustruationBuyButton.isVisible = true;
-
   }
 
   public void hidePowerMenu() {
