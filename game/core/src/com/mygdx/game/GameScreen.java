@@ -56,7 +56,7 @@ import com.mygdx.game.Stations.*;
 /**
  * This is the main class of the game which runs all the logic and rendering Here all the outside
  * objects are created and drawn as well as interactions registered
- * <p>
+ *
  * Black Cat Studios and Team Triple 10s
  *
  * @author Robin Graham
