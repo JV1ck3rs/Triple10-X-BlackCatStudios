@@ -34,9 +34,9 @@ public class OvenStation extends Station {
    * Create an oven station
    * @param params Cooking parameters
    * @param customerController a way to access the customerController's updateMenu method
-   * @Author Jack Hinton
-   * @Author Felix Seanor
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Felix Seanor
+   * @author Jack Vickers
    */
   public OvenStation(CookingParams params, Consumer<Boolean> customerController) {
     super(params);
@@ -62,8 +62,8 @@ public class OvenStation extends Station {
    * Give an item to the station
    * @param item The item you want to give
    * @return boolean
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   @Override
   public boolean GiveItem(Item item) {
@@ -91,8 +91,8 @@ public class OvenStation extends Station {
   /**
    * Retrieve an item from the station
    * @return Item
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   @Override
   public Item RetrieveItem() {
@@ -109,7 +109,7 @@ public class OvenStation extends Station {
   /**
    * Checks if the chef can retrieve an item
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanRetrieve() {
@@ -120,7 +120,7 @@ public class OvenStation extends Station {
   /**
    * Check if the chef can give the station an item
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanGive() {
@@ -132,7 +132,7 @@ public class OvenStation extends Station {
   /**
    * Check if the chef can interact with a station
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanInteract() {
@@ -143,7 +143,7 @@ public class OvenStation extends Station {
   /**
    * Interact with the station
    * @return float
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public float Interact() {
@@ -153,8 +153,8 @@ public class OvenStation extends Station {
 
   /**
    * Checks if the item is in the whitelist, if yes it gets the item's recipe
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   public void checkItem() {
     if (ItemWhiteList.contains(item.name)) {
@@ -173,7 +173,7 @@ public class OvenStation extends Station {
   /**
    * Cooks the current item and checks if it is ready
    * @param dt delta time
-   * @Author Jack Hinton
+   * @author Jack Hinton
    * @Author Felix Seanor
    * @Author Jack Vickers
    */

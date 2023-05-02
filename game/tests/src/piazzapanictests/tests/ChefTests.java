@@ -23,7 +23,7 @@ import org.junit.runner.RunWith;
 /**
  * Tests to do with the Chefs.
  *
- * Satisfies requirements for UR_PREP, UR_PANTRY, UR_CHEF_CONTROLS and UR_INTERACTION
+ * Satisfies requirements for UR_PREP, UR_PANTRY, UR_CHEF_CONTROLS, UR_INTERACTION, UR_COLLECT_ITEM, UR_REMOVE_ITEM, UR_CYCLE_ITEM, UR_CHEF_MOVEMENT
  *
  * @author Jack Vickers
  * @author Hubert Solecki
@@ -35,7 +35,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can drop an item.
-   *
+   * @Satisfies UR_DROP_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -52,7 +52,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can't drop an item if they don't have one.
-   *
+   * @Satisfies UR_DROP_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -66,7 +66,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up an item.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 29/03/2023
    */
@@ -82,7 +82,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can't pick up an item if their inventory is full.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 29/03/2023
    */
@@ -105,7 +105,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up an item from a nearby food crate.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM, UR_PREP
    * @author Jack Vickers
    * @date 18/04/2023
    */
@@ -134,7 +134,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can't give an item to a food crate.
-   *
+   * @Satisfies UR_INTERACTION, UR_REMOVE_ITEM
    * @author Jack Vickers
    * @Date 18/04/2023
    */
@@ -164,7 +164,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up minced meat from the pantry.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -181,7 +181,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up lettuce from the pantry.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -198,7 +198,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up bread from the pantry.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -215,7 +215,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up a tomato from the pantry.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -232,7 +232,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up cheese from the pantry.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -249,7 +249,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up an onion from the pantry.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -266,7 +266,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up a potato from the pantry.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -283,7 +283,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can pick up dough from the pantry.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 26/03/2023
    */
@@ -300,7 +300,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef cannot pick up from an empty tile with no items present.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Hubert Solecki
    * @date 31/04/2023
    */
@@ -317,7 +317,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef being controlled can pick up an item from the assembly station.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -359,7 +359,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef being controlled can place an item on the assembly station.
-   *
+   * @Satisfies UR_INTERACTION, UR_REMOVE_ITEM
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -395,7 +395,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef being controlled can combine two items on the assembly station.
-   *
+   * @Satisfies UR_INTERACTION, UR_PREP
    * @author Jack Vickers
    * @date 18/04/2023
    */
@@ -428,7 +428,7 @@ public class ChefTests extends MasterTestClass {
   /**
    * Tests that the chef cannot place item onto empty tile if not stood next to any interaction
    * stations.
-   *
+   * @Satisfies UR_INTERACTION, UR_REMOVE_ITEM
    * @author Azzam Amirul
    * @date 18/04/2023
    */
@@ -445,7 +445,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that an item can be removed from the chef's inventory by dropping the item and checking the chef's inventory count.
-   *
+   * @Satisfies UR_INTERACTION, UR_DROP_ITEM
    * @author Azzam Amirul
    * @date 14/04/2023
    */
@@ -461,7 +461,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can interact with the hob station to flip the items being cooked.
-   *
+   * @Satisfies UR_INTERACTION, UR_PREP
    * @author Hubert Solecki
    * @date 23/04/2023
    */
@@ -495,7 +495,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can interact with the toaster station through to a completely toasted item.
-   *
+   * @Satisfies UR_INTERACTION, UR_PREP
    * @author Hubert Solecki
    * @date 24/04/2023
    */
@@ -519,7 +519,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can interact with the oven station through to a completely cooked item.
-   *
+   * @Satisfies UR_INTERACTION, UR_PREP
    * @author Hubert Solecki
    * @date 25/04/2023
    */
@@ -543,7 +543,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef can interact with the chopping station through to a completely chopped item.
-   *
+   * @Satisfies UR_INTERACTION, UR_PREP
    * @author Azzam Amirul
    * @date 26/04/2023
    */
@@ -566,7 +566,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that cycling the chef's item stack works correctly.
-   *
+   * @Satisfies UR_CYCLE_ITEM
    * @author Felix Seanor
    * @date 25/04/2023
    */
@@ -593,7 +593,7 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef's orientation is correctly set when it moves along its path.
-   *
+   * @Satisfies UR_CHEF_MOVEMENT
    * @author Jack Vickers
    * @date 02/05/2023
    */

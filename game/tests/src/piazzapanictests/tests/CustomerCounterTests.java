@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 /**
  * Tests for the CustomerCounter Class
- *
+ * @satisfies UR_CUSTOMER_ORDER FR_DISH_VALIDATION
  * @author Azzam Amirul
  * @author Jack Vickers
  * @author Felix Seanor
@@ -23,7 +23,7 @@ public class CustomerCounterTests extends MasterTestClass {
 
   /**
    * Tests that a customer takes the food if it matches their order.
-   *
+   * @satisfies UR_CUSTOMER_ORDER FR_DISH_VALIDATION
    * @author Azzam Amirul Bahri
    * @author Jack Vickers
    * @date 01/05/2023
@@ -50,7 +50,7 @@ public class CustomerCounterTests extends MasterTestClass {
 
   /**
    * Tests that a customer does not take the food if it does not match their order.
-   *
+   * @satisfies UR_CUSTOMER_ORDER FR_DISH_VALIDATION
    * @author Jack Vickers
    * @author Azzam Amirul
    * @date 01/05/2023
@@ -76,7 +76,7 @@ public class CustomerCounterTests extends MasterTestClass {
 
   /**
    * Tests that items can be placed and taken off the customer counter by checking if items are already on the counter.
-   *
+   * @satisfies UR_INTERACTIONS UR_REMOVE_ITEM UR_COLLECT_ITEM
    * @author Azzam Amirul
    * @author Jack Vickers
    * @date 02/05/2023
@@ -96,7 +96,7 @@ public class CustomerCounterTests extends MasterTestClass {
 
   /**
    * Tests that a chef can interact with the counter depending on whether there is a customer present.
-   *
+   * @satisfies UR_INTERACTIONS
    * @author Azzam Amirul
    * @author  Felix Seanor
    * @date 01/05/2023

@@ -33,7 +33,7 @@ import org.junit.runner.RunWith;
 /**
  * Tests to verify the scenerio mode funtions correctly.
  * @author Jack Vickers
- * @satisfies UR_SCENARIO_MODE, UR_SCENARIO_END
+ * @satisfies UR_SCENARIO_MODE, UR_SCENARIO_END FR_ARRIVAL UR_SCENARIO_SET_CUSTOMER
  * @date 19/04/23
  */
 @RunWith(GdxTestRunner.class)
@@ -74,7 +74,7 @@ public class ScenarioModeTests {
   /**
    * This test checks whether the customer controller is correctly setting up the waves of customers
    * for the scenario mode when the number of customers is more than 10.
-   * @satisfies UR_SCENARIO_MODE UR_SCENARIO_SET_CUSTOMER
+   * @satisfies UR_SCENARIO_MODE UR_SCENARIO_SET_CUSTOMER FR_ARRIVAL
    * @author Jack Vickers
    * @date 19/04/2023
    */
@@ -98,7 +98,7 @@ public class ScenarioModeTests {
   /**
    * This test checks whether the customer controller is correctly setting up the waves of customers
    * for the scenario mode when the number of customers is 5.
-   *
+   * @satisfies UR_SCENARIO_MODE UR_SCENARIO_SET_CUSTOMER FR_ARRIVAL
    * @author Jack Vickers
    * @date 19/04/2023
    */
@@ -120,7 +120,7 @@ public class ScenarioModeTests {
   /**
    * This test checks whether the customer controller is correctly setting up the waves of customers
    * for the scenario mode when the number of customers is 10.
-   *
+   * @satisfies  UR_SCENARIO_MODE UR_SCENARIO_SET_CUSTOMER FR_ARRIVAL
    * @author Jack Vickers
    * @date 19/04/2023
    */
@@ -145,7 +145,7 @@ public class ScenarioModeTests {
    * This test checks whether the customer controller is correctly setting up the waves of customers
    * for the scenario mode when the number of customers is 6. This is a special case as it is the
    * smallest number of customers that will cause a wave of each size to be created.
-   *
+   * @satisfies UR_SCENARIO_MODE UR_SCENARIO_SET_CUSTOMER FR_ARRIVAL
    * @author Jack Vickers
    * @date 19/04/2023
    */
@@ -170,7 +170,7 @@ public class ScenarioModeTests {
    * This test checks whether the customer controller is correctly setting up the waves of customers
    * for the scenario mode when the number of customers is 100. This is the maximum number of
    * customers allowed for the scenario mode.
-   *
+   * @satisfies UR_SCENARIO_MODE UR_SCENARIO_SET_CUSTOMER FR_ARRIVAL
    * @author Jack Vickers
    * @date 19/04/2023
    */
@@ -198,7 +198,7 @@ public class ScenarioModeTests {
   /**
    * This test checks whether the game ends when the player has fed all the customers in the
    * scenario mode.
-   *
+   * @satisfies UR_SCENARIO_END FR_SCENARIO_NUM_CUSTOMERS
    * @author Jack Vickers
    * @date 29/04/2023
    */
@@ -220,7 +220,7 @@ public class ScenarioModeTests {
   /**
    * This test checks whether the game ends when the player has lost all their reputation points in
    * the scenario mode.
-   *
+   * @satisifies UR_SCENARIO_END FR_ZERO_REPUTATION
    * @author Jack Vickers
    * @date 29/04/2023
    */

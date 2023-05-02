@@ -30,8 +30,8 @@ public class ToasterStation extends Station {
   /**
    * Creates a toaster
    * @param params cooking parameters i.e. cooking speed, burning speed
-   * @Author Jack Hinton
-   * @Author Felix Seanor
+   * @author Jack Hinton
+   * @author Felix Seanor
    */
   public ToasterStation(CookingParams params) {
     super(params);
@@ -51,8 +51,8 @@ public class ToasterStation extends Station {
    * Give an item to the station
    * @param item The item you want to give
    * @return boolean
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   @Override
   public boolean GiveItem(Item item) {
@@ -75,7 +75,7 @@ public class ToasterStation extends Station {
   /**
    * Retrieve an item from the station
    * @return Item
-   * @Author Jack Hinton
+   * @author Jack Hinton
    * @Author Jack Vickers
    */
   @Override

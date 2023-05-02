@@ -16,8 +16,7 @@ import static org.junit.Assert.*;
 /**
  * Tests for the oven stations. Ovens only interact with pizzas and jacket potatoes.
  * <p>
- * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
- *
+ * @satisfies UR_PREP UR_WORKSTATIONS UR_INTERACTIONS UR_COLLECT_ITEM UR_BURN_FOOD UR_SPEND_EARNINGS
  * @author Hubert Solecki
  * @author Jack Vickers
  * @date 02/05/2023
@@ -28,7 +27,7 @@ public class OvenStationTests extends MasterTestClass {
 
   /**
    * Tests that an item can be removed from the oven station whether cooking is complete or not.
-   *
+   * @satisfies UR_PREP UR_INTERACTIONS UR_COLLECT_ITEM
    * @author Hubert Solecki
    * @date 30/04/2023
    */
@@ -48,7 +47,7 @@ public class OvenStationTests extends MasterTestClass {
 
   /**
    * Tests that the oven station can burn an item if maximum progress is exceeded.
-   *
+   * @satisfies UR_PREP UR_INTERACTIONS UR_BURN_FOOD
    * @author Hubert Solecki
    * @date 30/04/2023
    */
@@ -71,7 +70,7 @@ public class OvenStationTests extends MasterTestClass {
   /**
    * Tests that incorrect items cannot be cooked in the oven as current recipe on oven station is
    * null when incorrect items are placed on it.
-   *
+   * @satsifies UR_INTERACTIONS
    * @author Hubert Solecki
    * @date 02/05/2023
    */
@@ -119,7 +118,7 @@ public class OvenStationTests extends MasterTestClass {
   /**
    * Tests whether an item can be removed from the oven when there is nothing on it; should not
    * allow.
-   *
+   * @satisfies UR_INTERACTIONS UR_COLLECT_ITEM
    * @author Hubert Solecki
    * @date 30/04/2023
    */
@@ -141,7 +140,7 @@ public class OvenStationTests extends MasterTestClass {
    * Tests whether an item can be placed on the hob when there is an item currently on it; should
    * return false. Placing a different item on the hob should not change what is currently on the
    * hob.
-   *
+   * @satisfies UR_INTERACTIONS UR_REMOVE_ITEM
    * @author Hubert Solecki
    * @date 30/04/2023
    */
@@ -168,7 +167,7 @@ public class OvenStationTests extends MasterTestClass {
   /**
    * Tests that an item can be picked up during cooking and that the progress of the item being
    * cooked is saved in its progress attribute.
-   *
+   * UR_INTERACTIONS UR_COLLECT_ITEM UR_PREP
    * @author Hubert Solecki
    * @date 30/04/2023
    */
@@ -202,7 +201,7 @@ public class OvenStationTests extends MasterTestClass {
 
   /**
    * Tests that the update function updates the oven station and sets interaction to false.
-   *
+   * @satisfies UR_PREP
    * @author Hubert Solecki
    * @date 30/04/2023
    */
@@ -228,7 +227,7 @@ public class OvenStationTests extends MasterTestClass {
 
   /**
    * Tests that the oven station cannot be used while locked.
-   *
+   * @satisfies UR_PREP
    * @author Jack Vickers
    * @date 02/05/2023
    */
@@ -248,7 +247,7 @@ public class OvenStationTests extends MasterTestClass {
   /**
    * Tests that the oven station can be unlocked and that a valid item can be given to it
    * afterwards.
-   *
+   * @satisfies UR_PREP UR_SPEND_EARNINGS
    * @author Jack Vickers
    * @date 02/05/2023
    */

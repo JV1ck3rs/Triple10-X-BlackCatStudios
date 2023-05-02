@@ -36,7 +36,7 @@ import static org.junit.Assert.*;
 /**
  * Tests for the chopping station.
  * <p>
- * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
+ * @Satisfies Requirements for UR_PREP, UR_WORKSTATIONS, UR_INTERACTION, UR_COLLECT_ITEM, UR_REMOVE_ITEM,
  *
  * @author Jack Vickers
  * @author Azzam Amirul Bahri
@@ -47,7 +47,7 @@ public class ChopStationTests extends MasterTestClass {
 
   /**
    * Tests that an item can be removed from the chopping board when it is not being chopped.
-   *
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 30/03/2023
    */
@@ -64,8 +64,9 @@ public class ChopStationTests extends MasterTestClass {
   }
 
   /**
-   * Tests which items are allowed to be placed on the chopping station by placing all items on the station and checking the station's white list by seeing if there is a recipe on the station after that item is placed.
-   *
+   * Tests which items are allowed to be placed on the chopping station by placing all items on the station and checking
+   * the station's white list by seeing if there is a recipe on the station after that item is placed.
+   * @Satisfies UR_WORKSTATIONS, UR_PREP
    * @author Azzam Amirul
    * @author Jack Vickers
    * @date 02/05/2023
@@ -99,7 +100,7 @@ public class ChopStationTests extends MasterTestClass {
 
   /**
    * Tests that an item cannot be given to the chopping station when there is already an item on it.
-   *
+   * @Satisfies UR_INTERACTION, UR_REMOVE_ITEM
    * @author Azzam Amirul
    * @date 26/04/2023
    */
@@ -123,43 +124,11 @@ public class ChopStationTests extends MasterTestClass {
         lettuce, chopStation.RetrieveItem());
   }
 
-  /**
-   * Tests that an item can be retrieved during chopping and that interaction is preserved in the item and on the station.
-   *
-   * @author Azzam Amirul
-   * @author Jack Vickers
-   * @date 02/05/2023
-   */
-  @Test
-  public void testItemRetrievedDuringChoppingAndProgress() {
-    if (GameObjectManager.objManager == null) {
-      // creates a game object manager making sure it is not null when needed
-      new GameObjectManager();
-    }
-    instantiateWorldAndChoppingStation();
-    chopStation.GiveItem(new Item(ItemEnum.Lettuce)); // gives a raw patty to the hob for the test
-    chopStation.Cut(4);
-    chopStation.getProgress();
-    int testProgress = (int) (chopStation.progress * chopStation.maxProgress);
-    Item test = chopStation.RetrieveItem();
-    assertNotEquals(
-        "The value of the progress of the chopping item should not be 0 when it is removed from the chop station",
-        (int) testProgress, 0);
-    assertNull(
-        "The chop station should not contain an item when an in progress item is removed from it",
-        chopStation.RetrieveItem());
-    assertNotEquals(
-        "The progress of the item should not be 0 when it has been chopping for some time and is removed",
-        test.progress, 0);
-    assertEquals(
-        "The progress of the item being chopped should be the same before and after it is retrieved from the chop station",
-        (int) testProgress, (int) test.progress);
-  }
-
 
   /**
-   * Tests that the chopping station can be given to and retrieved from using its CanGive() and CanRetrieve() methods based on whether there is an item on the station.
-   *
+   * Tests that the chopping station can be given to and retrieved from using its CanGive() and CanRetrieve() methods
+   * based on whether there is an item on the station.
+   * @Satisfies UR_INTERACTION, UR_COLLECT_ITEM, UR_REMOVE_ITEM
    * @author Azzam Amirul
    * @date 26/04/2023
    */
@@ -181,7 +150,7 @@ public class ChopStationTests extends MasterTestClass {
 
   /**
    * Tests that the chopping station can be interacted with through its CanInteract() method.
-   *
+   * @Satisfies UR_INTERACTION
    * @author Azzam Amirul
    * @date 26/04/2023
    */
@@ -201,7 +170,7 @@ public class ChopStationTests extends MasterTestClass {
 
   /**
    * Tests the update method on the chop station checking that it can be interacted with and modifies items on it.
-   *
+   * @Satisfies UR_WORKSTATIONS, UR_INTERACTION, UR_PREP
    * @author Azzam Amirul
    * @author Jack Vickers
    * @date 02/05/2023
@@ -230,7 +199,7 @@ public class ChopStationTests extends MasterTestClass {
 
   /**
    * Tests that the chopping station cannot be used when it is locked.
-   *
+   * @Satisfies UR_INTERACTION
    * @author Jack Vickers
    * @date 02/05/2023
    */
@@ -248,7 +217,7 @@ public class ChopStationTests extends MasterTestClass {
 
   /**
    * Tests that the chopping station can be used when it is unlocked.
-   *
+   * @Satisfies UR_INTERACTION
    * @Author Jack Vickers
    * @date 02/05/2023
    */

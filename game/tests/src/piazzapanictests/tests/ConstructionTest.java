@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 
 /**
  * Tests that the assets are present and that they can be constructed.
- *
+ * @Satisfies Requirements for UR_WORKSTATIONS, UR_CHEF_MOVEMENT
  * @author Felix Seanor
  * @date 01/05/2023
  */
@@ -49,6 +49,7 @@ public class ConstructionTest extends MasterTestClass
 
   /**
    * Test if the hob can be constructed
+   * @Satisfies UR_WORKSTATIONS
    * @author Felix Seanor
    * @date 26/04/23
    */
@@ -62,6 +63,7 @@ public class ConstructionTest extends MasterTestClass
 
   /**
    * Test if the bin can be constructed
+   * @Satisfies UR_WORKSTATIONS
    * @author Felix Seanor
    * @date 26/04/23
    */
@@ -75,6 +77,7 @@ public class ConstructionTest extends MasterTestClass
   }
   /**
    * Test if the oven can be constructed
+   * @Satisfies UR_WORKSTATIONS
    * @author Felix Seanor
    * @date 26/04/23
    */
@@ -88,6 +91,7 @@ public class ConstructionTest extends MasterTestClass
   }
   /**
    * Test if the chopping can be constructed
+   * @Satisfies UR_WORKSTATIONS
    * @author Felix Seanor
    * @date 26/04/23
    */
@@ -101,6 +105,7 @@ public class ConstructionTest extends MasterTestClass
 
   /**
    * Test if the toaster can be constructed
+   * @Satisfies UR_WORKSTATIONS
    * @author Felix Seanor
    * @date 26/04/23
    */
@@ -113,6 +118,7 @@ public class ConstructionTest extends MasterTestClass
   }
   /**
    * Test if the customerCounter can be constructed
+   * @Satisfies UR_WORKSTATIONS
    * @author Felix Seanor
    * @date 26/04/23
    */
@@ -127,6 +133,7 @@ public class ConstructionTest extends MasterTestClass
 
   /**
    * Test if a food crate can be constructed
+   * @Satisfies UR_WORKSTATIONS
    * @author Felix Seanor
    * @date 26/04/23
    */
@@ -139,6 +146,7 @@ public class ConstructionTest extends MasterTestClass
   }
   /**
    * Test if the hob can be constructed
+   * @Satisfies UR_WORKSTATIONS
    * @author Felix Seanor
    * @date 26/04/23
    */
@@ -152,6 +160,7 @@ public class ConstructionTest extends MasterTestClass
 
   /**
    * Test if an object can be constructed
+   * @Satisfies UR_CHEF_MOVEMENT
    * @author Felix Seanor
    * @date 26/04/23
    */

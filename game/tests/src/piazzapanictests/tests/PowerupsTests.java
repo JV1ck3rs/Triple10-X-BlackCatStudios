@@ -20,12 +20,18 @@ import sun.awt.image.ImageWatched;
 
 /**
  * Testing pathfinding
- *
+ * @satisfies FR_POWERUP UR_ENJOYABILITY NFR_SPEED_POWERUP NFR_FUSTRATION_STALL_POWERUP NFR_SUPERFOOD_POWERUP NFR_MEGAFOOD_POWERUP NFR_BUYREPUTATIONPOINT_POWERUP
  * @author Felix Seanor
  **/
 @RunWith(GdxTestRunner.class)
 public class PowerupsTests extends MasterTestClass {
 
+  /**
+   * Tests if the chefs increase in speed after the speed powerup
+   * @satisfies FR_POWERUP NFR_SPEED_POWERUP
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void SpeedUpTest() {
     instantiateCustomerScripts();
@@ -40,7 +46,12 @@ public class PowerupsTests extends MasterTestClass {
     assertTrue("New Speed must greater after the power up", newSpeed > currentSpeed);
 
   }
-
+  /**
+   * Tests if the chefs increase in reputation after the reputation powerup
+   * @satisfies FR_POWERUP NFR_BUYREPUTATIONPOINT_POWERUP
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void buyReputation() {
     instantiateCustomerScripts();
@@ -59,6 +70,7 @@ public class PowerupsTests extends MasterTestClass {
   /**
    * Tests if stop frustration will run theoretically. Manual Testing will
    * have to be done to assure they freeze frustation for the correct amount of time.
+   * @satisfies FR_POWERUP  NFR_FUSTRATION_STALL_POWERUP
    * @author Sam Toner
    * @date 02/05/23
    */
@@ -101,6 +113,13 @@ public class PowerupsTests extends MasterTestClass {
 
   }
 
+  /**
+   * Tests if a customer gets removed via super food powerup
+   * @satisfies FR_POWERUP NFR_SUPERFOOD_POWERUP
+   * @author Sam Toner
+   * @date 02/05/23
+   */
+
   @Test
   public void superFood(){
     instantiateCustomerScripts();
@@ -126,8 +145,14 @@ public class PowerupsTests extends MasterTestClass {
     assertTrue("The number of customers served has increased", newServed > served);
   }
 
+  /**
+   * Tests is the Mega super food removes multiple customers of the same class
+   * @satisfies FR_POWERUP NFR_MEGAFOOD_POWERUP
+   * @date 02/05/23
+   * @author Sam Toner
+   */
   @Test
-  public void tetrisSuperFood(){
+  public void MegaSuperFood(){
     instantiateCustomerScripts();
     instantiateMasterChef();
 

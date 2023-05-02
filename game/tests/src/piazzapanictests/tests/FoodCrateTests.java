@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 
 /**
  * Tests for the FoodCrate class that have not already been carried out
- * in ChefTests\.
- *
+ * in ChefTests.
+ * @satisfies  UR_PANTRY  FR_PANTRY UR_INTERACTIONS
  * @author Jack Vickers
  */
 @RunWith(GdxTestRunner.class)
@@ -18,7 +18,7 @@ public class FoodCrateTests extends  MasterTestClass {
   /**
    * Tests that the foodcrate can not be interacted with.
    *
-   * Satisfies requirements for UR_CUSTOMER_ORDER, UR_PANTRY and UR_INTERACTIONS
+   * @satisfies  UR_PANTRY FR_PANTRY UR_INTERACTIONS
    *
    * @author Jack Vickers
    * @author Hubert Solecki

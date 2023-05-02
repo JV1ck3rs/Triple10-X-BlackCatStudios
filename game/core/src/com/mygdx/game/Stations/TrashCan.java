@@ -18,7 +18,7 @@ public class TrashCan extends Scriptable implements Interactable {
      * Give an item to the trashcan
      * @param item Item you want to give
      * @return boolean
-     * @Author Jack Hinton
+     * @author Jack Hinton
      */
     @Override
     public boolean GiveItem(Item item){
@@ -29,7 +29,7 @@ public class TrashCan extends Scriptable implements Interactable {
     /**
      * Retrieve an item from the trashcan
      * @return Item
-     * @Author Jack Hinton
+     * @author Jack Hinton
      */
     @Override
     public Item RetrieveItem(){
@@ -40,7 +40,7 @@ public class TrashCan extends Scriptable implements Interactable {
     /**
      * Check if you can retrieve from the trash can
      * @return boolean
-     * @Author Jack Hinton
+     * @author Jack Hinton
      */
     @Override
     public boolean CanRetrieve(){
@@ -51,7 +51,7 @@ public class TrashCan extends Scriptable implements Interactable {
     /**
      * Check if you can give an item to the trash can
      * @return boolean
-     * @Author Jack Hinton
+     * @author Jack Hinton
      */
     @Override
     public boolean CanGive(){
@@ -62,7 +62,7 @@ public class TrashCan extends Scriptable implements Interactable {
     /**
      * Check if you can interact with the trash can
      * @return boolean
-     * @Author Jack Hinton
+     * @author Jack Hinton
      */
     @Override
     public boolean CanInteract() {
@@ -73,7 +73,7 @@ public class TrashCan extends Scriptable implements Interactable {
     /**
      * Interact with the trash can
      * @return float
-     * @Author Jack Hinton
+     * @author Jack Hinton
      */
     @Override
     public float Interact() {

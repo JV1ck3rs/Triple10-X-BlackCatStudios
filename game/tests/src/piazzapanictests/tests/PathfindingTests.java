@@ -16,7 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Testing pathfinding
- *
+ * @satisfies UR_CHEF_MOVEMEMENT
  * @author Felix Seanor
  * @date 01/04/23
  **/
@@ -26,6 +26,7 @@ public class PathfindingTests extends MasterTestClass {
 
   /**
    * Test that the pathfinding algorithm will return a empty path given a start == goal
+   * @satisfies UR_CHEF_MOVEMEMENT
    * @author Felix Seanor
    * @date 01/04/23
    */
@@ -39,6 +40,7 @@ public class PathfindingTests extends MasterTestClass {
 
   /**
    * Test if the pathfinding algorithm will produce a path with a the goal included
+   * @satisfies UR_CHEF_MOVEMEMENT
    * @author Felix Seanor
    * @date 01/04/23
    */
@@ -62,6 +64,7 @@ public class PathfindingTests extends MasterTestClass {
 
   /**
    * Test whether a path will avoid filled squares
+   * @satisfies UR_CHEF_MOVEMEMENT
    * @author Felix Seanor
    * @date 01/04/23
    */
