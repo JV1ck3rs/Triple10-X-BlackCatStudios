@@ -71,7 +71,7 @@ public class SaveState {
     stream.writeObject(state);
     stream.close();
     fileOut.close();
-    System.out.println("Game state printed to: " + path);
+//    System.out.println("Game state printed to: " + path);
 
   } catch (FileNotFoundException e) {
     throw new RuntimeException(e);

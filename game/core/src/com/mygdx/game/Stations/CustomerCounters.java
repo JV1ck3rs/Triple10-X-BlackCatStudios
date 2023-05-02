@@ -42,7 +42,7 @@ public class CustomerCounters extends Station {
    * @Author Jack Hinton
    */
   @Override
-  public boolean GiveItem(Item item) {
+  public boolean GiveItem(Item item){
     changeItem(item);
     GiveFood();
     return true;

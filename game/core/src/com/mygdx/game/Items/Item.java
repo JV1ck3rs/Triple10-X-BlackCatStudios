@@ -69,4 +69,8 @@ public class Item {
     return "Recipes/"+name.name()+"Recipe.png";
 
   }
+
+    public String name() {
+      return name.name();
+    }
 }

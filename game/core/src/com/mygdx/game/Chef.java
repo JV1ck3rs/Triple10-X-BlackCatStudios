@@ -166,6 +166,10 @@ public class Chef extends PathfindingAgent implements Person {
     ModifiedStack = false;
   }
 
+  public Item getTopItem(){
+    return heldItems.peek();
+  }
+
   @Override
   public void OnRender() {
 
@@ -303,7 +307,7 @@ public class Chef extends PathfindingAgent implements Person {
   public String getMove() {
     String newOrientation = this.lastOrientation;
     if (isFrozen) {
-      System.out.println("Frozen");
+      //System.out.println("Frozen");
       return "idle" + this.lastOrientation;
     } else {
       if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_LEFT)) {
@@ -460,6 +464,15 @@ public class Chef extends PathfindingAgent implements Person {
     if (CanGiveItem()) {
       heldItems.add(item);
       soundFrame.SoundEngine.playSound(soundsEnum.EquipItem);
+      return true;
+    }
+
+    return false;
+  }
+
+  public Boolean GiveChefItem(Item item){
+    if (CanGiveItem()) {
+      heldItems.add(item);
       return true;
     }
 
