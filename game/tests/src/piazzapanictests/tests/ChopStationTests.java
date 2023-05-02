@@ -40,6 +40,7 @@ import static org.junit.Assert.*;
  *
  * @author Jack Vickers
  * @author Azzam Amirul Bahri
+ * @date 02/05/2023
  */
 @RunWith(GdxTestRunner.class)
 public class ChopStationTests extends MasterTestClass {
@@ -48,6 +49,7 @@ public class ChopStationTests extends MasterTestClass {
    * Tests that an item can be removed from the chopping board when it is not being chopped.
    *
    * @author Jack Vickers
+   * @date 30/03/2023
    */
   @Test
   public void testRemoveItemWhileNotChopping() {
@@ -61,6 +63,13 @@ public class ChopStationTests extends MasterTestClass {
     assertNull("There should be no item on the chopping station", chopStation.returnItem());
   }
 
+  /**
+   * Tests which items are allowed to be placed on the chopping station by placing all items on the station and checking the station's white list by seeing if there is a recipe on the station after that item is placed.
+   *
+   * @author Azzam Amirul
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
   @Test
   public void testPlaceItemChoppingInvalid() {
     if (GameObjectManager.objManager == null) {
@@ -88,6 +97,12 @@ public class ChopStationTests extends MasterTestClass {
   }
 
 
+  /**
+   * Tests that an item cannot be given to the chopping station when there is already an item on it.
+   *
+   * @author Azzam Amirul
+   * @date 26/04/2023
+   */
   @Test
   public void testGiveItemWhenChopStationFull() {
     if (GameObjectManager.objManager == null) {
@@ -108,6 +123,13 @@ public class ChopStationTests extends MasterTestClass {
         lettuce, chopStation.RetrieveItem());
   }
 
+  /**
+   * Tests that an item can be retrieved during chopping and that interaction is preserved in the item and on the station.
+   *
+   * @author Azzam Amirul
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
   @Test
   public void testItemRetrievedDuringChoppingAndProgress() {
     if (GameObjectManager.objManager == null) {
@@ -135,6 +157,12 @@ public class ChopStationTests extends MasterTestClass {
   }
 
 
+  /**
+   * Tests that the chopping station can be given to and retrieved from using its CanGive() and CanRetrieve() methods based on whether there is an item on the station.
+   *
+   * @author Azzam Amirul
+   * @date 26/04/2023
+   */
   @Test
   public void testCanGiveCanRetrieveChopping() {
     instantiateWorldAndChoppingStation();
@@ -151,6 +179,12 @@ public class ChopStationTests extends MasterTestClass {
     }
   }
 
+  /**
+   * Tests that the chopping station can be interacted with through its CanInteract() method.
+   *
+   * @author Azzam Amirul
+   * @date 26/04/2023
+   */
   @Test
   public void testCanInteractChoppingStation() {
     instantiateWorldAndChoppingStation();
@@ -165,6 +199,13 @@ public class ChopStationTests extends MasterTestClass {
 
   }
 
+  /**
+   * Tests the update method on the chop station checking that it can be interacted with and modifies items on it.
+   *
+   * @author Azzam Amirul
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
   @Test
   public void testUpdateMethodChopStation() {
     if (GameObjectManager.objManager == null) {
@@ -191,6 +232,7 @@ public class ChopStationTests extends MasterTestClass {
    * Tests that the chopping station cannot be used when it is locked.
    *
    * @author Jack Vickers
+   * @date 02/05/2023
    */
   @Test
   public void testCannotUseWhileLocked() {
@@ -208,6 +250,7 @@ public class ChopStationTests extends MasterTestClass {
    * Tests that the chopping station can be used when it is unlocked.
    *
    * @Author Jack Vickers
+   * @date 02/05/2023
    */
   @Test
   public void testCanUseWhenUnlocked() {

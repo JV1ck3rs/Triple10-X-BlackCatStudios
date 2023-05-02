@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
  * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
  *
  * @author Hubert Solecki
+ * @author Jack Vickers
+ * @date 02/05/2023
  */
 
 @RunWith(GdxTestRunner.class)
@@ -29,7 +31,8 @@ public class HobStationTests extends MasterTestClass {
    * Tests that an item can be removed from the frying station whether frying is complete or not.
    *
    * @author Hubert Solecki
-   * @date 14/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
 
   @Test
@@ -59,7 +62,8 @@ public class HobStationTests extends MasterTestClass {
    * interaction is reached.
    *
    * @author Hubert Solecki
-   * @date 17/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
 
   @Test
@@ -88,7 +92,8 @@ public class HobStationTests extends MasterTestClass {
    * placed on the toaster.
    *
    * @author Hubert Solecki
-   * @date 23/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
   @Test
   public void testIncorrectItemOnHob() {
@@ -122,7 +127,8 @@ public class HobStationTests extends MasterTestClass {
    * Tests whether an item can be removed from the hob when it has nothing on it; should not allow
    *
    * @author Hubert Solecki
-   * @date 17/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
   @Test
   public void testRemoveItemWhenHobEmpty() {
@@ -143,7 +149,8 @@ public class HobStationTests extends MasterTestClass {
    * hob.
    *
    * @author Hubert Solecki
-   * @date 23/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
   @Test
   public void testGiveItemWhenHobFull() {
@@ -171,7 +178,8 @@ public class HobStationTests extends MasterTestClass {
    * cooked is saved in its progress attribute.
    *
    * @author Hubert Solecki
-   * @date 18/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
 
   @Test
@@ -202,7 +210,8 @@ public class HobStationTests extends MasterTestClass {
    * Tests that the update function updates the hob station and sets interaction to false.
    *
    * @author Hubert Solecki
-   * @date 21/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
 
   @Test
@@ -230,6 +239,7 @@ public class HobStationTests extends MasterTestClass {
    * Tests that the hob station cannot be used when it is locked.
    *
    * @author Jack Vickers
+   * @date 02/05/2023
    */
   @Test
   public void testCannotUseWhileLocked() {
@@ -248,6 +258,7 @@ public class HobStationTests extends MasterTestClass {
    * Tests that the hob station can be used when it is unlocked.
    *
    * @Author Jack Vickers
+   * @date 02/05/2023
    */
   @Test
   public void testCanUseWhenUnlocked() {

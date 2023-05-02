@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * an abstraction for texture region
  * BlackCatStudio's Code
  * @author Felix Seanor
+ * @date 24/04/23
  */
 public class BlackTexture extends Renderable {
 

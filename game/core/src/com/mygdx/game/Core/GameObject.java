@@ -17,6 +17,7 @@ import java.util.List;
  * @author Jack Hinton
  * @author Jack Vickers
  * @author Sam Toner
+ * @date 23/04/23
  */
 public class GameObject {
 
@@ -142,6 +143,7 @@ public class GameObject {
    * Render the gameobject to screen
    * @param batch batch to render with
    * @author Felix Seanor
+   * @date 18/04/23
    */
   public void render(SpriteBatch batch) {
 

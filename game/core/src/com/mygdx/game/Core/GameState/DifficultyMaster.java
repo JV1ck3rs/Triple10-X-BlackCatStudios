@@ -19,6 +19,7 @@ public class DifficultyMaster {
    * @param difficaulty
    * @return
    * @author Felix Seanor
+   * @date 29/04/23
    */
   public static DifficultyState getDifficulty(Difficulty difficaulty){
       switch (difficaulty)

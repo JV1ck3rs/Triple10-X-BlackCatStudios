@@ -21,6 +21,8 @@ public class FoodCrateTests extends  MasterTestClass {
    * Satisfies requirements for UR_CUSTOMER_ORDER, UR_PANTRY and UR_INTERACTIONS
    *
    * @author Jack Vickers
+   * @author Hubert Solecki
+   * @date 29/04/2023
    */
   @Test
   public void testCannotInteract() {

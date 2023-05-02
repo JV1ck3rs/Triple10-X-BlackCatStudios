@@ -8,6 +8,7 @@ import java.util.Random;
  * The table class stores where customers should go to sit after getting their food
  * BlackCatStudio's Code
  * @author Felix Seanor
+ * @date 29/04/23
  */
 public class Table
 {

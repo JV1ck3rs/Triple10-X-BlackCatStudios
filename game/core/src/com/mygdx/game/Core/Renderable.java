@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Abstraction of renderable images
  * BlackCatStudio's Code
  * @author Felix Seanor
+ * @date 20/03/23
  */
 public abstract class Renderable {
 

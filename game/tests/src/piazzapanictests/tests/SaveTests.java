@@ -31,7 +31,7 @@ import org.junit.runner.RunWith;
 /**
  * Tests for saving the game.
  *
- * Satisfies requirements for UR_SAVE_GAME
+ * Satisfies requirements for UR_SAVE_GAME, NFR_SAVE_GAME, FR_SAVE_STATE
  *
  * @author Felix Seanor
  */

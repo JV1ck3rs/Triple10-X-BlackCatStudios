@@ -40,6 +40,15 @@ import com.mygdx.game.soundFrame;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+/**
+ * The master test class is used to instantiate the world, stations and chefs for testing in each of its child classes.
+ * Each child class inherits from this class in order to use its methods for testing.
+ *
+ * @author Jack Vickers
+ * @author Hubert Solecki
+ * @author Azzam Amirul
+ * @date 02/05/2023
+ */
 class MasterTestClass {
 
   GameObjectManager manager;
@@ -123,6 +132,7 @@ class MasterTestClass {
    * Instantiates the world and two chefs so that these can be used in the tests.
    *
    * @author Jack Vickers
+   * @date 01/05/2023
    */
   void instantiateWorldAndChefs() {
     world = new World(new Vector2(0, 0), true);
@@ -143,6 +153,10 @@ class MasterTestClass {
   /**
    * Instantiates the masterchef class. This class generates multiple chefs. This will be used to
    * test interactions between a chef and interactable game object.
+   *
+   * @author Jack Vickers
+   * @author Felix Seanor
+   * @date 01/05/2023
    */
   void instantiateMasterChef() {
     world = new World(new Vector2(0, 0), true);
@@ -164,6 +178,7 @@ class MasterTestClass {
    * to instantiate the chefs.
    *
    * @author Jack Vickers
+   * @date 03/04/2023
    */
   private void generateChefArray() {
     String filename;
@@ -180,6 +195,7 @@ class MasterTestClass {
    *
    * @return chefAtlasArray
    * @author Jack Vickers
+   * @date 31/03/2023
    */
   private static ArrayList<TextureAtlas> getChefAtlasArray() {
     return chefAtlasArray;
@@ -189,6 +205,7 @@ class MasterTestClass {
    * Instantiates a tomato food crate.
    *
    * @author Jack Vickers
+   * @date 18/04/2023
    */
   void instantiateWorldAndFoodCrate() {
     world = new World(new Vector2(0, 0), true);
@@ -209,6 +226,9 @@ class MasterTestClass {
    * Creates the world and chopping station. Also creates the recipe dictionary.
    *
    * @author Jack Vickers
+   * @author Azzam Amirul
+   * @author Felix Seanor
+   * @date 26/04/2023
    */
   void instantiateWorldAndChoppingStation() {
     world = new World(new Vector2(0, 0), true);
@@ -236,6 +256,8 @@ class MasterTestClass {
    * Creates the world and assembly station. Also creates the recipe dictionary.
    *
    * @author Jack Vickers
+   * @author Felix Seanor
+   * @date 25/04/2023
    */
   AssemblyStation instantiateWorldAndAssemblyStation() {
     world = new World(new Vector2(0, 0), true);
@@ -264,6 +286,8 @@ class MasterTestClass {
    *
    * @author Azzam Amirul Bahri
    * @author Hubert Solecki
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
   void instantiateWorldAndHobsStation() {
     world = new World(new Vector2(0, 0), true);
@@ -294,7 +318,8 @@ class MasterTestClass {
    * Creates the world and toaster station. Also creates the recipe dictionary.
    *
    * @author Hubert Solecki
-   * @date 21/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
 
   void instantiateWorldAndToasterStation() {
@@ -319,6 +344,12 @@ class MasterTestClass {
     toasterStation.init(); // initialises toaster station
   }
 
+  /**
+   * Creates the world and the customer counter for testing. Also creates the recipe dictionary.
+   *
+   * @author Azzam Amirul
+   * @date 01/05/2023
+   */
   void instantiateWorldAndCustomerCounter() {
     world = new World(new Vector2(0, 0), true);
     TiledMap map;
@@ -341,6 +372,12 @@ class MasterTestClass {
     customerCounter.init(); // initialises customer counter
   }
 
+  /**
+   * Creates the world and the Trash can for testing.
+   *
+   * @author Azzam Amirul
+   * @date 14/04/2023
+   */
   void instantiateWorldAndTrashCan() {
     world = new World(new Vector2(0, 0), true);
     TiledMap map;
@@ -364,7 +401,7 @@ class MasterTestClass {
    * Creates the world and oven station. Also creates the recipe dictionary.
    *
    * @author Hubert Solecki
-   * @date 24/04/2023
+   * @date 01/05/2023
    */
   void instantiateWorldAndOvenStation() {
     world = new World(new Vector2(0, 0), true);

@@ -37,11 +37,18 @@ import org.junit.runner.RunWith;
  *
  * @author Felix Seanor
  * @author Jack Vickers
+ * @date 01/05/23
  */
 @RunWith(GdxTestRunner.class)
 
 public class CustomerTests extends MasterTestClass {
 
+  /**
+   * Test if the game should end either buy reputation or no waves left
+   * @author Felix Seanor
+   *
+   * @date 01/05/23
+   */
   @Test
   public void TestEndGame() {
     instantiateCustomerScripts();
@@ -62,6 +69,11 @@ public class CustomerTests extends MasterTestClass {
 
   }
 
+  /**
+   * Test if frustration changes with time
+   * @author Felix Seanor
+   * @date 01/05/23
+   */
   @Test
   public void TestFrustration() {
     instantiateCustomerScripts();
@@ -74,6 +86,11 @@ public class CustomerTests extends MasterTestClass {
 
   }
 
+  /**
+   * Test if customers move around their groups correctly
+   * @author Felix Seanor
+   * @date 01/05/23
+   */
   @Test
   public void TestCustomerTransference() {
     instantiateCustomerScripts();
@@ -108,6 +125,12 @@ public class CustomerTests extends MasterTestClass {
 
   }
 
+  /**
+   * Test that customer held items are displayed
+   * Felix Seanor
+   * @date 26/04/23
+   *
+   */
   @Test
   public void TestHeldItems() {
     instantiateCustomerScripts();
@@ -137,6 +160,11 @@ public class CustomerTests extends MasterTestClass {
 
   }
 
+  /**
+   * Test that customer groups are constructed correctly
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void TestCustomerGroups() {
     instantiateCustomerScripts();
@@ -166,7 +194,9 @@ public class CustomerTests extends MasterTestClass {
 
 
   /**
-   * If this test fails rerun it, theres a 1% chance it fails due to probability.
+   * If this test fails rerun it, there's a 1% chance it fails due to probability.
+   * @author Felix Seanor
+   * @date 29/04/23
    */
   @Test
   public void TestDishCreation() {
@@ -215,6 +245,11 @@ public class CustomerTests extends MasterTestClass {
 
   }
 
+  /**
+   * Tries to construct an atlas
+   * @author Felix Seanor
+   * @date 19/04/23
+   */
   @Test
   public void TryAtlas() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
@@ -222,7 +257,11 @@ public class CustomerTests extends MasterTestClass {
 
   }
 
-
+  /**
+   * Test if the sprites update given a new animation state
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void UpdateSpriteTest() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
@@ -240,6 +279,11 @@ public class CustomerTests extends MasterTestClass {
         currentAnimation == "idlewest");
   }
 
+  /**
+   * Test whether the orientation of the customer changes depending on the direction theyre moving
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void OrientationTest() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
@@ -287,7 +331,8 @@ public class CustomerTests extends MasterTestClass {
    * Tests that the customer orientation updates correctly when given a new input.
    *
    * @author Jack Vickers
-   * @date 29/04/2023
+   * @author Felix Seanor
+   * @date 01/05/2023
    */
   @Test
   public void testUpdateSpriteFromInput() {
@@ -307,6 +352,9 @@ public class CustomerTests extends MasterTestClass {
 
   /**
    * Tests the behaviour of the customer update function by spying on the Customer class.
+   *
+   * @author Jack Vickers
+   * @date 30/04/2023
    */
   @Test
   public void testCustomerUpdate() {

@@ -5,6 +5,7 @@ package com.mygdx.game.Core;
  * Stored A* data for each discorvered cell
  * BlackCatStudio's Code
  * @author Felix Seanor
+ * @date 03/03/23
  */
 public class PathfindingCell implements Comparable<PathfindingCell> {
 

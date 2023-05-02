@@ -7,6 +7,7 @@ import java.util.List;
  * This is a structure containing parameters to construct the Customer Controller
  * BlackCatStudio's Code
  * @author Felix Seanor
+ * @date 18/04/23
  */
 public class CustomerControllerParams
 {

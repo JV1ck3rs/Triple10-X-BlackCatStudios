@@ -19,7 +19,8 @@ import static org.junit.Assert.*;
  * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
  *
  * @author Hubert Solecki
- * @date 24/04/2023
+ * @author Jack Vickers
+ * @date 02/05/2023
  */
 
 @RunWith(GdxTestRunner.class)
@@ -29,7 +30,7 @@ public class OvenStationTests extends MasterTestClass {
    * Tests that an item can be removed from the oven station whether cooking is complete or not.
    *
    * @author Hubert Solecki
-   * @date 24/04/2023
+   * @date 30/04/2023
    */
 
   @Test
@@ -49,7 +50,7 @@ public class OvenStationTests extends MasterTestClass {
    * Tests that the oven station can burn an item if maximum progress is exceeded.
    *
    * @author Hubert Solecki
-   * @date 24/04/2023
+   * @date 30/04/2023
    */
 
   @Test
@@ -72,7 +73,7 @@ public class OvenStationTests extends MasterTestClass {
    * null when incorrect items are placed on it.
    *
    * @author Hubert Solecki
-   * @date 24/04/2023
+   * @date 02/05/2023
    */
 
   @Test
@@ -120,7 +121,7 @@ public class OvenStationTests extends MasterTestClass {
    * allow.
    *
    * @author Hubert Solecki
-   * @date 24/04/2023
+   * @date 30/04/2023
    */
 
   @Test
@@ -142,7 +143,7 @@ public class OvenStationTests extends MasterTestClass {
    * hob.
    *
    * @author Hubert Solecki
-   * @date 24/04/2023
+   * @date 30/04/2023
    */
 
   @Test
@@ -169,7 +170,7 @@ public class OvenStationTests extends MasterTestClass {
    * cooked is saved in its progress attribute.
    *
    * @author Hubert Solecki
-   * @date 24/04/2023
+   * @date 30/04/2023
    */
 
   @Test
@@ -203,7 +204,7 @@ public class OvenStationTests extends MasterTestClass {
    * Tests that the update function updates the oven station and sets interaction to false.
    *
    * @author Hubert Solecki
-   * @date 24/04/2023
+   * @date 30/04/2023
    */
 
   @Test
@@ -227,6 +228,9 @@ public class OvenStationTests extends MasterTestClass {
 
   /**
    * Tests that the oven station cannot be used while locked.
+   *
+   * @author Jack Vickers
+   * @date 02/05/2023
    */
   @Test
   public void testCannotUseWhileLocked() {
@@ -244,6 +248,9 @@ public class OvenStationTests extends MasterTestClass {
   /**
    * Tests that the oven station can be unlocked and that a valid item can be given to it
    * afterwards.
+   *
+   * @author Jack Vickers
+   * @date 02/05/2023
    */
   @Test
   public void testCanUnlockOven() {
