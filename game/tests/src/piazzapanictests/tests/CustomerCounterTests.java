@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
  *
  * @author Azzam Amirul
  * @author Jack Vickers
+ * @author Felix Seanor
  * @date 02/05/2023
  */
 @RunWith(GdxTestRunner.class)
@@ -24,6 +25,7 @@ public class CustomerCounterTests extends MasterTestClass {
    * Tests that a customer takes the food if it matches their order.
    *
    * @author Azzam Amirul Bahri
+   * @author Jack Vickers
    * @date 01/05/2023
    */
   @Test

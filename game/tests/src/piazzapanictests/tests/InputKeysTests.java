@@ -21,11 +21,25 @@ import static org.junit.Assert.assertEquals;
 @RunWith(GdxTestRunner.class)
 public class InputKeysTests {
 
+
+    /**
+     * Test to for check the correct input keys to spawn chef
+     *
+     * @author Azzam Amirul
+     * @date 28/04/2023
+     */
     @Test
     public void SpawnNewChefTest(){
         assertEquals("New chef spawned", SPAWN_NEW_CHEF, Keys.MINUS);
     }
 
+
+    /**
+     * Test to for check the correct input keys to move chef
+     *
+     * @author Azzam Amirul
+     * @date 28/04/2023
+     */
     @Test
     public void MoveChefInputsTests(){
         assertEquals("Move chef up", MOVE_CHEF_UP, Keys.W);
@@ -34,11 +48,25 @@ public class InputKeysTests {
         assertEquals("Move chef right", MOVE_CHEF_RIGHT, Keys.D);
     }
 
+
+    /**
+     * Test to for check the correct input keys to cycle stack on the chef
+     *
+     * @author Azzam Amirul
+     * @date 28/04/2023
+     */
     public void CycleStackInputsTests(){
         assertEquals("Should be W key", CYCLE_STACK, Keys.W);
 
     }
 
+
+    /**
+     * Test to for check the correct input keys to interact using the chef
+     *
+     * @author Azzam Amirul
+     * @date 28/04/2023
+     */
     public void ChefInteractInputs(){
         assertEquals("Should be Q key", GIVE_ITEM, Keys.Q);
         assertEquals("Should be E key", FETCH_ITEM, Keys.E);

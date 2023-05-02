@@ -30,6 +30,14 @@ public class OvenStation extends Station {
   Consumer<Boolean> OvenMade;
 
 
+  /**
+   * Create an oven station
+   * @param params Cooking parameters
+   * @param customerController a way to access the customerController's updateMenu method
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   * @Author Jack Vickers
+   */
   public OvenStation(CookingParams params, Consumer<Boolean> customerController) {
     super(params);
     OvenMade = customerController;
@@ -50,6 +58,13 @@ public class OvenStation extends Station {
   }
 
 
+  /**
+   * Give an item to the station
+   * @param item The item you want to give
+   * @return boolean
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   @Override
   public boolean GiveItem(Item item) {
     if (getLocked()) {
@@ -73,6 +88,12 @@ public class OvenStation extends Station {
   }
 
 
+  /**
+   * Retrieve an item from the station
+   * @return Item
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   @Override
   public Item RetrieveItem() {
     bubble.isVisible = false;
@@ -85,12 +106,22 @@ public class OvenStation extends Station {
   }
 
 
+  /**
+   * Checks if the chef can retrieve an item
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanRetrieve() {
     return item != null;
   }
 
 
+  /**
+   * Check if the chef can give the station an item
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanGive() {
 
@@ -98,18 +129,33 @@ public class OvenStation extends Station {
   }
 
 
+  /**
+   * Check if the chef can interact with a station
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanInteract() {
     return false;
   }
 
 
+  /**
+   * Interact with the station
+   * @return float
+   * @Author Jack Hinton
+   */
   @Override
   public float Interact() {
     return 0;
   }
 
 
+  /**
+   * Checks if the item is in the whitelist, if yes it gets the item's recipe
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   public void checkItem() {
     if (ItemWhiteList.contains(item.name)) {
       currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
@@ -124,6 +170,13 @@ public class OvenStation extends Station {
   }
 
 
+  /**
+   * Cooks the current item and checks if it is ready
+   * @param dt delta time
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   * @Author Jack Vickers
+   */
   public void Cook(float dt) {
     ready = currentRecipe.RecipeSteps.get(item.step)
         .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
@@ -138,29 +191,50 @@ public class OvenStation extends Station {
   }
 
 
+  /**
+   * Updates the progress bubble
+   * @Author Jack Hinton
+   */
   public void progressBar() {
     bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
   }
 
 
+  /**
+   * Gets the progress of the item currently held
+   * @return int
+   */
   public int getProgress() {
     progress = item.progress / maxProgress;
     return (int) (progress / 0.125) + 1;
   }
 
 
+  /**
+   * Updates the picture on the station.
+   * @author Jack Hinton
+   */
   @Override
   public void updatePictures() {
     return;
   }
 
 
+  /**
+   * Move the animation
+   * @Author Jack Hinton
+   */
   @Override
   public void moveAnim() {
     animation.setPosition(gameObject.position.x, gameObject.position.y);
   }
 
 
+  /**
+   * Update the chopping station
+   * @param dt delta time
+   * @Author Jack Hinton
+   */
   @Override
   public void Update(float dt) {
     if (currentRecipe != null) {

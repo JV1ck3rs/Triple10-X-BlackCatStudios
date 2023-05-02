@@ -42,6 +42,14 @@ public abstract class Station extends Scriptable implements Interactable {
   float CookingSpeed;
   public static int numOvens;
 
+
+  /**
+   * Creates a station
+   * @param params Cooking parameters i.e. cooking speed, burning speed etc.
+   * @Author Jack Hinton
+   * @Author Sam Toner
+   * @Author Felix Seanor
+   */
   public Station(CookingParams params) {
     item = null;
     locked = false;
@@ -53,6 +61,13 @@ public abstract class Station extends Scriptable implements Interactable {
     CookingSpeed = params.CookSpeed;
   }
 
+
+  /**
+   * Initialises the bubbles
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   * @Author Felix Seanor
+   */
   public void init() {
 
     bubble = new GameObject(new BlackTexture("Timer/01.png"));
@@ -81,29 +96,44 @@ public abstract class Station extends Scriptable implements Interactable {
       moveAnim();
   }
 
+
   /**
-   * Sets item object
+   * Gives the item to a station
    *
-   * @param item sets item object to item
+   * @param item The item you want to give
    * @return boolean
+   * @Author Jack Hinton
    */
   public abstract boolean GiveItem(Item item);
 
+
   /**
-   * Returns the item to be used in other classes
+   * Returns the item to the chef
    *
-   * @return Item item
+   * @return Item
+   * @Author Jack Hinton
    */
   public abstract Item RetrieveItem();
 
+
+  /**
+   * Updates the pictures of the items currently in the station
+   * @Author Jack Hinton
+   */
   public abstract void updatePictures();
 
+
+  /**
+   * Moves the animation
+   * @Author Jack Hinton
+   */
   public abstract void moveAnim();
 
   /**
    * Sets the station to a "locked" state
    *
-   * @param locked assignes variable to either true or false
+   * @param locked assigns variable to either true or false
+   * @Author Jack Hinton
    */
   public void setLocked(boolean locked) {
     bubble3.isVisible = locked;
@@ -114,12 +144,19 @@ public abstract class Station extends Scriptable implements Interactable {
    * return the boolean value of locked for the station
    *
    * @return boolean locked
+   * @Author Jack Hinton
    */
   public boolean getLocked() {
     return locked;
   }
 
 
+  /**
+   * Checks if the given item is a repair tool, if yes it unlocks the station and charges the player
+   * @param item the item the player has given
+   * @return boolean
+   * @Author Jack Hinton
+   */
   public boolean checkRepairTool(Item item) {
     if(item.name == ItemEnum.RepairTool && CustomerController.Money >= price) {
       setLocked(false);
@@ -129,11 +166,22 @@ public abstract class Station extends Scriptable implements Interactable {
     return false;
   }
 
+
+  /**
+   * Changes the current item to the new item
+   * @param item item you want to give to the station
+   * @Author Jack Hinton
+   */
   public void changeItem(Item item) {
     this.item = item;
     updatePictures();
   }
 
+
+  /**
+   * Deletes the current held item
+   * @Author Jack Hinton
+   */
   public void deleteItem() {
     item = null;
     updatePictures();
@@ -142,6 +190,13 @@ public abstract class Station extends Scriptable implements Interactable {
     }
   }
 
+
+  /**
+   * Loads the state of the station from a save file
+   * @param state The items the station has when saved
+   * @param locked The locked state of the station when saved
+   * @Author Jack Hinton
+   */
   public void LoadState(List<ItemState> state, Boolean locked) {
     if (state.get(0) == null || state.get(0).item == null) {
       return;
@@ -152,8 +207,19 @@ public abstract class Station extends Scriptable implements Interactable {
     updatePictures();
   }
 
+
+  /**
+   * Decreases cook time
+   * @Author Sam Toner
+   */
   public void decreaseCookTime(){ stationTimeDecrease += 1;}
 
+
+  /**
+   * Saves the state of the station
+   * @return List<ItemState>
+   * @Author Felix Seanor
+   */
   public List<ItemState> SaveState() {
 
     LinkedList<ItemState> states = new LinkedList<>();
