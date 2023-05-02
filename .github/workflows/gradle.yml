@@ -14,11 +14,8 @@ jobs: # what to do
         matrix:
           os: [windows-2022, macos-12, ubuntu-22.04]
       runs-on: ${{ matrix.os }}
-      
-      
       permissions:
         contents: read
-        
       steps: 
       - uses: actions/checkout@v3
       - name: Set up JDK 11 # Sets up the java environment
@@ -72,4 +69,3 @@ jobs: # what to do
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
         with:
           files: desktop-1.0.jar
-        
