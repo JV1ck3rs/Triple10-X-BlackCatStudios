@@ -170,6 +170,7 @@ class MasterTestClass {
     // Instantiates the MasterChef class
     masterChef = new MasterChef(2, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
+    soundFrame sf = new soundFrame();
   }
 
 

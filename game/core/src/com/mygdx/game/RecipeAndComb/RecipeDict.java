@@ -18,6 +18,10 @@ public class RecipeDict {
   public static RecipeDict recipes;
   public Map<ItemEnum, Recipe> RecipeMap = new HashMap<>();
 
+  /**
+   * Adds recipes to the recipe dictionary
+   * @Author Jack Hinton
+   */
   public void implementRecipes() {
     ArrayList<Step> steps;
 
@@ -99,6 +103,10 @@ public class RecipeDict {
 
   }
 
+  /**
+   * Creates an instance of recipedict
+   * @Author Jack Hinton
+   */
   public RecipeDict() {
       if (recipes != null) {
           return;

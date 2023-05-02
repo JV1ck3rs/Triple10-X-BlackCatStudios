@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Assembly station for assembling our ingredients into a final dish
+ * Assembly station for assembling our ingredients into a final dish and storing items
  * BlackCatStudio's Code and
  * @author Robin Graham
  * @author Jack Hinton
@@ -23,8 +23,8 @@ import java.util.List;
 public class AssemblyStation extends Station {
 
   private ArrayList<Item> ingredients;
-  private ArrayList<ItemEnum> tempIngredients;
-  public ArrayList<GameObject> heldItems = new ArrayList<>();
+  private ArrayList<ItemEnum> tempIngredients; // A temporary list to hold Item Enums to not disturb the Item list in case of failure to combine
+  public ArrayList<GameObject> heldItems = new ArrayList<>(); // Pictures of items currently on the station
   private ItemEnum temp;
   private boolean assembled;
   private Item dish;
@@ -32,6 +32,13 @@ public class AssemblyStation extends Station {
   public int ingredientSize = 12;
 
 
+  /**
+   * Creates an assembly station
+   * @param params The parameters for cooking speed, burning speed etc.
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   * @Author Jack Vickers
+   */
   public AssemblyStation(CookingParams params) {
 
     super(params);
@@ -44,6 +51,13 @@ public class AssemblyStation extends Station {
   }
 
 
+  /**
+   * Gives the assembly station an item, storing up to a maximum of 4 items
+   * @param item The item you want to give to the assembly station
+   * @return boolean - If the method was successful giving an item
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   @Override
   public boolean GiveItem(Item item) {
     if (CanGive()) {
@@ -62,6 +76,12 @@ public class AssemblyStation extends Station {
   }
 
 
+  /**
+   * Returns the last added item
+   * @return Item
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   @Override
   public Item RetrieveItem() {
     if (assembled) {
@@ -87,24 +107,44 @@ public class AssemblyStation extends Station {
   }
 
 
+  /**
+   * Checks if you can retrieve an item from the assembly station
+   * @return boolean
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   */
   @Override
   public boolean CanRetrieve() {
     return ingredients.size() > 0;
   }
 
 
+  /**
+   * Checks if you can give an item to the assembly station
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanGive() {
     return ingredients.size() < 4;
   }
 
-
+  /**
+   * Checks if the user can interact with the assembly station
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanInteract() {
     return !(ingredients.size() < 2);
   }
 
 
+  /**
+   * Interact with the assembly station to combine items
+   * @return float
+   * @Author Jack Hinton
+   */
   @Override
   public float Interact() {
     combine();
@@ -116,6 +156,8 @@ public class AssemblyStation extends Station {
    * Returns the list of ingredients in our arraylist form
    *
    * @return ArrayList ingredients
+   * @Author Jack Hinton
+   * @Author Jack Vickers
    */
   public ArrayList<Item> getIngredients() {
     return ingredients;
@@ -143,13 +185,18 @@ public class AssemblyStation extends Station {
 
 
   /**
-   * removes all ingredients from the arraylist which means a successfull dish or simply ingredients
-   * taken away
+   * Removes all ingredients from the arraylist
+   * @author Jack Hinton
    */
   public void clearIngredients() {
     ingredients = new ArrayList<Item>();
   }
 
+  /**
+   * Clears the temporary arraylist
+   *
+   * @Author Jack Hinton
+   */
   private void clearTempIngredients() {
     tempIngredients = new ArrayList<ItemEnum>();
   }
@@ -157,6 +204,10 @@ public class AssemblyStation extends Station {
 
   /**
    * Assembles the dish into the final one when we have all the correct ingredients
+   * @return boolean
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   * @Author Felix Seanor
    */
   public boolean combine() {
     for (Item ingredient : ingredients) {
@@ -185,6 +236,9 @@ public class AssemblyStation extends Station {
 
   /**
    * Gets the current dish
+   * @return Item
+   * @Author Jack Hinton
+   * @Author Jack Vickers
    */
   public Item getDish() {
 //    assembled = false;
@@ -197,17 +251,24 @@ public class AssemblyStation extends Station {
    * Creates a new item and stores in dish using enum passed in the parameter
    *
    * @param item the enum passed in
+   * @Author Jack Hinton
    */
   public void setDish(ItemEnum item) {
     this.dish = new Item(item);
   }
 
+  /**
+   * Updates the pictures currently shown on the station
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   * @Author Jack Vickers
+   */
   @Override
   public void updatePictures() {
 
     if (ingredients.isEmpty()) {
-      for (int x = 0; x < heldItems.size(); x++) {
-        heldItems.get(x).Destroy();
+      for (GameObject object : heldItems) {
+        object.Destroy();
       }
       heldItems = new ArrayList<>();
 
@@ -248,15 +309,33 @@ public class AssemblyStation extends Station {
   }
 
 
+  /**
+   * Move the animation
+   *
+   * @Author Jack Hinton
+   */
   @Override
   public void moveAnim(){
     return;
   }
 
 
+  /**
+   * Updates the assembly station
+   * @param dt delta time
+   * @Author Jack Hinton
+   */
   @Override
   public void Update(float dt) {
   }
+
+
+  /**
+   * Loads the items and lock state of the station from a save file
+   * @param state items stored in save file
+   * @param locked lock state
+   * @Author Felix Seanor
+   */
   @Override
   public void LoadState(List<ItemState> state,Boolean locked) {
 
@@ -275,6 +354,11 @@ public class AssemblyStation extends Station {
 
   }
 
+  /**
+   * Saves the current state of the station
+   * @return List<ItemState>
+   * @Author Felix Seanor
+   */
   @Override
   public List<ItemState> SaveState() {
     LinkedList<ItemState> states = new LinkedList<>();

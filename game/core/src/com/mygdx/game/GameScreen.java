@@ -192,7 +192,7 @@ public class GameScreen implements Screen {
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     powerup = new Powerup(masterChef, customerController); // powerup object
-    powerupPurchaseMenu = new PowerupPurchaseMenu(customerController, powerup);
+    powerupPurchaseMenu = new PowerupPurchaseMenu(customerController, powerup, masterChef);
     powerupPurchaseMenu.initialiseState();
     GameObjectManager.objManager.AppendLooseScript(powerupPurchaseMenu);
     GameObjectManager.objManager.AppendLooseScript(customerController);
@@ -708,7 +708,7 @@ public class GameScreen implements Screen {
         powerup.superFood();
       }
       if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
-        powerup.tetrisSuperFood();
+        powerup.tetrisSuperFoodGive();
       }
     } else if (Paused && !isInstructionsVisible) {
       pauseStage.draw();
@@ -723,9 +723,6 @@ public class GameScreen implements Screen {
       gameUIStage.draw();
     }
   }
-
-
-
 
   /**
    * Save the game.
@@ -822,6 +819,7 @@ public class GameScreen implements Screen {
   public void resize(int width, int height) {
     pauseStage.getViewport().update(width, height, true);
     gameUIStage.getViewport().update(width, height, true);
+    instructionsStage.getViewport().update(width, height, true);
   }
 
   @Override

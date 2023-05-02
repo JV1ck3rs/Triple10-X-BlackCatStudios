@@ -47,7 +47,7 @@ public interface Interactable {
 
   /**
    * Interact with object
-   * @return
+   * @return float - So the chef knows how long to be locked for if they need to be there for an interaction e.g. cutting
    * @author Jack Hinton
    */
   public float Interact();

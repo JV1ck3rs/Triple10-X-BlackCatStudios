@@ -32,6 +32,14 @@ public class HobStation extends Station {
   private ContinousSound BurnersSFX;
   private ContinousSound FryingSFX;
 
+
+  /**
+   * Creates a hobstation
+   * @param params cooking parameters i.e. cooking speed, burning speed
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   * @Author Jack Vickers
+   */
   public HobStation(CookingParams params) {
 
     super(params);
@@ -46,15 +54,25 @@ public class HobStation extends Station {
     }
   }
 
+
   /**
    * Retrieves the interacted attribute which is private for testing.
    *
    * @return boolean
+   * @Author Hubert Solecki
    */
   public boolean GetInteracted() {
     return interacted;
   }
 
+
+  /**
+   * Gives the station an item
+   * @param item The item you want to give to the station
+   * @return boolean
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   @Override
   public boolean GiveItem(Item item) {
     if (getLocked()) {
@@ -69,6 +87,12 @@ public class HobStation extends Station {
   }
 
 
+  /**
+   * Retrieve an item from the station
+   * @return Item
+   * @Author Jack Hinton
+   * @Authpr Jack Vickers
+   */
   @Override
   public Item RetrieveItem() {
     returnItem = item;
@@ -81,18 +105,33 @@ public class HobStation extends Station {
   }
 
 
+  /**
+   * Checks if the chef can retrieve an item from the station
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanRetrieve() {
     return item != null;
   }
 
 
+  /**
+   * Checks if the chef can give the station an item
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanGive() {
     return item == null;
   }
 
 
+  /**
+   * Checks if the item is in the whitelist, if yes it gets the item's recipe
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   public void checkItem() {
     if (ItemWhiteList.contains(item.name)) {
       currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
@@ -111,11 +150,22 @@ public class HobStation extends Station {
   }
 
 
+  /**
+   * Checks if the chef can interact with the station
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanInteract() {
     return currentRecipe != null;
   }
 
+
+  /**
+   * Interact with the station
+   * @return float
+   * @Author Jack Hinton
+   */
   @Override
   public float Interact() {
     interacted = true;
@@ -123,11 +173,22 @@ public class HobStation extends Station {
   }
 
 
+  /**
+   * Burns the item in the station
+   * @Author Jack Hinton
+   */
   public void burnItem() {
     changeItem(new Item(ItemEnum.Cinder));
   }
 
 
+  /**
+   * Cooks the current item and checks if it is ready
+   * @param dt delta time
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   * @Author Jack Vickers
+   */
   public void Cook(float dt) {
     ready = currentRecipe.RecipeSteps.get(item.step)
         .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
@@ -155,17 +216,30 @@ public class HobStation extends Station {
     progressBar();
   }
 
+
+  /**
+   * Updates the progress bubble
+   * @Author Jack Hinton
+   */
   public void progressBar() {
     bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
   }
 
 
+  /**
+   * Gets the progress of the item currently held
+   * @return int
+   */
   public int getProgress() {
     progress = item.progress / maxProgress;
     return (int) (progress / 0.125) + 1;
   }
 
 
+  /**
+   * Updates the picture on the station.
+   * @author Jack Hinton
+   */
   @Override
   public void updatePictures() {
     if (item == null) {
@@ -189,12 +263,22 @@ public class HobStation extends Station {
   }
 
 
+  /**
+   * Move the animation
+   * @Author Jack Hinton
+   */
   @Override
   public void moveAnim() {
     return;
   }
 
 
+  /**
+   * Update the chopping station
+   * @param dt delta time
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   */
   @Override
   public void Update(float dt) {
     if (currentRecipe != null) {

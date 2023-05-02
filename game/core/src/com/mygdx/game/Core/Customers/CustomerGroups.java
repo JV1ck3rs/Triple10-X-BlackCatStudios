@@ -108,12 +108,12 @@ public class CustomerGroups {
 
   public void showIcons() {
     for (int i = 0; i < MembersInLine.size(); i++) {
-      System.out.println(MembersInLine.get(i));
+      //System.out.println(MembersInLine.get(i));
       List<Vector2> path = MembersInLine.get(i).getPath();
       MembersInLine.get(i).foodIcon.getBlackTexture().height = 25;
       MembersInLine.get(i).foodIcon.getBlackTexture().width = 25;
       MembersInLine.get(i).foodIcon.setPosition(MembersInLine.get(i).getX() + 15,
-          MembersInLine.get(i).getY() + 10);
+          MembersInLine.get(i).getY() + 20);
       MembersInLine.get(i).foodIcon.image.layer = 10;
       if (path.isEmpty()) {
         MembersInLine.get(i).foodIcon.isVisible = true;
@@ -206,6 +206,7 @@ public class CustomerGroups {
     Customer customer = MembersInLine.remove(i);
     addMemberToSitting(customer);
     removeIcons(customer);
+
 
     return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size() - 1);
   }

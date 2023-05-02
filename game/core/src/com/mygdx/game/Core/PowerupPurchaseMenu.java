@@ -1,10 +1,20 @@
 package com.mygdx.game.Core;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.mygdx.game.Items.ItemEnum;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * This contains the code for the powerup purchase menu UI
@@ -13,6 +23,9 @@ import java.util.HashMap;
  * @date 02/05/23
  */
 public class PowerupPurchaseMenu extends Scriptable {
+  FreeTypeFontGenerator.FreeTypeFontParameter font;
+  FreeTypeFontGenerator gen;
+  BitmapFont fontBit;
 
   BlackTexture backgroundTexture = new BlackTexture("PowerupAssets/BackGround.png");
   BlackTexture speedPowerUpTexture = new BlackTexture("PowerupAssets/SpeedPowerUp.png");
@@ -42,16 +55,48 @@ public class PowerupPurchaseMenu extends Scriptable {
   Powerup powerup;
 
   HashMap<String, Integer> prices = new HashMap<>();
+  SpriteBatch sb;
+  MasterChef mc;
+  LinkedList<ItemEnum> completedRecipes;
 
-  public PowerupPurchaseMenu(CustomerController cc, Powerup powerup) {
+
+  public PowerupPurchaseMenu(CustomerController cc, Powerup powerup, MasterChef mc) {
     this.cc = cc;
     this.powerup = powerup;
 
     prices.put("Speed", 50);
     prices.put("Reputation", 60);
     prices.put("SuperFood", 75);
-    prices.put("TetrisSuperFood", 0);
+    prices.put("TetrisSuperFood", 100);
     prices.put("Frustration", 75);
+
+    font = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    font.size = 20;
+    Color colour = new Color(0x5584AC);
+    font.color = colour;
+    font.shadowColor = Color.WHITE;
+    font.shadowOffsetX = 3;
+    font.shadowOffsetY = 3;
+    gen = new FreeTypeFontGenerator(Gdx.files.internal("ka1.ttf"));
+    fontBit = gen.generateFont(font);
+    Label.LabelStyle fontStyle = new Label.LabelStyle();
+    fontStyle.font = fontBit;
+    sb = new SpriteBatch();
+    this.mc = mc;
+    completedRecipes = new LinkedList<>();
+    completedRecipes.add(ItemEnum.Burger);
+    completedRecipes.add(ItemEnum.CheeseBurger);
+    completedRecipes.add(ItemEnum.CheeseBake);
+    completedRecipes.add(ItemEnum.MeatBake);
+    completedRecipes.add(ItemEnum.BakedPotato);
+    completedRecipes.add(ItemEnum.CheesePizzaCooked);
+    completedRecipes.add(ItemEnum.LettuceOnionSalad);
+    completedRecipes.add(ItemEnum.LettuceTomatoSalad);
+    completedRecipes.add(ItemEnum.MeatPizzaCooked);
+    completedRecipes.add(ItemEnum.TomatoOnionLettuceSalad);
+    completedRecipes.add(ItemEnum.TomatoOnionSalad);
+    completedRecipes.add(ItemEnum.VegPizzaCooked);
+
   }
 
   public void initialiseState(){
@@ -95,7 +140,6 @@ public class PowerupPurchaseMenu extends Scriptable {
     superFoodBuyButton.isVisible = true;
     tetrisSuperFoodBuyButton.isVisible = true;
     stopFrustruationBuyButton.isVisible = true;
-
   }
 
   public void hidePowerMenu() {
@@ -119,7 +163,7 @@ public class PowerupPurchaseMenu extends Scriptable {
   public void Update(float dt) {
     if (background.isVisible) {
       Integer money = cc.Money;
-      System.out.println(money);
+      //System.out.println(money);
       if (speedBuyButton.isClicked() && money >= prices.get("Speed")) {
         cc.ChangeMoney(-Float.valueOf(prices.get("Speed")));
         powerup.doSpeedPowerup();
@@ -132,12 +176,17 @@ public class PowerupPurchaseMenu extends Scriptable {
         powerup.superFood();
       } else if (tetrisSuperFoodBuyButton.isClicked() && money >= prices.get(
           "TetrisSuperFood")) {
-        cc.ChangeMoney(-Float.valueOf(prices.get("TetrisSuperFood")));
 
         powerup.tetrisSuperFood();
+        if(completedRecipes.contains(mc.getCurrentChef().getTopItem().name)){
+          cc.ChangeMoney(-Float.valueOf(prices.get("TetrisSuperFood")));
+          powerup.tetrisSuperFoodGive();
+        }else{
+          System.out.println("Cant work");
+        }
       } else if (stopFrustruationBuyButton.isClicked() && money >= prices.get("Frustration")) {
         cc.ChangeMoney(-Float.valueOf(prices.get("Frustration")));
-        powerup.stopFrustration();
+        powerup.stopFrustration(60000);
       } else if (closeMenuButton.isClicked()) {
         System.out.println("CLOSING");
         hidePowerMenu();

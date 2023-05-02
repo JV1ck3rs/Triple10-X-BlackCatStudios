@@ -14,6 +14,7 @@ nav:
     - Files: files.md
     - Game: game.md
     - Weekly Updates: weeklyUpdates.md
+    - Assessment 2 Weekly Gantt Chart Snapshots: GanttChart.md
     - Meet the Teams: meetTheTeam.md
 markdown_extensions:
     - def_list

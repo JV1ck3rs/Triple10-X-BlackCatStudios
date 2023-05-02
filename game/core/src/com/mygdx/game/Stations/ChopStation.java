@@ -34,7 +34,13 @@ public class ChopStation extends Station {
     return interacted;
   }
 
-
+  /**
+   * Creates a chopping station
+   * @param params The parameters for cooking speed, burning speed etc.
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   * @Author Jack Vickers
+   */
   public ChopStation(CookingParams params) {
 
     super(params);
@@ -53,6 +59,12 @@ public class ChopStation extends Station {
   }
 
 
+  /**
+   * Gives the chopping station an item
+   * @param item The item you want to give to the chopping station
+   * @return boolean - If the method was successful giving an item
+   * @Author Jack Hinton
+   */
   @Override
   public boolean GiveItem(Item item) {
     if (getLocked()) {
@@ -67,6 +79,11 @@ public class ChopStation extends Station {
   }
 
 
+  /**
+   * Returns item
+   * @return Item
+   * @Author Jack Hinton
+   */
   @Override
   public Item RetrieveItem() {
     if (item != null) {
@@ -78,24 +95,43 @@ public class ChopStation extends Station {
     return null;
   }
 
-
+  /**
+   * Checks if you can retrieve an item from the chopping station
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanRetrieve() {
     return item != null;
   }
 
 
+  /**
+   * Checks if you can give an item to the chopping station
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanGive() {
     return item == null;
   }
 
 
+  /**
+   * Checks if the user can interact with the chopping station
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanInteract() {
     return currentRecipe != null;
   }
 
+
+  /**
+   * Checks if the item is in the whitelist, if yes it gets the items recipe
+   * @Author Jack Hinton
+   */
   public void checkItem() {
     if (ItemWhiteList.contains(item.name)) {
       currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
@@ -115,6 +151,11 @@ public class ChopStation extends Station {
   }
 
 
+  /**
+   * Interact with the chopping station to cut, returns a float to tell the chef how long to lock for
+   * @return float
+   * @Author Jack Hinton
+   */
   @Override
   public float Interact() {
     bubble.isVisible = true;
@@ -122,6 +163,13 @@ public class ChopStation extends Station {
     return maxProgress;
   }
 
+
+  /**
+   * Cuts the item and checks if it is ready
+   * @param dt delta time
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   */
   public void Cut(float dt) {
     ready = currentRecipe.RecipeSteps.get(item.step)
         .timeStep(item, dt * CookingSpeed, interacted, maxProgress);
@@ -137,11 +185,19 @@ public class ChopStation extends Station {
   }
 
 
+  /**
+   * Updates the progress bubble
+   * @Author Jack Hinton
+   */
   public void progressBar() {
     bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
   }
 
 
+  /**
+   * Gets the progress of the item currently held
+   * @return int
+   */
   public int getProgress() {
     progress = item.progress / maxProgress;
     return (int) (progress / 0.125) + 1;
@@ -149,7 +205,7 @@ public class ChopStation extends Station {
 
 
   /**
-   * Updates the pictures of the station.
+   * Updates the picture on the station.
    *
    * @author Jack Hinton
    */
@@ -175,12 +231,21 @@ public class ChopStation extends Station {
   }
 
 
+  /**
+   * Move the animation
+   * @Author Jack Hinton
+   */
   @Override
   public void moveAnim() {
     return;
   }
 
-
+  /**
+   * Update the chopping station
+   * @param dt delta time
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   */
   @Override
   public void Update(float dt) {
     if (currentRecipe != null && interacted) {
