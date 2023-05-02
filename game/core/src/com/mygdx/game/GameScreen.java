@@ -819,6 +819,7 @@ public class GameScreen implements Screen {
   public void resize(int width, int height) {
     pauseStage.getViewport().update(width, height, true);
     gameUIStage.getViewport().update(width, height, true);
+    instructionsStage.getViewport().update(width, height, true);
   }
 
   @Override

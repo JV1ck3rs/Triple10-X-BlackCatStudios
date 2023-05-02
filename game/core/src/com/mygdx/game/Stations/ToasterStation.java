@@ -27,6 +27,12 @@ public class ToasterStation extends Station {
   public static ArrayList<ItemEnum> ItemWhiteList;
 
 
+  /**
+   * Creates a toaster
+   * @param params cooking parameters i.e. cooking speed, burning speed
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   */
   public ToasterStation(CookingParams params) {
     super(params);
     ready = false;
@@ -41,6 +47,13 @@ public class ToasterStation extends Station {
   }
 
 
+  /**
+   * Give an item to the station
+   * @param item The item you want to give
+   * @return boolean
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   @Override
   public boolean GiveItem(Item item) {
     if (getLocked()) {
@@ -59,6 +72,12 @@ public class ToasterStation extends Station {
   }
 
 
+  /**
+   * Retrieve an item from the station
+   * @return Item
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   @Override
   public Item RetrieveItem() {
     returnItem = item;
@@ -72,30 +91,55 @@ public class ToasterStation extends Station {
   }
 
 
+  /**
+   * Checks if the chef can retrieve an item
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanRetrieve() {
     return item != null;
   }
 
 
+  /**
+   * Check if the chef can give the station an item
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanGive() {
     return item == null;
   }
 
 
+  /**
+   * Check if the chef can interact with a station
+   * @return boolean
+   * @Author Jack Hinton
+   */
   @Override
   public boolean CanInteract() {
     return false;
   }
 
 
+  /**
+   * Interact with the station
+   * @return float
+   * @Author Jack Hinton
+   */
   @Override
   public float Interact() {
     return 0;
   }
 
 
+  /**
+   * Checks if the item is in the whitelist, if yes it gets the item's recipe
+   * @Author Jack Hinton
+   * @Author Jack Vickers
+   */
   public void checkItem() {
     if (ItemWhiteList.contains(item.name)) {
       currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
@@ -107,6 +151,13 @@ public class ToasterStation extends Station {
   }
 
 
+  /**
+   * Cooks the current item and checks if it is ready
+   * @param dt delta time
+   * @Author Jack Hinton
+   * @Author Felix Seanor
+   * @Author Jack Vickers
+   */
   public void Cook(float dt) {
     ready = currentRecipe.RecipeSteps.get(item.step)
         .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
@@ -122,27 +173,49 @@ public class ToasterStation extends Station {
   }
 
 
+  /**
+   * Updates the progress bubble
+   * @Author Jack Hinton
+   */
   public void progressBar() {
     bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
   }
 
 
+  /**
+   * Gets the progress of the item currently held
+   * @return int
+   */
   public int getProgress() {
     progress = item.progress / maxProgress;
     return (int) (progress / 0.125) + 1;
   }
 
 
+  /**
+   * Gets the items progress
+   * @return float
+   * @Author Hubert Solecki
+   */
   public float getCookingTime() {
     return item.progress;
   }
 
+
+  /**
+   * Updates the picture on the station.
+   * @author Jack Hinton
+   */
   @Override
   public void updatePictures() {
     return;
   }
 
 
+  /**
+   * Move the animation
+   * @Author Jack Hinton
+   */
   @Override
   public void moveAnim() {
     animation.setPosition(gameObject.position.x + 3,
@@ -150,6 +223,11 @@ public class ToasterStation extends Station {
   }
 
 
+  /**
+   * Update the chopping station
+   * @param dt delta time
+   * @Author Jack Hinton
+   */
   @Override
   public void Update(float dt) {
     if (currentRecipe != null) {

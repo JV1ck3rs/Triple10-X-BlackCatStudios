@@ -22,5 +22,12 @@ This team developed the initial scenario mode of the game for assessment 1
         </div>
     </body>
 </html>
+
+<hr>
+
 ## Team BlackCatStudios
-This team took over development of the game for assessment 2
+![Team BlackCatStudios](images/BCSPhoto.jpg)
+
+We are another team of computer scientists from the University of York. 
+We took over development of the game for assessment 2. 
+We added fun features like powerups, difficulty modes, an endless mode and much more!
