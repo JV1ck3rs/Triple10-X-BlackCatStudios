@@ -90,6 +90,13 @@ public class EndScreen implements Screen {
     table.setFillParent(true);
     stage.addActor(table);
 
+    if (numberOfCustomersServed >= 0) {
+      Label customersServedLabel = new Label("Customers Served: " + numberOfCustomersServed,
+          new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+      customersServedLabel.setFontScale(1.5f * scaleX, 1.5f * scaleY);
+      table.add(customersServedLabel).pad(50 * scaleY, 25, 25, 25).row();
+    }
+
     Drawable drawableScenariobtnUp = new TextureRegionDrawable(uptex.textureRegion);
     Drawable drawableScenariobtnDown = new TextureRegionDrawable(downtex.textureRegion);
 
