@@ -36,6 +36,7 @@ import static java.lang.Math.min;
  * @author Labib Zabeneh
  * @author Riko Puusepp
  * @author Felix Seanor
+ * @date 01/05/23
  */
 public class Chef extends PathfindingAgent implements Person {
 
@@ -57,19 +58,8 @@ public class Chef extends PathfindingAgent implements Person {
   private boolean ModifiedStack = false;
   List<Vector2> path;
 
-  private Station currentStation;
-  Rectangle chefRectangle;
-  World world;
-
   private final int id;
 
-
-  private String inventory;
-
-  // timer attributes
-  float animationTime;
-  float frameTime;
-  int currentTimerFrame = 0;
   TextureAtlas timerAtlas;
   Sprite timerSprite;
 
@@ -77,14 +67,12 @@ public class Chef extends PathfindingAgent implements Person {
   /**
    * Initialise the chef object and sets its spawn position.
    * Black cat studios code
-   * @param world the world in which our objects lie
    * @param id    the individual id of each chef i.e 0,1,2....
    * @author Felix Seanor
    */
-  public Chef(World world, int id, TextureAtlas chefAtlas) {
+  public Chef(int id, TextureAtlas chefAtlas) {
     super();
     this.id = id;
-    this.world = world;
     this.chefAtlas = chefAtlas; // chef now takes a texture atlas so
     // that the chefs can be created in the test files. Originally,
     // chefs were given a texture atlas from the getChefAtlasArray function in the GameScreen class.
@@ -110,7 +98,6 @@ public class Chef extends PathfindingAgent implements Person {
     //MyGdxGame.buildObject(world, posX, posY, sprite.getWidth(), sprite.getHeight(), "Dynamic");
     this.lastOrientation = "south";
 
-    defineChef();
 
 
     timerAtlas = new TextureAtlas(Gdx.files.internal("Timer/timer.txt"));
@@ -131,28 +118,7 @@ public class Chef extends PathfindingAgent implements Person {
    * collisions.
    * This is Team Triple 10s code
    */
-  public void defineChef() {
-    BodyDef bdef = new BodyDef();
-    bdef.position.set(gameObject.position.x, gameObject.position.y);
-    bdef.type = BodyDef.BodyType.DynamicBody;
-    bdef.bullet = true;
-    b2body = world.createBody(bdef);
-    b2body.setUserData("Chef" + id);
-    FixtureDef fdefine = new FixtureDef();
 
-    CircleShape shape = new CircleShape();
-    shape.setRadius(10);
-
-    fdefine.shape = shape;
-    b2body.createFixture(fdefine);
-    EdgeShape head = new EdgeShape();
-    head.set((new Vector2(-2, 7)), new Vector2(2, 7));
-    fdefine.shape = head;
-    fdefine.isSensor = true;
-    b2body.createFixture(fdefine).setUserData("head");
-
-
-  }
 
   /**
    * Makes items in the stack visble and hides stack items that do not have an item
@@ -184,7 +150,6 @@ public class Chef extends PathfindingAgent implements Person {
       obj.position.y = gameObject.position.y + j * 5;
       obj.image.layer = 1 + j;
 
-      //removed multiply by position bc lol whats going on with that
       if (spriteOrientation.contains("north")) {
         obj.position.y += obj.image.GetHeight() / 2;
         obj.image.layer -= CarryCapacity;
@@ -270,6 +235,10 @@ public class Chef extends PathfindingAgent implements Person {
     setTexture(spriteState);
     //Team Triple 10s
     spriteOrientation = newOrientation;
+  }
+
+  public String getSpriteOrientation() {
+    return spriteOrientation;
   }
 
   /**
@@ -540,30 +509,6 @@ public class Chef extends PathfindingAgent implements Person {
   public void ClearInventory() {
     heldItems.clear();
   }
-
-//  /**
-//   * Draws the timer onto the screen and runs the animation for the set time Then unfreezes the chef
-//   * after timer is finished.
-//   * Team Triple 10s code
-//   * @param batch that we are drawing to
-//   * @author Amy Cross
-//   */
-//  public void drawTimer(SpriteBatch batch) {
-//    System.out.println("draw");
-//    timerSprite.setPosition(gameObject.position.x, gameObject.position.y + getHeight());
-//    if (currentTimerFrame <= 7) {
-//      if (animationTime <= 0) {
-//        currentTimerFrame++;
-//        animationTime = frameTime;
-//        String state = "0" + currentTimerFrame;
-//        timerSprite.setRegion(timerAtlas.findRegion(state));
-//      }
-//      timerSprite.draw(batch);
-//      animationTime -= Gdx.graphics.getDeltaTime();
-//    } else {
-//      unfreeze();
-//    }
-//  }
 
   /**
    * BlackCatStudios Code

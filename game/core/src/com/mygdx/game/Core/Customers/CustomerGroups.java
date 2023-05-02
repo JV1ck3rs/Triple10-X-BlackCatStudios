@@ -19,6 +19,7 @@ import java.util.function.Consumer;
  * lining up BlackCatStudio's Code
  *
  * @author Felix Seanor
+ * @date 29/04/23
  */
 public class CustomerGroups {
 

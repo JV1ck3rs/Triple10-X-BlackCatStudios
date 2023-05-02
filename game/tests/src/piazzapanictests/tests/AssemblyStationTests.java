@@ -21,15 +21,19 @@ import org.junit.runner.RunWith;
 /**
  * Tests for the assembly station.
  *
+ * Satisfies requirements for UR_WORKSTATIONS and UR_INTERACTIONS
+ *
  * @author Jack Vickers
+ * @date 01/05/2023
  */
 @RunWith(GdxTestRunner.class)
 public class AssemblyStationTests extends MasterTestClass {
 
   /**
-   * Tests that an item can be placed on an assembly station.
+   * Tests that an item can be placed on an asse  mbly station.
    *
    * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void testPlaceItem() {
@@ -48,6 +52,9 @@ public class AssemblyStationTests extends MasterTestClass {
 
   /**
    * Tests that an item can be successfully removed from the station.
+   *
+   * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void testPickupItem() {
@@ -80,6 +87,9 @@ public class AssemblyStationTests extends MasterTestClass {
   /**
    * Tests that nothing happens when an item is attempted to be removed from an empty assembly
    * station.
+   *
+   * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void testPickupWhenEmpty() {
@@ -112,6 +122,7 @@ public class AssemblyStationTests extends MasterTestClass {
    * this station. Also tests that they can all be successfully removed from the station.
    *
    * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void testPlaceItemAfterCombining() {
@@ -160,6 +171,7 @@ public class AssemblyStationTests extends MasterTestClass {
    * from it.
    *
    * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void placeFinishedMealsThenRemoveThem() {
@@ -193,6 +205,7 @@ public class AssemblyStationTests extends MasterTestClass {
    * Tests that an assembly station can hold a maximum of 4 items.
    *
    * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void testItemLimit() {
@@ -219,6 +232,7 @@ public class AssemblyStationTests extends MasterTestClass {
    * Tests that items from different recipes cannot be combined on an assembly station.
    *
    * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void testInvalidCombination() {
@@ -248,6 +262,7 @@ public class AssemblyStationTests extends MasterTestClass {
    * Tests that all valid combinations of items can be combined on an assembly station.
    *
    * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void testValidCombinations() {
@@ -300,7 +315,8 @@ public class AssemblyStationTests extends MasterTestClass {
    * Tests that the assembly station data can be saved and loaded correctly.
    *
    * @author Jack Vickers
-   * @date 25/04/2023
+   * @author Felix Seanor
+   * @date 01/05/2023
    */
   @Test
   public void testSaveAndLoad() {
@@ -337,7 +353,8 @@ public class AssemblyStationTests extends MasterTestClass {
 
     SaveState saveState = new SaveState();
     // Saves the state of the game
-    GameState saveContents = saveState.SaveState("testAssemblySave.ser", masterChef, cust, Difficulty.Stressful, 0, 0f, stations, customerCounters, assemblyStations);
+    GameState saveContents = saveState.SaveState("testAssemblySave.ser", masterChef,
+        customerController, Difficulty.Stressful, 0, 0f, stations, customerCounters, assemblyStations);
     // Loads the state of the game
     GameState loadedState = saveState.LoadState("testAssemblySave.ser");
     assertEquals("The items on the station after loading should be the same as the items on the station before saving",

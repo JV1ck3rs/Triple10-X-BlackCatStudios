@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Chopping station. Turns items into chopped form
- * BlackCatStudio's Code
+ * Chopping station. Turns items into chopped form BlackCatStudio's Code
+ *
  * @author Jack Hinton
+ * @date 02/05/23
  */
 public class ChopStation extends Station {
 
@@ -95,11 +96,10 @@ public class ChopStation extends Station {
     return currentRecipe != null;
   }
 
-  public void checkItem(){
-    if(ItemWhiteList.contains(item.name)) {
+  public void checkItem() {
+    if (ItemWhiteList.contains(item.name)) {
       currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-    }
-    else {
+    } else {
       currentRecipe = null;
     }
   }
@@ -123,7 +123,8 @@ public class ChopStation extends Station {
   }
 
   public void Cut(float dt) {
-    ready = currentRecipe.RecipeSteps.get(item.step).timeStep(item, dt * CookingSpeed, interacted, maxProgress);
+    ready = currentRecipe.RecipeSteps.get(item.step)
+        .timeStep(item, dt * CookingSpeed, interacted, maxProgress);
     choppingSFX.ShouldPlay = true;
     if (ready) {
       changeItem(new Item(currentRecipe.endItem));
@@ -136,17 +137,22 @@ public class ChopStation extends Station {
   }
 
 
-  public void progressBar(){
-    bubble.image = new BlackTexture("Timer/0"+getProgress()+".png");
+  public void progressBar() {
+    bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
   }
 
 
   public int getProgress() {
     progress = item.progress / maxProgress;
-    return (int) (progress/0.125) + 1;
+    return (int) (progress / 0.125) + 1;
   }
 
 
+  /**
+   * Updates the pictures of the station.
+   *
+   * @author Jack Hinton
+   */
   @Override
   public void updatePictures() {
     if (item == null) {
@@ -169,10 +175,10 @@ public class ChopStation extends Station {
   }
 
 
-    @Override
-    public void moveAnim(){
-        return;
-    }
+  @Override
+  public void moveAnim() {
+    return;
+  }
 
 
   @Override

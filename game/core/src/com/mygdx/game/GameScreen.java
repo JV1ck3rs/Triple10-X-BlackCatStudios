@@ -68,6 +68,7 @@ import com.mygdx.game.Stations.*;
  * @author Jack Vickers
  * @author Jack Hinton
  * @author Sam Toner
+ * @date 01/05/23
  */
 public class GameScreen implements Screen {
 
@@ -79,9 +80,6 @@ public class GameScreen implements Screen {
   private Pathfinding pathfinding;
   public static final int TILE_WIDTH = 32;
   public static final int TILE_HEIGHT = 32;
-
-  // box2d
-  static World world;
 
   public CustomerController customerController;
 
@@ -161,7 +159,6 @@ public class GameScreen implements Screen {
     //BlackCatStudios
     recipeScreen.createInstructionPage("Empty");
 
-    world = new World(new Vector2(0, 0), true);
     exitLogo.isVisible = false;
     exitLogo.getBlackTexture().height = 30;
     exitLogo.getBlackTexture().width = 30;
@@ -175,7 +172,7 @@ public class GameScreen implements Screen {
 
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    masterChef = new MasterChef(3, world, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
+    masterChef = new MasterChef(3, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = difficultyState.ccParams;
@@ -208,7 +205,6 @@ public class GameScreen implements Screen {
     new RecipeDict();
     RecipeDict.recipes.implementRecipes();
 
-    createCollisionListener();
     int[] objectLayers = {3, 4, 6, 9, 11, 13, 16, 18, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32,
         33, 34, 35, 36, 37, 38, 39};
 
@@ -221,7 +217,7 @@ public class GameScreen implements Screen {
           .getByType(RectangleMapObject.class)) {
 
         Rectangle rect = ((RectangleMapObject) object).getRectangle();
-        constructMachines.buildObject(world, rect.getX(), rect.getY(), rect.getWidth(),
+        constructMachines.buildObject(rect.getX(), rect.getY(), rect.getWidth(),
             rect.getHeight(), "Static",
             name);
 
@@ -346,12 +342,12 @@ public class GameScreen implements Screen {
       modeLabel = new Label("ENDLESS MODE", new Label.LabelStyle(new BitmapFont(),
           Color.WHITE));
       modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
-      gameUITable.add(modeLabel).expandX().align(Align.topLeft).uniform();
+      gameUITable.add(modeLabel).expandX().align(Align.topLeft);
     } else {
       modeLabel = new Label("SCENARIO MODE",
           new Label.LabelStyle(new BitmapFont(), Color.WHITE));
       modeLabel.setFontScale(1.1f * (scaleX + scaleY) / 2);
-      gameUITable.add(modeLabel).expandX().align(Align.topLeft).uniform();
+      gameUITable.add(modeLabel).expandX().align(Align.topLeft);
     }
     updateCustomerLabel();
 
@@ -367,6 +363,7 @@ public class GameScreen implements Screen {
     instructionButtonStyle.down = drawableInstructionBtnDown;
     gameUITable.add(instructionButton).width(100 * scaleX).height(30 * scaleY).align(Align.center).uniform();
 
+
     // The following block of code adds a listener to the instruction button
     instructionButton.addListener(new ClickListener() {
       @Override
@@ -378,7 +375,7 @@ public class GameScreen implements Screen {
 
     // Creates an instruction stage an table which will be used to display the game instructions
     instructionsStage = new Stage();
-    Image instructionImage = new Image(new Texture("Controls.png")); //TODO: TEST THIS VICKERS
+    Image instructionImage = new Image(new Texture("Controls.png"));
     instructionImage.setSize(instructionsStage.getWidth(), instructionsStage.getHeight());
     instructionImage.setPosition(0, 0);
     Image iconsImage = new Image(new Texture("Icons.png"));
@@ -456,10 +453,9 @@ public class GameScreen implements Screen {
     powerUpButtonStyle.up = powerUpButtonUp;
     powerUpButtonStyle.down = powerUpButtonUp;
     gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).align(Align.topRight)
-        .expandX().row();
-    gameUITable.add(powerUpButton).width(48 * scaleX).height(50 * scaleY).expandX().align(Align.right).colspan(2);
-    gameUITable.row();
-    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX().align(Align.topRight).uniform();
+        .expandX();
+    gameUITable.add(powerUpButton).width(48 * scaleX).height(50 * scaleY).expandX().align(Align.right);
+    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX().align(Align.topRight).row();
     pauseButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
@@ -473,8 +469,9 @@ public class GameScreen implements Screen {
         powerupPurchaseMenu.showPowerUpMenu();
         }
     });
-
-
+    Image muteImage = new Image(new Texture("m_key.png"));
+    muteImage.setSize(60, 48 * scaleY);
+    gameUITable.add(muteImage).width(48 * scaleX).height(48 * scaleY).expandX().expandY().colspan(6).align(Align.bottomRight);
   }
 
   /**
@@ -675,7 +672,6 @@ public class GameScreen implements Screen {
 
     //Removed and simplified logic
 
-    world.step(1 / 60f, 6, 2);
 
     game.batch.setProjectionMatrix(camera.combined);
     game.batch.enableBlending();
@@ -728,28 +724,6 @@ public class GameScreen implements Screen {
     }
   }
 
-
-  /**
-   * Finds all the collisions and assigns the names Also has a convenience function to disregard the
-   * chef collision
-   * Team Triple 10s
-   * @author Amy Cross
-   */
-  public void createCollisionListener() {
-    world.setContactListener(new ContactListener() {
-
-      /**
-       * gets the collision start and finds the names of the things colliding
-       *
-       * @param contact The object containing collision information
-       */
-      @Override
-      public void beginContact(Contact contact) {
-
-        Object objectA = contact.getFixtureA().getBody().getUserData();
-        Object objectB = contact.getFixtureB().getBody().getUserData();
-        Gdx.app.log("beginContact", "between " + objectA + " and " + objectB);
-      }
 
 
       /**
@@ -834,18 +808,18 @@ public class GameScreen implements Screen {
     for (GameObject station : constructMachines.Stations) {
       Scriptable scriptable = station.GetScript(0);
       if (scriptable instanceof Station) {
-        ((Station) scriptable).LoadState(state.FoodOnCounters.get(i++));
+        ((Station) scriptable).LoadState(state.FoodOnCounters.get(i),state.RepairState.get(i++));
       }
 
 
     }
 
     for (GameObject station : constructMachines.customerCounters) {
-      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++),true);
     }
 
     for (GameObject station : constructMachines.assemblyStations) {
-      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++));
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++),true);
     }
   }
 

@@ -2,6 +2,7 @@ package piazzapanictests.tests;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
@@ -16,7 +17,11 @@ import static org.junit.Assert.*;
  * Tests for the frying stations. Hobs only interact with raw patties and cooked patties so no other
  * items need to be used or checked.
  *
+ * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
+ *
  * @author Hubert Solecki
+ * @author Jack Vickers
+ * @date 02/05/2023
  */
 
 @RunWith(GdxTestRunner.class)
@@ -26,7 +31,8 @@ public class HobStationTests extends MasterTestClass {
    * Tests that an item can be removed from the frying station whether frying is complete or not.
    *
    * @author Hubert Solecki
-   * @date 14/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
 
   @Test
@@ -56,7 +62,8 @@ public class HobStationTests extends MasterTestClass {
    * interaction is reached.
    *
    * @author Hubert Solecki
-   * @date 17/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
 
   @Test
@@ -85,7 +92,8 @@ public class HobStationTests extends MasterTestClass {
    * placed on the toaster.
    *
    * @author Hubert Solecki
-   * @date 23/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
   @Test
   public void testIncorrectItemOnHob() {
@@ -119,7 +127,8 @@ public class HobStationTests extends MasterTestClass {
    * Tests whether an item can be removed from the hob when it has nothing on it; should not allow
    *
    * @author Hubert Solecki
-   * @date 17/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
   @Test
   public void testRemoveItemWhenHobEmpty() {
@@ -140,7 +149,8 @@ public class HobStationTests extends MasterTestClass {
    * hob.
    *
    * @author Hubert Solecki
-   * @date 23/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
   @Test
   public void testGiveItemWhenHobFull() {
@@ -168,7 +178,8 @@ public class HobStationTests extends MasterTestClass {
    * cooked is saved in its progress attribute.
    *
    * @author Hubert Solecki
-   * @date 18/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
 
   @Test
@@ -199,7 +210,8 @@ public class HobStationTests extends MasterTestClass {
    * Tests that the update function updates the hob station and sets interaction to false.
    *
    * @author Hubert Solecki
-   * @date 21/04/2023
+   * @author Jack Vickers
+   * @date 25/04/2023
    */
 
   @Test
@@ -223,5 +235,51 @@ public class HobStationTests extends MasterTestClass {
         hobStation.GetInteracted());
   }
 
+  /**
+   * Tests that the hob station cannot be used when it is locked.
+   *
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
+  @Test
+  public void testCannotUseWhileLocked() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+    }
+    instantiateWorldAndHobsStation();
+    hobStation.setLocked(true);
+    assertFalse("The hob station should not be able to be interacted with when locked",
+        hobStation.GiveItem(new Item(ItemEnum.RawPatty)));
+    assertNull("There should be no item on the hob station when it is locked so retrieve should return null",
+        hobStation.RetrieveItem());
+  }
+
+  /**
+   * Tests that the hob station can be used when it is unlocked.
+   *
+   * @Author Jack Vickers
+   * @date 02/05/2023
+   */
+  @Test
+  public void testCanUseWhenUnlocked() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+    }
+    instantiateWorldAndHobsStation();
+    instantiateCustomerScripts(Difficulty.Relaxing);
+    // ensures that there is definitely enough money to unlock the oven (100 coins)
+    for (int i = 0; i < 100; i++) {
+      customerController.ChangeMoney(100);
+    }
+    hobStation.setLocked(true);
+    hobStation.GiveItem(
+        new Item(ItemEnum.RepairTool)); // gives the repair tool to the hob station to unlock it
+    assertFalse("The hob station should be unlocked", hobStation.getLocked());
+    assertTrue("Should be able to give an item to the hob station when it is unlocked",
+        hobStation.GiveItem(new Item(ItemEnum.RawPatty)));
+    assertNotNull(
+        "There should be an item on the hob station when it is unlocked so retrieve should not return null",
+        hobStation.RetrieveItem());
+  }
 
 }

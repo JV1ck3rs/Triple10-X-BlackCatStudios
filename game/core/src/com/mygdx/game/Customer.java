@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * @author Jack Vickers
  * @author Amy Cross
  * @author Robin Graham
+ * @date 01/05/23
  */
 public class Customer extends PathfindingAgent implements Person {
 

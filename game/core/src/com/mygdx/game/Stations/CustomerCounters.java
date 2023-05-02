@@ -8,9 +8,10 @@ import com.mygdx.game.Items.Item;
 import java.util.function.Function;
 
 /**
- * This handles serving food to customers
- * BlackCatStudio's Code
+ * This handles serving food to customers BlackCatStudio's Code
+ *
  * @author Jack Hinton
+ * @date 01/05/23
  */
 public class CustomerCounters extends Station {
 
@@ -18,12 +19,12 @@ public class CustomerCounters extends Station {
   /**
    * Customer Controller, can the item give be accepted
    */
-  Function<Item, Boolean> script;
+  Function<Item, Boolean> GiveItemToCustomer;
 
   public CustomerCounters(Function<Item, Boolean> script, CookingParams params) {
 
     super(params);
-    this.script = script;
+    this.GiveItemToCustomer = script;
 
   }
 
@@ -70,40 +71,41 @@ public class CustomerCounters extends Station {
 
 
   public void GiveFood() {
-    boolean answer = script.apply(item);
+    boolean answer = GiveItemToCustomer.apply(item);
     if (answer) {
       deleteItem();
     }
   }
 
-    @Override
-    public void updatePictures() {
-        if(item == null) {
-            if(heldItem == null)
-                return;
-            heldItem.Destroy();
-            heldItem = null;
-            return;
-        }
-        if(heldItem == null){
-            heldItem = new GameObject( new BlackTexture(Item.GetItemPath(item.name)));
-            heldItem.image.setSize(imageSize, imageSize);
-            heldItem.setPosition(gameObject.position.x, gameObject.position.y+ ((gameObject.getHeight()/2)-10));
-        }
-        else {
-            heldItem.image = new BlackTexture(Item.GetItemPath(item.name));
-            heldItem.image.setSize(imageSize, imageSize);
-        }
-    }
-
-
-    @Override
-    public void moveAnim(){
+  @Override
+  public void updatePictures() {
+    if (item == null) {
+      if (heldItem == null) {
+        return;
+      }
+      heldItem.Destroy();
+      heldItem = null;
       return;
     }
-
-
-    @Override
-    public void Update(float dt) {
+    if (heldItem == null) {
+      heldItem = new GameObject(new BlackTexture(Item.GetItemPath(item.name)));
+      heldItem.image.setSize(imageSize, imageSize);
+      heldItem.setPosition(gameObject.position.x,
+          gameObject.position.y + ((gameObject.getHeight() / 2) - 10));
+    } else {
+      heldItem.image = new BlackTexture(Item.GetItemPath(item.name));
+      heldItem.image.setSize(imageSize, imageSize);
     }
+  }
+
+
+  @Override
+  public void moveAnim() {
+    return;
+  }
+
+
+  @Override
+  public void Update(float dt) {
+  }
 }

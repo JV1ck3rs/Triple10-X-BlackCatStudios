@@ -30,13 +30,13 @@ import java.util.Optional;
  * @author Jack Vickers
  * @author Jack Hinton
  * @author Sam Toner
+ * @date 01/05/23
  */
 public class MasterChef extends Scriptable {
 
   public float maxRange = 18;
   public int currentControlledChef = 0;
   private static ArrayList<TextureAtlas> chefAtlasArray;
-  World world;
   private Camera camera;
   List<Chef> chefs;
 
@@ -102,12 +102,11 @@ public class MasterChef extends Scriptable {
    * Creates a Chef controller class, handling inputs
    *
    * @param count
-   * @param world
    * @param camera
    * @param pathfinding pathfinding module
    * @author Felix Seanor
    */
-  public MasterChef(int count, World world, Camera camera, Pathfinding pathfinding, ChefParams params, CookingParams cookParams) {
+  public MasterChef(int count, Camera camera, Pathfinding pathfinding, ChefParams params, CookingParams cookParams) {
 
 
     chefParams =  params;
@@ -116,7 +115,6 @@ public class MasterChef extends Scriptable {
     chefAtlasArray = new ArrayList<TextureAtlas>();
     this.pathfind = pathfinding;
     generateChefArray();
-    this.world = world;
 
     this.camera = camera;
 
@@ -143,7 +141,7 @@ public class MasterChef extends Scriptable {
   void CreateNewChef(Vector2 position, int i) {
     GameObject chefsGameObject = new GameObject(
         new BlackSprite());//passing in null since chef will define it later
-    chefs.add(new Chef(world, i, chefAtlasArray.get(i)));
+    chefs.add(new Chef(i, chefAtlasArray.get(i)));
     chefsGameObject.attachScript(chefs.get(i));
     chefsGameObject.image.setSize(18, 40);
     chefsGameObject.position.set(position);
@@ -344,7 +342,6 @@ public class MasterChef extends Scriptable {
         getCurrentChef().GivePath(path);
       }
     }
-
     MoveArrow();
   }
 

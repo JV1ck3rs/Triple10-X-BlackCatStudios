@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.mygdx.game.Core.BlackSprite;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Core.MasterChef;
 import com.mygdx.game.Items.Item;
@@ -34,9 +35,12 @@ import static org.junit.Assert.*;
 
 /**
  * Tests for the chopping station.
+ * <p>
+ * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
  *
  * @author Jack Vickers
  * @author Azzam Amirul Bahri
+ * @date 02/05/2023
  */
 @RunWith(GdxTestRunner.class)
 public class ChopStationTests extends MasterTestClass {
@@ -45,6 +49,7 @@ public class ChopStationTests extends MasterTestClass {
    * Tests that an item can be removed from the chopping board when it is not being chopped.
    *
    * @author Jack Vickers
+   * @date 30/03/2023
    */
   @Test
   public void testRemoveItemWhileNotChopping() {
@@ -58,6 +63,13 @@ public class ChopStationTests extends MasterTestClass {
     assertNull("There should be no item on the chopping station", chopStation.returnItem());
   }
 
+  /**
+   * Tests which items are allowed to be placed on the chopping station by placing all items on the station and checking the station's white list by seeing if there is a recipe on the station after that item is placed.
+   *
+   * @author Azzam Amirul
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
   @Test
   public void testPlaceItemChoppingInvalid() {
     if (GameObjectManager.objManager == null) {
@@ -71,10 +83,11 @@ public class ChopStationTests extends MasterTestClass {
     Item mince = new Item(ItemEnum.Mince);
     Item cutTomato = new Item(ItemEnum.CutTomato);
     Item dough = new Item(ItemEnum.Dough);
-    for (ItemEnum test : Arrays.asList(ItemEnum.values())){
+    for (ItemEnum test : Arrays.asList(ItemEnum.values())) {
       Item testing = new Item(test);
       chopStation.GiveItem(testing);
-      if (!((testing.equals(lettuce)) || (testing.equals(tomato)) || (testing.equals(onion)) || (testing.equals(mince)) || (testing.equals(cutTomato)) || (testing.equals(dough)))){
+      if (!((testing.equals(lettuce)) || (testing.equals(tomato)) || (testing.equals(onion))
+          || (testing.equals(mince)) || (testing.equals(cutTomato)) || (testing.equals(dough)))) {
         assertNotNull("These items can be put on chopping station", chopStation.RetrieveItem());
       }
 
@@ -84,7 +97,12 @@ public class ChopStationTests extends MasterTestClass {
   }
 
 
-
+  /**
+   * Tests that an item cannot be given to the chopping station when there is already an item on it.
+   *
+   * @author Azzam Amirul
+   * @date 26/04/2023
+   */
   @Test
   public void testGiveItemWhenChopStationFull() {
     if (GameObjectManager.objManager == null) {
@@ -95,16 +113,23 @@ public class ChopStationTests extends MasterTestClass {
     Item lettuce = new Item(ItemEnum.Lettuce);
     Item cutLettuce = new Item(ItemEnum.CutLettuce);
     chopStation.GiveItem(
-            lettuce); // gives an item to the hob to test if another item can be placed on it
+        lettuce); // gives an item to the hob to test if another item can be placed on it
     assertFalse(
-            "The CanGive() method should return false when there is already an item placed on the chop station",
-            chopStation.CanGive());
+        "The CanGive() method should return false when there is already an item placed on the chop station",
+        chopStation.CanGive());
     chopStation.GiveItem(cutLettuce);
     assertEquals(
-            "The item on the chop station should be unchanged if an item is placed on the chop station when there already was an item on there",
-            lettuce, chopStation.RetrieveItem());
+        "The item on the chop station should be unchanged if an item is placed on the chop station when there already was an item on there",
+        lettuce, chopStation.RetrieveItem());
   }
 
+  /**
+   * Tests that an item can be retrieved during chopping and that interaction is preserved in the item and on the station.
+   *
+   * @author Azzam Amirul
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
   @Test
   public void testItemRetrievedDuringChoppingAndProgress() {
     if (GameObjectManager.objManager == null) {
@@ -115,44 +140,57 @@ public class ChopStationTests extends MasterTestClass {
     chopStation.GiveItem(new Item(ItemEnum.Lettuce)); // gives a raw patty to the hob for the test
     chopStation.Cut(4);
     chopStation.getProgress();
-    int testProgress = (int)(chopStation.progress* chopStation.maxProgress);
+    int testProgress = (int) (chopStation.progress * chopStation.maxProgress);
     Item test = chopStation.RetrieveItem();
     assertNotEquals(
-            "The value of the progress of the chopping item should not be 0 when it is removed from the chop station",
-            (int) testProgress, 0);
-    assertNull("The chop station should not contain an item when an in progress item is removed from it",
-            chopStation.RetrieveItem());
+        "The value of the progress of the chopping item should not be 0 when it is removed from the chop station",
+        (int) testProgress, 0);
+    assertNull(
+        "The chop station should not contain an item when an in progress item is removed from it",
+        chopStation.RetrieveItem());
     assertNotEquals(
-            "The progress of the item should not be 0 when it has been chopping for some time and is removed",
-            test.progress, 0);
+        "The progress of the item should not be 0 when it has been chopping for some time and is removed",
+        test.progress, 0);
     assertEquals(
-            "The progress of the item being chopped should be the same before and after it is retrieved from the chop station",
-            (int) testProgress, (int) test.progress);
+        "The progress of the item being chopped should be the same before and after it is retrieved from the chop station",
+        (int) testProgress, (int) test.progress);
   }
 
 
+  /**
+   * Tests that the chopping station can be given to and retrieved from using its CanGive() and CanRetrieve() methods based on whether there is an item on the station.
+   *
+   * @author Azzam Amirul
+   * @date 26/04/2023
+   */
   @Test
-  public void testCanGiveCanRetrieveChopping(){
+  public void testCanGiveCanRetrieveChopping() {
     instantiateWorldAndChoppingStation();
     Item item = new Item(ItemEnum.Lettuce);
-    if (item == null){
+    if (item == null) {
       assertFalse("Nothing to give chopping station", chopStation.CanGive());
     } else {
       assertTrue("Item can be given to chopping station", chopStation.CanGive());
     }
-    if (item == null){
+    if (item == null) {
       assertTrue("Nothing to retrieve at chopping station", chopStation.CanRetrieve());
-    } else{
+    } else {
       assertFalse("Item cannot be retrieved by chopping station", chopStation.CanRetrieve());
     }
   }
 
+  /**
+   * Tests that the chopping station can be interacted with through its CanInteract() method.
+   *
+   * @author Azzam Amirul
+   * @date 26/04/2023
+   */
   @Test
-  public void testCanInteractChoppingStation(){
+  public void testCanInteractChoppingStation() {
     instantiateWorldAndChoppingStation();
     Item item = new Item(ItemEnum.Lettuce);
     Recipe recipe = RecipeDict.recipes.RecipeMap.get(item.name);
-    if (recipe == null){
+    if (recipe == null) {
       assertTrue("Item can be interacted with chopping station", chopStation.CanInteract());
 
     } else {
@@ -161,6 +199,13 @@ public class ChopStationTests extends MasterTestClass {
 
   }
 
+  /**
+   * Tests the update method on the chop station checking that it can be interacted with and modifies items on it.
+   *
+   * @author Azzam Amirul
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
   @Test
   public void testUpdateMethodChopStation() {
     if (GameObjectManager.objManager == null) {
@@ -171,12 +216,58 @@ public class ChopStationTests extends MasterTestClass {
     chopStation.GiveItem(new Item(ItemEnum.Lettuce));
     chopStation.Update(5);
     chopStation.Interact();
-    assertTrue("The interaction attribute is true when interacted with in the update function", chopStation.GetInteracted());
-    assertNotNull("The recipe on the hob station is not null when there is an item on it", chopStation.currentRecipe);
+    assertTrue("The interaction attribute is true when interacted with in the update function",
+        chopStation.GetInteracted());
+    assertNotNull("The recipe on the hob station is not null when there is an item on it",
+        chopStation.currentRecipe);
     chopStation.Cut(5);
     chopStation.Update(10);
     Item test = chopStation.RetrieveItem();
-    assertFalse("The interaction attribute is set to false after the item is retrieved from the hob", chopStation.GetInteracted());
+    assertFalse(
+        "The interaction attribute is set to false after the item is retrieved from the hob",
+        chopStation.GetInteracted());
+  }
 
+  /**
+   * Tests that the chopping station cannot be used when it is locked.
+   *
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
+  @Test
+  public void testCannotUseWhileLocked() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a new game object manager making sure it is not null when needed
+    }
+    instantiateWorldAndChoppingStation();
+    chopStation.setLocked(true);
+    assertFalse("Cannot use chopping station when locked", chopStation.GiveItem(new Item(ItemEnum.Lettuce)));
+    assertNull("There should be nothing on the chopping station so retrieving an item should return null", chopStation.RetrieveItem());
+  }
+
+  /**
+   * Tests that the chopping station can be used when it is unlocked.
+   *
+   * @Author Jack Vickers
+   * @date 02/05/2023
+   */
+  @Test
+  public void testCanUseWhenUnlocked() {
+    if (GameObjectManager.objManager == null) {
+      new GameObjectManager();
+      // creates a new game object manager making sure it is not null when needed
+    }
+    instantiateCustomerScripts(Difficulty.Relaxing);
+    // ensures that there is definitely enough money to unlock the oven (100 coins)
+    for (int i = 0; i < 100; i++) {
+      customerController.ChangeMoney(100);
+    }
+    instantiateWorldAndChoppingStation();
+    chopStation.setLocked(true);
+    chopStation.GiveItem(new Item(ItemEnum.RepairTool)); // should unlock the station
+    assertFalse("The chopping station should be unlocked", chopStation.getLocked());
+    assertTrue("Can use chopping station when unlocked", chopStation.GiveItem(new Item(ItemEnum.Lettuce)));
+    assertNotNull("There should be an item on the chopping station so retrieving an item should not return null", chopStation.RetrieveItem());
   }
 }

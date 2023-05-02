@@ -3,6 +3,7 @@ package com.mygdx.game.Core.GameState;
 import com.badlogic.gdx.math.Vector2;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -10,6 +11,7 @@ import java.util.List;
  * BlackCatStudio's Code
  * @author Felix Seanor
  * @author Jack Vickers
+ * @date 25/04/23
  */
 public class GameState implements Serializable
 {
@@ -20,6 +22,7 @@ public class GameState implements Serializable
   public Vector2[] ChefPositions;
   public ItemState[] ChefHoldingStacks;//Must be in format of chefs 1 items (if not holding an item at slot N then null)
   public List<List<ItemState>> FoodOnCounters;
+  public List<Boolean> RepairState;
   public Vector2 GroupSize;
   public int Wave;
   public int MaxWave;

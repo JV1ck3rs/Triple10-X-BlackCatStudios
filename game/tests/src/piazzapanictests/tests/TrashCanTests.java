@@ -13,6 +13,8 @@ import static org.junit.Assert.*;
 /**
  * Tests to bin items at the bin.
  *
+ * Satisfies requirements for UR_REMOVE_ITEMS and UR_INTERACTIONS
+ *
  * @author Azzam Amirul Bahri
  */
 

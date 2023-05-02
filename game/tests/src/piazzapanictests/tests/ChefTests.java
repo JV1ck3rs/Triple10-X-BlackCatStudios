@@ -6,13 +6,16 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Core.DistanceTest;
 import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.Stations.ChopStation;
 import com.mygdx.game.Stations.FoodCrate;
 
+import java.util.List;
 import java.util.Stack;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +23,12 @@ import org.junit.runner.RunWith;
 /**
  * Tests to do with the Chefs.
  *
+ * Satisfies requirements for UR_PREP, UR_PANTRY, UR_CHEF_CONTROLS and UR_INTERACTION
+ *
  * @author Jack Vickers
  * @author Hubert Solecki
  * @author Azzam Amirul Bahri
+ * @date 02/05/2023
  */
 @RunWith(GdxTestRunner.class)
 public class ChefTests extends MasterTestClass {
@@ -62,7 +68,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef can pick up an item.
    *
    * @author Jack Vickers
-   * @date 26/03/2023
+   * @date 29/03/2023
    */
   @Test
   public void testPickupItem() {
@@ -78,7 +84,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef can't pick up an item if their inventory is full.
    *
    * @author Jack Vickers
-   * @date 26/03/2023
+   * @date 29/03/2023
    */
   @Test
   public void testPickupFullInventory() {
@@ -101,6 +107,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef can pick up an item from a nearby food crate.
    *
    * @author Jack Vickers
+   * @date 18/04/2023
    */
   @Test
   public void testChefCanPickupItemFromNearbyFoodCrate() {
@@ -129,6 +136,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef can't give an item to a food crate.
    *
    * @author Jack Vickers
+   * @Date 18/04/2023
    */
   @Test
   public void testChefCannotGiveItemToFoodCrate() {
@@ -294,7 +302,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef cannot pick up from an empty tile with no items present.
    *
    * @author Hubert Solecki
-   * @date 31/03/2023
+   * @date 31/04/2023
    */
   @Test
   public void testPickupEmptyTile() {
@@ -309,6 +317,9 @@ public class ChefTests extends MasterTestClass {
 
   /**
    * Tests that the chef being controlled can pick up an item from the assembly station.
+   *
+   * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void testPickupItemFromAssemblyStation() {
@@ -350,6 +361,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef being controlled can place an item on the assembly station.
    *
    * @author Jack Vickers
+   * @date 03/04/2023
    */
   @Test
   public void testPlaceItemOnAssemblyStation() {
@@ -385,6 +397,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef being controlled can combine two items on the assembly station.
    *
    * @author Jack Vickers
+   * @date 18/04/2023
    */
   @Test
   public void testCombineItemsOnAssemblyStation() {
@@ -417,7 +430,7 @@ public class ChefTests extends MasterTestClass {
    * stations.
    *
    * @author Azzam Amirul
-   * @date 02/04/2023
+   * @date 18/04/2023
    */
   @Test
   public void testPlaceEmptyTile() {
@@ -430,6 +443,12 @@ public class ChefTests extends MasterTestClass {
         chefInventoryCountBefore, chefInventoryCountAfter);
   }
 
+  /**
+   * Tests that an item can be removed from the chef's inventory by dropping the item and checking the chef's inventory count.
+   *
+   * @author Azzam Amirul
+   * @date 14/04/2023
+   */
   @Test
   public void testItemRemoveFromChefInventory() {
     instantiateWorldAndChefs();
@@ -444,7 +463,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef can interact with the hob station to flip the items being cooked.
    *
    * @author Hubert Solecki
-   * @date 18/04/2023
+   * @date 23/04/2023
    */
 
   @Test
@@ -478,7 +497,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef can interact with the toaster station through to a completely toasted item.
    *
    * @author Hubert Solecki
-   * @date 23/04/2023
+   * @date 24/04/2023
    */
 
   @Test
@@ -502,7 +521,7 @@ public class ChefTests extends MasterTestClass {
    * Tests that the chef can interact with the oven station through to a completely cooked item.
    *
    * @author Hubert Solecki
-   * @date 24/04/2023
+   * @date 25/04/2023
    */
 
   @Test
@@ -522,6 +541,12 @@ public class ChefTests extends MasterTestClass {
     GameObjectManager.objManager.DestroyGameObject(Oven);
   }
 
+  /**
+   * Tests that the chef can interact with the chopping station through to a completely chopped item.
+   *
+   * @author Azzam Amirul
+   * @date 26/04/2023
+   */
   @Test
   public void testItemInteractionChopStation() {
     if (GameObjectManager.objManager == null) {
@@ -539,6 +564,12 @@ public class ChefTests extends MasterTestClass {
     GameObjectManager.objManager.DestroyGameObject(Chop);
   }
 
+  /**
+   * Tests that cycling the chef's item stack works correctly.
+   *
+   * @author Felix Seanor
+   * @date 25/04/2023
+   */
   @Test
   public void TestStackCycle(){
 
@@ -558,6 +589,34 @@ public class ChefTests extends MasterTestClass {
     assertTrue("First Item must be lettuce", inv.pop().name == ItemEnum.Mince);
     assertTrue("Second Item must be mince", inv.pop().name == ItemEnum.Buns);
     assertTrue("Third Item must be buns", inv.pop().name == ItemEnum.Lettuce);
+  }
 
+  /**
+   * Tests that the chef's orientation is correctly set when it moves along its path.
+   *
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
+  @Test
+  public void testUpdateSpriteFromInputWithPathfinding() {
+    instantiateWorldAndChefs();
+    SetUpPathfinding();
+    int stepSize = GameScreen.TILE_WIDTH/4;
+    List<Vector2> pathA = pathfinding.FindPath(0,0,0,1, DistanceTest.Euclidean);
+    chef[0].GivePath(pathA);
+    chef[0].updateSpriteFromInput("");
+    assertEquals("The sprite should be facing north", "north", chef[0].getSpriteOrientation());
+    List<Vector2> pathB = pathfinding.FindPath(0,0,1,0, DistanceTest.Euclidean);
+    chef[0].GivePath(pathB);
+    chef[0].updateSpriteFromInput("");
+    assertEquals("The sprite should be facing east", "east", chef[0].getSpriteOrientation());
+    List<Vector2> pathC = pathfinding.FindPath(0,0,0,-1, DistanceTest.Euclidean);
+    chef[0].GivePath(pathC);
+    chef[0].updateSpriteFromInput("");
+    assertEquals("The sprite should be facing south", "south", chef[0].getSpriteOrientation());
+    List<Vector2> pathD = pathfinding.FindPath(0,0,-1,0, DistanceTest.Euclidean);
+    chef[0].GivePath(pathD);
+    chef[0].updateSpriteFromInput("");
+    assertEquals("The sprite should be facing west", "west", chef[0].getSpriteOrientation());
   }
 }

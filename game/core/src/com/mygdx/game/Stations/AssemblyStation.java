@@ -18,6 +18,7 @@ import java.util.List;
  * BlackCatStudio's Code and
  * @author Robin Graham
  * @author Jack Hinton
+ * @date 01/05/23
  */
 public class AssemblyStation extends Station {
 
@@ -257,10 +258,12 @@ public class AssemblyStation extends Station {
   public void Update(float dt) {
   }
   @Override
-  public void LoadState(List<ItemState> state) {
+  public void LoadState(List<ItemState> state,Boolean locked) {
 
     ingredients.clear();
     updatePictures();
+
+
 
     for (int i = 0; i < state.size(); i++) {
       if (state.get(i) == null) {

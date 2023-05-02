@@ -18,7 +18,11 @@ public class FoodCrateTests extends  MasterTestClass {
   /**
    * Tests that the foodcrate can not be interacted with.
    *
+   * Satisfies requirements for UR_CUSTOMER_ORDER, UR_PANTRY and UR_INTERACTIONS
+   *
    * @author Jack Vickers
+   * @author Hubert Solecki
+   * @date 29/04/2023
    */
   @Test
   public void testCannotInteract() {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * an abstraction for GDX sprite
  * BlackCatStudio's Code
  * @author Felix Seanor
+ * @date 23/04/23
  */
 public class BlackSprite extends Renderable {
 

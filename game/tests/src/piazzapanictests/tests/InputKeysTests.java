@@ -11,6 +11,13 @@ import java.security.Key;
 import static com.mygdx.game.Core.Inputs.*;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This class tests the input keys for the game regarding chefs.
+ * These tests satisfy partly the requirements UR_INTERACTION, UR_COOK_MOVEMENT, FR_CONTROL_CHEF.
+ *
+ * @author Azzam Amirul
+ * @date 28/04/2023
+ */
 @RunWith(GdxTestRunner.class)
 public class InputKeysTests {
 

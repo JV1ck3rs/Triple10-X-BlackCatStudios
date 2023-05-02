@@ -26,6 +26,7 @@ import java.util.function.Consumer;
  * Contains code from both BlackCatStudios and Team Triple 10
  * @author Jack Hinton
  * @author Amy Cross
+ * @date 01/05/23
  */
 public class ConstructMachines
 {
@@ -177,9 +178,8 @@ public class ConstructMachines
 
 
   /**
-   * A function which builds the world box in Box2d which is used for all the hitboxes;
+   * This function puts the object onto the pathfinding grid
    *
-   * @param world  the world it's being built in
    * @param x      the starting x of the world
    * @param y      the starting y of the world
    * @param width  the width of the world
@@ -190,27 +190,15 @@ public class ConstructMachines
    * @author Amy Cross
    * @author Felix Seanor
    */
-  public void buildObject(World world, float x, float y, float width, float height,
+  public void buildObject(float x, float y, float width, float height,
       String type, String name) {
-    BodyDef bdef = new BodyDef();
-    bdef.position.set((x + width / 2), (y + height / 2));
     if (type == "Static") {
-      bdef.type = BodyDef.BodyType.StaticBody;
       //BlackCatStudios Extension
       pathfinding.addStaticObject((int) x, (int) y, (int) width, (int) height);
 
 
     } else if (type == "Dynamic") {
-      bdef.type = BodyDef.BodyType.DynamicBody;
     }
-    Body body = world.createBody(bdef);
-    body.getPosition();
-    body.setUserData(name);
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox((width / 2), (height / 2));
-    FixtureDef fdef = new FixtureDef();
-    fdef.shape = shape;
-    body.createFixture(fdef);
   }
 
 

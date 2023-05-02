@@ -4,6 +4,7 @@ package com.mygdx.game.Items;
  * All items in the game
  * BlackCatStudio's Code
  * @author Jack Hinton
+ * @date 01/05/23
  */
 public enum ItemEnum
 {
@@ -12,19 +13,15 @@ public enum ItemEnum
   CutLettuce,
   Tomato,
   CutTomato,
-  TomSauce,
   Onion,
-  CutOnion,
   LettuceTomatoSalad,
   LettuceOnionSalad,
   TomatoOnionSalad,
   TomatoOnionLettuceSalad,
-  Mince,
   RawPatty,
   CookedPatty,
   Buns,
   ToastedBuns,
-  Cheese,
   Burger,
   CheeseBurger,
   Dough,
@@ -36,6 +33,10 @@ public enum ItemEnum
   MeatPizzaCooked,
   VegPizza,
   VegPizzaCooked,
+  TomSauce,
+  Cheese,
+  Mince,
+  CutOnion,
   Potato,
   BakedPotato,
   CheesePotato,

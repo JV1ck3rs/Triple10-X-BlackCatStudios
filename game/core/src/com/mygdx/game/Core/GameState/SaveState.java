@@ -20,6 +20,7 @@ import java.util.List;
  * BlackCatStudio's Code
  * @author Felix Seanor
  * @author Jack Vickers
+ * @date 25/04/23
  */
 public class SaveState {
 
@@ -99,13 +100,16 @@ public class SaveState {
       List<GameObject> Stations, List<GameObject> customerCounters,
       List<GameObject> assemblyStations) {
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
+    List<Boolean> repaired = new LinkedList<>();
     state.difficulty = difficultyLevel;
     state.Timer = timer;
     state.seconds = seconds;
     for (GameObject station : Stations) {
       Scriptable scriptable = station.GetScript(0);
+
       if (scriptable instanceof Station) {
         itemsOnCounters.add(((Station) scriptable).SaveState());
+        repaired.add(((Station)scriptable).getLocked());
       }
 
     }
@@ -118,6 +122,7 @@ public class SaveState {
       itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
     }
     state.FoodOnCounters = itemsOnCounters;
+    state.RepairState = repaired;
   }
 
   /**
