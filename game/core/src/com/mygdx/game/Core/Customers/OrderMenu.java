@@ -1,5 +1,6 @@
 package com.mygdx.game.Core.Customers;
 
+import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class OrderMenu
   OrderType salads;
   OrderType potato;
   OrderType pizza;
+  LinkedList<ItemEnum> completedRecipes;
 
   /**
    * Create an order menu with certain specification
@@ -32,6 +34,7 @@ public class OrderMenu
   public OrderMenu(int defaultStock, int rareStock, int minStock,List<ItemEnum> OrderTypePerishables){
     rand = new Random();
     this.minStock = minStock;
+
 
     burgers = new OrderType(defaultStock, minStock, ItemEnum.Burger,ItemEnum.CheeseBurger);
     salads =  new OrderType(defaultStock, minStock, ItemEnum.LettuceOnionSalad,ItemEnum.LettuceTomatoSalad,ItemEnum.TomatoOnionLettuceSalad);
@@ -142,6 +145,34 @@ public class OrderMenu
     orderTypes.add(potato);
     orderTypes.add(pizza);
     return orderTypes;
+  }
+
+
+  public Item getSuperFromDish(ItemEnum dish){
+    if(burgers.orderables.contains(dish)){
+      return new Item(ItemEnum.SuperBurger);
+    }else if(salads.orderables.contains(dish)){
+      return new Item(ItemEnum.SuperSalad);
+    }else if(pizza.orderables.contains(dish)){
+      return new Item(ItemEnum.SuperPizza);
+    }else if(potato.orderables.contains(dish)){
+      return new Item(ItemEnum.SuperPotato);
+    }
+    else{
+      return new Item(ItemEnum.valueOf(dish.name()));
+    }
+  }
+
+  public OrderType getOrderTypeFromSuper(Item item){
+    if(item.name() == "SuperBurger"){
+      return burgers;
+    }else if(item.name() == "SuperSalad"){
+      return salads;
+    }else if(item.name() == "SuperPotato"){
+      return potato;
+    }else{
+      return pizza;
+    }
   }
 
 }

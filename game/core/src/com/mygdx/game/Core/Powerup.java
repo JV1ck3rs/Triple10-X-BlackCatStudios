@@ -2,6 +2,7 @@ package com.mygdx.game.Core;
 
 import com.mygdx.game.Core.Customers.OrderType;
 import com.mygdx.game.Customer;
+import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
 import java.util.LinkedList;
@@ -42,30 +43,17 @@ public class Powerup {
 
   public void superFood() { cc.superFoodUpgrade(); }
 
-  public void tetrisSuperFood() {
-    Customer firstCustomer = cc.currentWaiting.MembersInLine.get(0);
-    ItemEnum dish = firstCustomer.getDish();
-    LinkedList<OrderType> orderTypes = cc.menu.getAllOrderTypes();
-    List<ItemEnum> toClear = null;
-    for (int i = 0; i < orderTypes.size(); i++) {
-      if (orderTypes.get(i).orderables.contains(dish)) {
-        toClear = orderTypes.get(i).orderables;
-      }
-    }
-    for (int i = cc.currentWaiting.MembersInLine.size() - 1; i >= 0; i--) {
-      Customer current = cc.currentWaiting.MembersInLine.get(i);
-      if (toClear.contains(current.getDish())) {
-        cc.SetCustomerTarget(cc.currentWaiting.MembersInLine.get(i), cc.currentWaiting.table.GetNextSeat());
-        cc.currentWaiting.MembersSeatedOrWalking.add(cc.currentWaiting.MembersInLine.get(i));
-        cc.currentWaiting.FeedSpecificCustomer(i);
-
-        //cc.removeAnyCustomer(i);
-      }
-    }
+  public void tetrisSuperFoodGive() {
+    Item dish = mc.getCurrentChef().getTopItem();
+    //ItemEnum dish = cc.currentWaiting.MembersInLine.get(0).getDish();
+    mc.getCurrentChef().DropItem();
+    Item superItem = cc.menu.getSuperFromDish(ItemEnum.valueOf(dish.name()));
+    mc.getCurrentChef().GiveItem(superItem);
   }
 
 
-  public void stopFrustration() {
+
+  public void stopFrustration(Integer delayTime) {
     cc.updateFrustration = false;
     new java.util.Timer().schedule(
         new java.util.TimerTask() {
@@ -74,7 +62,7 @@ public class Powerup {
             cc.updateFrustration = true;
           }
         },
-        60000
+        delayTime
     );
   }
 }

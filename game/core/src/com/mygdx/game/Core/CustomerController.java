@@ -1,17 +1,16 @@
 package com.mygdx.game.Core;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.mygdx.game.Core.Customers.CustomerGroups;
-import com.mygdx.game.Core.Customers.OrderMenu;
-import com.mygdx.game.Core.Customers.Randomisation;
-import com.mygdx.game.Core.Customers.Table;
+import com.mygdx.game.Core.Customers.*;
 import com.mygdx.game.Core.GameState.CustomerGroupState;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Customer;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.Items.Item;
 
 import java.awt.event.MouseEvent;
@@ -20,6 +19,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Items.ItemEnum;
+
 import java.util.Objects;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -699,6 +700,24 @@ public class CustomerController extends Scriptable
     values.Won = Reputation > 0;
     CallEndGame.accept(values);
   }
+  public boolean tetrisSuperFoodAction(Item dish){
+    Boolean anyCustomer = false;
+    LinkedList<OrderType> orderTypes = menu.getAllOrderTypes();
+    List<ItemEnum> toClear = null;
+    OrderType orderType = menu.getOrderTypeFromSuper(dish);
+    toClear = orderType.orderables;
+    for (int i = currentWaiting.MembersInLine.size() - 1; i >= 0; i--) {
+      Customer current = currentWaiting.MembersInLine.get(i);
+      if (toClear.contains(current.getDish())) {
+        SetCustomerTarget(currentWaiting.MembersInLine.get(i), currentWaiting.table.GetNextSeat());
+        currentWaiting.MembersSeatedOrWalking.add(currentWaiting.MembersInLine.get(i));
+        currentWaiting.FeedSpecificCustomer(i);
+        anyCustomer = true;
+      }
+    }
+    return anyCustomer;
+
+  }
 
   /**
    * Interface with the customer from the chefs via customer counters. Checks to see if the given
@@ -709,6 +728,8 @@ public class CustomerController extends Scriptable
    * @author Felix Seanor
    */
   public boolean tryGiveFood(Item item) {
+    if(item.name().contains("Super"))
+      return tetrisSuperFoodAction(item);
     int success = currentWaiting.SeeIfDishIsCorrect(item);
 
     if (success != -1) {

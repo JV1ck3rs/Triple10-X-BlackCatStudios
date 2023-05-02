@@ -42,5 +42,9 @@ public enum ItemEnum
   CheeseBake,
   MeatPotato,
   MeatBake,
-  RepairTool
+  RepairTool,
+  SuperBurger,
+  SuperSalad,
+  SuperPizza,
+  SuperPotato
 }
