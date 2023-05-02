@@ -34,22 +34,15 @@ public class PowerupPurchaseMenu extends Scriptable {
   BlackTexture tetrisSuperFoodPowerupTexture = new BlackTexture("PowerupAssets/TetrisSuperFoodPowerup.png");
   BlackTexture frustrationSuperFoodPowerUpTexture = new BlackTexture("PowerupAssets/FrustrationPowerup.png");
   BlackTexture closeMenuTexture = new BlackTexture("Items/CloseButton.png");
-  BlackTexture buyButtonTexture = new BlackTexture("BUYBUTTON.png");
 
   // Create objects for the power-up screen
-  GameObject background = new GameObject(backgroundTexture);
+  public GameObject background = new GameObject(backgroundTexture);
   GameObject speedPowerUpButton = new GameObject(speedPowerUpTexture);
   GameObject reputationPowerUpButton = new GameObject(reputationPowerUpTexture);
   GameObject superFoodPowerUpButton = new GameObject(superFoodPowerupTexture);
   GameObject tetrisSuperFoodPowerUpButton = new GameObject(tetrisSuperFoodPowerupTexture);
   GameObject stopFrustrationPowerUpButton = new GameObject(frustrationSuperFoodPowerUpTexture);
   GameObject closeMenuButton = new GameObject(closeMenuTexture);
-
-  GameObject speedBuyButton = new GameObject(buyButtonTexture);
-  GameObject reputationBuyButton = new GameObject(buyButtonTexture);
-  GameObject superFoodBuyButton = new GameObject(buyButtonTexture);
-  GameObject tetrisSuperFoodBuyButton = new GameObject(buyButtonTexture);
-  GameObject stopFrustruationBuyButton = new GameObject(buyButtonTexture);
 
   CustomerController cc;
   Powerup powerup;
@@ -97,6 +90,11 @@ public class PowerupPurchaseMenu extends Scriptable {
     completedRecipes.add(ItemEnum.TomatoOnionSalad);
     completedRecipes.add(ItemEnum.VegPizzaCooked);
 
+    speedPowerUpTexture.setSize(200,35);
+    reputationPowerUpTexture.setSize(200, 35);
+    frustrationSuperFoodPowerUpTexture.setSize(200,35);
+    superFoodPowerupTexture.setSize(200,35);
+    tetrisSuperFoodPowerupTexture.setSize(200,35);
   }
 
   public void initialiseState(){
@@ -104,24 +102,20 @@ public class PowerupPurchaseMenu extends Scriptable {
     backgroundTexture.layer = 19;
     background.setPosition(250,50);
     speedPowerUpTexture.layer = 20;
-    speedPowerUpButton.setPosition(350,450);
+    speedPowerUpButton.setPosition(400,430);
     reputationPowerUpTexture.layer = 20;
-    reputationPowerUpButton.setPosition(350, 400);
+    reputationPowerUpButton.setPosition(400, 360);
     superFoodPowerupTexture.layer = 20;
-    superFoodPowerUpButton.setPosition(350, 350);
+    superFoodPowerUpButton.setPosition(400, 290);
     tetrisSuperFoodPowerupTexture.layer = 20;
-    tetrisSuperFoodPowerUpButton.setPosition(350, 300);
+    tetrisSuperFoodPowerUpButton.setPosition(400, 220);
     frustrationSuperFoodPowerUpTexture.layer = 20;
-    stopFrustrationPowerUpButton.setPosition(350, 250);
+    stopFrustrationPowerUpButton.setPosition(400, 150);
     closeMenuTexture.layer = 20;
     closeMenuButton.setPosition(700, 500);
 
-    buyButtonTexture.layer = 20;
-    speedBuyButton.setPosition(450, 450);
-    reputationBuyButton.setPosition(450, 400);
-    superFoodBuyButton.setPosition(450, 350);
-    tetrisSuperFoodBuyButton.setPosition(450, 300);
-    stopFrustruationBuyButton.setPosition(450, 250);
+
+
 
   }
 
@@ -134,12 +128,6 @@ public class PowerupPurchaseMenu extends Scriptable {
     tetrisSuperFoodPowerUpButton.isVisible = true;
     stopFrustrationPowerUpButton.isVisible = true;
     closeMenuButton.isVisible = true;
-
-    speedBuyButton.isVisible = true;
-    reputationBuyButton.isVisible = true;
-    superFoodBuyButton.isVisible = true;
-    tetrisSuperFoodBuyButton.isVisible = true;
-    stopFrustruationBuyButton.isVisible = true;
   }
 
   public void hidePowerMenu() {
@@ -150,12 +138,6 @@ public class PowerupPurchaseMenu extends Scriptable {
     tetrisSuperFoodPowerUpButton.isVisible = false;
     stopFrustrationPowerUpButton.isVisible = false;
     closeMenuButton.isVisible = false;
-
-    speedBuyButton.isVisible = false;
-    reputationBuyButton.isVisible = false;
-    superFoodBuyButton.isVisible = false;
-    tetrisSuperFoodBuyButton.isVisible = false;
-    stopFrustruationBuyButton.isVisible = false;
   }
 
 
@@ -164,17 +146,16 @@ public class PowerupPurchaseMenu extends Scriptable {
     if (background.isVisible) {
       Integer money = cc.Money;
       //System.out.println(money);
-      if (speedBuyButton.isClicked() && money >= prices.get("Speed")) {
+      if (speedPowerUpButton.isClicked() && money >= prices.get("Speed")) {
         cc.ChangeMoney(-Float.valueOf(prices.get("Speed")));
         powerup.doSpeedPowerup();
-      } else if (reputationBuyButton.isClicked() && money >= prices.get("Reputation")) {
+      } else if (reputationPowerUpButton.isClicked() && money >= prices.get("Reputation")) {
         cc.ChangeMoney(-Float.valueOf(prices.get("Reputation")));
-
         powerup.buyReputation();
-      } else if (superFoodBuyButton.isClicked() && money >= prices.get("SuperFood")) {
+      } else if (superFoodPowerUpButton.isClicked() && money >= prices.get("SuperFood")) {
         cc.ChangeMoney(-Float.valueOf(prices.get("SuperFood")));
         powerup.superFood();
-      } else if (tetrisSuperFoodBuyButton.isClicked() && money >= prices.get(
+      } else if (tetrisSuperFoodPowerUpButton.isClicked() && money >= prices.get(
           "TetrisSuperFood")) {
 
         if(mc.getCurrentChef().getTopItem() != null  && completedRecipes.contains(mc.getCurrentChef().getTopItem().name)){
@@ -183,7 +164,7 @@ public class PowerupPurchaseMenu extends Scriptable {
         }else{
           System.out.println("Cant work");
         }
-      } else if (stopFrustruationBuyButton.isClicked() && money >= prices.get("Frustration")) {
+      } else if (stopFrustrationPowerUpButton.isClicked() && money >= prices.get("Frustration")) {
         cc.ChangeMoney(-Float.valueOf(prices.get("Frustration")));
         powerup.stopFrustration(60000);
       } else if (closeMenuButton.isClicked()) {

@@ -30,6 +30,12 @@ import java.util.Collections;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests to verify the scenerio mode funtions correctly.
+ * @author Jack Vickers
+ * @satisfies UR_SCENARIO_MODE, UR_SCENARIO_END
+ * @date 19/04/23
+ */
 @RunWith(GdxTestRunner.class)
 public class ScenarioModeTests {
 
@@ -42,7 +48,7 @@ public class ScenarioModeTests {
   /**
    * Instantiates the customer scripts so customers can be used for tests.
    *
-   * Satisfies requirements for UR_SCENARIO_MODE, UR_SCENARIO_END
+   * Satisfies requirements for UR_SCENARIO_MODE, UR_SCENARIO_END, UR_DIFFICULTY
    *
    * @param difficulty  The difficulty of the game.
    * @param noCustomers The number of customers in the game.
@@ -68,7 +74,7 @@ public class ScenarioModeTests {
   /**
    * This test checks whether the customer controller is correctly setting up the waves of customers
    * for the scenario mode when the number of customers is more than 10.
-   *
+   * @satisfies UR_SCENARIO_MODE UR_SCENARIO_SET_CUSTOMER
    * @author Jack Vickers
    * @date 19/04/2023
    */

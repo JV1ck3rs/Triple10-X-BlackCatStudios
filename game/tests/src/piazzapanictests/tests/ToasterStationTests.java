@@ -29,7 +29,7 @@ public class ToasterStationTests extends MasterTestClass {
 
   /**
    * Tests that an item can be removed from the toaster station whether it is complete or not.
-   *
+   * @satisfies UR_PREP UR_INTERACTIONS
    * @author Hubert Solecki
    * @date 23/04/2023
    */
@@ -47,18 +47,10 @@ public class ToasterStationTests extends MasterTestClass {
     assertNull("There should be no item on the toaster station", toasterStation.RetrieveItem());
   }
 
-  /**
-   * Tests that the toaster station can burn an item if maximum progress for cooking and/or interaction is reached.
-   *
-   * THIS TEST IS NOT NEEDED SINCE WE USE A POP UP TOASTER THAT CANNOT BURN
-   *
-   * @author Hubert Solecki
-   * @date 23/04/2023
-   */
 
   /**
    * Tests that incorrect items cannot be toasted by checking that the current recipe on the toaster is null when incorrect items are placed on it.
-   *
+   * @satisfies UR_PREP
    * @author Hubert Solecki
    * @date 30/04/2023
    */
@@ -86,7 +78,7 @@ public class ToasterStationTests extends MasterTestClass {
 
   /**
    * Tests whether an item can be removed from the toaster when it has nothing on it; should not allow and return false.
-   *
+   * @satisifes UR_INTERACTIONS
    * @author Hubert Solecki
    * @date 23/04/2023
    */
@@ -105,7 +97,7 @@ public class ToasterStationTests extends MasterTestClass {
   /**
    *Tests whether an item can be placed on the toaster when there is already an item placed on the toaster; should return false.
    * Placing a different item on the toaster should not change the item currently on the toaster.
-   *
+   * @ UR_INTERACTIONS
    * @author Hubert Solecki
    * @date 23/04/2023
    */
@@ -129,7 +121,7 @@ public class ToasterStationTests extends MasterTestClass {
 
   /**
    * Tests that an item can be picked up during toasting and that the progress of the item is saved in its progress attribute.
-   *
+   * @satisfies UR_PREP UR_INTERACTIONS
    * @author Hubert Solecki
    * @date 23/04/2023
    */
@@ -153,7 +145,7 @@ public class ToasterStationTests extends MasterTestClass {
 
   /**
    * Tests that the update function updates the toaster station and checks that the toaster cannot be interacted with.
-   *
+   * @satsifies UR_PREP
    * @author Hubert Solecki
    * @date 23/04/2023
    */

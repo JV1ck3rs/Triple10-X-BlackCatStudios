@@ -129,8 +129,9 @@ public class GameScreen implements Screen {
 
   /**
    * Constructor class which initialises all the variables needed to draw the sprites and also
-   * manage the logic of the render as well as setting the camera and map
-   * Mixture of BlackCatStudios and TeamTriple10
+   * manage the logic of the render as well as setting the camera and map Mixture of BlackCatStudios
+   * and TeamTriple10
+   *
    * @param game base Object which is used to draw on
    * @author Amy Cross
    * @author Felix Seanor
@@ -172,7 +173,8 @@ public class GameScreen implements Screen {
 
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
-    masterChef = new MasterChef(3, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
+    masterChef = new MasterChef(3, camera, pathfinding, difficultyState.chefParams,
+        difficultyState.cookingParams);
     GameObjectManager.objManager.AppendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = difficultyState.ccParams;
@@ -183,12 +185,13 @@ public class GameScreen implements Screen {
     Vector2[] tabr = new Vector2[tables.size()];
 
     int z = 0;
-    for (Vector2 t:tables
-    ) {   tabr[z++] = t;
+    for (Vector2 t : tables
+    ) {
+      tabr[z++] = t;
     }
 
     customerController = new CustomerController(new Vector2(224, 0), new Vector2(360, 180),
-        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams,tabr);
+        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, tabr);
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     powerup = new Powerup(masterChef, customerController); // powerup object
@@ -196,7 +199,6 @@ public class GameScreen implements Screen {
     powerupPurchaseMenu.initialiseState();
     GameObjectManager.objManager.AppendLooseScript(powerupPurchaseMenu);
     GameObjectManager.objManager.AppendLooseScript(customerController);
-
 
     constructMachines = new ConstructMachines(customerController, difficultyState, pathfinding);
 
@@ -290,7 +292,7 @@ public class GameScreen implements Screen {
     scaleX = Gdx.graphics.getWidth() / 640f;
     scaleY = Gdx.graphics.getHeight() / 480f;
     if (loadSave) { // if the game is being loaded from a save
-        LoadGame("SavedData.ser");
+      LoadGame("SavedData.ser");
     }
     isEndlessMode = CCParams.NoCustomers == -1;
     setupPauseMenu();
@@ -298,33 +300,32 @@ public class GameScreen implements Screen {
   }
 
 
-
-  private List<Vector2> getTablesDirty(TiledMap map){
+  private List<Vector2> getTablesDirty(TiledMap map) {
     List<Vector2> tables = new LinkedList<>();
     for (int n = 0; n < 18; n++) {
       MapLayer layer = map.getLayers().get(n);
       String name = layer.getName();
 
-      if (!name.contains("tables"))
+      if (!name.contains("tables")) {
         continue;
+      }
 
       for (MapObject object : layer.getObjects()
           .getByType(RectangleMapObject.class)) {
 
         Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-
         tables.add(rect.getPosition(new Vector2()));
 
       }
     }
 
-    return  tables;
+    return tables;
   }
 
   /**
-   * Sets up the UI elements which will be displayed during the game.
-   * BlackCatStudio's code
+   * Sets up the UI elements which will be displayed during the game. BlackCatStudio's code
+   *
    * @author Jack Vickers
    */
   private void setupGameUI() {
@@ -361,8 +362,8 @@ public class GameScreen implements Screen {
     instructionButton.setStyle(instructionButtonStyle);
     instructionButtonStyle.up = drawableInstructionBtn;
     instructionButtonStyle.down = drawableInstructionBtnDown;
-    gameUITable.add(instructionButton).width(100 * scaleX).height(30 * scaleY).align(Align.center).uniform();
-
+    gameUITable.add(instructionButton).width(100 * scaleX).height(30 * scaleY).align(Align.center)
+        .uniform();
 
     // The following block of code adds a listener to the instruction button
     instructionButton.addListener(new ClickListener() {
@@ -387,8 +388,6 @@ public class GameScreen implements Screen {
     instructionsTable.setFillParent(true);
     instructionsTable.align(Align.top);
 
-
-
     // The following block of code creates the resume button and adds it to the instructions table
     TextureRegion resumeBtn = new TextureRegion(new Texture("ResumeUp.png"));
     TextureRegion resumeBtnDown = new TextureRegion(new Texture("ResumeDown.png"));
@@ -399,7 +398,8 @@ public class GameScreen implements Screen {
     instructionsResumeButton.setStyle(instructionsResumeButtonStyle);
     instructionsResumeButtonStyle.up = drawableResumeBtn;
     instructionsResumeButtonStyle.down = drawableResumeBtnDown;
-    instructionsTable.add(instructionsResumeButton).width(150 * scaleX).height(30 * scaleY).expandX().align(Align.topLeft).pad(10);
+    instructionsTable.add(instructionsResumeButton).width(150 * scaleX).height(30 * scaleY)
+        .expandX().align(Align.topLeft).pad(10);
     instructionsTable.row();
 
     // The following block of code adds a click listener to the resume button
@@ -423,7 +423,8 @@ public class GameScreen implements Screen {
     iconsButton.setStyle(iconsButtonStyle);
     iconsButtonStyle.up = iconsBtnUpDrawable;
     iconsButtonStyle.down = iconsBtnDownDrawable;
-    gameUITable.add(iconsButton).width(100 * scaleX).height(30 * scaleY).expandX().align(Align.center).uniform();
+    gameUITable.add(iconsButton).width(100 * scaleX).height(30 * scaleY).expandX()
+        .align(Align.center).uniform();
     iconsButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
@@ -438,10 +439,11 @@ public class GameScreen implements Screen {
     // Creates the pause button
     TextureRegion pauseBtn = new TextureRegion(new Texture("PauseUp.png"));
     TextureRegion pauseBtnDown = new TextureRegion(new Texture("PauseDown.png"));
-    TextureRegion powerUpMenuBtn = new TextureRegion(new Texture("PowerupAssets/PowerUpMenuButton.png"));
+    TextureRegion powerUpMenuBtn = new TextureRegion(
+        new Texture("PowerupAssets/PowerUpMenuButton.png"));
     Drawable pauseBtnDrawable = new TextureRegionDrawable(pauseBtn);
     Drawable pauseBtnDrawableDown = new TextureRegionDrawable(pauseBtnDown);
-    Drawable powerUpButtonUp =  new TextureRegionDrawable(powerUpMenuBtn);
+    Drawable powerUpButtonUp = new TextureRegionDrawable(powerUpMenuBtn);
     Button.ButtonStyle pauseButtonStyle = new Button.ButtonStyle();
     Button.ButtonStyle powerUpButtonStyle = new Button.ButtonStyle();
     Button pauseButton = new Button();
@@ -452,10 +454,9 @@ public class GameScreen implements Screen {
     pauseButtonStyle.down = pauseBtnDrawableDown;
     powerUpButtonStyle.up = powerUpButtonUp;
     powerUpButtonStyle.down = powerUpButtonUp;
-    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).align(Align.topRight)
-        .expandX();
-    gameUITable.add(powerUpButton).width(48 * scaleX).height(50 * scaleY).expandX().align(Align.right);
-    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX().align(Align.topRight).row();
+    gameUITable.add(powerUpButton).width(80 * scaleX).height(40 * scaleY).expandX();
+    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX()
+        .align(Align.topRight).row();
     pauseButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
@@ -467,11 +468,50 @@ public class GameScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         powerupPurchaseMenu.showPowerUpMenu();
-        }
+      }
     });
+    // Creates the button which is use to increase the number of chefs
+    TextureRegion addChefBtn = new TextureRegion(new Texture("AddChef.png"));
+    TextureRegion addChefBtnDown = new TextureRegion(new Texture("AddChefDown.png"));
+    Drawable addChefBtnDrawable = new TextureRegionDrawable(addChefBtn);
+    Drawable addChefBtnDrawableDown = new TextureRegionDrawable(addChefBtnDown);
+    Button.ButtonStyle addChefButtonStyle = new Button.ButtonStyle();
+    Button addChefButton = new Button();
+    addChefButton.setStyle(addChefButtonStyle);
+    addChefButtonStyle.up = addChefBtnDrawable;
+    addChefButtonStyle.down = addChefBtnDrawableDown;
+    gameUITable.add(addChefButton).width(48 * scaleX).padTop(10 * scaleY).height(48 * scaleY).align(Align.right)
+        .colspan(6).row();
+
+    // Creates the label which displays an error message if the player tries to add a
+    // chef when they do not have enough money
+    // or if they already have the maximum number of chefs
+    Label chefError = new Label("", new LabelStyle(new BitmapFont(), Color.WHITE));
+    chefError.setWrap(true);
+    chefError.setWidth(5);
+    chefError.setAlignment(Align.center);
+    chefError.setFontScale(0.75f * scaleX, 0.75f * scaleY);
+    gameUITable.add(chefError).width(50 * scaleX).colspan(6).align(Align.right).row();
+
+    addChefButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        if (customerController.getMoney() >= 50 && masterChef.getChefList().size() < 5) {
+          masterChef.AddNewChefIn();
+          customerController.setMoney(customerController.getMoney() - 50);
+          chefError.setText("");
+        } else if (masterChef.getChefList().size() >= 5) {
+          chefError.setText("You already have the maximum number of chefs");
+        } else {
+          chefError.setText("You do not have enough money to buy a new chef");
+        }
+      }
+    });
+
     Image muteImage = new Image(new Texture("m_key.png"));
-    muteImage.setSize(60, 48 * scaleY);
-    gameUITable.add(muteImage).width(48 * scaleX).height(48 * scaleY).expandX().expandY().colspan(6).align(Align.bottomRight);
+    muteImage.setSize(70, 48);
+    gameUITable.add(muteImage).width(70 * scaleX).height(48 * scaleY).expandX().expandY().colspan(6)
+        .align(Align.bottomRight);
   }
 
   /**
@@ -487,8 +527,8 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Creates the pause menu.
-   *BlackCatStudio's code
+   * Creates the pause menu. BlackCatStudio's code
+   *
    * @author Jack Vickers
    * @date 07/04/2023
    */
@@ -580,8 +620,8 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * End game sequence
-   *BlackCatStudio's code
+   * End game sequence BlackCatStudio's code
+   *
    * @param values
    */
   public void EndGame(EndOfGameValues values) {
@@ -598,8 +638,8 @@ public class GameScreen implements Screen {
 
 
   /**
-   * Plays the game music when the screen is shown.
-   * BlackCatStudio's code
+   * Plays the game music when the screen is shown. BlackCatStudio's code
+   *
    * @author Amy Cross
    * @author Jack Vickers
    */
@@ -612,8 +652,8 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Displays the timer.
-   * Mixture of BlackCatStudios and Team Triple10s
+   * Displays the timer. Mixture of BlackCatStudios and Team Triple10s
+   *
    * @author Amy Cross
    * @author Felix Seanor
    */
@@ -645,8 +685,9 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Calls all logic updates and sprite draws as well as checks if game has been completed
-   * Mainly BlackCatStudios code based on Team Triple10s design
+   * Calls all logic updates and sprite draws as well as checks if game has been completed Mainly
+   * BlackCatStudios code based on Team Triple10s design
+   *
    * @param delta The time in seconds since the last render.
    * @author Felix Seanor
    * @author Amy Cross
@@ -672,10 +713,8 @@ public class GameScreen implements Screen {
 
     //Removed and simplified logic
 
-
     game.batch.setProjectionMatrix(camera.combined);
     game.batch.enableBlending();
-
 
     //Begins drawing the game batch
     game.batch.begin();
@@ -725,8 +764,8 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Save the game.
-   * BlackCatStudios Code
+   * Save the game. BlackCatStudios Code
+   *
    * @author Felix Seanor
    */
   public void SaveGame() {
@@ -738,8 +777,8 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Load the game from save
-   *BlackCatStudios Code
+   * Load the game from save BlackCatStudios Code
+   *
    * @author Felix Seanor
    */
   public void LoadGame(String path) {
@@ -755,8 +794,9 @@ public class GameScreen implements Screen {
   }
 
   /**
-   * Loads the state of a previous state of the world, all LoadGame to a full sweep.
-   * BlackCatStudios Code
+   * Loads the state of a previous state of the world, all LoadGame to a full sweep. BlackCatStudios
+   * Code
+   *
    * @param state
    * @author Felix Seanor
    */
@@ -769,18 +809,18 @@ public class GameScreen implements Screen {
     for (GameObject station : constructMachines.Stations) {
       Scriptable scriptable = station.GetScript(0);
       if (scriptable instanceof Station) {
-        ((Station) scriptable).LoadState(state.FoodOnCounters.get(i),state.RepairState.get(i++));
+        ((Station) scriptable).LoadState(state.FoodOnCounters.get(i), state.RepairState.get(i++));
       }
 
 
     }
 
     for (GameObject station : constructMachines.customerCounters) {
-      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++),true);
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++), true);
     }
 
     for (GameObject station : constructMachines.assemblyStations) {
-      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++),true);
+      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++), true);
     }
   }
 
@@ -813,7 +853,7 @@ public class GameScreen implements Screen {
   //  /**
 //   * Resizes the stage when the window is resized so that the buttons are in the correct place.
 //   * Parameters inherited from interface com.badlogic.gdx.Screen and not explicitly used.
-   // Team Triple 10s
+  // Team Triple 10s
 //   */
   @Override
   public void resize(int width, int height) {

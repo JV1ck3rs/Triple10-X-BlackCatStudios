@@ -22,6 +22,13 @@ import static org.junit.Assert.*;
 @RunWith(GdxTestRunner.class)
 public class TrashCanTests extends MasterTestClass {
 
+    /**
+     * Test all functions of the trash can and verfies they are functional
+     * @satisfies UR_REMOVE_ITEMS UR_INTERACTIONS
+     * @author Azzam Bahri
+     * @date 26/04/23
+     *
+     */
     @Test
     public void testBinItemAtTrashCan() {
         if (GameObjectManager.objManager == null) {
