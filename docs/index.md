@@ -13,7 +13,7 @@
                 watch friends and family struggle to beat your highscore. Click on the link below to give it a try!
             </p>
             ![Test2](https://i.imgur.com/XOfPV1g.jpg){ align=right }
-			<button onclick="window.location.href='game.md'">Try our Game!</button>
+			<button onclick="window.location.href='game'">Try our Game!</button>
         </div>
 </html>
 <html>
