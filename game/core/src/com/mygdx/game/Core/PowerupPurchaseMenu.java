@@ -36,7 +36,7 @@ public class PowerupPurchaseMenu extends Scriptable {
   BlackTexture closeMenuTexture = new BlackTexture("Items/CloseButton.png");
 
   // Create objects for the power-up screen
-  GameObject background = new GameObject(backgroundTexture);
+  public GameObject background = new GameObject(backgroundTexture);
   GameObject speedPowerUpButton = new GameObject(speedPowerUpTexture);
   GameObject reputationPowerUpButton = new GameObject(reputationPowerUpTexture);
   GameObject superFoodPowerUpButton = new GameObject(superFoodPowerupTexture);
@@ -90,6 +90,11 @@ public class PowerupPurchaseMenu extends Scriptable {
     completedRecipes.add(ItemEnum.TomatoOnionSalad);
     completedRecipes.add(ItemEnum.VegPizzaCooked);
 
+    speedPowerUpTexture.setSize(200,35);
+    reputationPowerUpTexture.setSize(200, 35);
+    frustrationSuperFoodPowerUpTexture.setSize(200,35);
+    superFoodPowerupTexture.setSize(200,35);
+    tetrisSuperFoodPowerupTexture.setSize(200,35);
   }
 
   public void initialiseState(){
@@ -98,15 +103,15 @@ public class PowerupPurchaseMenu extends Scriptable {
     backgroundTexture.layer = 19;
     background.setPosition(250,50);
     speedPowerUpTexture.layer = 20;
-    speedPowerUpButton.setPosition(350,450);
+    speedPowerUpButton.setPosition(400,430);
     reputationPowerUpTexture.layer = 20;
-    reputationPowerUpButton.setPosition(350, 400);
+    reputationPowerUpButton.setPosition(400, 360);
     superFoodPowerupTexture.layer = 20;
-    superFoodPowerUpButton.setPosition(350, 350);
+    superFoodPowerUpButton.setPosition(400, 290);
     tetrisSuperFoodPowerupTexture.layer = 20;
-    tetrisSuperFoodPowerUpButton.setPosition(350, 300);
+    tetrisSuperFoodPowerUpButton.setPosition(400, 220);
     frustrationSuperFoodPowerUpTexture.layer = 20;
-    stopFrustrationPowerUpButton.setPosition(350, 250);
+    stopFrustrationPowerUpButton.setPosition(400, 150);
     closeMenuTexture.layer = 20;
     closeMenuButton.setPosition(700, 500);
 
