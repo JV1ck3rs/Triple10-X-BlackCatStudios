@@ -167,16 +167,10 @@ public class PowerupsTests extends MasterTestClass {
         allRight = false;
       }
     }
-
     assertTrue("Correct number of customers remain in the line", newCustomerWaitingLength == 1);
     assertTrue("Correct customers left the line", allRight);
     assertTrue("Correct number of customers were served", newServed-served == 3);
     assertTrue("Correct number of customers left to seating", customerController.getCurrentWaitingCustomerGroup().MembersSeatedOrWalking.size() == NumberWithSameTypeDish && customerController.getCurrentWaitingCustomerGroup().MembersSeatedOrWalking.size() == customersMeantToLeave.size());
-
-
-
-
-
   }
 
 

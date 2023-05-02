@@ -12,7 +12,7 @@
                 Jump on in, have 5 minutes of fun to try and serve as many customers as you can and then
                 watch friends and family struggle to beat your highscore. Click on the link below to give it a try!
             </p>
-            ![Test2](https://i.imgur.com/XOfPV1g.jpg){ align=right }
+            ![Test2](images/Game/TitleScreen.png){ align=right }
 			<button onclick="window.location.href='game'">Try our Game!</button>
         </div>
 </html>
