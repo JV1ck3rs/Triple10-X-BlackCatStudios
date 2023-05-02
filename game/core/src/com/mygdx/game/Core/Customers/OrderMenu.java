@@ -165,11 +165,11 @@ public class OrderMenu
   }
 
   public OrderType getOrderTypeFromSuper(Item item){
-    if(item.name() == "SuperBurger"){
+    if(item.name == ItemEnum.SuperBurger){
       return burgers;
-    }else if(item.name() == "SuperSalad"){
+    }else if(item.name == ItemEnum.SuperSalad){
       return salads;
-    }else if(item.name() == "SuperPotato"){
+    }else if(item.name == ItemEnum.SuperPotato){
       return potato;
     }else{
       return pizza;

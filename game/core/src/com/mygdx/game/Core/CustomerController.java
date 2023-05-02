@@ -98,7 +98,7 @@ public class CustomerController extends Scriptable
   /**
    * All customer texture atlases
    */
-  private ArrayList<TextureAtlas> CustomerAtlas = new ArrayList<>();
+  public ArrayList<TextureAtlas> CustomerAtlas = new ArrayList<>();
 
   /** how long it takes for a group to be frustrated and leave without being served*/
   private int CustomerFrustrationStart = 80;
@@ -307,6 +307,9 @@ public class CustomerController extends Scriptable
 
   public CustomerGroups getCurrentWaitingCustomerGroup() {
     return currentWaiting;
+  }
+  public void setCurrentWaitingCustomerGroup(CustomerGroups group){
+    currentWaiting = group;
   }
 
   public int getNumberOfCustomersServed() {
@@ -667,7 +670,7 @@ public class CustomerController extends Scriptable
     }
   }
 
-  void superFoodUpgrade() {
+  public void superFoodUpgrade() {
     Customer customer = currentWaiting.RemoveFirstCustomer();
     numCustomersServed += 1;
     SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
@@ -710,8 +713,9 @@ public class CustomerController extends Scriptable
       Customer current = currentWaiting.MembersInLine.get(i);
       if (toClear.contains(current.getDish())) {
         SetCustomerTarget(currentWaiting.MembersInLine.get(i), currentWaiting.table.GetNextSeat());
-        currentWaiting.MembersSeatedOrWalking.add(currentWaiting.MembersInLine.get(i));
+        //currentWaiting.MembersSeatedOrWalking.add(currentWaiting.MembersInLine.get(i));
         currentWaiting.FeedSpecificCustomer(i);
+        numCustomersServed += 1;
         anyCustomer = true;
       }
     }

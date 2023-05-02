@@ -470,6 +470,15 @@ public class Chef extends PathfindingAgent implements Person {
     return false;
   }
 
+  public Boolean GiveChefItem(Item item){
+    if (CanGiveItem()) {
+      heldItems.add(item);
+      return true;
+    }
+
+    return false;
+  }
+
   /**
    * Drops the item from the top of the chef's stack.
    * BlackCatStudios Code

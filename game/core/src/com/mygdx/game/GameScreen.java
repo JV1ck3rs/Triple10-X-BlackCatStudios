@@ -724,45 +724,6 @@ public class GameScreen implements Screen {
     }
   }
 
-
-
-      /**
-       * outputs when two objects have stopped colliding
-       * Team Triple 10s
-       * @param contact The object containing decollision information
-       */
-      @Override
-      public void endContact(Contact contact) {
-
-        Object objectA = contact.getFixtureA().getBody().getUserData();
-        Object objectB = contact.getFixtureB().getBody().getUserData();
-        Gdx.app.log("endContact", "between " + objectA + " and " + objectB);
-      }
-
-      /**
-       * Finds out when the two chefs have collided to ignore this collision
-       *Team Triple 10s
-       * @param contact The object containing collision information
-       * @param oldManifold Needed by the override
-       */
-      @Override
-      public void preSolve(Contact contact, Manifold oldManifold) {
-        Object objectA = contact.getFixtureA().getBody().getUserData();
-        Object objectB = contact.getFixtureB().getBody().getUserData();
-        if ((objectA.toString().contentEquals("Chef0")) && (objectB.toString()
-            .contentEquals("Chef1"))) {
-//          System.out.println("CONTACT");
-          contact.setEnabled(false);
-        }
-      }
-
-      @Override
-      public void postSolve(Contact contact, ContactImpulse impulse) {
-      }
-
-    });
-  }
-
   /**
    * Save the game.
    * BlackCatStudios Code
