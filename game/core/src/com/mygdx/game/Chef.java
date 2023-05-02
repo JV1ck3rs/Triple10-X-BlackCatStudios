@@ -2,21 +2,17 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
 
 import com.mygdx.game.Core.BlackTexture;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.Inputs;
 import com.mygdx.game.Core.PathfindingAgent;
+import com.mygdx.game.Core.SFX.soundFrame;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.Stations.Station;
-import com.mygdx.game.soundFrame.soundsEnum;
-import java.util.ArrayList;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;

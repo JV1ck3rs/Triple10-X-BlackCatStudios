@@ -1,6 +1,6 @@
-package com.mygdx.game;
+package com.mygdx.game.Core.SFX;
 
-import com.mygdx.game.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 
 
 /**

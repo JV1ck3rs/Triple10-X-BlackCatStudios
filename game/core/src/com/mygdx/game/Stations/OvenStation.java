@@ -1,15 +1,14 @@
 package com.mygdx.game.Stations;
 
 import com.mygdx.game.Core.BlackTexture;
-import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
 import com.mygdx.game.RecipeAndComb.RecipeDict;
-import com.mygdx.game.soundFrame;
-import com.mygdx.game.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;

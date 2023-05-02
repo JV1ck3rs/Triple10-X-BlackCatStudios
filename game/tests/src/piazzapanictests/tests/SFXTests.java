@@ -3,9 +3,9 @@ package piazzapanictests.tests;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.mygdx.game.Core.ContinousSound;
-import com.mygdx.game.soundFrame;
-import com.mygdx.game.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.ContinousSound;
+import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

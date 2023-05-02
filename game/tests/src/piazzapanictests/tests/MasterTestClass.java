@@ -35,7 +35,7 @@ import com.mygdx.game.Stations.HobStation;
 import com.mygdx.game.Stations.TrashCan;
 
 import com.mygdx.game.Stations.*;
-import com.mygdx.game.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;

@@ -22,7 +22,7 @@ import com.mygdx.game.Core.TextureDictionary;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.HobStation;
-import com.mygdx.game.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class SaveTests extends MasterTestClass{
 
   public SpriteBatch batch;
   public TiledMap map;
-  public com.mygdx.game.soundFrame soundFrame;
+  public com.mygdx.game.Core.SFX.soundFrame soundFrame;
   public TextureDictionary textureDictionary;
   public CameraFunctions cameraFunctions = new CameraFunctions();
 

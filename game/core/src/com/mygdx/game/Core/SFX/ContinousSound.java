@@ -1,7 +1,6 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.SFX;
 
-import com.mygdx.game.soundFrame;
-import com.mygdx.game.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 
 /**
  * Creates a continous looping sound that contains the logic to start and stop on any frame

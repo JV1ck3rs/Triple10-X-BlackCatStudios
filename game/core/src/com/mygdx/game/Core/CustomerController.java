@@ -1,6 +1,5 @@
 package com.mygdx.game.Core;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,12 +9,10 @@ import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Customer;
-import com.mygdx.game.GameScreen;
 import com.mygdx.game.Items.Item;
 
-import com.mygdx.game.soundFrame;
-import com.mygdx.game.soundFrame.soundsEnum;
-import java.awt.event.MouseEvent;
+import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;

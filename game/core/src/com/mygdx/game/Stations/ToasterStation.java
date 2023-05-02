@@ -7,8 +7,8 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
 
-import com.mygdx.game.soundFrame;
-import com.mygdx.game.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
