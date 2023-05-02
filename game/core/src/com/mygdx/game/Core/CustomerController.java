@@ -190,6 +190,10 @@ public class CustomerController extends Scriptable
     return numCustomersPerWave;
   }
 
+  public int getMoney() {
+    return Money;
+  }
+
 
   public void SetTables(Vector2... tab){
     int ID = 0;
@@ -904,5 +908,9 @@ public class CustomerController extends Scriptable
 
   public int LeavingCustomerCount() {
     return WalkingBackCustomers.size();
+  }
+
+  public void setMoney(int i) {
+    Money = i;
   }
 }

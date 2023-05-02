@@ -335,7 +335,7 @@ public class MasterChef extends Scriptable {
       Vector3 touchpos = new Vector3();
       touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
       touchpos = camera.unproject(touchpos);
-      if (touchpos.y < 524) { // if the ui at the top of the screen is not clicked
+      if (touchpos.y < 520 && touchpos.x < 940) { // if the ui at the top of the screen is not clicked
         List<Vector2> path = pathfind.FindPath((int) getCurrentChef().gameObject.position.x,
             (int) getCurrentChef().gameObject.position.y, (int) touchpos.x, (int) touchpos.y,
             DistanceTest.Euclidean);
@@ -347,14 +347,25 @@ public class MasterChef extends Scriptable {
 
 
   /**
-   * Adds in an new chef upto max
+   * Adds in a new chef up to max
    *
    * @author Felix Seanor
    */
-  public void AddNewChefIn() {
+  public boolean AddNewChefIn() {
     if (chefs.size() < 5) {
+      if (chefs.size() == 4) { // ensures the chefs are spaced out
+        CreateNewChef(new Vector2(550, 232), chefs.size());
+        return true;
+      }
       CreateNewChef(new Vector2(576, 232), chefs.size());
+      return true;
+    } else {
+      return false;
     }
+  }
+
+  public List<Chef> getChefList() {
+    return chefs;
   }
 
   public void LoadState(GameState state) {
