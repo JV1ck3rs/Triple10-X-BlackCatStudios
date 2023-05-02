@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.mygdx.game.Core.GameObject;
-import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.Rendering.GameObject;
+import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.SaveState;

@@ -1,7 +1,8 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.Rendering;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import com.mygdx.game.Core.Scriptable;
 import java.util.*;
 
 /**

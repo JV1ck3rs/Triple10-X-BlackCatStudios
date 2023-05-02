@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.Core.Leaderboard;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -16,6 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
+import com.mygdx.game.InputChecker;
+import com.mygdx.game.MenuScreen;
+import com.mygdx.game.MyGdxGame;
 import java.util.Collections;
 import java.util.List;
 import java.io.IOException;

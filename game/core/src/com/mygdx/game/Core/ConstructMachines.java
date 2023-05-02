@@ -1,12 +1,10 @@
 package com.mygdx.game.Core;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.Core.Customers.CustomerController;
 import com.mygdx.game.Core.GameState.DifficultyState;
+import com.mygdx.game.Core.PathFinder.Pathfinding;
+import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.AssemblyStation;

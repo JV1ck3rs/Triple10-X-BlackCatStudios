@@ -1,9 +1,8 @@
 package piazzapanictests.tests;
 
-import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.Stations.TrashCan;
 import org.junit.runner.RunWith;
 
 import org.junit.Test;

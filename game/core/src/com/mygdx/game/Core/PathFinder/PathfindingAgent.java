@@ -1,7 +1,9 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.PathFinder;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.mygdx.game.Core.Chef.RayPoint;
+import com.mygdx.game.Core.Scriptable;
 import java.util.LinkedList;
 import java.util.List;
 

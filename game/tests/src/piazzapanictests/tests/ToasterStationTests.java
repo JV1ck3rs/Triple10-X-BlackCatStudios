@@ -1,16 +1,12 @@
 package piazzapanictests.tests;
 
-import com.mygdx.game.Core.GameObjectManager;
-import com.mygdx.game.Core.GameState.GameState;
+import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.Arrays;
-import java.util.List;
 import org.junit.runner.RunWith;
-import piazzapanictests.tests.GdxTestRunner;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 

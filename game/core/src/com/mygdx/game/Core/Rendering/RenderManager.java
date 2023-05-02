@@ -1,4 +1,4 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.Rendering;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Collections;

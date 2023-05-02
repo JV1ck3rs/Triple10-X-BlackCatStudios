@@ -1,7 +1,7 @@
 package com.mygdx.game.Stations;
 
-import com.mygdx.game.Core.BlackTexture;
-import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Items.Item;

@@ -2,13 +2,10 @@ package piazzapanictests.tests;
 
 import static org.junit.Assert.assertEquals;
 
-import com.mygdx.game.Core.DistanceTest;
-import com.mygdx.game.Core.Pathfinding;
+import com.mygdx.game.Core.PathFinder.DistanceTest;
 import com.mygdx.game.GameScreen;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.Vector;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import com.badlogic.gdx.math.Vector2;

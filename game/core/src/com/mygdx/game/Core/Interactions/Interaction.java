@@ -1,9 +1,9 @@
 package com.mygdx.game.Core.Interactions;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Core.BlackTexture;
-import com.mygdx.game.Core.GameObject;
-import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Rendering.GameObject;
+import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Core.Scriptable;
 import java.util.LinkedList;
 import java.util.List;

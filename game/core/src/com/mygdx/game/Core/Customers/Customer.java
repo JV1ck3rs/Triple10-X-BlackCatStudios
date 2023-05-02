@@ -1,14 +1,15 @@
-package com.mygdx.game;
+package com.mygdx.game.Core.Customers;
 
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Core.BlackTexture;
-import com.mygdx.game.Core.GameObject;
-import com.mygdx.game.Core.PathfindingAgent;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Rendering.GameObject;
+import com.mygdx.game.Core.PathFinder.PathfindingAgent;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.Person;
 import java.util.ArrayList;
 
 /**

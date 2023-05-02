@@ -5,9 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.Customers.CustomerGroups;
-import com.mygdx.game.Core.Powerup;
-import com.mygdx.game.Customer;
-import com.mygdx.game.GameScreen;
+import com.mygdx.game.Core.Powerups.Powerup;
+import com.mygdx.game.Core.Customers.Customer;
 
 import java.util.*;
 
@@ -15,7 +14,6 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import sun.awt.image.ImageWatched;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.PathFinder;
 
 /**
  * Distance enums

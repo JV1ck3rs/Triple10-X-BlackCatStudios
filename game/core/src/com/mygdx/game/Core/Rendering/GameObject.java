@@ -1,4 +1,4 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.Rendering;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.CameraFunctions;
 
+import com.mygdx.game.Core.Scriptable;
 import java.util.LinkedList;
 import java.util.List;
 

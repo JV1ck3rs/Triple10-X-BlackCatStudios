@@ -1,4 +1,4 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.PathFinder;
 
 import com.badlogic.gdx.math.Vector2;
 import java.util.Collections;

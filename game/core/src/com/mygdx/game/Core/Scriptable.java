@@ -1,5 +1,7 @@
 package com.mygdx.game.Core;
 
+import com.mygdx.game.Core.Rendering.GameObject;
+
 /**
  * The methods gets called and helps to update scripts every frame
  * BlackCatStudio's Code

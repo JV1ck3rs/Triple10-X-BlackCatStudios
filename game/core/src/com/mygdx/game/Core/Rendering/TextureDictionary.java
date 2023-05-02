@@ -1,4 +1,4 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.Rendering;
 
 import com.badlogic.gdx.graphics.Texture;
 import java.util.HashMap;

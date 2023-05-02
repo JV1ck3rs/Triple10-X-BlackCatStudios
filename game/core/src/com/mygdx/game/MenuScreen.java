@@ -16,9 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Core.GameState.Difficulty;
-import com.mygdx.game.Core.RenderManager;
+import com.mygdx.game.Core.Leaderboard.LeaderboardScreen;
+import com.mygdx.game.Core.Rendering.RenderManager;
 
 import java.io.IOException;
 

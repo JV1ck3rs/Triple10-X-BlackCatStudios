@@ -1,12 +1,9 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.Powerups;
 
-import com.mygdx.game.Core.Customers.OrderType;
-import com.mygdx.game.Customer;
+import com.mygdx.game.Core.Chef.MasterChef;
+import com.mygdx.game.Core.Customers.CustomerController;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Class containing procedures to execute powerups

@@ -1,4 +1,4 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.Chef;
 import com.badlogic.gdx.math.Vector2;
 
 /**

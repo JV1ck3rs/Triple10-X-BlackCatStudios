@@ -5,20 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Core.GameObjectManager;
-import com.mygdx.game.Items.Item;
-import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.LeaderBoard;
-import com.mygdx.game.LeaderboardData;
-import com.mygdx.game.RecipeAndComb.CombinationDict;
-import com.mygdx.game.Stations.ChopStation;
-import com.mygdx.game.Stations.FoodCrate;
+import com.mygdx.game.Core.Leaderboard.LeaderBoard;
+import com.mygdx.game.Core.Leaderboard.LeaderboardData;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

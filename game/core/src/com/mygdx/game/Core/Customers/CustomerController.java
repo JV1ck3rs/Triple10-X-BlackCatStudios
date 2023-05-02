@@ -1,14 +1,18 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.Customers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.mygdx.game.Core.Customers.*;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.GameState.CustomerGroupState;
 import com.mygdx.game.Core.GameState.GameState;
+import com.mygdx.game.Core.Inputs;
+import com.mygdx.game.Core.PathFinder.DistanceTest;
+import com.mygdx.game.Core.PathFinder.Pathfinding;
+import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
-import com.mygdx.game.Customer;
 import com.mygdx.game.Items.Item;
 
 import com.mygdx.game.Core.SFX.soundFrame;
@@ -62,7 +66,7 @@ public class CustomerController extends Scriptable
   int MoneyPerCustomer;
 
   int Waves = -1;
-  OrderMenu menu;
+  public OrderMenu menu;
   int currentCustomer = 0;
   int currentWave = 0;
   private float EatingTime = 7;
@@ -102,7 +106,7 @@ public class CustomerController extends Scriptable
   /** how long it takes for a group to be frustrated and leave without being served*/
   private int CustomerFrustrationStart = 80;
 
-  boolean updateFrustration = true;
+  public boolean updateFrustration = true;
   int numCustomersServed = 0;
 
   /**

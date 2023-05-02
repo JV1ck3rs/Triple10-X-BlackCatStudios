@@ -1,4 +1,4 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.Chef;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,15 +6,20 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.Chef;
+import com.mygdx.game.Core.Rendering.BlackSprite;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.PathFinder.DistanceTest;
+import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.GameState.ChefParams;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.GameState.ItemState;
+import com.mygdx.game.Core.Inputs;
 import com.mygdx.game.Core.Interactions.Interactable;
 import com.mygdx.game.Core.Interactions.Interaction;
 import com.mygdx.game.Core.Interactions.Interaction.InteractionType;
+import com.mygdx.game.Core.PathFinder.Pathfinding;
+import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
 import java.util.ArrayList;
 import java.util.LinkedList;

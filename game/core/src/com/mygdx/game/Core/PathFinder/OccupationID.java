@@ -1,4 +1,4 @@
-package com.mygdx.game.Core;
+package com.mygdx.game.Core.PathFinder;
 
 /**
  * Enums for A* pathfinding cells setting their occupation status for machines in the grid

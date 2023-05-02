@@ -15,7 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Leaderboard.LeaderboardScreen;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import java.io.IOException;
 

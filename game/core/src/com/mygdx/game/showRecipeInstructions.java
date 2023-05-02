@@ -1,9 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.mygdx.game.Core.GameObject;
+import com.mygdx.game.Core.Rendering.GameObject;
 
-import com.mygdx.game.Core.TextureDictionary;
+import com.mygdx.game.Core.Rendering.TextureDictionary;
 import java.util.HashMap;
 
 /**

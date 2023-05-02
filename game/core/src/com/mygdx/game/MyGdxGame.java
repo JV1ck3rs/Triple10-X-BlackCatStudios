@@ -4,8 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.mygdx.game.Core.Leaderboard.LeaderBoard;
 import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.TextureDictionary;
+import com.mygdx.game.Core.Rendering.TextureDictionary;
 
 /**
  * Creates the initial base layer and main objects such as sprite batches and screens Also declares

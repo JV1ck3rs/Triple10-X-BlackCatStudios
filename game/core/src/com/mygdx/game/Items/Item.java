@@ -1,6 +1,6 @@
 package com.mygdx.game.Items;
 
-import com.mygdx.game.Core.BlackTexture;
+import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.GameState.ItemState;
 
 /**

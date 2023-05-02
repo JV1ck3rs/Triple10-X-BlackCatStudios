@@ -6,13 +6,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Core.DistanceTest;
-import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.PathFinder.DistanceTest;
+import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.GameScreen;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
-import com.mygdx.game.Stations.ChopStation;
 import com.mygdx.game.Stations.FoodCrate;
 
 import java.util.List;

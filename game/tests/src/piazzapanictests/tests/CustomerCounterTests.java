@@ -1,6 +1,6 @@
 package piazzapanictests.tests;
 
-import com.mygdx.game.Core.GameObjectManager;
+import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;

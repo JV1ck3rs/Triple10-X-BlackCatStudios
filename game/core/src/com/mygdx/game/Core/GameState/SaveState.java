@@ -1,9 +1,9 @@
 package com.mygdx.game.Core.GameState;
 
 
-import com.mygdx.game.Core.CustomerController;
-import com.mygdx.game.Core.GameObject;
-import com.mygdx.game.Core.MasterChef;
+import com.mygdx.game.Core.Customers.CustomerController;
+import com.mygdx.game.Core.Rendering.GameObject;
+import com.mygdx.game.Core.Chef.MasterChef;
 import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Stations.Station;
 import java.io.FileInputStream;
