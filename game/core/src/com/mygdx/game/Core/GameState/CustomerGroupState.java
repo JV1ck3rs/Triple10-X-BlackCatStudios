@@ -9,6 +9,7 @@ import java.io.Serializable;
  * BlackCatStudio's Code
  * @author Felix Seanor
  * @author Jack Vickers
+ * @date 25/04/23
  */
 public class CustomerGroupState implements Serializable {
 

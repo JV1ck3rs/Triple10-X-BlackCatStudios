@@ -5,6 +5,7 @@ package com.mygdx.game;
  * BlackCatStudio's code
  * @author  Felix Seanor
  * @author  Jack Vickers
+ * @date 28/04/23
  */
 public class LeaderboardData implements
     Comparable<LeaderboardData> {

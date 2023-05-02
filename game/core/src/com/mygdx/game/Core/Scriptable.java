@@ -4,6 +4,7 @@ package com.mygdx.game.Core;
  * The methods gets called and helps to update scripts every frame
  * BlackCatStudio's Code
  * @author Felix Seanor
+ * @date 24/02/23
  */
 public class Scriptable {
 

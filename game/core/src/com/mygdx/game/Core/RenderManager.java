@@ -10,6 +10,7 @@ import java.util.List;
  * Abstracts rendering behind a list of sorted GameObjects
  * BlackCatStudio's Code
  * @author Felix Seanor
+ * @date 01/04/23
  */
 public class RenderManager {
 
