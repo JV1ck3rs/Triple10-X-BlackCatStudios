@@ -1,5 +1,6 @@
 package com.mygdx.game.Core;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -43,6 +44,19 @@ public class PowerupPurchaseMenu extends Scriptable {
   GameObject tetrisSuperFoodPowerUpButton = new GameObject(tetrisSuperFoodPowerupTexture);
   GameObject stopFrustrationPowerUpButton = new GameObject(frustrationSuperFoodPowerUpTexture);
   GameObject closeMenuButton = new GameObject(closeMenuTexture);
+
+
+  BlackTexture speedTextText = new BlackTexture("PowerupAssets/SpeedText.png");
+  BlackTexture reputationTextText = new BlackTexture("PowerupAssets/ReputationText.png");
+  BlackTexture SuperFoodTextText = new BlackTexture("PowerupAssets/SuperFoodText.png");
+  BlackTexture frustrationTextText = new BlackTexture("PowerupAssets/FrustrationText.png");
+  BlackTexture megaFoodTextText = new BlackTexture("PowerupAssets/MegaFoodText.png");
+
+  GameObject speedText = new GameObject(speedTextText);
+  GameObject reputationText = new GameObject(reputationTextText);
+  GameObject superFoodText = new GameObject(SuperFoodTextText);
+  GameObject frustrationText = new GameObject(frustrationTextText);
+  GameObject megaFoodText = new GameObject(megaFoodTextText);
 
   CustomerController cc;
   Powerup powerup;
@@ -95,6 +109,11 @@ public class PowerupPurchaseMenu extends Scriptable {
     frustrationSuperFoodPowerUpTexture.setSize(200,35);
     superFoodPowerupTexture.setSize(200,35);
     tetrisSuperFoodPowerupTexture.setSize(200,35);
+    speedTextText.layer = 20;
+    reputationTextText.layer = 20;
+    frustrationTextText.layer = 20;
+    SuperFoodTextText.layer = 20;
+    megaFoodTextText.layer = 20;
   }
 
   public void initialiseState(){
@@ -109,11 +128,18 @@ public class PowerupPurchaseMenu extends Scriptable {
     superFoodPowerupTexture.layer = 20;
     superFoodPowerUpButton.setPosition(400, 290);
     tetrisSuperFoodPowerupTexture.layer = 20;
-    tetrisSuperFoodPowerUpButton.setPosition(400, 220);
+    tetrisSuperFoodPowerUpButton.setPosition(400, 150);
     frustrationSuperFoodPowerUpTexture.layer = 20;
-    stopFrustrationPowerUpButton.setPosition(400, 150);
+    stopFrustrationPowerUpButton.setPosition(400, 220);
     closeMenuTexture.layer = 20;
     closeMenuButton.setPosition(700, 500);
+
+
+    speedText.setPosition(300,380);
+    reputationText.setPosition(300,310);
+    superFoodText.setPosition(300,240);
+    frustrationText.setPosition(300,170);
+    megaFoodText.setPosition(275,-45);
 
 
 
@@ -129,6 +155,11 @@ public class PowerupPurchaseMenu extends Scriptable {
     tetrisSuperFoodPowerUpButton.isVisible = true;
     stopFrustrationPowerUpButton.isVisible = true;
     closeMenuButton.isVisible = true;
+    speedText.isVisible = true;
+    reputationText.isVisible = true;
+    frustrationText.isVisible = true;
+    superFoodText.isVisible = true;
+    megaFoodText.isVisible = true;
   }
 
   public void hidePowerMenu() {
@@ -139,6 +170,11 @@ public class PowerupPurchaseMenu extends Scriptable {
     tetrisSuperFoodPowerUpButton.isVisible = false;
     stopFrustrationPowerUpButton.isVisible = false;
     closeMenuButton.isVisible = false;
+    speedText.isVisible = false;
+    reputationText.isVisible = false;
+    frustrationText.isVisible = false;
+    superFoodText.isVisible = false;
+    megaFoodText.isVisible = false;
   }
 
 
