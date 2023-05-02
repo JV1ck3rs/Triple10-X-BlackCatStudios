@@ -1,10 +1,9 @@
 package com.mygdx.game.Core.Customers;
 
 /**
- * Randomisation styles
- * BlackCatStudio's Code
- * @author Felix Seanor
+ * Randomisation styles BlackCatStudio's Code
  *
+ * @author Felix Seanor
  * @date 20/03/23
  */
 public enum Randomisation {

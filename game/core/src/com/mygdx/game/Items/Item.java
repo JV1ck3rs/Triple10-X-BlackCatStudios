@@ -1,16 +1,15 @@
 package com.mygdx.game.Items;
 
-import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.GameState.ItemState;
+import com.mygdx.game.Core.Rendering.BlackTexture;
 
 /**
- * Item class, instatiates item Enum into a physical item in the game.
- * stores cooking progress ect.
+ * Item class, instatiates item Enum into a physical item in the game. stores cooking progress ect.
  * BlackCatStudio's Code
+ *
  * @author Jack Hinton
  * @author Felix Seanor
- * @author Jack Vickers
- * Last modified 09/04/23
+ * @author Jack Vickers Last modified 09/04/23
  */
 public class Item {
 
@@ -38,11 +37,11 @@ public class Item {
     tex.setSize(width, height);
   }
 
-  public Item(ItemState itemState){
+  public Item(ItemState itemState) {
 
     name = itemState.item;
     step = itemState.step;
-    progress =itemState.progress;
+    progress = itemState.progress;
     tex = new BlackTexture(GetItemPath(name));
     tex.setSize(width, height);
 
@@ -65,12 +64,12 @@ public class Item {
     return obj instanceof Item && ((Item) obj).name == name;
   }
 
-  public static String GetRecipePath(ItemEnum name){
-    return "Recipes/"+name.name()+"Recipe.png";
+  public static String GetRecipePath(ItemEnum name) {
+    return "Recipes/" + name.name() + "Recipe.png";
 
   }
 
-    public String name() {
-      return name.name();
-    }
+  public String name() {
+    return name.name();
+  }
 }

@@ -1,14 +1,13 @@
 package com.mygdx.game.Stations;
 
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Rendering.GameObject;
-import com.mygdx.game.Core.GameState.CookingParams;
+import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
-
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -29,6 +28,7 @@ public class ToasterStation extends Station {
 
   /**
    * Creates a toaster
+   *
    * @param params cooking parameters i.e. cooking speed, burning speed
    * @author Jack Hinton
    * @author Felix Seanor
@@ -42,13 +42,14 @@ public class ToasterStation extends Station {
     }
     animation = new GameObject(new BlackTexture("Items/ToasterActive.png"));
     animation.isVisible = false;
-    animation.image.layer= -1;
+    animation.image.layer = -1;
 
   }
 
 
   /**
    * Give an item to the station
+   *
    * @param item The item you want to give
    * @return boolean
    * @author Jack Hinton
@@ -74,6 +75,7 @@ public class ToasterStation extends Station {
 
   /**
    * Retrieve an item from the station
+   *
    * @return Item
    * @author Jack Hinton
    * @Author Jack Vickers
@@ -93,6 +95,7 @@ public class ToasterStation extends Station {
 
   /**
    * Checks if the chef can retrieve an item
+   *
    * @return boolean
    * @Author Jack Hinton
    */
@@ -104,6 +107,7 @@ public class ToasterStation extends Station {
 
   /**
    * Check if the chef can give the station an item
+   *
    * @return boolean
    * @Author Jack Hinton
    */
@@ -115,6 +119,7 @@ public class ToasterStation extends Station {
 
   /**
    * Check if the chef can interact with a station
+   *
    * @return boolean
    * @Author Jack Hinton
    */
@@ -126,6 +131,7 @@ public class ToasterStation extends Station {
 
   /**
    * Interact with the station
+   *
    * @return float
    * @Author Jack Hinton
    */
@@ -137,6 +143,7 @@ public class ToasterStation extends Station {
 
   /**
    * Checks if the item is in the whitelist, if yes it gets the item's recipe
+   *
    * @Author Jack Hinton
    * @Author Jack Vickers
    */
@@ -153,6 +160,7 @@ public class ToasterStation extends Station {
 
   /**
    * Cooks the current item and checks if it is ready
+   *
    * @param dt delta time
    * @Author Jack Hinton
    * @Author Felix Seanor
@@ -175,6 +183,7 @@ public class ToasterStation extends Station {
 
   /**
    * Updates the progress bubble
+   *
    * @Author Jack Hinton
    */
   public void progressBar() {
@@ -184,6 +193,7 @@ public class ToasterStation extends Station {
 
   /**
    * Gets the progress of the item currently held
+   *
    * @return int
    */
   public int getProgress() {
@@ -194,6 +204,7 @@ public class ToasterStation extends Station {
 
   /**
    * Gets the items progress
+   *
    * @return float
    * @Author Hubert Solecki
    */
@@ -204,6 +215,7 @@ public class ToasterStation extends Station {
 
   /**
    * Updates the picture on the station.
+   *
    * @author Jack Hinton
    */
   @Override
@@ -214,6 +226,7 @@ public class ToasterStation extends Station {
 
   /**
    * Move the animation
+   *
    * @Author Jack Hinton
    */
   @Override
@@ -225,6 +238,7 @@ public class ToasterStation extends Station {
 
   /**
    * Update the chopping station
+   *
    * @param dt delta time
    * @Author Jack Hinton
    */

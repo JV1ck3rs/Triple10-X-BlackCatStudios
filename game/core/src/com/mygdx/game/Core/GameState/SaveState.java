@@ -1,9 +1,9 @@
 package com.mygdx.game.Core.GameState;
 
 
+import com.mygdx.game.Core.Chef.MasterChef;
 import com.mygdx.game.Core.Customers.CustomerController;
 import com.mygdx.game.Core.Rendering.GameObject;
-import com.mygdx.game.Core.Chef.MasterChef;
 import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Stations.Station;
 import java.io.FileInputStream;
@@ -16,8 +16,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Loads or saves states of the game to or from the disk
- * BlackCatStudio's Code
+ * Loads or saves states of the game to or from the disk BlackCatStudio's Code
+ *
  * @author Felix Seanor
  * @author Jack Vickers
  * @date 25/04/23
@@ -28,17 +28,16 @@ public class SaveState {
   /**
    * Save the state of the game without the need for a GameScreen.
    *
-   * @param path                File path
-   * @param masterChef          chef controller
-   * @param customerController  customer controller class
-   * @param difficultyLevel     the games current difficulty level
-   * @param timer               minute state of the timer
-   * @param seconds             second state of the timer
-   * @param Stations            List of station
-   * @param customerCounters    List of customercounters
-   * @param assemblyStations    List of assembly stations
-   * @return  The created game state
-   *
+   * @param path               File path
+   * @param masterChef         chef controller
+   * @param customerController customer controller class
+   * @param difficultyLevel    the games current difficulty level
+   * @param timer              minute state of the timer
+   * @param seconds            second state of the timer
+   * @param Stations           List of station
+   * @param customerCounters   List of customercounters
+   * @param assemblyStations   List of assembly stations
+   * @return The created game state
    * @author Jack Vickers
    * @author Felix Seanor
    */
@@ -52,33 +51,33 @@ public class SaveState {
     saveGameScreen(state, difficultyLevel, timer, seconds, Stations, customerCounters,
         assemblyStations);
 
-    SaveState(state,path);
+    SaveState(state, path);
     return state;
   }
 
   /**
    * Saves a game state to disk under the given path
-   * @param state   GameState variables that the game has been saved under
-   * @param path    File path
    *
+   * @param state GameState variables that the game has been saved under
+   * @param path  File path
    * @author Felix Seanor
    * @author Jack Vickers
    */
-  public void SaveState(GameState state, String path){
-  try {
-    FileOutputStream fileOut = new FileOutputStream(path);
-    ObjectOutputStream stream = new ObjectOutputStream(fileOut);
-    stream.writeObject(state);
-    stream.close();
-    fileOut.close();
+  public void SaveState(GameState state, String path) {
+    try {
+      FileOutputStream fileOut = new FileOutputStream(path);
+      ObjectOutputStream stream = new ObjectOutputStream(fileOut);
+      stream.writeObject(state);
+      stream.close();
+      fileOut.close();
 //    System.out.println("Game state printed to: " + path);
 
-  } catch (FileNotFoundException e) {
-    throw new RuntimeException(e);
-  } catch (IOException e) {
-    e.printStackTrace();
-    throw new RuntimeException(e);
-  }
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -92,7 +91,6 @@ public class SaveState {
    * @param Stations         The stations in the game
    * @param customerCounters The customer counters in the game
    * @param assemblyStations The assembly stations in the game
-   *
    * @author Felix Seanor
    * @author Jack Vickers
    */
@@ -109,7 +107,7 @@ public class SaveState {
 
       if (scriptable instanceof Station) {
         itemsOnCounters.add(((Station) scriptable).SaveState());
-        repaired.add(((Station)scriptable).getLocked());
+        repaired.add(((Station) scriptable).getLocked());
       }
 
     }
@@ -127,14 +125,12 @@ public class SaveState {
 
   /**
    * Load the current state into a GameState variable
+   *
    * @param ID file path
    * @return GameState loaded in from disk
    */
   public GameState LoadState(String ID) {
     GameState state = null;
-
-
-
 
     FileInputStream fileIn = null;
     try {

@@ -16,11 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.Leaderboard.LeaderboardScreen;
+import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Core.Rendering.RenderManager;
-
 import java.io.IOException;
 
 /**
@@ -60,7 +59,6 @@ public class MenuScreen implements Screen {
    * constructs the screen including the position of the buttons and their hitboxes;
    *
    * @param root The base object
-   *
    * @author Amy Cross
    * @author Felix Seanor
    * @author Jack Vickers
@@ -134,8 +132,10 @@ public class MenuScreen implements Screen {
         new TextureRegion(scenariobtnDown));
     Drawable drawableExitbtnUp = new TextureRegionDrawable(new TextureRegion(exitbtn));
     Drawable drawableExitbtnDown = new TextureRegionDrawable(new TextureRegion(exitbtnDown));
-    Drawable drawableHighScoresBtnUp = new TextureRegionDrawable(new TextureRegion(highScoresBtnUp));
-    Drawable drawableHighScoresBtnDown = new TextureRegionDrawable(new TextureRegion(highScoresBtnDown));
+    Drawable drawableHighScoresBtnUp = new TextureRegionDrawable(
+        new TextureRegion(highScoresBtnUp));
+    Drawable drawableHighScoresBtnDown = new TextureRegionDrawable(
+        new TextureRegion(highScoresBtnDown));
 
     Button.ButtonStyle playbtnStyle = new Button.ButtonStyle();
     playBtn = new Button();
@@ -143,7 +143,8 @@ public class MenuScreen implements Screen {
     playbtnStyle.up = drawablePlaybtnUp;
     playbtnStyle.down = drawablePlaybtnDown;
     if (Gdx.files.internal("SavedData.ser").exists()) {
-      table.add(playBtn).width(210 * scaleX).height(35 * scaleY).padTop(25 * scaleY).padBottom(25 * scaleY).row();
+      table.add(playBtn).width(210 * scaleX).height(35 * scaleY).padTop(25 * scaleY)
+          .padBottom(25 * scaleY).row();
     } else {
       table.add(playBtn).width(210 * scaleX).height(35 * scaleY).padTop(75 * scaleY)
           .padBottom(25 * scaleY);
@@ -173,9 +174,6 @@ public class MenuScreen implements Screen {
     exitbtnStyle.down = drawableExitbtnDown;
     table.add(exitBtn).width(210 * scaleX).height(35 * scaleY);
 
-
-
-
     table.setBackground(new TextureRegionDrawable(mainMenuAtlas.findRegion("menuPP")));
 
     ChangeListener playbtnMouseListener = new ChangeListener() {
@@ -197,7 +195,7 @@ public class MenuScreen implements Screen {
 
     highScoresBtn.addListener(new ClickListener() {
       @Override
-      public void clicked(InputEvent event, float x, float y){
+      public void clicked(InputEvent event, float x, float y) {
         LeaderboardScreen leaderboardScreen = null;
         try {
           leaderboardScreen = new LeaderboardScreen(root, null, -1);
@@ -241,7 +239,8 @@ public class MenuScreen implements Screen {
     easyBtnStyle.up = drawableEasyBtnUp;
     easyBtnStyle.down = drawableEasyBtnDown;
     easyBtn.align(Align.left);
-    table.add(easyBtn).width(100 * scaleX).height(40 * scaleY).padTop(initialTopPadding * scaleY).padBottom(25 * scaleY)
+    table.add(easyBtn).width(100 * scaleX).height(40 * scaleY).padTop(initialTopPadding * scaleY)
+        .padBottom(25 * scaleY)
         .padRight(10 * scaleX);
 
     // Adds a click listener to the easy button
@@ -267,7 +266,8 @@ public class MenuScreen implements Screen {
     mediumBtn.align(Align.center);
     // The button is added to the same row of the table as the easy button so that they
     // are side by side
-    table.add(mediumBtn).width(100 * scaleX).height(40 * scaleY).padTop(initialTopPadding * scaleY).padBottom(25 * scaleY)
+    table.add(mediumBtn).width(100 * scaleX).height(40 * scaleY).padTop(initialTopPadding * scaleY)
+        .padBottom(25 * scaleY)
         .padRight(10 * scaleX);
 
     // Adds a click listener to the medium button
@@ -293,7 +293,8 @@ public class MenuScreen implements Screen {
     hardBtn.align(Align.right);
     // The button is added to the same row of the table as the easy & medium buttons so that they
     // are side by side
-    table.add(hardBtn).width(100 * scaleX).height(40 * scaleY).padTop(initialTopPadding * scaleY).padBottom(25 * scaleY).row();
+    table.add(hardBtn).width(100 * scaleX).height(40 * scaleY).padTop(initialTopPadding * scaleY)
+        .padBottom(25 * scaleY).row();
 
     // Adds a click listener to the hard button
     hardBtn.addListener(new ClickListener() {

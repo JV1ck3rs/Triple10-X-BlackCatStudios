@@ -2,9 +2,9 @@ package com.mygdx.game.Core.Customers;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Core.GameState.CustomerGroupState;
 import com.mygdx.game.Core.Rendering.BlackSprite;
 import com.mygdx.game.Core.Rendering.GameObject;
-import com.mygdx.game.Core.GameState.CustomerGroupState;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.ArrayList;
@@ -153,9 +153,9 @@ public class CustomerGroups {
     return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size() - 1);
   }
 
-  public Customer removeAnyCustomer(Integer customerToRemove){
+  public Customer removeAnyCustomer(Integer customerToRemove) {
     Customer customer = null;
-    if(MembersInLine.size() >= customerToRemove){
+    if (MembersInLine.size() >= customerToRemove) {
       customer = MembersInLine.get(customerToRemove);
       MembersInLine.remove(customerToRemove);
       addMemberToSitting(customer);
@@ -206,7 +206,6 @@ public class CustomerGroups {
     addMemberToSitting(customer);
     removeIcons(customer);
 
-
     return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size() - 1);
   }
 
@@ -230,8 +229,9 @@ public class CustomerGroups {
    * @param CauseLeave Function causing this customer to leave
    * @author Felix Seanor
    */
-  public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave, Boolean updateFrustration) {
-    if (updateFrustration){
+  public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave,
+      Boolean updateFrustration) {
+    if (updateFrustration) {
       Frustration -= dt;
       if (Frustration <= 0) {
         for (Customer customer : Members

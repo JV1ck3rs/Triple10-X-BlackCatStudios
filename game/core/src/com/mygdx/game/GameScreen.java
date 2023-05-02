@@ -1,13 +1,29 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -15,8 +31,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.game.Core.*;
 import com.mygdx.game.Core.Chef.MasterChef;
+import com.mygdx.game.Core.ConstructMachines;
 import com.mygdx.game.Core.Customers.CustomerController;
 import com.mygdx.game.Core.GameState.Difficulty;
 import com.mygdx.game.Core.GameState.DifficultyMaster;
@@ -31,37 +47,20 @@ import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Core.Rendering.RenderManager;
 import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.ItemEnum;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
-import com.mygdx.game.Stations.*;
+import com.mygdx.game.Stations.Station;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This is the main class of the game which runs all the logic and rendering Here all the outside
  * objects are created and drawn as well as interactions registered
- *
+ * <p>
  * Black Cat Studios and Team Triple 10s
  *
  * @author Robin Graham
@@ -485,7 +484,8 @@ public class GameScreen implements Screen {
     addChefButton.setStyle(addChefButtonStyle);
     addChefButtonStyle.up = addChefBtnDrawable;
     addChefButtonStyle.down = addChefBtnDrawableDown;
-    gameUITable.add(addChefButton).width(48 * scaleX).padTop(10 * scaleY).height(52 * scaleY).align(Align.right)
+    gameUITable.add(addChefButton).width(48 * scaleX).padTop(10 * scaleY).height(52 * scaleY)
+        .align(Align.right)
         .colspan(6).row();
 
     // Creates the label which displays an error message if the player tries to add a

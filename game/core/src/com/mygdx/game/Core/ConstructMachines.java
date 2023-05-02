@@ -20,22 +20,25 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Contains procedures for constructing machines and physics bodies
- * Contains code from both BlackCatStudios and Team Triple 10
+ * Contains procedures for constructing machines and physics bodies Contains code from both
+ * BlackCatStudios and Team Triple 10
+ *
  * @author Jack Hinton
  * @author Amy Cross
  * @date 01/05/23
  */
-public class ConstructMachines
-{
+public class ConstructMachines {
+
   public List<GameObject> Stations = new LinkedList();
   public List<GameObject> customerCounters = new LinkedList();
   public List<GameObject> assemblyStations = new LinkedList();
   DifficultyState difficultyState;
   CustomerController customerController;
-  int numHobs, numChopping,numOven;
+  int numHobs, numChopping, numOven;
   Pathfinding pathfinding;
-  public ConstructMachines(CustomerController customerController, DifficultyState state, Pathfinding pathfinding){
+
+  public ConstructMachines(CustomerController customerController, DifficultyState state,
+      Pathfinding pathfinding) {
     difficultyState = state;
     this.customerController = customerController;
     this.pathfinding = pathfinding;
@@ -45,10 +48,11 @@ public class ConstructMachines
 
   /**
    * Create a bin given a rectangle
+   *
    * @param rect
    * @author Jack Hinton
    */
- public void CreateBin(Rectangle rect) {
+  public void CreateBin(Rectangle rect) {
     GameObject Bin = new GameObject(null);
     Bin.setPosition(rect.getX(), rect.getY());
     Bin.setWidthAndHeight(rect.getWidth(), rect.getHeight());
@@ -59,6 +63,7 @@ public class ConstructMachines
 
   /**
    * Create a hob
+   *
    * @param rect
    * @author Jack Hinton
    */
@@ -71,13 +76,14 @@ public class ConstructMachines
     Hob.attachScript(HS);
     Stations.add(Hob);
     HS.init();
-    if(numHobs > 1){
-        HS.setLocked(true);
+    if (numHobs > 1) {
+      HS.setLocked(true);
     }
   }
 
   /**
    * Create a toaster
+   *
    * @param rect
    * @author Jack Hinton
    */
@@ -93,10 +99,11 @@ public class ConstructMachines
 
   /**
    * Create chopping station
+   *
    * @param rect
    * @author Jack Hinton
    */
-  public  void CreateChopping(Rectangle rect) {
+  public void CreateChopping(Rectangle rect) {
     numChopping++;
     GameObject Chop = new GameObject(null);
     Chop.setPosition(rect.getX(), rect.getY());
@@ -105,13 +112,14 @@ public class ConstructMachines
     Chop.attachScript(CS);
     Stations.add(Chop);
     CS.init();
-    if(numChopping > 1){
-        CS.setLocked(true);
+    if (numChopping > 1) {
+      CS.setLocked(true);
     }
   }
 
   /**
    * Create an oven
+   *
    * @param rect
    * @author Jack Hinton
    */
@@ -124,12 +132,14 @@ public class ConstructMachines
     Oven.attachScript(OS);
     Stations.add(Oven);
     OS.init();
-    if(numOven++>=1)
+    if (numOven++ >= 1) {
       OS.setLocked(true);
+    }
   }
 
   /**
    * Create a food create with an item inside
+   *
    * @param rect
    * @param item
    * @author Jack Hinton
@@ -145,6 +155,7 @@ public class ConstructMachines
 
   /**
    * Create an assembly station
+   *
    * @param rect
    * @author Jack Hinton
    */
@@ -160,10 +171,11 @@ public class ConstructMachines
 
   /**
    * Create a customer counter
+   *
    * @param rect
    * @author Jack Hinton
    */
-  public  void CreateCustomerCounters(Rectangle rect) {
+  public void CreateCustomerCounters(Rectangle rect) {
     GameObject Cust = new GameObject(null);
     Cust.setPosition(rect.getX(), rect.getY());
     Cust.setWidthAndHeight(rect.getWidth(), rect.getHeight());
@@ -183,8 +195,7 @@ public class ConstructMachines
    * @param width  the width of the world
    * @param height the height of the world
    * @param type   the type of the world
-   * @param name   the name of the world
-   * Team Triple 10s code mainly
+   * @param name   the name of the world Team Triple 10s code mainly
    * @author Amy Cross
    * @author Felix Seanor
    */

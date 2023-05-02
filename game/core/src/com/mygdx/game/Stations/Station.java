@@ -1,11 +1,11 @@
 package com.mygdx.game.Stations;
 
-import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Customers.CustomerController;
-import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Interactions.Interactable;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
@@ -45,6 +45,7 @@ public abstract class Station extends Scriptable implements Interactable {
 
   /**
    * Creates a station
+   *
    * @param params Cooking parameters i.e. cooking speed, burning speed etc.
    * @author Jack Hinton
    * @author Sam Toner
@@ -64,6 +65,7 @@ public abstract class Station extends Scriptable implements Interactable {
 
   /**
    * Initialises the bubbles
+   *
    * @author Jack Hinton
    * @author Jack Vickers
    * @author Felix Seanor
@@ -75,25 +77,26 @@ public abstract class Station extends Scriptable implements Interactable {
         gameObject.position.x + (gameObject.getWidth() / 2) - (bubble.getWidth() / 2),
         gameObject.position.y + (gameObject.getHeight()) + 2);
     bubble.isVisible = false;
-    bubble.image.layer=1;
+    bubble.image.layer = 1;
     bubble2 = new GameObject(new BlackTexture("Timer/Warning.png"));
     bubble2.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight());
     bubble2.isVisible = false;
-    bubble2.image.layer=1;
+    bubble2.image.layer = 1;
 
     bubble3 = new GameObject(new BlackTexture("Timer/RepairBubble.png"));
-    bubble3.setPosition(gameObject.position.x + gameObject.getWidth()/2 - bubble3.getWidth()/2,
-            gameObject.position.y + gameObject.getHeight()/2 - bubble3.getHeight()/2);
+    bubble3.setPosition(gameObject.position.x + gameObject.getWidth() / 2 - bubble3.getWidth() / 2,
+        gameObject.position.y + gameObject.getHeight() / 2 - bubble3.getHeight() / 2);
     bubble3.isVisible = false;
-    bubble3.image.layer=1;
+    bubble3.image.layer = 1;
 
     bubble4 = new GameObject(new BlackTexture("Timer/Ready.png"));
-    bubble4.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight()/2);
+    bubble4.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight() / 2);
     bubble4.isVisible = false;
-    bubble4.image.layer=1;
+    bubble4.image.layer = 1;
 
-    if(animation != null)
+    if (animation != null) {
       moveAnim();
+    }
   }
 
 
@@ -118,6 +121,7 @@ public abstract class Station extends Scriptable implements Interactable {
 
   /**
    * Updates the pictures of the items currently in the station
+   *
    * @author Jack Hinton
    */
   public abstract void updatePictures();
@@ -125,6 +129,7 @@ public abstract class Station extends Scriptable implements Interactable {
 
   /**
    * Moves the animation
+   *
    * @author Jack Hinton
    */
   public abstract void moveAnim();
@@ -136,8 +141,9 @@ public abstract class Station extends Scriptable implements Interactable {
    * @author Jack Hinton
    */
   public void setLocked(boolean locked) {
-    if(bubble3 != null)
+    if (bubble3 != null) {
       bubble3.isVisible = locked;
+    }
 
     this.locked = locked;
   }
@@ -154,13 +160,15 @@ public abstract class Station extends Scriptable implements Interactable {
 
 
   /**
-   * Checks if the given item is a repair tool, if yes it unlocks the station and charges the player
+   * Checks if the given item is a repair tool, if yes it unlocks the station and charges the
+   * player
+   *
    * @param item the item the player has given
    * @return boolean
    * @Author Jack Hinton
    */
   public boolean checkRepairTool(Item item) {
-    if(item.name == ItemEnum.RepairTool && CustomerController.Money >= price) {
+    if (item.name == ItemEnum.RepairTool && CustomerController.Money >= price) {
       setLocked(false);
       CustomerController.Money = CustomerController.Money - price;
       return true;
@@ -171,6 +179,7 @@ public abstract class Station extends Scriptable implements Interactable {
 
   /**
    * Changes the current item to the new item
+   *
    * @param item item you want to give to the station
    * @Author Jack Hinton
    */
@@ -182,12 +191,13 @@ public abstract class Station extends Scriptable implements Interactable {
 
   /**
    * Deletes the current held item
+   *
    * @Author Jack Hinton
    */
   public void deleteItem() {
     item = null;
     updatePictures();
-    if(animation!=null) {
+    if (animation != null) {
       animation.isVisible = false;
     }
   }
@@ -195,7 +205,8 @@ public abstract class Station extends Scriptable implements Interactable {
 
   /**
    * Loads the state of the station from a save file
-   * @param state The items the station has when saved
+   *
+   * @param state  The items the station has when saved
    * @param locked The locked state of the station when saved
    * @Author Jack Hinton
    */
@@ -213,13 +224,17 @@ public abstract class Station extends Scriptable implements Interactable {
 
   /**
    * Decreases cook time
+   *
    * @Author Sam Toner
    */
-  public void decreaseCookTime(){ stationTimeDecrease += 1;}
+  public void decreaseCookTime() {
+    stationTimeDecrease += 1;
+  }
 
 
   /**
    * Saves the state of the station
+   *
    * @return List<ItemState>
    * @Author Felix Seanor
    */

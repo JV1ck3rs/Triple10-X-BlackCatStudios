@@ -1,7 +1,6 @@
 package com.mygdx.game.Core.Leaderboard;
 
 import com.badlogic.gdx.Gdx;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
@@ -14,10 +13,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This is the leaderboard class that stores highscore data in a fson format <name,score>
- * Call read FSON to get the highscore data
- * Call WriteHighscores to write a value into the highscores
+ * This is the leaderboard class that stores highscore data in a fson format <name,score> Call read
+ * FSON to get the highscore data Call WriteHighscores to write a value into the highscores
  * BlackCatStudio's code
+ *
  * @author Felix Seanor
  * @author Jack Vickers
  * @author Sam Toner
@@ -53,7 +52,7 @@ public class LeaderBoard {
     return data;
   }
 
-  public List<LeaderboardData> readFSONData()  {
+  public List<LeaderboardData> readFSONData() {
 
     try {
       FileReader reader = new FileReader(filepath);
@@ -74,12 +73,13 @@ public class LeaderBoard {
       List<LeaderboardData> leaderboardDataList = new LinkedList<>();
 
       for (int i = 0; i < matches.length; i++) {
-        if (matches[i] == "")
+        if (matches[i] == "") {
           continue;
+        }
         leaderboardDataList.add(getDataFromRegexMatch(matches[i], pattern));
       }
       return leaderboardDataList;
-    } catch ( IOException e) {
+    } catch (IOException e) {
       return new LinkedList<>();
     }
 
@@ -118,7 +118,7 @@ public class LeaderBoard {
     List<LeaderboardData> highscores = readFSONData();
     Collections.sort(highscores);
     Collections.reverse(highscores);
-    if (highscores.size()<MaxHighscorers) {
+    if (highscores.size() < MaxHighscorers) {
       highscores.add(data);
       return highscores;
     }

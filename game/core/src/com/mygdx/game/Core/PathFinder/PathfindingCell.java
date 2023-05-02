@@ -2,39 +2,51 @@ package com.mygdx.game.Core.PathFinder;
 
 
 /**
- * Stored A* data for each discorvered cell
- * BlackCatStudio's Code
+ * Stored A* data for each discorvered cell BlackCatStudio's Code
+ *
  * @author Felix Seanor
  * @date 03/03/23
  */
 public class PathfindingCell implements Comparable<PathfindingCell> {
 
-  /** cost to goal*/
+  /**
+   * cost to goal
+   */
   public float Heuristic;
 
-  /** cost along path */
+  /**
+   * cost along path
+   */
   public float PathCost;
 
-  /** x position */
+  /**
+   * x position
+   */
   public int x;
-  /** y position */
+  /**
+   * y position
+   */
   public int y;
 
-  /** index */
+  /**
+   * index
+   */
   public int Index;
 
 
-  /** parent cell, null if root node */
+  /**
+   * parent cell, null if root node
+   */
   public PathfindingCell parent;
 
   /**
    * Creates a new pathfinding cell. This was written by Vickers so may be wrong.
    *
-   * @param x The x position of the cell
-   * @param y The y position of the cell
-   * @param index The index of the cell
+   * @param x         The x position of the cell
+   * @param y         The y position of the cell
+   * @param index     The index of the cell
    * @param heuristic The heuristic value of the cell
-   * @param path The path cost of the cell
+   * @param path      The path cost of the cell
    * @author Felix Seanor
    */
   public PathfindingCell(int x, int y, int index, float heuristic, float path) {
@@ -50,6 +62,7 @@ public class PathfindingCell implements Comparable<PathfindingCell> {
 
   /**
    * Heuristics + Pathcost
+   *
    * @return
    * @author Felix Seanor
    */
@@ -59,6 +72,7 @@ public class PathfindingCell implements Comparable<PathfindingCell> {
 
   /**
    * Allowest for sorting
+   *
    * @param o the object to be compared.
    * @return
    * @author Felix Seanor

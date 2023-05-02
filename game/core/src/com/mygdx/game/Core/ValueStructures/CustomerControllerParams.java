@@ -4,13 +4,14 @@ import com.mygdx.game.Items.ItemEnum;
 import java.util.List;
 
 /**
- * This is a structure containing parameters to construct the Customer Controller
- * BlackCatStudio's Code
+ * This is a structure containing parameters to construct the Customer Controller BlackCatStudio's
+ * Code
+ *
  * @author Felix Seanor
  * @date 18/04/23
  */
-public class CustomerControllerParams
-{
+public class CustomerControllerParams {
+
   public int MoneyStart;
   public int MaxMoney;
   public int Reputation;
@@ -29,6 +30,6 @@ public class CustomerControllerParams
   public List<ItemEnum> OrderTypePermissable;
   public int EatingTime = 10;
   public int Tables = 4;
-  public int FrustrationStart= 90;
+  public int FrustrationStart = 90;
 
 }

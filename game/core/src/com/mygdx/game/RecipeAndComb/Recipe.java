@@ -1,24 +1,23 @@
 package com.mygdx.game.RecipeAndComb;
 
 import com.mygdx.game.Items.ItemEnum;
-
 import java.util.ArrayList;
 
 /**
- * The recipe class, List of steps -> Item
- * BlackCatStudio's Code
+ * The recipe class, List of steps -> Item BlackCatStudio's Code
+ *
  * @author Jack Hinton
  * @date 01/03/23
  */
 public class Recipe {
 
-    public ArrayList<Step> RecipeSteps = new ArrayList<>();
-    public ItemEnum endItem;
+  public ArrayList<Step> RecipeSteps = new ArrayList<>();
+  public ItemEnum endItem;
 
-    public Recipe(ItemEnum endItem, ArrayList<Step> stepList){
-        this.endItem = endItem;
-        RecipeSteps.addAll(stepList);
-    }
+  public Recipe(ItemEnum endItem, ArrayList<Step> stepList) {
+    this.endItem = endItem;
+    RecipeSteps.addAll(stepList);
+  }
 
 
 }

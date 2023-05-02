@@ -2,8 +2,8 @@ package com.mygdx.game;
 
 
 /**
- * Interface for person which is used to create chefs and customers
- * Team Triple 10s
+ * Interface for person which is used to create chefs and customers Team Triple 10s
+ *
  * @author Robin Graham
  */
 @Deprecated

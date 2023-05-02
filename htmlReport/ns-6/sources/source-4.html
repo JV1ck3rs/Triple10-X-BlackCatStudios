@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.mygdx.game</a>
+    <a href="../index.html">com.mygdx.game.Core.SFX</a>
 </div>
 
-<h1>Coverage Summary for Class: soundFrame (com.mygdx.game)</h1>
+<h1>Coverage Summary for Class: soundFrame (com.mygdx.game.Core.SFX)</h1>
 
 <table class="coverageStats">
 
@@ -40,18 +40,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">soundFrame</td>
 <td class="coverageStat">
   <span class="percent">
-    40%
+    90%
   </span>
   <span class="absValue">
-    (4/10)
+    (9/10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    58.8%
+    80.6%
   </span>
   <span class="absValue">
-    (20/34)
+    (29/36)
   </span>
 </td>
 </tr>
@@ -78,18 +78,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    45.5%
+    90.9%
   </span>
   <span class="absValue">
-    (5/11)
+    (10/11)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    61.1%
+    81.6%
   </span>
   <span class="absValue">
-    (22/36)
+    (31/38)
   </span>
 </td>
 </tr>
@@ -100,33 +100,34 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core.SFX;
 &nbsp;
 &nbsp;import com.badlogic.gdx.Gdx;
-&nbsp;import com.badlogic.gdx.Gdx;
 &nbsp;import com.badlogic.gdx.audio.Sound;
-&nbsp;import java.lang.reflect.Array;
 &nbsp;import java.util.HashMap;
 &nbsp;import java.util.LinkedList;
 &nbsp;
 &nbsp;/**
 &nbsp; * Uses an enum containing all the names of the sound effects Uses an array of all the sounds,
 &nbsp; * must have the same index as the enum Uses a hashmap to store the IDs for each sound
+&nbsp; * BlackCatStudio&#39;s code
 &nbsp; * @author Sam Toner
 &nbsp; * @author Felix Seanor
+&nbsp; * @date 18/04/23
 &nbsp; */
 &nbsp;public class soundFrame {
 &nbsp;
 &nbsp;
 <b class="fc">&nbsp;   public enum soundsEnum {</b>
-<b class="fc">&nbsp;    CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved,end;</b>
+<b class="fc">&nbsp;    CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved,BuyItem,end;</b>
 &nbsp;  }
 &nbsp;
 &nbsp;  public static soundFrame SoundEngine;
 <b class="fc">&nbsp;  Sound[] Sounds = new Sound[soundsEnum.end.ordinal()];</b>
 &nbsp;
 <b class="fc">&nbsp;  HashMap&lt;soundsEnum, LinkedList&lt;Long&gt;&gt; soundIDsMap = new HashMap&lt;&gt;();</b>
-<b class="fc">&nbsp;  float currentSystemVolume = 1.0f;</b>
+<b class="fc">&nbsp; public float currentSystemVolume = 1.0f;</b>
+<b class="fc">&nbsp; public float Volume = 1.0f;</b>
 &nbsp;
 &nbsp;
 <b class="fc">&nbsp;  public soundFrame(){</b>
@@ -144,7 +145,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;   */
 &nbsp;  public long playSound(soundsEnum ring) {
 <b class="fc">&nbsp;    Sound toPlay = Sounds[ring.ordinal()];</b>
-<b class="fc">&nbsp;    long soundID = toPlay.play();</b>
+<b class="fc">&nbsp;    long soundID = toPlay.play(Volume);</b>
 <b class="fc">&nbsp;    LinkedList&lt;Long&gt; soundIDs = new LinkedList&lt;&gt;();</b>
 &nbsp;
 <b class="fc">&nbsp;    if (soundIDsMap.get(ring) == null) {</b>
@@ -167,7 +168,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public void pauseSound(soundsEnum ring, long ID) {
-<b class="nc">&nbsp;    Sounds[ring.ordinal()].pause(ID);</b>
+<b class="fc">&nbsp;    Sounds[ring.ordinal()].pause(ID);</b>
 &nbsp;  }
 &nbsp;
 &nbsp;  /**
@@ -179,7 +180,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;   */
 &nbsp;
 &nbsp;  public void resumeSound(soundsEnum ring, long ID) {
-<b class="nc">&nbsp;    Sounds[ring.ordinal()].resume(ID);</b>
+<b class="fc">&nbsp;    Sounds[ring.ordinal()].resume(ID);</b>
 &nbsp;  }
 &nbsp;
 &nbsp;
@@ -232,10 +233,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * Iterate through all the IDs of each sound, and set each instace of each sound to the required volume
 &nbsp;     * @author Sam Toner
 &nbsp;     * */
-<b class="nc">&nbsp;    if (volume != 0.0f) {</b>
-<b class="nc">&nbsp;      currentSystemVolume = volume;</b>
+<b class="fc">&nbsp;    if (volume != 0.0f) {</b>
+<b class="fc">&nbsp;      currentSystemVolume = volume;</b>
 &nbsp;    }
-<b class="nc">&nbsp;    for (soundsEnum key : soundIDsMap.keySet()) {</b>
+&nbsp;
+<b class="fc">&nbsp;    Volume = volume;</b>
+<b class="fc">&nbsp;    for (soundsEnum key : soundIDsMap.keySet()) {</b>
 <b class="nc">&nbsp;      LinkedList&lt;Long&gt; value = soundIDsMap.get(key);</b>
 <b class="nc">&nbsp;      Sound currentSound = Sounds[key.ordinal()];</b>
 <b class="nc">&nbsp;      for (int i = 0; i &lt; value.size(); i++) {</b>
@@ -249,7 +252,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public void muteSound() {
-<b class="nc">&nbsp;    setSystemVolume(0.0f);</b>
+<b class="fc">&nbsp;    setSystemVolume(0.0f);</b>
 &nbsp;  }
 &nbsp;
 &nbsp;  /**
@@ -258,7 +261,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public void unmuteSound() {
-<b class="nc">&nbsp;    setSystemVolume(currentSystemVolume);</b>
+<b class="fc">&nbsp;    setSystemVolume(currentSystemVolume);</b>
 &nbsp;  }
 &nbsp;}
 </code>
@@ -284,7 +287,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-24 20:42</div>
+    <div style="float:right;">generated on 2023-05-02 23:59</div>
 </div>
 </body>
 </html>

@@ -4,20 +4,20 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
 /**
- * Saved data for items
- * BlackCatStudio's Code
+ * Saved data for items BlackCatStudio's Code
+ *
  * @author Felix Seanor
  * @author Jack Vickers
  * @date 25/04/23
  */
-public class ItemState implements java.io.Serializable{
+public class ItemState implements java.io.Serializable {
+
   public ItemEnum item;
   public int step;
   public float progress;
 
-  public ItemState(Item obj){
-    if(obj ==null)
-    {
+  public ItemState(Item obj) {
+    if (obj == null) {
       item = null;
       step = 0;
       progress = 0;

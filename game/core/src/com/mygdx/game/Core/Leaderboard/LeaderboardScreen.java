@@ -7,21 +7,26 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.InputChecker;
 import com.mygdx.game.MenuScreen;
 import com.mygdx.game.MyGdxGame;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.io.IOException;
 
 /**
  * This class creates and displays the leaderboard screen. BlackCatStudio's Code
@@ -159,7 +164,7 @@ public class LeaderboardScreen implements Screen {
             game.setScreen(new MenuScreen(game));
             dispose();
           } else {
-            System.out.println("WRONG");
+//            System.out.println("WRONG");
             errorMessage.setText("Please input only letters with no numbers up to 5 characters!");
 
           }

@@ -1,14 +1,14 @@
 package com.mygdx.game.Stations;
 
-import com.mygdx.game.Core.Rendering.BlackTexture;
-import com.mygdx.game.Core.SFX.ContinousSound;
-import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Rendering.GameObject;
+import com.mygdx.game.Core.SFX.ContinousSound;
+import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,6 +36,7 @@ public class ChopStation extends Station {
 
   /**
    * Creates a chopping station
+   *
    * @param params The parameters for cooking speed, burning speed etc.
    * @author Jack Hinton
    * @author Felix Seanor
@@ -61,6 +62,7 @@ public class ChopStation extends Station {
 
   /**
    * Gives the chopping station an item
+   *
    * @param item The item you want to give to the chopping station
    * @return boolean - If the method was successful giving an item
    * @author Jack Hinton
@@ -81,6 +83,7 @@ public class ChopStation extends Station {
 
   /**
    * Returns item
+   *
    * @return Item
    * @author Jack Hinton
    */
@@ -97,6 +100,7 @@ public class ChopStation extends Station {
 
   /**
    * Checks if you can retrieve an item from the chopping station
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -108,6 +112,7 @@ public class ChopStation extends Station {
 
   /**
    * Checks if you can give an item to the chopping station
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -119,6 +124,7 @@ public class ChopStation extends Station {
 
   /**
    * Checks if the user can interact with the chopping station
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -130,6 +136,7 @@ public class ChopStation extends Station {
 
   /**
    * Checks if the item is in the whitelist, if yes it gets the items recipe
+   *
    * @author Jack Hinton
    */
   public void checkItem() {
@@ -152,7 +159,9 @@ public class ChopStation extends Station {
 
 
   /**
-   * Interact with the chopping station to cut, returns a float to tell the chef how long to lock for
+   * Interact with the chopping station to cut, returns a float to tell the chef how long to lock
+   * for
+   *
    * @return float
    * @author Jack Hinton
    */
@@ -166,6 +175,7 @@ public class ChopStation extends Station {
 
   /**
    * Cuts the item and checks if it is ready
+   *
    * @param dt delta time
    * @author Jack Hinton
    * @author Felix Seanor
@@ -187,6 +197,7 @@ public class ChopStation extends Station {
 
   /**
    * Updates the progress bubble
+   *
    * @author Jack Hinton
    */
   public void progressBar() {
@@ -196,6 +207,7 @@ public class ChopStation extends Station {
 
   /**
    * Gets the progress of the item currently held
+   *
    * @return int
    */
   public int getProgress() {
@@ -233,6 +245,7 @@ public class ChopStation extends Station {
 
   /**
    * Move the animation
+   *
    * @author Jack Hinton
    */
   @Override
@@ -242,6 +255,7 @@ public class ChopStation extends Station {
 
   /**
    * Update the chopping station
+   *
    * @param dt delta time
    * @author Jack Hinton
    * @author Felix Seanor

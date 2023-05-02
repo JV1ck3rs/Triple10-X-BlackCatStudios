@@ -1,16 +1,15 @@
 package com.mygdx.game.Stations;
 
 
-import com.mygdx.game.Core.Rendering.BlackTexture;
-import com.mygdx.game.Core.SFX.ContinousSound;
-import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Rendering.GameObject;
+import com.mygdx.game.Core.SFX.ContinousSound;
+import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.RecipeDict;
-
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,6 +34,7 @@ public class HobStation extends Station {
 
   /**
    * Creates a hobstation
+   *
    * @param params cooking parameters i.e. cooking speed, burning speed
    * @author Jack Hinton
    * @author Felix Seanor
@@ -68,6 +68,7 @@ public class HobStation extends Station {
 
   /**
    * Gives the station an item
+   *
    * @param item The item you want to give to the station
    * @return boolean
    * @author Jack Hinton
@@ -89,6 +90,7 @@ public class HobStation extends Station {
 
   /**
    * Retrieve an item from the station
+   *
    * @return Item
    * @author Jack Hinton
    * @Authpr Jack Vickers
@@ -107,6 +109,7 @@ public class HobStation extends Station {
 
   /**
    * Checks if the chef can retrieve an item from the station
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -118,6 +121,7 @@ public class HobStation extends Station {
 
   /**
    * Checks if the chef can give the station an item
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -129,6 +133,7 @@ public class HobStation extends Station {
 
   /**
    * Checks if the item is in the whitelist, if yes it gets the item's recipe
+   *
    * @author Jack Hinton
    * @Author Jack Vickers
    */
@@ -152,6 +157,7 @@ public class HobStation extends Station {
 
   /**
    * Checks if the chef can interact with the station
+   *
    * @return boolean
    * @Author Jack Hinton
    */
@@ -163,6 +169,7 @@ public class HobStation extends Station {
 
   /**
    * Interact with the station
+   *
    * @return float
    * @Author Jack Hinton
    */
@@ -175,6 +182,7 @@ public class HobStation extends Station {
 
   /**
    * Burns the item in the station
+   *
    * @Author Jack Hinton
    */
   public void burnItem() {
@@ -184,6 +192,7 @@ public class HobStation extends Station {
 
   /**
    * Cooks the current item and checks if it is ready
+   *
    * @param dt delta time
    * @Author Jack Hinton
    * @Author Felix Seanor
@@ -219,6 +228,7 @@ public class HobStation extends Station {
 
   /**
    * Updates the progress bubble
+   *
    * @Author Jack Hinton
    */
   public void progressBar() {
@@ -228,6 +238,7 @@ public class HobStation extends Station {
 
   /**
    * Gets the progress of the item currently held
+   *
    * @return int
    */
   public int getProgress() {
@@ -238,6 +249,7 @@ public class HobStation extends Station {
 
   /**
    * Updates the picture on the station.
+   *
    * @author Jack Hinton
    */
   @Override
@@ -265,6 +277,7 @@ public class HobStation extends Station {
 
   /**
    * Move the animation
+   *
    * @Author Jack Hinton
    */
   @Override
@@ -275,6 +288,7 @@ public class HobStation extends Station {
 
   /**
    * Update the chopping station
+   *
    * @param dt delta time
    * @Author Jack Hinton
    * @Author Felix Seanor

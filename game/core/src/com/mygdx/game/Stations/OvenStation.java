@@ -1,14 +1,13 @@
 package com.mygdx.game.Stations;
 
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Rendering.GameObject;
-import com.mygdx.game.Core.GameState.CookingParams;
-import com.mygdx.game.Items.Item;
-import com.mygdx.game.Items.ItemEnum;
-
-import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Core.SFX.soundFrame;
 import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Items.Item;
+import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -31,7 +30,8 @@ public class OvenStation extends Station {
 
   /**
    * Create an oven station
-   * @param params Cooking parameters
+   *
+   * @param params             Cooking parameters
    * @param customerController a way to access the customerController's updateMenu method
    * @author Jack Hinton
    * @author Felix Seanor
@@ -44,7 +44,7 @@ public class OvenStation extends Station {
     maxProgress = 10;
     animation = new GameObject(new BlackTexture("Items/OvenActive.png"));
     animation.isVisible = false;
-    animation.image.layer= -1;
+    animation.image.layer = -1;
     if (ItemWhiteList == null) {
       ItemWhiteList = new ArrayList<>(
           Arrays.asList(ItemEnum.Potato, ItemEnum.CheesePotato, ItemEnum.MeatPotato,
@@ -59,6 +59,7 @@ public class OvenStation extends Station {
 
   /**
    * Give an item to the station
+   *
    * @param item The item you want to give
    * @return boolean
    * @author Jack Hinton
@@ -89,6 +90,7 @@ public class OvenStation extends Station {
 
   /**
    * Retrieve an item from the station
+   *
    * @return Item
    * @author Jack Hinton
    * @author Jack Vickers
@@ -107,6 +109,7 @@ public class OvenStation extends Station {
 
   /**
    * Checks if the chef can retrieve an item
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -118,6 +121,7 @@ public class OvenStation extends Station {
 
   /**
    * Check if the chef can give the station an item
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -130,6 +134,7 @@ public class OvenStation extends Station {
 
   /**
    * Check if the chef can interact with a station
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -141,6 +146,7 @@ public class OvenStation extends Station {
 
   /**
    * Interact with the station
+   *
    * @return float
    * @author Jack Hinton
    */
@@ -152,6 +158,7 @@ public class OvenStation extends Station {
 
   /**
    * Checks if the item is in the whitelist, if yes it gets the item's recipe
+   *
    * @author Jack Hinton
    * @author Jack Vickers
    */
@@ -159,7 +166,8 @@ public class OvenStation extends Station {
     if (ItemWhiteList.contains(item.name)) {
       currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
       bubble.isVisible = true;
-      if (item.name == ItemEnum.CheesePizzaCooked || item.name == ItemEnum.MeatPizzaCooked || item.name == ItemEnum.VegPizzaCooked) {
+      if (item.name == ItemEnum.CheesePizzaCooked || item.name == ItemEnum.MeatPizzaCooked
+          || item.name == ItemEnum.VegPizzaCooked) {
         bubble4.isVisible = true;
       }
     } else {
@@ -171,6 +179,7 @@ public class OvenStation extends Station {
 
   /**
    * Cooks the current item and checks if it is ready
+   *
    * @param dt delta time
    * @author Jack Hinton
    * @Author Felix Seanor
@@ -192,6 +201,7 @@ public class OvenStation extends Station {
 
   /**
    * Updates the progress bubble
+   *
    * @Author Jack Hinton
    */
   public void progressBar() {
@@ -201,6 +211,7 @@ public class OvenStation extends Station {
 
   /**
    * Gets the progress of the item currently held
+   *
    * @return int
    */
   public int getProgress() {
@@ -211,6 +222,7 @@ public class OvenStation extends Station {
 
   /**
    * Updates the picture on the station.
+   *
    * @author Jack Hinton
    */
   @Override
@@ -221,6 +233,7 @@ public class OvenStation extends Station {
 
   /**
    * Move the animation
+   *
    * @Author Jack Hinton
    */
   @Override
@@ -231,6 +244,7 @@ public class OvenStation extends Station {
 
   /**
    * Update the chopping station
+   *
    * @param dt delta time
    * @Author Jack Hinton
    */

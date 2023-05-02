@@ -6,8 +6,8 @@ import com.mygdx.game.Items.ItemEnum;
 import java.util.LinkedList;
 
 /**
- * Returns Difficulty settings
- * BlackCatStudio's Code
+ * Returns Difficulty settings BlackCatStudio's Code
+ *
  * @author Felix Seanor
  * @author Jack Vickers
  */
@@ -16,27 +16,27 @@ public class DifficultyMaster {
 
   /**
    * return a difficulty settings
+   *
    * @param difficaulty
    * @return
    * @author Felix Seanor
    * @date 29/04/23
    */
-  public static DifficultyState getDifficulty(Difficulty difficaulty){
-      switch (difficaulty)
-      {
-        case Relaxing:
-          return  getRelaxing();
-        case Stressful:
-          return  getStressful();
-        case Mindbreaking:
-          return getMindBreaking();
-      }
-      //return default otherwise (prevent crashing at all cost)
-      return getStressful();
+  public static DifficultyState getDifficulty(Difficulty difficaulty) {
+    switch (difficaulty) {
+      case Relaxing:
+        return getRelaxing();
+      case Stressful:
+        return getStressful();
+      case Mindbreaking:
+        return getMindBreaking();
+    }
+    //return default otherwise (prevent crashing at all cost)
+    return getStressful();
   }
 
 
-  public static DifficultyState getMindBreaking(){//Hard
+  public static DifficultyState getMindBreaking() {//Hard
     DifficultyState diff = new DifficultyState();
     CustomerControllerParams CCParams = new CustomerControllerParams();
     ChefParams chefParams = new ChefParams();
@@ -57,8 +57,6 @@ public class DifficultyMaster {
     CCParams.OrderTypePermissable.add(ItemEnum.Burger);
     CCParams.OrderTypePermissable.add(ItemEnum.CheesePizza);
 
-
-
     chefParams.MoveSpeed = 200;
 
     cookingParams.CookSpeed = 2;
@@ -74,7 +72,7 @@ public class DifficultyMaster {
 
   }
 
-  public static DifficultyState getStressful(){//Medium
+  public static DifficultyState getStressful() {//Medium
     DifficultyState diff = new DifficultyState();
     CustomerControllerParams CCParams = new CustomerControllerParams();
     ChefParams chefParams = new ChefParams();
@@ -94,8 +92,6 @@ public class DifficultyMaster {
     CCParams.OrderTypePermissable.add(ItemEnum.TomatoOnionLettuceSalad);
     CCParams.OrderTypePermissable.add(ItemEnum.Burger);
 
-
-
     chefParams.MoveSpeed = 250;
 
     cookingParams.CookSpeed = 1;
@@ -106,12 +102,11 @@ public class DifficultyMaster {
     diff.ccParams = CCParams;
     diff.chefParams = chefParams;
 
-
     return diff;
 
   }
 
-  public  static DifficultyState getRelaxing(){//Easy
+  public static DifficultyState getRelaxing() {//Easy
     DifficultyState diff = new DifficultyState();
     CustomerControllerParams CCParams = new CustomerControllerParams();
     ChefParams chefParams = new ChefParams();
@@ -130,19 +125,15 @@ public class DifficultyMaster {
     CCParams.OrderTypePermissable.add(ItemEnum.BakedPotato);
     CCParams.OrderTypePermissable.add(ItemEnum.Burger);
 
-
-
     chefParams.MoveSpeed = 280;
 
     cookingParams.CookSpeed = .75f;
     cookingParams.ChopSpeed = .75f;
     cookingParams.BurnSpeed = .75f;
 
-
     diff.cookingParams = cookingParams;
     diff.ccParams = CCParams;
     diff.chefParams = chefParams;
-
 
     return diff;
   }

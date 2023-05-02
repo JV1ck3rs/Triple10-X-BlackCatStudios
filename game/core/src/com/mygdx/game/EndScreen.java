@@ -15,15 +15,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Leaderboard.LeaderboardScreen;
+import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import java.io.IOException;
 
 /**
- * This class creates and displays the victory screen
- * Black cat studios and a bit of Team Triple 10s
+ * This class creates and displays the victory screen Black cat studios and a bit of Team Triple 10s
  * Most of the Triple10s code has been heavily modified and refactors + additional code
+ *
  * @author Robin Graham
  * @author Felix Seanor
  * @author Jack Vickers
@@ -39,7 +39,7 @@ public class EndScreen implements Screen {
   int timer;
   private final BitmapFont timerFont;
   private final Label timerLabel;
-//  private final Label VictoryOrLoss;
+  //  private final Label VictoryOrLoss;
   private final Table table;
   float scaleX;
   float scaleY;
@@ -47,8 +47,8 @@ public class EndScreen implements Screen {
 
   /**
    * Assigns all the necessary variables needed for the victory screen and other objects such as the
-   * image used
-   *  BlackCat studios and Team Triple 10s
+   * image used BlackCat studios and Team Triple 10s
+   *
    * @param root                    the base object to interact with
    * @param time                    the integer time value set for timer
    * @param numberOfCustomersServed
@@ -58,7 +58,6 @@ public class EndScreen implements Screen {
 
     //Triple 10s
     this.root = root;
-
 
     //this might cause issues if so, change back to new GameScreen
     gameScreen = gscreen;
@@ -82,7 +81,7 @@ public class EndScreen implements Screen {
     timerFont = new BitmapFont();
     timerLabel = new Label("TIME: " + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-    String VL = (values.Won)? "won!" : "lost.";
+    String VL = (values.Won) ? "won!" : "lost.";
 
     BlackTexture uptex = new BlackTexture("ExitUp.png");
     BlackTexture downtex = new BlackTexture("ExitDown.png");
@@ -107,7 +106,7 @@ public class EndScreen implements Screen {
     scenariobtnStyle.up = drawableScenariobtnUp;
     scenariobtnStyle.down = drawableScenariobtnDown;
 
-    table.add(scenariobtn).width(250 * scaleX).height(50 * scaleY).pad(200*scaleY,25,25,25);
+    table.add(scenariobtn).width(250 * scaleX).height(50 * scaleY).pad(200 * scaleY, 25, 25, 25);
     table.row();
 
     ChangeListener playbtnMouseListener = new ChangeListener() {
@@ -130,8 +129,6 @@ public class EndScreen implements Screen {
     scenariobtn.addListener(playbtnMouseListener);
 
 
-
-
   }
 
   /**
@@ -143,8 +140,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   * Displays the timer onto the screen with the set time defined
-   * Team Triple 10s
+   * Displays the timer onto the screen with the set time defined Team Triple 10s
    */
   public void displayTimer() {
     CharSequence str = "Final Time: " + timer + "s";
@@ -154,10 +150,9 @@ public class EndScreen implements Screen {
   }
 
 
-
   /**
-   * Renders the stage and assets
-   * Team Triple 10s
+   * Renders the stage and assets Team Triple 10s
+   *
    * @param delta used for working with time
    */
   @Override
@@ -172,8 +167,8 @@ public class EndScreen implements Screen {
   }
 
   /**
-   * Resize the window
-   * Team Triple 10s
+   * Resize the window Team Triple 10s
+   *
    * @param width  of the window
    * @param height of the window
    */
@@ -183,7 +178,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   *Team Triple 10s
+   * Team Triple 10s
    */
   @Override
   public void pause() {
@@ -191,7 +186,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   *Team Triple 10s
+   * Team Triple 10s
    */
   @Override
   public void resume() {
@@ -199,7 +194,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   *Team Triple 10s
+   * Team Triple 10s
    */
   @Override
   public void hide() {
@@ -207,7 +202,7 @@ public class EndScreen implements Screen {
   }
 
   /**
-   *Team Triple 10s
+   * Team Triple 10s
    */
   @Override
   public void dispose() {

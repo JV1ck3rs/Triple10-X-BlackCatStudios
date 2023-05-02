@@ -1,13 +1,15 @@
 package com.mygdx.game.Core.Rendering;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.mygdx.game.Core.Scriptable;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 /**
- * This manages references to every gameobject and loose scripts
- *   BlackCatStudio's Code
+ * This manages references to every gameobject and loose scripts BlackCatStudio's Code
+ *
  * @author Felix Seanor
  * @author Jack Hinton
  * @date 01/04/23
@@ -22,43 +24,45 @@ public class GameObjectManager {
 
   /**
    * Attaches a script to the world update sequence.
+   *
    * @param scriptable
    * @author Felix Seanor
    */
-  public void AppendLooseScript(Scriptable scriptable){
+  public void AppendLooseScript(Scriptable scriptable) {
     LooseScripts.add(scriptable);
     scriptable.Start();
   }
 
   /**
    * Returns objects with an interface. Limited to one superclass
+   *
    * @param scriptType
    * @return all valid objects
    * @author Felix Seanor
    * @author Jack Hinton
    */
-  public List<Scriptable> returnObjectsWithInterface(Class<?> scriptType){
+  public List<Scriptable> returnObjectsWithInterface(Class<?> scriptType) {
     List<Scriptable> scripts = new LinkedList<>();
-    for (GameObject obj: GameObjects.values()
+    for (GameObject obj : GameObjects.values()
     ) {
-      for (Scriptable script: obj.Scripts
+      for (Scriptable script : obj.Scripts
       ) {
 
         Class<?>[] a = script.getClass().getInterfaces();
-        for (Class<?> interf:a
-             ) {
-          if(scriptType == interf) {
+        for (Class<?> interf : a
+        ) {
+          if (scriptType == interf) {
             scripts.add(script);
             break;
           }
         }
 
-        if(script.getClass().getSuperclass() != null) {
+        if (script.getClass().getSuperclass() != null) {
           Class<?>[] b = script.getClass().getSuperclass().getInterfaces();
 
-          for (Class<?> interf:b
+          for (Class<?> interf : b
           ) {
-            if(scriptType == interf) {
+            if (scriptType == interf) {
               scripts.add(script);
               break;
             }
@@ -73,6 +77,7 @@ public class GameObjectManager {
 
   /**
    * Creates a singleton GameObject Manager
+   *
    * @author Felix Seanor
    */
   public GameObjectManager() {
@@ -88,6 +93,7 @@ public class GameObjectManager {
 
   /**
    * Submits a new gameobject to this manager
+   *
    * @param obj
    * @author Felix Seanor
    */
@@ -103,13 +109,13 @@ public class GameObjectManager {
 
   /**
    * run updates on objects
+   *
    * @param dt
    * @author Felix Seanor
    */
   public void doUpdate(float dt) {
 
-    for (Scriptable scr : LooseScripts)
-    {
+    for (Scriptable scr : LooseScripts) {
       scr.Update(dt);
 
     }
@@ -121,9 +127,7 @@ public class GameObjectManager {
 
   public void doFixedUpdate(float dt) {
 
-
-    for (Scriptable scr : LooseScripts)
-    {
+    for (Scriptable scr : LooseScripts) {
       scr.FixedUpdate(dt);
 
     }
@@ -153,6 +157,7 @@ public class GameObjectManager {
 
   /**
    * Creates a unique ID for an object
+   *
    * @return
    * @author Felix Seanor
    */
@@ -167,10 +172,10 @@ public class GameObjectManager {
 
   }
 
-  public void reset(){
-    for (GameObject obj: GameObjects.values()
-    ){
-    obj.destroyed = true;
+  public void reset() {
+    for (GameObject obj : GameObjects.values()
+    ) {
+      obj.destroyed = true;
     }
 
     GameObjects.clear();

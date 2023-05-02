@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Abstracts rendering behind a list of sorted GameObjects
- * BlackCatStudio's Code
+ * Abstracts rendering behind a list of sorted GameObjects BlackCatStudio's Code
+ *
  * @author Felix Seanor
  * @date 01/04/23
  */
@@ -18,6 +18,7 @@ public class RenderManager {
 
   /**
    * Creates a render manager singleton
+   *
    * @author Felix Seanor
    */
   public RenderManager() {
@@ -31,6 +32,7 @@ public class RenderManager {
 
   /**
    * Creates a render call for all gameobjects
+   *
    * @param batch
    * @author Felix Seanor
    */
@@ -39,8 +41,9 @@ public class RenderManager {
 
     for (GameObject obj : GameObjectManager.objManager.GameObjects.values()
     ) {
-      if(obj.image != null)
-      LayerOrderedRenderables.add(obj);
+      if (obj.image != null) {
+        LayerOrderedRenderables.add(obj);
+      }
     }
 
     Collections.sort(LayerOrderedRenderables, new Comparator<GameObject>() {

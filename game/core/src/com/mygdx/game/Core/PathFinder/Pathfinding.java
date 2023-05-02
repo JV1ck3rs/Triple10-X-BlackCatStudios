@@ -9,8 +9,8 @@ import java.util.PriorityQueue;
 
 
 /**
- * A* Pathfinding module
- *   BlackCatStudio's Code
+ * A* Pathfinding module BlackCatStudio's Code
+ *
  * @author Felix Seanor
  * @date 14/03/23
  */
@@ -25,6 +25,7 @@ public class Pathfinding {
 
   /**
    * Transforms 2D space into linear
+   *
    * @param x
    * @param y
    * @return
@@ -37,6 +38,7 @@ public class Pathfinding {
 
   /**
    * Gets the current occupation the cell.
+   *
    * @param x
    * @param y
    * @return
@@ -47,12 +49,11 @@ public class Pathfinding {
   }
 
   /**
-   *
    * @param ix
    * @param iy
    * @param jx
    * @param jy
-   * @return sqrt(I^2 - J^2)
+   * @return sqrt(I ^ 2 - J ^ 2)
    */
   private float Euclidian(int ix, int iy, int jx, int jy) {
     return (float) Math.sqrt(Math.pow(jx - ix, 2) + Math.pow(jy - iy, 2));
@@ -60,13 +61,13 @@ public class Pathfinding {
 
   /**
    * Returns manhatten distance
+   *
    * @param ix
    * @param iy
    * @param jx
    * @param jy
    * @return |I-J|
    * @author Felix Seanor
-   *
    */
   private float Manhatten(int ix, int iy, int jx, int jy) {
     return Math.abs(ix - jx) + Math.abs(iy - jy);
@@ -74,9 +75,10 @@ public class Pathfinding {
 
   /**
    * Creates a pathfinding module with given parameters
+   *
    * @param gridSize size of each grid cell. Should be <= Pixel size
-   * @param GridX X dimensions size
-   * @param GridY Y dimensions size
+   * @param GridX    X dimensions size
+   * @param GridY    Y dimensions size
    * @author Felix Seanor
    */
   public Pathfinding(int gridSize, int GridX, int GridY) {
@@ -95,6 +97,7 @@ public class Pathfinding {
 
   /**
    * returns the distance from i to j given a valid Distance equation.
+   *
    * @param ix
    * @param iy
    * @param jx
@@ -134,8 +137,8 @@ public class Pathfinding {
   /**
    * Checks if a move is legal.
    *
-   * @param x x coordinate
-   * @param y y coordinate
+   * @param x     x coordinate
+   * @param y     y coordinate
    * @param index index of the cell
    * @return true if legal, false if not
    * @author Felix Seanor
@@ -155,21 +158,22 @@ public class Pathfinding {
 
   /**
    * Finds a path from x,y to goalX, goalY
-   * @param x x coordinate
-   * @param y y coordinate
-   * @param goalX goal x coordinate
-   * @param goalY goal y coordinate
+   *
+   * @param x            x coordinate
+   * @param y            y coordinate
+   * @param goalX        goal x coordinate
+   * @param goalY        goal y coordinate
    * @param distanceTest distance test to use (Manhatten or Euclidean)
    * @return a list of points to follow to get to the goal. Empty if no path found.
-   *
    * @author Felix Seanor
    */
   public List<Vector2> FindPath(int x, int y, int goalX, int goalY,
       final DistanceTest distanceTest) {
     HashMap<Integer, PathfindingCell> ReachedCells = new HashMap<>();
 
-    if(x == goalX && y == goalY)
+    if (x == goalX && y == goalY) {
       return new LinkedList<>();
+    }
 
     int _x = x;
     int _y = y;
@@ -316,7 +320,7 @@ public class Pathfinding {
     List<Vector2> path = new LinkedList<>();
 
     if (!Found) {
-      float MaxDistance = DistanceTesting(x, y, goalX, goalY, distanceTest)+1;
+      float MaxDistance = DistanceTesting(x, y, goalX, goalY, distanceTest) + 1;
 
       for (PathfindingCell tcell : ReachedCells.values()) {
         float distance = DistanceTesting(tcell.x, tcell.y, goalX, goalY, distanceTest);
@@ -345,8 +349,9 @@ public class Pathfinding {
 
       }
     }
-if(path.size()>1)
-    path.remove(path.size() - 1);
+    if (path.size() > 1) {
+      path.remove(path.size() - 1);
+    }
     //path.add(new Vector2(_x, _y));
 
     Collections.reverse(path);

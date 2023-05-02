@@ -9,8 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The interaction class that returns the closest applicable interactable script
- * BlackCatStudio's Code
+ * The interaction class that returns the closest applicable interactable script BlackCatStudio's
+ * Code
+ *
  * @author Felix Seanor
  * @author Jack Hinton
  * @author Jack Vickers
@@ -28,9 +29,11 @@ public class Interaction {
   public static List<GameObject> debugVision = new LinkedList<>();
 
   /**
-   * Find the closest acceptable interactable object. Will not return an object that cannot be interacted given the type
-   * @param pos position to scan from
-   * @param type type of position
+   * Find the closest acceptable interactable object. Will not return an object that cannot be
+   * interacted given the type
+   *
+   * @param pos      position to scan from
+   * @param type     type of position
    * @param maxRange max interaction range
    * @return Scriptable to interact with
    * @author Felix Seanor
@@ -40,7 +43,7 @@ public class Interaction {
   public static Scriptable FindClosetInteractable(Vector2 pos, InteractionType type,
       float maxRange) {
 
-    if(Debug) {
+    if (Debug) {
       for (GameObject ob : debugVision
       ) {
         ob.Destroy();
@@ -49,7 +52,7 @@ public class Interaction {
       debugVision.clear();
     }
     BlackTexture tex;
-    if(Debug) {
+    if (Debug) {
       tex = new BlackTexture("Black.png");
       tex.setSize(10, 10);
 
@@ -68,7 +71,6 @@ public class Interaction {
     Scriptable currentClosestScript = null;
     Vector2 temp = Vector2.Zero;
     Vector2 ScriptPos;
-
 
 //For all script check if it's valid for this type of interaction.
     // E.g. if your putting food down you cant put down on a full station
@@ -92,20 +94,19 @@ public class Interaction {
         }
       }
 
-    //2D separating Axis theorem with no rotation
+      //2D separating Axis theorem with no rotation
       //Checks if the XY distance is smaller than the two sizes
 
       // case 1 X axis
 
+      Vector2 L = new Vector2(1, 0);
 
-      Vector2 L  = new Vector2(1,0);
-
-      float BW = script.gameObject.getWidth()/2f;
-      float BH = script.gameObject.getHeight()/2f;
+      float BW = script.gameObject.getWidth() / 2f;
+      float BH = script.gameObject.getHeight() / 2f;
 
       ScriptPos = new Vector2(ScriptPos);
 
-      ScriptPos.add(BW,BH);
+      ScriptPos.add(BW, BH);
 
       vct.set(pos).sub(ScriptPos);
 
@@ -115,35 +116,32 @@ public class Interaction {
       float lower = maxRange + Math.abs(BW);
 
       float minVct;
-      if(bound>lower){
+      if (bound > lower) {
         //separating axis
         continue;
       } else {
         minVct = bound;
       }
 
-
-
-      L.set(0,1);
+      L.set(0, 1);
       bound = Math.abs(L.dot(vct));
       lower = maxRange + Math.abs(BH);
 
-      if(bound>lower){
+      if (bound > lower) {
         //seperating axis
         continue;
       } else {
-        minVct = Math.min(bound,minVct);
+        minVct = Math.min(bound, minVct);
       }
 
-
-      if(Debug) {
+      if (Debug) {
         GameObject obj = new GameObject(tex);
         obj.setPosition(ScriptPos.x, ScriptPos.y);
 
         debugVision.add(obj);
       }
       //If the minimum vector is smaller than the current distance then accept this as the closest
-      if(minVct<distance){
+      if (minVct < distance) {
         distance = minVct;
 
         currentClosestScript = script;

@@ -3,60 +3,68 @@ package com.mygdx.game.Core.Customers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.mygdx.game.Core.Rendering.BlackTexture;
-import com.mygdx.game.Core.Rendering.GameObject;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.GameState.CustomerGroupState;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Core.Inputs;
 import com.mygdx.game.Core.PathFinder.DistanceTest;
 import com.mygdx.game.Core.PathFinder.Pathfinding;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Rendering.GameObject;
+import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.Item;
-
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Items.ItemEnum;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Items.ItemEnum;
-
 import java.util.Objects;
 import java.util.Random;
 import java.util.function.Consumer;
 
 /**
-  This script controls the customers and handles their logic through a variety of secondary scripts.
-  Also handles when the current game should end.
-
-  BlackCatStudio's Code
-  @author Felix Seanor
-  @author Jack Vickers
-
-  Last modified: 23/04/2023
+ * This script controls the customers and handles their logic through a variety of secondary
+ * scripts. Also handles when the current game should end.
+ * <p>
+ * BlackCatStudio's Code
+ *
+ * @author Felix Seanor
+ * @author Jack Vickers
+ * <p>
+ * Last modified: 23/04/2023
  */
 
-public class CustomerController extends Scriptable
-{
+public class CustomerController extends Scriptable {
 
-  /**The current customer group waiting in line*/
+  /**
+   * The current customer group waiting in line
+   */
   CustomerGroups currentWaiting = null;
 
-  /**List of customers sitting down and eating. Groups only enter this when all members are eating*/
+  /**
+   * List of customers sitting down and eating. Groups only enter this when all members are eating
+   */
   List<CustomerGroups> SittingCustomers = new LinkedList<>();
-  /**List of all customer groups trying to leave*/
+  /**
+   * List of all customer groups trying to leave
+   */
   List<CustomerGroups> WalkingBackCustomers = new LinkedList<>();
-  /**Pathfinding module used*/
+  /**
+   * Pathfinding module used
+   */
   Pathfinding pathfinding;
 
   /**
    * List of tables
    */
   List<Table> tables;
-  /** Call this to start endge game sequence */
+  /**
+   * Call this to start endge game sequence
+   */
   Consumer<EndOfGameValues> CallEndGame;
 
   public int Reputation;
@@ -75,27 +83,41 @@ public class CustomerController extends Scriptable
 
   Boolean OvensAdded = false;
 
-  /** Frustration Time*/
+  /**
+   * Frustration Time
+   */
   private GameObject FrustrationTimer;
   private GameObject FrustrationTimerBackground;
 
-  /** Creates a new randomisation class based on the current time */
+  /**
+   * Creates a new randomisation class based on the current time
+   */
   Random rand = new Random(System.currentTimeMillis());
 
-  /** The minimum and maximum group size for customers groups */
-  private Vector2 groupSize = new Vector2(1,4);
+  /**
+   * The minimum and maximum group size for customers groups
+   */
+  private Vector2 groupSize = new Vector2(1, 4);
 
-  /** timer defining when the next eating customer will leave */
+  /**
+   * timer defining when the next eating customer will leave
+   */
   float NextToLeave = EatingTime;
   int MaxCustomers;
   int CustomersRemaining;
   ArrayList<Integer> customersPerWave;
-/** this is call back for customer groups who get too frustrated so they need to leave */
+  /**
+   * this is call back for customer groups who get too frustrated so they need to leave
+   */
   Consumer<CustomerGroups> FrustrationCallBack;
 
-  /** Door position */
+  /**
+   * Door position
+   */
   Vector2 DoorTarget;
-  /** where ordering queue should start */
+  /**
+   * where ordering queue should start
+   */
   Vector2 OrderAreaTarget;
 
   /**
@@ -103,7 +125,9 @@ public class CustomerController extends Scriptable
    */
   public ArrayList<TextureAtlas> CustomerAtlas = new ArrayList<>();
 
-  /** how long it takes for a group to be frustrated and leave without being served*/
+  /**
+   * how long it takes for a group to be frustrated and leave without being served
+   */
   private int CustomerFrustrationStart = 80;
 
   public boolean updateFrustration = true;
@@ -111,17 +135,19 @@ public class CustomerController extends Scriptable
 
   /**
    * Creates the customer controller
-   * @param DoorPosition Customer spawn and exit.
-   * @param OrderArea First position in order line
-   * @param path    Pathfinding Module.
+   *
+   * @param DoorPosition     Customer spawn and exit.
+   * @param OrderArea        First position in order line
+   * @param path             Pathfinding Module.
    * @param CallUpGameFinish Game Finish Function.
-   * @param params Parameter class
-   * @param tables Where the tables are, TEMPORARY
+   * @param params           Parameter class
+   * @param tables           Where the tables are, TEMPORARY
    * @author Felix Seanor
    */
   public CustomerController(Vector2 DoorPosition, Vector2 OrderArea, Pathfinding path,
-      Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params,Vector2... tables){
-    FrustrationCallBack = (CustomerGroups a)   -> FrustrationLeave(a);
+      Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params,
+      Vector2... tables) {
+    FrustrationCallBack = (CustomerGroups a) -> FrustrationLeave(a);
     MoneyPerCustomer = params.MoneyPerCustomer;
     CallEndGame = CallUpGameFinish;
     Money = params.MoneyStart;
@@ -152,7 +178,6 @@ public class CustomerController extends Scriptable
       Reputation = Math.min(Reputation, Waves);
     }
     generateCustomerArray();
-
 
     pathfinding = path;
     OrderAreaTarget = OrderArea;
@@ -197,12 +222,12 @@ public class CustomerController extends Scriptable
   }
 
 
-  public void SetTables(Vector2... tab){
+  public void SetTables(Vector2... tab) {
     int ID = 0;
     tables = new LinkedList<>();
     for (Vector2 pos : tab
     ) {
-      tables.add(new Table(pos.add(5,10), ID++, 35));
+      tables.add(new Table(pos.add(5, 10), ID++, 35));
     }
 
   }
@@ -255,12 +280,14 @@ public class CustomerController extends Scriptable
 
   /**
    * Used to update the ordermenu when an oven has been bought
+   *
    * @author Jack Hinton
    */
   public void updateMenu(boolean a) {
 
-    if(!OvensAdded)
-    menu.ovenAdded();
+    if (!OvensAdded) {
+      menu.ovenAdded();
+    }
 
     menu.Restock();
 
@@ -314,7 +341,8 @@ public class CustomerController extends Scriptable
   public CustomerGroups getCurrentWaitingCustomerGroup() {
     return currentWaiting;
   }
-  public void setCurrentWaitingCustomerGroup(CustomerGroups group){
+
+  public void setCurrentWaitingCustomerGroup(CustomerGroups group) {
     currentWaiting = group;
   }
 
@@ -330,7 +358,8 @@ public class CustomerController extends Scriptable
   }
 
   /**
-   *  Modifies the reputation, if reputation + DR <= 0 END GAME.
+   * Modifies the reputation, if reputation + DR <= 0 END GAME.
+   *
    * @param DR delta reputation
    * @author Felix Seanor
    */
@@ -367,12 +396,12 @@ public class CustomerController extends Scriptable
 
   }
 
-  public boolean decreaseMoney(float dm){
-    if(Money-dm >= 0){
+  public boolean decreaseMoney(float dm) {
+    if (Money - dm >= 0) {
       Money -= dm;
       soundFrame.SoundEngine.playSound(soundsEnum.BuyItem);
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -382,10 +411,10 @@ public class CustomerController extends Scriptable
   public void Update(float dt) {
     super.Update(dt);
 
-    if(Gdx.input.isKeyJustPressed(Inputs.SELL_RESTURANT))
-    {
+    if (Gdx.input.isKeyJustPressed(Inputs.SELL_RESTURANT)) {
       Reputation = 0;
-      EndGame();;
+      EndGame();
+      ;
     }
 
     if (currentWaiting != null) {
@@ -427,7 +456,7 @@ public class CustomerController extends Scriptable
 
   public void ChangeFrustrationTimer() {
 
-    float TT  = 0;
+    float TT = 0;
     float Max = CustomerFrustrationStart;
 
     if (currentWaiting != null) {
@@ -435,10 +464,11 @@ public class CustomerController extends Scriptable
       Max *= currentWaiting.Members.size();
     }
     ((BlackTexture) FrustrationTimer.image).setSize(
-        (int) (( TT / Max) * TimerWidth), TimerHeight);
+        (int) ((TT / Max) * TimerWidth), TimerHeight);
 
 
   }
+
   /**
    * Change frustration of the currently waiting customer group
    *
@@ -473,6 +503,7 @@ public class CustomerController extends Scriptable
 
   /**
    * Removes the first currently seated customer and makes them walk outside and despawn.
+   *
    * @author Felix Seanor
    */
   void RemoveCurrentlySeatedCustomers() {
@@ -481,12 +512,10 @@ public class CustomerController extends Scriptable
     WalkingBackCustomers.add(groups);
     SittingCustomers.remove(0);
 
-    for (Customer customer: groups.Members
+    for (Customer customer : groups.Members
     ) {
       customer.eaten = true;
     }
-
-
 
     SetCustomerGroupTarget(groups, DoorTarget);
 
@@ -496,6 +525,7 @@ public class CustomerController extends Scriptable
 
   /**
    * Trys to remove customers when they reach the exit.
+   *
    * @author Felix Seanor
    */
   void TryDeleteCustomers() {
@@ -558,6 +588,7 @@ public class CustomerController extends Scriptable
 
   /**
    * Lets a new customer group walk through the door
+   *
    * @author Felix Seanor
    * @author Jack Vickers
    */
@@ -576,7 +607,6 @@ public class CustomerController extends Scriptable
     table.DesignateSeating(customerAmount, rand);
 
     SetWaitingForOrderTarget();
-
 
 
   }
@@ -598,8 +628,9 @@ public class CustomerController extends Scriptable
   }
 
   /**
-   * Checks if a new customer can be accepted if so, add a new one in. End the game if the set number of waves has elapsed.
-   * Set Waves to -1 for "endless"
+   * Checks if a new customer can be accepted if so, add a new one in. End the game if the set
+   * number of waves has elapsed. Set Waves to -1 for "endless"
+   *
    * @author Felix Seanor
    */
 
@@ -690,9 +721,9 @@ public class CustomerController extends Scriptable
     SetWaitingForOrderTarget();
   }
 
-  void removeAnyCustomer(Integer customerToRemove){
+  void removeAnyCustomer(Integer customerToRemove) {
     Customer customer = currentWaiting.removeAnyCustomer(customerToRemove);
-    if(customer != null){
+    if (customer != null) {
       numCustomersServed += 1;
       SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
       ChangeMoney(MoneyPerCustomer);
@@ -715,7 +746,8 @@ public class CustomerController extends Scriptable
     values.Won = Reputation > 0;
     CallEndGame.accept(values);
   }
-  public boolean tetrisSuperFoodAction(Item dish){
+
+  public boolean tetrisSuperFoodAction(Item dish) {
     Boolean anyCustomer = false;
     LinkedList<OrderType> orderTypes = menu.getAllOrderTypes();
     List<ItemEnum> toClear = null;
@@ -744,8 +776,9 @@ public class CustomerController extends Scriptable
    * @author Felix Seanor
    */
   public boolean tryGiveFood(Item item) {
-    if(item.name().contains("Super"))
+    if (item.name().contains("Super")) {
       return tetrisSuperFoodAction(item);
+    }
     int success = currentWaiting.SeeIfDishIsCorrect(item);
 
     if (success != -1) {
@@ -856,7 +889,6 @@ public class CustomerController extends Scriptable
         i++;
         continue;
       }
-
 
       CustomerGroups customerGroups = new CustomerGroups(groupState, CustomerAtlas);
 

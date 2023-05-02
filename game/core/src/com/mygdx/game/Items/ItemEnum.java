@@ -1,13 +1,12 @@
 package com.mygdx.game.Items;
 
 /**
- * All items in the game
- * BlackCatStudio's Code
+ * All items in the game BlackCatStudio's Code
+ *
  * @author Jack Hinton
  * @date 01/05/23
  */
-public enum ItemEnum
-{
+public enum ItemEnum {
   Cinder,
   Lettuce,
   CutLettuce,

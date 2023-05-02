@@ -3,8 +3,8 @@ package com.mygdx.game.Core;
 import com.mygdx.game.Core.Rendering.GameObject;
 
 /**
- * The methods gets called and helps to update scripts every frame
- * BlackCatStudio's Code
+ * The methods gets called and helps to update scripts every frame BlackCatStudio's Code
+ *
  * @author Felix Seanor
  * @date 24/02/23
  */
@@ -23,6 +23,7 @@ public class Scriptable {
 
   /**
    * runs every frame
+   *
    * @param dt
    * @author Felix Seanor
    */
@@ -31,6 +32,7 @@ public class Scriptable {
 
   /**
    * runs every fixed frame
+   *
    * @param dt
    * @author Felix Seanor
    */
@@ -39,9 +41,10 @@ public class Scriptable {
 
   /**
    * runs just before rendering
+   *
    * @author Felix Seanor
    */
-  public void OnRender(){
+  public void OnRender() {
 
   }
 

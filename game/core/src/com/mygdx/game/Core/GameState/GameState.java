@@ -3,18 +3,18 @@ package com.mygdx.game.Core.GameState;
 import com.badlogic.gdx.math.Vector2;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Class containing saved data of the game, to be saved to disk or loaded back in
- * BlackCatStudio's Code
+ * Class containing saved data of the game, to be saved to disk or loaded back in BlackCatStudio's
+ * Code
+ *
  * @author Felix Seanor
  * @author Jack Vickers
  * @date 25/04/23
  */
-public class GameState implements Serializable
-{
+public class GameState implements Serializable {
+
   public int Money;
   public int MaxMoney;
 
@@ -36,16 +36,16 @@ public class GameState implements Serializable
   public Difficulty difficulty;
 
 
-  public boolean IsChefPartEquals(GameState state){
-    boolean  eq = true;
+  public boolean IsChefPartEquals(GameState state) {
+    boolean eq = true;
 
     for (int i = 0; i < ChefPositions.length; i++) {
-      eq &= ChefPositions[i].epsilonEquals( state.ChefPositions[i]);
+      eq &= ChefPositions[i].epsilonEquals(state.ChefPositions[i]);
 
     }
 
     for (int i = 0; i < ChefHoldingStacks.length; i++) {
-      eq &= ChefHoldingStacks[i] == ( state.ChefHoldingStacks[i]);
+      eq &= ChefHoldingStacks[i] == (state.ChefHoldingStacks[i]);
 
     }
 
@@ -53,10 +53,10 @@ public class GameState implements Serializable
 
   }
 
-  public boolean IsCustomerPartEquals(GameState state){
+  public boolean IsCustomerPartEquals(GameState state) {
     boolean eq = true;
 
-   // eq &= difficulty == state.difficulty; gamescreen
+    // eq &= difficulty == state.difficulty; gamescreen
     eq &= CustomersPerWave == state.CustomersPerWave;
     eq &= MaxReputation == state.MaxReputation;
     eq &= Reputation == state.Reputation;
@@ -72,15 +72,10 @@ public class GameState implements Serializable
       eq &= state.CustomerGroupsData[i].equals(CustomerGroupsData[i]);
     }
 
-
-
     eq &= MaxMoney == state.MaxMoney;
     eq &= Money == state.Money;
 
-
     return eq;
-
-
 
 
   }

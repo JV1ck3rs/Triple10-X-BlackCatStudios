@@ -6,8 +6,8 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
 /**
- * Class containing procedures to execute powerups
- * BlackCatStudio's Code
+ * Class containing procedures to execute powerups BlackCatStudio's Code
+ *
  * @author Sam Toner
  * @date 02/05/23
  */
@@ -39,7 +39,9 @@ public class Powerup {
   }
 
 
-  public void superFood() { cc.superFoodUpgrade(); }
+  public void superFood() {
+    cc.superFoodUpgrade();
+  }
 
   public void tetrisSuperFoodGive() {
     Item dish = mc.getCurrentChef().getTopItem();
@@ -48,7 +50,6 @@ public class Powerup {
     Item superItem = cc.menu.getSuperFromDish(ItemEnum.valueOf(dish.name()));
     mc.getCurrentChef().GiveItem(superItem);
   }
-
 
 
   public void stopFrustration(Integer delayTime) {

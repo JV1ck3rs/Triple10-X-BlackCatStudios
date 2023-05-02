@@ -110,8 +110,8 @@ public class ToasterStationTests extends MasterTestClass {
     toasterStation.GiveItem(buns);
     assertFalse("The CanGive() method should return false when there is already an item placed on the toaster", toasterStation.CanGive());
     toasterStation.GiveItem(toastedBuns);
-    System.out.println(toastedBuns);
-    System.out.println(toasterStation.item);
+//    System.out.println(toastedBuns);
+//    System.out.println(toasterStation.item);
     assertEquals("The item on the toaster should be unchanged if an item is placed on the toaster when there already was an item on the toaster", buns, toasterStation.RetrieveItem());
   }
 

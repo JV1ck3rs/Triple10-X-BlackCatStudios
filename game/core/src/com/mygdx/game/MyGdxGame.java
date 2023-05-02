@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.mygdx.game.Core.Leaderboard.LeaderBoard;
-import com.mygdx.game.Core.SFX.soundFrame;
 import com.mygdx.game.Core.Rendering.TextureDictionary;
+import com.mygdx.game.Core.SFX.soundFrame;
 
 /**
  * Creates the initial base layer and main objects such as sprite batches and screens Also declares
- * the render, create and dispose functions
- * Mixture of BlackCatStudios Code and TeamTriple10s
+ * the render, create and dispose functions Mixture of BlackCatStudios Code and TeamTriple10s
+ *
  * @author Labib Zabeneh
  * @author Robin Graham
  * @author Riko Puusepp

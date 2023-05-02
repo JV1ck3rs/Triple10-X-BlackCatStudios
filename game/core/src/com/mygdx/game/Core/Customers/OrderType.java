@@ -9,11 +9,12 @@ import java.util.Random;
 /**
  * This is a type of order and contains how many times in relation to others this has been ordered
  * BlackCatStudio's Code
+ *
  * @author Felix Seanor
  * @date 23/04/23
  */
-public class OrderType
-{
+public class OrderType {
+
   //Order class burger salad ect
   public ItemEnum orderClass;
 
@@ -32,12 +33,13 @@ public class OrderType
 
   /**
    * Creates a new order type
-   * @param stock Probability start
+   *
+   * @param stock    Probability start
    * @param minStock lowest probability
-   * @param orders what orders are allowed
+   * @param orders   what orders are allowed
    * @author Felix Seanor
    */
-  public OrderType(int stock, int minStock, ItemEnum... orders){
+  public OrderType(int stock, int minStock, ItemEnum... orders) {
     orderables = new LinkedList<>(Arrays.asList(orders));
     this.stock = stock;
     this.minStock = minStock;
@@ -46,21 +48,23 @@ public class OrderType
 
   /**
    * Reduce the probability after an order
+   *
    * @param count
    * @author Felix Seanor
    */
-  public void TakeStock(int count){
-    stock = Math.max(stock-count,minStock);
+  public void TakeStock(int count) {
+    stock = Math.max(stock - count, minStock);
 
   }
 
 
   /**
    * Get a new random single order
+   *
    * @param rand randomisation class
    * @return new ItemEnum for order
    */
-  public ItemEnum GetOrder(Random rand){
+  public ItemEnum GetOrder(Random rand) {
     int orderID = rand.nextInt(orderables.size());
     TakeStock(1);
     return orderables.get(orderID);
@@ -69,9 +73,10 @@ public class OrderType
 
   /**
    * Reset stock "probability"
+   *
    * @author Felix Seanor
    */
-  public void Restock(){
+  public void Restock() {
     stock = defStock;
   }
 

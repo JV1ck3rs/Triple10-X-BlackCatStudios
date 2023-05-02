@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * Uses an enum containing all the names of the sound effects Uses an array of all the sounds,
- * must have the same index as the enum Uses a hashmap to store the IDs for each sound
- * BlackCatStudio's code
+ * Uses an enum containing all the names of the sound effects Uses an array of all the sounds, must
+ * have the same index as the enum Uses a hashmap to store the IDs for each sound BlackCatStudio's
+ * code
+ *
  * @author Sam Toner
  * @author Felix Seanor
  * @date 18/04/23
@@ -16,19 +17,19 @@ import java.util.LinkedList;
 public class soundFrame {
 
 
-   public enum soundsEnum {
-    CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved,BuyItem,end;
+  public enum soundsEnum {
+    CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved, BuyItem, end;
   }
 
   public static soundFrame SoundEngine;
   Sound[] Sounds = new Sound[soundsEnum.end.ordinal()];
 
   HashMap<soundsEnum, LinkedList<Long>> soundIDsMap = new HashMap<>();
- public float currentSystemVolume = 1.0f;
- public float Volume = 1.0f;
+  public float currentSystemVolume = 1.0f;
+  public float Volume = 1.0f;
 
 
-  public soundFrame(){
+  public soundFrame() {
     LoadSounds.load(this);
     SoundEngine = this;
   }
@@ -86,8 +87,8 @@ public class soundFrame {
    * @param ring  - Enum value of the name of the sound
    * @param ID    - The ID required to interact with the sound instance
    * @param state - The looping state, True = loop - False = stop looping
-   *             <p>
-   *             Find the sound from the enum, and set it to loop using the sound instance ID
+   *              <p>
+   *              Find the sound from the enum, and set it to loop using the sound instance ID
    * @author Sam Toner
    */
   public void setLooping(soundsEnum ring, long ID, boolean state) {
@@ -112,7 +113,7 @@ public class soundFrame {
 
   /**
    * @param ring - Enum value of the name of the sound
-   *
+   *             <p>
    *             Removes the sound from the Sound array in the position of the enum value
    * @author Sam Toner
    */
@@ -147,6 +148,7 @@ public class soundFrame {
 
   /**
    * Runs setSystemVolume with a sound of 0
+   *
    * @author Sam Toner
    */
   public void muteSound() {
@@ -156,6 +158,7 @@ public class soundFrame {
   /**
    * Sets the volume back to the volume previous to mute, allows return to previous volume after a
    * mute
+   *
    * @author Sam Toner
    */
   public void unmuteSound() {

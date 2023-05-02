@@ -1,13 +1,13 @@
 package com.mygdx.game.Stations;
 
-import com.mygdx.game.Core.Rendering.BlackTexture;
-import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.ItemState;
-import com.mygdx.game.Items.Item;
-import com.mygdx.game.Items.ItemEnum;
+import com.mygdx.game.Core.Rendering.BlackTexture;
+import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.SFX.soundFrame;
 import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Items.Item;
+import com.mygdx.game.Items.ItemEnum;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Assembly station for assembling our ingredients into a final dish and storing items
  * BlackCatStudio's Code and
+ *
  * @author Robin Graham
  * @author Jack Hinton
  * @date 01/05/23
@@ -34,6 +35,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Creates an assembly station
+   *
    * @param params The parameters for cooking speed, burning speed etc.
    * @author Jack Hinton
    * @author Felix Seanor
@@ -53,6 +55,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Gives the assembly station an item, storing up to a maximum of 4 items
+   *
    * @param item The item you want to give to the assembly station
    * @return boolean - If the method was successful giving an item
    * @author Jack Hinton
@@ -78,6 +81,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Returns the last added item
+   *
    * @return Item
    * @author Jack Hinton
    * @author Jack Vickers
@@ -109,6 +113,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Checks if you can retrieve an item from the assembly station
+   *
    * @return boolean
    * @author Jack Hinton
    * @author Felix Seanor
@@ -121,6 +126,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Checks if you can give an item to the assembly station
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -131,6 +137,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Checks if the user can interact with the assembly station
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -142,6 +149,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Interact with the assembly station to combine items
+   *
    * @return float
    * @author Jack Hinton
    */
@@ -186,6 +194,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Removes all ingredients from the arraylist
+   *
    * @author Jack Hinton
    */
   public void clearIngredients() {
@@ -204,6 +213,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Assembles the dish into the final one when we have all the correct ingredients
+   *
    * @return boolean
    * @Author Jack Hinton
    * @Author Jack Vickers
@@ -236,6 +246,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Gets the current dish
+   *
    * @return Item
    * @Author Jack Hinton
    * @Author Jack Vickers
@@ -259,6 +270,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Updates the pictures currently shown on the station
+   *
    * @Author Jack Hinton
    * @Author Felix Seanor
    * @Author Jack Vickers
@@ -315,13 +327,14 @@ public class AssemblyStation extends Station {
    * @Author Jack Hinton
    */
   @Override
-  public void moveAnim(){
+  public void moveAnim() {
     return;
   }
 
 
   /**
    * Updates the assembly station
+   *
    * @param dt delta time
    * @Author Jack Hinton
    */
@@ -332,17 +345,16 @@ public class AssemblyStation extends Station {
 
   /**
    * Loads the items and lock state of the station from a save file
-   * @param state items stored in save file
+   *
+   * @param state  items stored in save file
    * @param locked lock state
    * @Author Felix Seanor
    */
   @Override
-  public void LoadState(List<ItemState> state,Boolean locked) {
+  public void LoadState(List<ItemState> state, Boolean locked) {
 
     ingredients.clear();
     updatePictures();
-
-
 
     for (int i = 0; i < state.size(); i++) {
       if (state.get(i) == null) {
@@ -356,6 +368,7 @@ public class AssemblyStation extends Station {
 
   /**
    * Saves the current state of the station
+   *
    * @return List<ItemState>
    * @Author Felix Seanor
    */

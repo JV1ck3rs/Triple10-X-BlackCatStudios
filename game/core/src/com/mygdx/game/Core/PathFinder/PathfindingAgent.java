@@ -9,10 +9,9 @@ import java.util.List;
 
 
 /**
- * A pathfinding agent abstraction
- *   BlackCatStudio's Code
- * @author Felix Seanor
- * Last modified 10/04/23
+ * A pathfinding agent abstraction BlackCatStudio's Code
+ *
+ * @author Felix Seanor Last modified 10/04/23
  */
 public class PathfindingAgent extends Scriptable {
 
@@ -24,6 +23,7 @@ public class PathfindingAgent extends Scriptable {
 
   /**
    * Give this agent a new path
+   *
    * @param newPath
    */
   public void GivePath(List<Vector2> newPath) {

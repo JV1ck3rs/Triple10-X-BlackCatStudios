@@ -1,10 +1,9 @@
 package com.mygdx.game.Stations;
 
+import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Rendering.GameObject;
-import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Items.Item;
-
 import java.util.function.Function;
 
 /**
@@ -23,6 +22,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Creates a customer counter
+   *
    * @param script Script to give the item to a customer
    * @param params Cooking parameters i.e cooking speed, burn speed etc.
    * @author Jack Hinton
@@ -37,12 +37,13 @@ public class CustomerCounters extends Station {
 
   /**
    * Give an item to the customer counter
+   *
    * @param item The item you want to give to the counter
    * @return boolean
    * @author Jack Hinton
    */
   @Override
-  public boolean GiveItem(Item item){
+  public boolean GiveItem(Item item) {
     changeItem(item);
     GiveFood();
     return true;
@@ -51,6 +52,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Retrieve the item from the counter
+   *
    * @return Item
    * @author Jack Hinton
    */
@@ -65,6 +67,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Checks if the chef can retrieve from the counter
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -76,6 +79,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Checks if the chef can give the counter an item
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -87,6 +91,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Checks if the user can interact with the counter
+   *
    * @return boolean
    * @author Jack Hinton
    */
@@ -98,6 +103,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Interact with the counter
+   *
    * @return float
    * @author Jack Hinton
    */
@@ -109,6 +115,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Give food to a customer
+   *
    * @author Jack Hinton
    */
   public void GiveFood() {
@@ -121,6 +128,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Updates the pictures on the counter
+   *
    * @author Jack Hinton
    */
   @Override
@@ -147,6 +155,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Moves the animation
+   *
    * @author Jack Hinton
    */
   @Override
@@ -157,6 +166,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Updates the customer counter
+   *
    * @param dt delta time
    * @author Jack Hinton
    */

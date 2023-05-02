@@ -1,15 +1,14 @@
 package com.mygdx.game.RecipeAndComb;
 
 import com.mygdx.game.Items.ItemEnum;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Recipe dictionary, given an item input return a recipe
- * BlackCatStudio's Code
+ * Recipe dictionary, given an item input return a recipe BlackCatStudio's Code
+ *
  * @author Jack Hinton
  * @date 29/03/23
  */
@@ -20,6 +19,7 @@ public class RecipeDict {
 
   /**
    * Adds recipes to the recipe dictionary
+   *
    * @author Jack Hinton
    */
   public void implementRecipes() {
@@ -105,12 +105,13 @@ public class RecipeDict {
 
   /**
    * Creates an instance of recipedict
+   *
    * @author Jack Hinton
    */
   public RecipeDict() {
-      if (recipes != null) {
-          return;
-      }
+    if (recipes != null) {
+      return;
+    }
     recipes = this;
   }
 
