@@ -167,6 +167,9 @@ public class Chef extends PathfindingAgent implements Person {
   }
 
   public Item getTopItem(){
+    if(heldItems.size() == 0)
+      return null;
+
     return heldItems.peek();
   }
 
@@ -464,6 +467,8 @@ public class Chef extends PathfindingAgent implements Person {
     if (CanGiveItem()) {
       heldItems.add(item);
       soundFrame.SoundEngine.playSound(soundsEnum.EquipItem);
+      ModifiedStack = true;
+
       return true;
     }
 
@@ -475,6 +480,7 @@ public class Chef extends PathfindingAgent implements Person {
       heldItems.add(item);
       return true;
     }
+    ModifiedStack = true;
 
     return false;
   }
@@ -489,6 +495,8 @@ public class Chef extends PathfindingAgent implements Person {
       heldItems.pop();
     }
     soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
+    ModifiedStack = true;
+
   }
 
   /**

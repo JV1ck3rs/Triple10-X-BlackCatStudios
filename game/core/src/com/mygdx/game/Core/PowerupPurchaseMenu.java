@@ -177,8 +177,7 @@ public class PowerupPurchaseMenu extends Scriptable {
       } else if (tetrisSuperFoodBuyButton.isClicked() && money >= prices.get(
           "TetrisSuperFood")) {
 
-        powerup.tetrisSuperFood();
-        if(completedRecipes.contains(mc.getCurrentChef().getTopItem().name)){
+        if(mc.getCurrentChef().getTopItem() != null  && completedRecipes.contains(mc.getCurrentChef().getTopItem().name)){
           cc.ChangeMoney(-Float.valueOf(prices.get("TetrisSuperFood")));
           powerup.tetrisSuperFoodGive();
         }else{
