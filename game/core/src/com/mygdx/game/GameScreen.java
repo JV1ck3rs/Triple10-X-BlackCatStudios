@@ -454,7 +454,7 @@ public class GameScreen implements Screen {
     powerUpButtonStyle.down = powerUpButtonUp;
     gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).align(Align.topRight)
         .expandX();
-    gameUITable.add(powerUpButton).width(48 * scaleX).height(50 * scaleY).expandX().align(Align.right);
+    gameUITable.add(powerUpButton).width(100 * scaleX).height(40 * scaleY).expandX().align(Align.right);
     gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX().align(Align.topRight).row();
     pauseButton.addListener(new ClickListener() {
       @Override
