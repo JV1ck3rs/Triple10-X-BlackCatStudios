@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 
 /**
  * Tests that the assets are present.
- *
+ * @Satisfies Requirements for UR_MENU, UR_ENJOYABILITY, UR_SCENARIO_SET_CUSTOMER, UR_GAME_MAP, UR_HOW_TO_PLAY, UR_PAUSE_MENU, UR_CUSTOMER_ORDER
  * @author Jack Vickers
  * @author Azzam Amirul
  * @author Hubert Solecki
@@ -21,7 +21,7 @@ public class AssetTests {
 
   /**
    * Tests that the chef assets are present.
-   *
+   * @Satisfies UR_ENJOYABILITY
    * @author Jack Vickers
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
@@ -45,7 +45,7 @@ public class AssetTests {
   /**
    * Tests that the skin json asset exists. This is used for the UI on the
    * scenarioModeConfigScreen.
-   *
+   * @Satisfies UR_SCENARIO_SET_CUSTOMER
    * @author Jack Vickers
    * @date 07/04/2023
    */
@@ -58,7 +58,7 @@ public class AssetTests {
   /**
    * Tests that the skin atlas asset exists. This is used for the UI on the
    * scenarioModeConfigScreen.
-   *
+   * @Satisfies UR_SCENARIO_SET_CUSTOMER
    * @author Jack Vickers
    * @date 07/04/2023
    */
@@ -71,7 +71,7 @@ public class AssetTests {
   /**
    * Tests that the skin image asset exists. This is used for the UI on the
    * scenarioModeConfigScreen.
-   *
+   * @Satisfies UR_SCENARIO_SET_CUSTOMER
    * @author Jack Vickers
    * @date 07/04/2023
    */
@@ -84,7 +84,7 @@ public class AssetTests {
   /**
    * Tests that the skin font asset exists. This is used for the UI on the
    * scenarioModeConfigScreen.
-   *
+   * @Satisfies UR_SCENARIO_SET_CUSTOMER
    * @author Jack Vickers
    * @date 07/04/2023
    */
@@ -97,7 +97,7 @@ public class AssetTests {
   /**
    * Tests that the assets for the load game button are present. This button is displayed on the
    * title screen.
-   *
+   * @Satisfies UR_MENU
    * @author Jack Vickers
    * @date 17/04/2023
    */
@@ -112,7 +112,7 @@ public class AssetTests {
   /**
    * Tests that the assets for the save game button are present. This button is displayed on the
    * pause screen.
-   *
+   * @Satisfies UR_PAUSE_MENU
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
    */
@@ -127,7 +127,7 @@ public class AssetTests {
   /**
    * Tests that the atlas for the main menu exists. Also used for
    * the scenario mode config screen.
-   *
+   * @Satisfies UR_MAIN_MENU
    * @author Jack Vickers
    * @date 17/04/2023
    */
@@ -139,7 +139,7 @@ public class AssetTests {
 
   /**
    * Tests that the image exists which is referenced by the main menu atlas.
-   *
+   * @Satisfies UR_MAIN_MENU
    * @author Jack Vickers
    * @date 17/04/2023
    */
@@ -152,7 +152,7 @@ public class AssetTests {
   /**
    * Tests that the images for the play button on the main menu and scenario config screens
    * can be found using the texture atlas.
-   *
+   * @Satisfies UR_MAIN_MENU
    * @author Jack Vickers
    * @date 17/04/2023
    */
@@ -168,7 +168,7 @@ public class AssetTests {
   /**
    * Tests that the images for the scenario mode button on the main menu can be found using the
    * texture atlas.
-   *
+   * @Satisfies UR_MAIN_MENU
    * @author Jack Vickers
    * @date 17/04/2023
    */
@@ -185,7 +185,7 @@ public class AssetTests {
 
   /**
    * Tests that the images for the exit button can be found using the texture atlas.
-   *
+   * @Satisfies UR_MAIN_MENU
    * @author Jack Vickers
    * @date 17/04/2023
    */
@@ -200,7 +200,7 @@ public class AssetTests {
 
   /**
    * Tests that the image for the main menu background can be found using the texture atlas.
-   *
+   * @Satisfies UR_MAIN_MENU
    * @author Jack Vickers
    * @date 17/04/2023
    */
@@ -214,7 +214,7 @@ public class AssetTests {
   /**
    * Tests that the assets for the pause button are present. This button is displayed on the game
    * screen.
-   *
+   * @Satisfies UR_PAUSE_MENU
    * @author Jack Vickers
    * @date 17/04/2023
    */
@@ -228,7 +228,7 @@ public class AssetTests {
   /**
    * Tests that the assets for the resume button are present. This button is displayed on the
    * pause screen.
-   *
+   * @Satisfies UR_PAUSE_MENU
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
    */
@@ -242,7 +242,7 @@ public class AssetTests {
   /**
    * Tests that the assets for the difficulty buttons are present. This button is displayed on the
    * main menu screen.
-   *
+   * @Satisfies UR_MAIN_MENU
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
    */
@@ -266,7 +266,7 @@ public class AssetTests {
   /**
    * Tests that the assets for the high scores button are present. This button is displayed on the
    * main menu screen.
-   *
+   * @Satisfies UR_MAIN_MENU
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
    */
@@ -280,7 +280,7 @@ public class AssetTests {
   /**
    * Tests that the assets for the how to play button are present. This button is displayed on the
    * game screen.
-   *
+   * @Satisfies UR_HOW_TO_PLAY
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
    */
@@ -293,8 +293,8 @@ public class AssetTests {
   }
   /**
    * Tests that the assets for the save and exit button are present. This button is displayed on the
-   * end game screen.
-   *
+   * leaderboard screen.
+   * @Satisfies UR_LEADERBOARD
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
    */
@@ -307,7 +307,7 @@ public class AssetTests {
   }
   /**
    * Tests that the assets for the piazza panic game map are present.
-   *
+   * @Satisfies UR_GAME_MAP
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
    */
@@ -319,7 +319,7 @@ public class AssetTests {
 
   /**
    * Tests that all assets in the Items folder exist.
-   *
+   * @Satisfies UR_ENJOYABILITY
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
    */
@@ -415,7 +415,7 @@ public class AssetTests {
 
   /**
    * Tests that all assets in the Recipes folder exists
-   *
+   * @Satisfies UR_CUSTOMER_ORDER
    * @author Azzam Amirul Bahri
    * @date 01/05/2023
    */
@@ -444,7 +444,7 @@ public class AssetTests {
 
   /**
    * Tests that the picture for the controls page exists.
-   *
+   * @Satisfies UR_HOW_TO_PLAY
    * @author Jack Vickers
    * @date 01/05/2023
    */
@@ -456,7 +456,7 @@ public class AssetTests {
 
   /**
    * Tests that the picture for the icons page exists.
-   *
+   * @Satisfies UR_HOW_TO_PLAY
    * @author Jack Vickers
    * @date 01/05/2023
    */
@@ -468,7 +468,7 @@ public class AssetTests {
 
   /**
    * Tests that the icons exist for the button that opens the icon page.
-   *
+   * @Satisfies UR_HOW_TO_PLAY
    * @author Jack Vickers
    * @date 01/05/2023
    */

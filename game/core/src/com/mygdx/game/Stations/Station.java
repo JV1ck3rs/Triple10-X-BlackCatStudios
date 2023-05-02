@@ -136,7 +136,9 @@ public abstract class Station extends Scriptable implements Interactable {
    * @author Jack Hinton
    */
   public void setLocked(boolean locked) {
-    bubble3.isVisible = locked;
+    if(bubble3 != null)
+      bubble3.isVisible = locked;
+
     this.locked = locked;
   }
 
@@ -198,11 +200,12 @@ public abstract class Station extends Scriptable implements Interactable {
    * @Author Jack Hinton
    */
   public void LoadState(List<ItemState> state, Boolean locked) {
+
+    setLocked(locked);
     if (state.get(0) == null || state.get(0).item == null) {
       return;
     }
 
-    setLocked(locked);
     item = new Item(state.get(0));
     updatePictures();
   }

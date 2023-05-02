@@ -786,7 +786,6 @@ public class GameScreen implements Screen {
     masterChef.LoadState(state);
     customerController.LoadState(state);
 
-
   }
 
   /**

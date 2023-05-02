@@ -21,7 +21,8 @@ import org.junit.runner.RunWith;
 /**
  * Tests for the assembly station.
  *
- * Satisfies requirements for UR_WORKSTATIONS and UR_INTERACTIONS
+ * @Satisfies Requirements for UR_WORKSTATIONS, UR_INTERACTION, UR_REMOVE_ITEM, UR_COLLECT_ITEM, UR_PREP,
+ * UR_SAVE_GAME, UR_LOAD_GAME
  *
  * @author Jack Vickers
  * @date 01/05/2023
@@ -30,8 +31,8 @@ import org.junit.runner.RunWith;
 public class AssemblyStationTests extends MasterTestClass {
 
   /**
-   * Tests that an item can be placed on an asse  mbly station.
-   *
+   * Tests that an item can be placed on an assembly station.
+   * @Satisfies UR_REMOVE_ITEM
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -52,7 +53,7 @@ public class AssemblyStationTests extends MasterTestClass {
 
   /**
    * Tests that an item can be successfully removed from the station.
-   *
+   * @Satisfies UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -87,7 +88,7 @@ public class AssemblyStationTests extends MasterTestClass {
   /**
    * Tests that nothing happens when an item is attempted to be removed from an empty assembly
    * station.
-   *
+   * @Satisfies UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -120,7 +121,7 @@ public class AssemblyStationTests extends MasterTestClass {
   /**
    * Tests that items can be placed on an assembly station after other items have been combined on
    * this station. Also tests that they can all be successfully removed from the station.
-   *
+   * @Satisfies UR_REMOVE_ITEM, UR_COLLECT_ITEM
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -169,7 +170,7 @@ public class AssemblyStationTests extends MasterTestClass {
   /**
    * Tests that complete meals can be placed on an assembly station and then successfully removed
    * from it.
-   *
+   * @Satisfies UR_COLLECT_ITEM, UR_REMOVE_ITEM
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -203,7 +204,7 @@ public class AssemblyStationTests extends MasterTestClass {
 
   /**
    * Tests that an assembly station can hold a maximum of 4 items.
-   *
+   * @Satisfies UR_WORKSTATIONS
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -230,7 +231,7 @@ public class AssemblyStationTests extends MasterTestClass {
 
   /**
    * Tests that items from different recipes cannot be combined on an assembly station.
-   *
+   * @Satisfies UR_PREP, UR_WORKSTATIONS
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -260,7 +261,7 @@ public class AssemblyStationTests extends MasterTestClass {
 
   /**
    * Tests that all valid combinations of items can be combined on an assembly station.
-   *
+   * @Satisfies UR_PREP, UR_WORKSTATIONS
    * @author Jack Vickers
    * @date 03/04/2023
    */
@@ -313,7 +314,7 @@ public class AssemblyStationTests extends MasterTestClass {
 
   /**
    * Tests that the assembly station data can be saved and loaded correctly.
-   *
+   * @Satisfies UR_SAVE_GAME, UR_LOAD_GAME
    * @author Jack Vickers
    * @author Felix Seanor
    * @date 01/05/2023

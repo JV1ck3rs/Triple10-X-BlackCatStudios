@@ -444,6 +444,7 @@ public class Chef extends PathfindingAgent implements Person {
     }
 
     soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
+    ModifiedStack = true;
 
     return Optional.ofNullable(heldItems.peek());
   }
@@ -476,7 +477,6 @@ public class Chef extends PathfindingAgent implements Person {
       heldItems.add(item);
       return true;
     }
-    ModifiedStack = true;
 
     return false;
   }
