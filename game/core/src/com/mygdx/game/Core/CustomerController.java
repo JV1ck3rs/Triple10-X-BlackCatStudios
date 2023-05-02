@@ -128,7 +128,6 @@ public class CustomerController extends Scriptable
     Reputation = params.Reputation;
     MaxReputation = 5; // set the max reputation to 5
     CustomerFrustrationStart = params.FrustrationStart;
-    CustomerFrustrationStart = 1;
     groupSize.y = Math.min(params.MaxCustomersPerWave, groupSize.y);
     groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
 
@@ -590,6 +589,10 @@ public class CustomerController extends Scriptable
     for (int i = 0; i < currentWaiting.MembersInLine.size(); i++) {
       SetCustomerTarget(currentWaiting.MembersInLine.get(i),
           new Vector2(0, 40 * i).add(OrderAreaTarget));
+
+      currentWaiting.MembersInLine.get(i).eaten = false;
+      currentWaiting.MembersInLine.get(i).waitingAtCounter = true;
+      currentWaiting.MembersInLine.get(i).hideItem();
     }
   }
 
@@ -832,6 +835,10 @@ public class CustomerController extends Scriptable
             SetCustomerTarget(cust,
                 currentWaiting.table.GetNextSeat()); // set the customer to walk to the table
             currentWaiting.MembersInLine.remove(cust); // remove the customer from the line
+          } else {
+            cust.eaten = false;
+            cust.waitingAtCounter = true;
+            cust.hideItem();
           }
         }
       }

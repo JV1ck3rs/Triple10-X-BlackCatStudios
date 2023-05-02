@@ -383,6 +383,4 @@ public class CustomerTests extends MasterTestClass {
     verify(spyCustomer, times(1)).hideItem();
   }
 
-  //TODO: Write test for loading a scenario game
-
 }
