@@ -455,7 +455,7 @@ public class GameScreen implements Screen {
     powerUpButtonStyle.up = powerUpButtonUp;
     powerUpButtonStyle.down = powerUpButtonUp;
     gameUITable.add(powerUpButton).width(80 * scaleX).height(40 * scaleY).expandX();
-    gameUITable.add(pauseButton).width(48 * scaleX).height(48 * scaleY).expandX()
+    gameUITable.add(pauseButton).width(48 * scaleX).height(52 * scaleY).expandX()
         .align(Align.topRight).row();
     pauseButton.addListener(new ClickListener() {
       @Override
@@ -480,7 +480,7 @@ public class GameScreen implements Screen {
     addChefButton.setStyle(addChefButtonStyle);
     addChefButtonStyle.up = addChefBtnDrawable;
     addChefButtonStyle.down = addChefBtnDrawableDown;
-    gameUITable.add(addChefButton).width(48 * scaleX).padTop(10 * scaleY).height(48 * scaleY).align(Align.right)
+    gameUITable.add(addChefButton).width(48 * scaleX).padTop(10 * scaleY).height(52 * scaleY).align(Align.right)
         .colspan(6).row();
 
     // Creates the label which displays an error message if the player tries to add a
@@ -498,12 +498,12 @@ public class GameScreen implements Screen {
       public void clicked(InputEvent event, float x, float y) {
         if (customerController.getMoney() >= 50 && masterChef.getChefList().size() < 5) {
           masterChef.AddNewChefIn();
-          customerController.setMoney(customerController.getMoney() - 50);
+          customerController.ChangeMoney(-50);
           chefError.setText("");
         } else if (masterChef.getChefList().size() >= 5) {
           chefError.setText("You already have the maximum number of chefs");
         } else {
-          chefError.setText("You do not have enough money to buy a new chef");
+          chefError.setText("You do not have enough money to call in more chefs");
         }
       }
     });
