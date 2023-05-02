@@ -96,22 +96,6 @@
     </body>
 </html>
 ##Assessment 2
-###Gantt Chart Iterations
-<figure markdown>
-  ![Gantt1](images/gantt/Week1WP0.png)
-  <figcaption>Week 1 gantt chart</figcaption>
-</figure>
-<figure markdown>
-  ![Gantt1](images/gantt/Week2.png)
-  <figcaption>Week 2 gantt chart</figcaption>
-</figure>
-<figure markdown>
-  ![Gantt1](images/gantt/Week3.png)
-  <figcaption>Week 3 gantt chart</figcaption>
-  Sam Toner was not present for the meetings during this week. 
-  To mitigate risk R2.1 we took meeting minutes (which are accessible by all team members) 
-  and updated him on what happened at the end of the week.
-</figure>
 
 ###Minutes Taken During Team Meetings
 
@@ -298,4 +282,3 @@ Members Present - Everyone over the week
 - Hinton continued with the architecture diagrams and documentation
 - Sam continued implementing and testing power ups
 - Everyone later finished the documentation and checked through the entire project before sending it off as complete
-

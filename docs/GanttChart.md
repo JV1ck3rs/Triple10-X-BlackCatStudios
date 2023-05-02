@@ -4,7 +4,7 @@ Right-click images and open in new tab to zoom in
 **Note: Each section's images run continuously in the actual gantt chart but have been put on a new line to fit them on the page**
 
 ##Final Gantt Chart
-[Download link for final gantt chart](images/gantt/Eastera/BCSAssessment2GanttChart.xlsx)
+[Download link for final gantt chart](images/gantt/BCSAssessment2GanttChart.xlsx)
 
 ##Spring Week 4
 ![Gantt1](images/gantt/Week1WP0.png)
@@ -33,7 +33,6 @@ and updated him on what happened at the end of the week.
 ![Gantt1](images/gantt/Week4d.png)
 ![Gantt1](images/gantt/Week4e.png)
 ![Gantt1](images/gantt/Week4f.png)
-![Gantt1](images/gantt/Week4g.png)
 
 <hr>
 
@@ -44,6 +43,7 @@ and updated him on what happened at the end of the week.
 ![Gantt1](images/gantt/Week5d.png)
 ![Gantt1](images/gantt/Week5e.png)
 ![Gantt1](images/gantt/Week5f.png)
+![Gantt1](images/gantt/Week4g.png)
 
 - Requirements document update had to be moved to the end of the week to ensure that further requirements were added as they were not detailed enough; 
 	- This follows the mitiagtion for risk R2.9 since we allowed malleable deadlines so we could extend task duration as needed.
