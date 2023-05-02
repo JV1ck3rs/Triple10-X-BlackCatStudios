@@ -18,11 +18,17 @@ import com.badlogic.gdx.math.Vector2;
  * Testing pathfinding
  *
  * @author Felix Seanor
+ * @date 01/04/23
  **/
 @RunWith(GdxTestRunner.class)
 
 public class PathfindingTests extends MasterTestClass {
 
+  /**
+   * Test that the pathfinding algorithm will return a empty path given a start == goal
+   * @author Felix Seanor
+   * @date 01/04/23
+   */
   @Test
   public void TestPathfindingNullMove() {
     SetUpPathfinding();
@@ -31,6 +37,11 @@ public class PathfindingTests extends MasterTestClass {
     assertEquals("The path must be empty for a move of zero", new LinkedList<>(), path);
   }
 
+  /**
+   * Test if the pathfinding algorithm will produce a path with a the goal included
+   * @author Felix Seanor
+   * @date 01/04/23
+   */
   @Test
   public void TestPathfinding() {
     SetUpPathfinding();
@@ -49,6 +60,11 @@ public class PathfindingTests extends MasterTestClass {
 
   }
 
+  /**
+   * Test whether a path will avoid filled squares
+   * @author Felix Seanor
+   * @date 01/04/23
+   */
   @Test
   public void TestObsticalAvoidance() {
     SetUpPathfinding();

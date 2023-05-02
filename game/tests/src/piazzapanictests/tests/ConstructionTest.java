@@ -22,7 +22,12 @@ public class ConstructionTest extends MasterTestClass
 {
   ConstructMachines machines;
 
-
+  /**
+   * Constructs the framework for the other construction tests
+   * @return obj to create
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   public Rectangle construct(){
 
 
@@ -42,6 +47,11 @@ public class ConstructionTest extends MasterTestClass
     return  rect;
   }
 
+  /**
+   * Test if the hob can be constructed
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void ConstructHob()
   {
@@ -50,6 +60,11 @@ public class ConstructionTest extends MasterTestClass
     assertTrue("Must have constructed stations", machines.Stations.size()>0);
   }
 
+  /**
+   * Test if the bin can be constructed
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
 
   @Test
   public void ConstructBins()
@@ -58,6 +73,11 @@ public class ConstructionTest extends MasterTestClass
     machines.CreateBin(rect);
     assertTrue("Must have constructed stations", machines.Stations.size()>0);
   }
+  /**
+   * Test if the oven can be constructed
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
 
   @Test
   public void ConstructOven()
@@ -66,7 +86,11 @@ public class ConstructionTest extends MasterTestClass
     machines.CreateOven(rect, customerController);
     assertTrue("Must have constructed stations", machines.Stations.size()>0);
   }
-
+  /**
+   * Test if the chopping can be constructed
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void ConstructChopping()
   {
@@ -75,7 +99,11 @@ public class ConstructionTest extends MasterTestClass
     assertTrue("Must have constructed stations", machines.Stations.size()>0);
   }
 
-
+  /**
+   * Test if the toaster can be constructed
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void ConstructToaster()
   {
@@ -83,7 +111,11 @@ public class ConstructionTest extends MasterTestClass
     machines.CreateToaster(rect);
     assertTrue("Must have constructed stations", machines.Stations.size()>0);
   }
-
+  /**
+   * Test if the customerCounter can be constructed
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
 
   @Test
   public void ConstructCustomerCounters()
@@ -92,6 +124,12 @@ public class ConstructionTest extends MasterTestClass
     machines.CreateCustomerCounters(rect);
     assertTrue("Must have constructed stations", machines.customerCounters.size()>0);
   }
+
+  /**
+   * Test if a food crate can be constructed
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void ConstructFoodCrate()
   {
@@ -99,7 +137,11 @@ public class ConstructionTest extends MasterTestClass
     machines.CreateFoodCrates(rect, ItemEnum.Lettuce);
     assertTrue("Must have constructed stations", machines.Stations.size()>0);
   }
-
+  /**
+   * Test if the hob can be constructed
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void ConstructAssembly()
   {
@@ -108,7 +150,11 @@ public class ConstructionTest extends MasterTestClass
     assertTrue("Must have constructed stations", machines.assemblyStations.size()>0);
   }
 
-
+  /**
+   * Test if an object can be constructed
+   * @author Felix Seanor
+   * @date 26/04/23
+   */
   @Test
   public void ConstructObject()
   {
