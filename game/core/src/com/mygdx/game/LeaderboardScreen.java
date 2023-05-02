@@ -76,22 +76,12 @@ public class LeaderboardScreen implements Screen {
     Label.LabelStyle fontStyle = new Label.LabelStyle();
     fontStyle.font = font;
 
-    // Creates the error message label which will be used to tell
-    // the user if they have entered an invalid text for highscores.
-    errorMessage = new Label("",
-        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-    errorMessage.setFontScale(1.10f * (scaleX + scaleY) / 2);
-    errorMessage.setAlignment(Align.left);
-    //errorMessage.setPosition(0,0);
-    table.add(errorMessage).padTop(90 * scaleY);
-    table.row();
-
     // Creates labels which will be used to display the scores
     Label score1 = new Label("1.     " + scores.get(0).toString(),
         fontStyle);
     score1.setFontScale((scaleX + scaleY) / 2);
     score1.setColor(Color.WHITE);
-    table.add(score1).center().padTop(10 * scaleY).row();
+    table.add(score1).center().padTop(150 * scaleY).row();
     Label score2 = new Label("2.     " + scores.get(1).toString(),
         fontStyle);
     score2.setFontScale((scaleX + scaleY) / 2);
@@ -107,7 +97,17 @@ public class LeaderboardScreen implements Screen {
     Label score5 = new Label("5.     " + scores.get(4).toString(),
         fontStyle);
     score5.setFontScale((scaleX + scaleY) / 2);
-    table.add(score5).center().padBottom(25 * scaleY).row();
+    table.add(score5).center().padBottom(15 * scaleY).row();
+
+    // Creates the error message label which will be used to tell
+    // the user if they have entered an invalid text for highscores.
+    errorMessage = new Label("",
+        new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+    errorMessage.setFontScale(1.10f * (scaleX + scaleY) / 2);
+    errorMessage.setAlignment(Align.left);
+    //errorMessage.setPosition(0,0);
+    table.add(errorMessage);
+    table.row();
 
     if (numberOfCustomersServed >= 0) {
       // Creates a skin for the text field using the clean-crispy-ui.json file
@@ -140,7 +140,7 @@ public class LeaderboardScreen implements Screen {
     scoreBtnStyle.up = drawableScoreBtnUp;
     scoreBtnStyle.down = drawableScoreBtnDown;
     scoreBtn.align(Align.left);
-    table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(20 * scaleY);
+    table.add(scoreBtn).width(250 * scaleX).height(50 * scaleY).padTop(10 * scaleY);
     table.row();
 
     // Adds a click listener to the button
