@@ -35,9 +35,9 @@ public class AssemblyStation extends Station {
   /**
    * Creates an assembly station
    * @param params The parameters for cooking speed, burning speed etc.
-   * @Author Jack Hinton
-   * @Author Felix Seanor
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Felix Seanor
+   * @author Jack Vickers
    */
   public AssemblyStation(CookingParams params) {
 
@@ -55,8 +55,8 @@ public class AssemblyStation extends Station {
    * Gives the assembly station an item, storing up to a maximum of 4 items
    * @param item The item you want to give to the assembly station
    * @return boolean - If the method was successful giving an item
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   @Override
   public boolean GiveItem(Item item) {
@@ -79,8 +79,8 @@ public class AssemblyStation extends Station {
   /**
    * Returns the last added item
    * @return Item
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   @Override
   public Item RetrieveItem() {
@@ -110,8 +110,8 @@ public class AssemblyStation extends Station {
   /**
    * Checks if you can retrieve an item from the assembly station
    * @return boolean
-   * @Author Jack Hinton
-   * @Author Felix Seanor
+   * @author Jack Hinton
+   * @author Felix Seanor
    */
   @Override
   public boolean CanRetrieve() {
@@ -122,7 +122,7 @@ public class AssemblyStation extends Station {
   /**
    * Checks if you can give an item to the assembly station
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanGive() {
@@ -132,7 +132,7 @@ public class AssemblyStation extends Station {
   /**
    * Checks if the user can interact with the assembly station
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanInteract() {
@@ -143,7 +143,7 @@ public class AssemblyStation extends Station {
   /**
    * Interact with the assembly station to combine items
    * @return float
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public float Interact() {
@@ -156,8 +156,8 @@ public class AssemblyStation extends Station {
    * Returns the list of ingredients in our arraylist form
    *
    * @return ArrayList ingredients
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   public ArrayList<Item> getIngredients() {
     return ingredients;

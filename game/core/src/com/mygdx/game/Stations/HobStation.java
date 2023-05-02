@@ -36,9 +36,9 @@ public class HobStation extends Station {
   /**
    * Creates a hobstation
    * @param params cooking parameters i.e. cooking speed, burning speed
-   * @Author Jack Hinton
-   * @Author Felix Seanor
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Felix Seanor
+   * @author Jack Vickers
    */
   public HobStation(CookingParams params) {
 
@@ -59,7 +59,7 @@ public class HobStation extends Station {
    * Retrieves the interacted attribute which is private for testing.
    *
    * @return boolean
-   * @Author Hubert Solecki
+   * @author Hubert Solecki
    */
   public boolean GetInteracted() {
     return interacted;
@@ -70,8 +70,8 @@ public class HobStation extends Station {
    * Gives the station an item
    * @param item The item you want to give to the station
    * @return boolean
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   @Override
   public boolean GiveItem(Item item) {
@@ -90,7 +90,7 @@ public class HobStation extends Station {
   /**
    * Retrieve an item from the station
    * @return Item
-   * @Author Jack Hinton
+   * @author Jack Hinton
    * @Authpr Jack Vickers
    */
   @Override
@@ -108,7 +108,7 @@ public class HobStation extends Station {
   /**
    * Checks if the chef can retrieve an item from the station
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanRetrieve() {
@@ -119,7 +119,7 @@ public class HobStation extends Station {
   /**
    * Checks if the chef can give the station an item
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanGive() {
@@ -129,7 +129,7 @@ public class HobStation extends Station {
 
   /**
    * Checks if the item is in the whitelist, if yes it gets the item's recipe
-   * @Author Jack Hinton
+   * @author Jack Hinton
    * @Author Jack Vickers
    */
   public void checkItem() {

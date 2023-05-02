@@ -19,7 +19,7 @@ public class FoodCrate extends Scriptable implements Interactable {
   /**
    * Creates a food crate based off of the given Enum
    * @param ingredient item you want the crate to dispense
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public FoodCrate(ItemEnum ingredient) {
     this.ingredient = ingredient;
@@ -30,7 +30,7 @@ public class FoodCrate extends Scriptable implements Interactable {
    * Give the crate an item
    * @param item - Item you want to give
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean GiveItem(Item item) {
@@ -41,7 +41,7 @@ public class FoodCrate extends Scriptable implements Interactable {
   /**
    * Retrieve an item from the crate
    * @return Item
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public Item RetrieveItem() {
@@ -52,7 +52,7 @@ public class FoodCrate extends Scriptable implements Interactable {
   /**
    * Checks if the chef can retrieve an item from the crate
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanRetrieve() {
@@ -63,7 +63,7 @@ public class FoodCrate extends Scriptable implements Interactable {
   /**
    * Checks if the chef can give the crate an item
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanGive() {
@@ -74,7 +74,7 @@ public class FoodCrate extends Scriptable implements Interactable {
   /**
    * Checks if the chef can interact with the crate
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanInteract() {
@@ -85,7 +85,7 @@ public class FoodCrate extends Scriptable implements Interactable {
   /**
    * Interact with the crate
    * @return float
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public float Interact() {

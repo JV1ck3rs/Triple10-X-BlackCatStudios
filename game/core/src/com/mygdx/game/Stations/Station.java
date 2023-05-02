@@ -46,9 +46,9 @@ public abstract class Station extends Scriptable implements Interactable {
   /**
    * Creates a station
    * @param params Cooking parameters i.e. cooking speed, burning speed etc.
-   * @Author Jack Hinton
-   * @Author Sam Toner
-   * @Author Felix Seanor
+   * @author Jack Hinton
+   * @author Sam Toner
+   * @author Felix Seanor
    */
   public Station(CookingParams params) {
     item = null;
@@ -64,9 +64,9 @@ public abstract class Station extends Scriptable implements Interactable {
 
   /**
    * Initialises the bubbles
-   * @Author Jack Hinton
-   * @Author Jack Vickers
-   * @Author Felix Seanor
+   * @author Jack Hinton
+   * @author Jack Vickers
+   * @author Felix Seanor
    */
   public void init() {
 
@@ -102,7 +102,7 @@ public abstract class Station extends Scriptable implements Interactable {
    *
    * @param item The item you want to give
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public abstract boolean GiveItem(Item item);
 
@@ -111,21 +111,21 @@ public abstract class Station extends Scriptable implements Interactable {
    * Returns the item to the chef
    *
    * @return Item
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public abstract Item RetrieveItem();
 
 
   /**
    * Updates the pictures of the items currently in the station
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public abstract void updatePictures();
 
 
   /**
    * Moves the animation
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public abstract void moveAnim();
 
@@ -133,7 +133,7 @@ public abstract class Station extends Scriptable implements Interactable {
    * Sets the station to a "locked" state
    *
    * @param locked assigns variable to either true or false
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void setLocked(boolean locked) {
     bubble3.isVisible = locked;
@@ -144,7 +144,7 @@ public abstract class Station extends Scriptable implements Interactable {
    * return the boolean value of locked for the station
    *
    * @return boolean locked
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public boolean getLocked() {
     return locked;

@@ -22,13 +22,16 @@ import java.util.Stack;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Class containing all the leaderboard tests. Testing inserting a name ect
+ */
 @RunWith(GdxTestRunner.class)
 public class LeaderBoardTests {
 
   /**
    * Tests that a name and score can be saved to and retrieved from the leaderboard.
    *
-   * Satisfies requirements for UR_LEADERBOARD
+   * @satisfies UR_LEADERBOARD NFR_LEADERBOARD
    *
    * @author Jack Vickers
    * @date 28/04/2023
@@ -52,7 +55,7 @@ public class LeaderBoardTests {
   /**
    * Tests that 5 pairs of names and scores can be saved to the leaderbaord. This is the limit of
    * the leaderboard.
-   *
+   * @satisifies  UR_LEADERBOARD NFR_LEADERBOARD
    * @author Jack Vickers
    * @date 28/04/2023
    */
@@ -77,7 +80,7 @@ public class LeaderBoardTests {
   /**
    * Test that scores are correctly updated when a new score is added to the leaderboard when it is
    * full.
-   *
+   * @satisifies  UR_LEADERBOARD NFR_LEADERBOARD
    * @author Jack Vickers
    * @date 28/04/2023
    */
@@ -161,8 +164,14 @@ public class LeaderBoardTests {
     leaderboardFile.delete();
   }
 
+  /**
+   * Asserts leaderboard data converts correctly to a string
+   * @satisifies  UR_LEADERBOARD NFR_LEADERBOARD
+   * @author Jack Vickers
+   * @date 30/04/23
+   */
   @Test
-  public void testLeaderbpardDataToString() {
+  public void testLeaderboardDataToString() {
     LeaderboardData data = new LeaderboardData(100, "Test");
     assertEquals("The string should be the same as the data", "100     Test ", data.toString());
     data.score = 10;

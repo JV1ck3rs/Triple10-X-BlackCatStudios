@@ -25,8 +25,8 @@ public class CustomerCounters extends Station {
    * Creates a customer counter
    * @param script Script to give the item to a customer
    * @param params Cooking parameters i.e cooking speed, burn speed etc.
-   * @Author Jack Hinton
-   * @Author Felix Seanor
+   * @author Jack Hinton
+   * @author Felix Seanor
    */
   public CustomerCounters(Function<Item, Boolean> script, CookingParams params) {
 
@@ -39,7 +39,7 @@ public class CustomerCounters extends Station {
    * Give an item to the customer counter
    * @param item The item you want to give to the counter
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean GiveItem(Item item){
@@ -52,7 +52,7 @@ public class CustomerCounters extends Station {
   /**
    * Retrieve the item from the counter
    * @return Item
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public Item RetrieveItem() {
@@ -66,7 +66,7 @@ public class CustomerCounters extends Station {
   /**
    * Checks if the chef can retrieve from the counter
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanRetrieve() {
@@ -77,7 +77,7 @@ public class CustomerCounters extends Station {
   /**
    * Checks if the chef can give the counter an item
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanGive() {
@@ -88,7 +88,7 @@ public class CustomerCounters extends Station {
   /**
    * Checks if the user can interact with the counter
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean CanInteract() {
@@ -99,7 +99,7 @@ public class CustomerCounters extends Station {
   /**
    * Interact with the counter
    * @return float
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public float Interact() {
@@ -109,7 +109,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Give food to a customer
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void GiveFood() {
     boolean answer = GiveItemToCustomer.apply(item);
@@ -121,7 +121,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Updates the pictures on the counter
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void updatePictures() {
@@ -147,7 +147,7 @@ public class CustomerCounters extends Station {
 
   /**
    * Moves the animation
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void moveAnim() {
@@ -158,7 +158,7 @@ public class CustomerCounters extends Station {
   /**
    * Updates the customer counter
    * @param dt delta time
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void Update(float dt) {

@@ -16,9 +16,7 @@ import static org.junit.Assert.*;
 /**
  * Tests for the frying stations. Hobs only interact with raw patties and cooked patties so no other
  * items need to be used or checked.
- *
- * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
- *
+ * @satisfies  UR_PREP UR_WORKSTATIONS UR_INTERACTIONS  UR_COLLECT_ITEM UR_REMOVE_ITEM UR_BURN_FOOD UR_SPEND_EARNINGS
  * @author Hubert Solecki
  * @author Jack Vickers
  * @date 02/05/2023
@@ -29,7 +27,7 @@ public class HobStationTests extends MasterTestClass {
 
   /**
    * Tests that an item can be removed from the frying station whether frying is complete or not.
-   *
+   * @satisfies  UR_PREP UR_WORKSTATIONS UR_INTERACTIONS  UR_COLLECT_ITEM UR_REMOVE_ITEM
    * @author Hubert Solecki
    * @author Jack Vickers
    * @date 25/04/2023
@@ -60,7 +58,7 @@ public class HobStationTests extends MasterTestClass {
   /**
    * Tests that the hob station can burn a burger if maximum progress for both cooking and
    * interaction is reached.
-   *
+   * @satisifes UR_BURN_FOOD
    * @author Hubert Solecki
    * @author Jack Vickers
    * @date 25/04/2023
@@ -90,7 +88,7 @@ public class HobStationTests extends MasterTestClass {
   /**
    * Tests that incorrect items cannot be fried as current recipe on toaster station is null when
    * placed on the toaster.
-   *
+   * @satisifes  UR_INTERACTIONS UR_REMOVE_ITEM
    * @author Hubert Solecki
    * @author Jack Vickers
    * @date 25/04/2023
@@ -125,7 +123,7 @@ public class HobStationTests extends MasterTestClass {
 
   /**
    * Tests whether an item can be removed from the hob when it has nothing on it; should not allow
-   *
+   * @satisfies UR_INTERACTIONS UR_COLLECT_ITEM
    * @author Hubert Solecki
    * @author Jack Vickers
    * @date 25/04/2023
@@ -147,7 +145,7 @@ public class HobStationTests extends MasterTestClass {
    * Tests whether an item can be placed on the hob when there is already an item on it; should
    * return false. Placing a different item on the hob should not change what is currently on the
    * hob.
-   *
+   * @satisfies UR_REMOVE_ITEM UR_INTERACTIONS
    * @author Hubert Solecki
    * @author Jack Vickers
    * @date 25/04/2023
@@ -176,7 +174,7 @@ public class HobStationTests extends MasterTestClass {
   /**
    * Tests that an item can be picked up during frying and that the progress of the item being
    * cooked is saved in its progress attribute.
-   *
+   * @satisfies UR_INTERACTIONS UR_PREP
    * @author Hubert Solecki
    * @author Jack Vickers
    * @date 25/04/2023
@@ -208,7 +206,7 @@ public class HobStationTests extends MasterTestClass {
 
   /**
    * Tests that the update function updates the hob station and sets interaction to false.
-   *
+   * @satisfies UR_PREP UR_INTERACTIONS UR_COLLECT_ITEM
    * @author Hubert Solecki
    * @author Jack Vickers
    * @date 25/04/2023
@@ -237,7 +235,7 @@ public class HobStationTests extends MasterTestClass {
 
   /**
    * Tests that the hob station cannot be used when it is locked.
-   *
+   * @satisfies UR_PREP UR_INTERACTIONS
    * @author Jack Vickers
    * @date 02/05/2023
    */
@@ -256,8 +254,8 @@ public class HobStationTests extends MasterTestClass {
 
   /**
    * Tests that the hob station can be used when it is unlocked.
-   *
-   * @Author Jack Vickers
+   * @satisfies UR_INTERACTIONS UR_SPEND_EARNINGS
+   * @author Jack Vickers
    * @date 02/05/2023
    */
   @Test

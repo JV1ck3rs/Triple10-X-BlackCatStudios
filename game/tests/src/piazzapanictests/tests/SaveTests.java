@@ -31,9 +31,9 @@ import org.junit.runner.RunWith;
 /**
  * Tests for saving the game.
  *
- * Satisfies requirements for UR_SAVE_GAME, NFR_SAVE_GAME, FR_SAVE_STATE
- *
+ * @satisfies UR_SAVE_GAME, NFR_SAVE_GAME, FR_SAVE_STATE UR_LOAD_GAME FR_LOAD_STATE
  * @author Felix Seanor
+ * @date 25/04/23
  */
 @RunWith(GdxTestRunner.class)
 
@@ -49,6 +49,8 @@ public class SaveTests extends MasterTestClass{
 
   /**
    * creates maps and sprites
+   * @author Felix Seanor
+   * @date 25/04/23
    */
   public void create() {
   //  batch = new SpriteBatch();
@@ -68,6 +70,12 @@ public class SaveTests extends MasterTestClass{
     }
   }
 
+  /**
+   * Tries to load in the game and is not null
+   * @satisfies UR_LOAD_GAME FR_LOAD_STATE
+   * @author Felix Seanor
+   * @date 25/04/23
+   */
   @Test
   public void loadSave(){
     SaveState state = new SaveState();
@@ -80,6 +88,13 @@ public class SaveTests extends MasterTestClass{
 
 
   }
+
+  /**
+   * Tries to save the game and verfies the save is the same as the load
+   * @satisfies  UR_SAVE_GAME, NFR_SAVE_GAME, FR_SAVE_STATE
+   * @author Felix Seanor
+   * @date 25/04/23
+   */
 
   @Test
   public void TestSave(){
@@ -99,7 +114,12 @@ public class SaveTests extends MasterTestClass{
 
   }
 
-
+  /**
+   * Tries to build the game from a save file
+   * @satisfies UR_LOAD_GAME FR_LOAD_STATE
+   * @author Felix Seanor
+   * @date 25/04/23
+   */
   @Test
   public void BuildGame(){
     create();

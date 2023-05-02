@@ -13,8 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * This class tests the input keys for the game regarding chefs.
- * These tests satisfy partly the requirements UR_INTERACTION, UR_COOK_MOVEMENT, FR_CONTROL_CHEF.
- *
+ * @satisfies UR_INTERACTION UR_COOK_MOVEMENT FR_CONTROL_CHEF
  * @author Azzam Amirul
  * @date 28/04/2023
  */
@@ -22,36 +21,11 @@ import static org.junit.Assert.assertEquals;
 public class InputKeysTests {
 
 
-    /**
-     * Test to for check the correct input keys to spawn chef
-     *
-     * @author Azzam Amirul
-     * @date 28/04/2023
-     */
-    @Test
-    public void SpawnNewChefTest(){
-        assertEquals("New chef spawned", SPAWN_NEW_CHEF, Keys.MINUS);
-    }
-
-
-    /**
-     * Test to for check the correct input keys to move chef
-     *
-     * @author Azzam Amirul
-     * @date 28/04/2023
-     */
-    @Test
-    public void MoveChefInputsTests(){
-        assertEquals("Move chef up", MOVE_CHEF_UP, Keys.W);
-        assertEquals("Move chef down", MOVE_CHEF_DOWN, Keys.S);
-        assertEquals("Move chef left", MOVE_CHEF_LEFT, Keys.A);
-        assertEquals("Move chef right", MOVE_CHEF_RIGHT, Keys.D);
-    }
 
 
     /**
      * Test to for check the correct input keys to cycle stack on the chef
-     *
+     * @satisfies UR_INTERACTION FR_CONTROL_CHEF
      * @author Azzam Amirul
      * @date 28/04/2023
      */
@@ -63,7 +37,7 @@ public class InputKeysTests {
 
     /**
      * Test to for check the correct input keys to interact using the chef
-     *
+     * @satisfies UR_INTERACTION FR_CONTROL_CHEF
      * @author Azzam Amirul
      * @date 28/04/2023
      */

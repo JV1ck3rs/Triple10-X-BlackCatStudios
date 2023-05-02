@@ -20,7 +20,7 @@ public class CombinationDict {
 
   /**
    * Method to implement all the combinations.
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void implementItems() {
     //Salads
@@ -54,7 +54,7 @@ public class CombinationDict {
 
   /**
    * Constructor for CombinationDict.
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public CombinationDict() {
     if (combinations != null) {

@@ -43,7 +43,6 @@ import java.util.function.Consumer;
 /**
  * The master test class is used to instantiate the world, stations and chefs for testing in each of its child classes.
  * Each child class inherits from this class in order to use its methods for testing.
- *
  * @author Jack Vickers
  * @author Hubert Solecki
  * @author Azzam Amirul

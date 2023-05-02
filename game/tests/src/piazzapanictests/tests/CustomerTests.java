@@ -33,9 +33,7 @@ import org.junit.runner.RunWith;
 /**
  * Tests the behaviour of the customers when they order food
  *
- * Satisfies requirements for UR_CUSTOMER_ORDER, UR_REPUTATION_POINTS,
- * UR_CUSTOMER_TIME_LIMIT, UR_ENDLESS_END and UR_INTERACTIONS
- *
+ * @satfies UR_CUSTOMER_ORDER UR_REPUTATION_POINTS UR_CUSTOMER_TIME_LIMIT UR_ENDLESS_END UR_INTERACTIONS FR_DISPLAY_ORDER
  * @author Felix Seanor
  * @author Jack Vickers
  * @date 01/05/23
@@ -47,7 +45,7 @@ public class CustomerTests extends MasterTestClass {
   /**
    * Test if the game should end either buy reputation or no waves left
    * @author Felix Seanor
-   *
+   * @satisifies UR_REPUTATION_POINTS UR_CUSTOMER_TIME_LIMIT UR_ENDLESS_END
    * @date 01/05/23
    */
   @Test
@@ -73,6 +71,7 @@ public class CustomerTests extends MasterTestClass {
   /**
    * Test if frustration changes with time
    * @author Felix Seanor
+   * @satisfies UR_CUSTOMER_TIME_LIMIT
    * @date 01/05/23
    */
   @Test
@@ -91,6 +90,7 @@ public class CustomerTests extends MasterTestClass {
    * Test if customers move around their groups correctly
    * @author Felix Seanor
    * @date 01/05/23
+   * @satisfies UR_CUSTOMER_ORDER
    */
   @Test
   public void TestCustomerTransference() {
@@ -130,7 +130,7 @@ public class CustomerTests extends MasterTestClass {
    * Test that customer held items are displayed
    * Felix Seanor
    * @date 26/04/23
-   *
+   * FR_DISPLAY_ORDER
    */
   @Test
   public void TestHeldItems() {
@@ -284,6 +284,8 @@ public class CustomerTests extends MasterTestClass {
 
   /**
    * Test whether the orientation of the customer changes depending on the direction theyre moving
+   * Uses same code as chef orientation
+   * @satisfies FR_CHEF_ORIENTATION
    * @author Felix Seanor
    * @date 26/04/23
    */
@@ -332,7 +334,8 @@ public class CustomerTests extends MasterTestClass {
 
   /**
    * Tests that the customer orientation updates correctly when given a new input.
-   *
+   * uses same code as chef
+   * @satisfies  FR_CHEF_ORIENTATION
    * @author Jack Vickers
    * @author Felix Seanor
    * @date 01/05/2023
@@ -355,7 +358,7 @@ public class CustomerTests extends MasterTestClass {
 
   /**
    * Tests the behaviour of the customer update function by spying on the Customer class.
-   *
+   * @satisfies UR_CUSTOMER_ORDER
    * @author Jack Vickers
    * @date 30/04/2023
    */
