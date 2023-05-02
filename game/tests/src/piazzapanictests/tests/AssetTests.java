@@ -10,6 +10,11 @@ import org.junit.runner.RunWith;
 
 /**
  * Tests that the assets are present.
+ *
+ * @author Jack Vickers
+ * @author Azzam Amirul
+ * @author Hubert Solecki
+ * @date 02/05/2023
  */
 @RunWith(GdxTestRunner.class)
 public class AssetTests {
@@ -19,6 +24,7 @@ public class AssetTests {
    *
    * @author Jack Vickers
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
   @Test
   public void testChefAssetExists() {
@@ -41,6 +47,7 @@ public class AssetTests {
    * scenarioModeConfigScreen.
    *
    * @author Jack Vickers
+   * @date 07/04/2023
    */
   @Test
   public void testSkinJsonExists() {
@@ -53,6 +60,7 @@ public class AssetTests {
    * scenarioModeConfigScreen.
    *
    * @author Jack Vickers
+   * @date 07/04/2023
    */
   @Test
   public void testSkinAtlasExists() {
@@ -65,6 +73,7 @@ public class AssetTests {
    * scenarioModeConfigScreen.
    *
    * @author Jack Vickers
+   * @date 07/04/2023
    */
   @Test
   public void testSkinImageExists() {
@@ -77,6 +86,7 @@ public class AssetTests {
    * scenarioModeConfigScreen.
    *
    * @author Jack Vickers
+   * @date 07/04/2023
    */
   @Test
   public void testSkinFontExists() {
@@ -89,6 +99,7 @@ public class AssetTests {
    * title screen.
    *
    * @author Jack Vickers
+   * @date 17/04/2023
    */
   @Test
   public void testLoadGameButtonImagesExist() {
@@ -103,6 +114,7 @@ public class AssetTests {
    * pause screen.
    *
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
   @Test
   public void testSaveGameButtonImagesExist(){
@@ -117,6 +129,7 @@ public class AssetTests {
    * the scenario mode config screen.
    *
    * @author Jack Vickers
+   * @date 17/04/2023
    */
   @Test
   public void testMainMenuAtlasExists() {
@@ -128,6 +141,7 @@ public class AssetTests {
    * Tests that the image exists which is referenced by the main menu atlas.
    *
    * @author Jack Vickers
+   * @date 17/04/2023
    */
   @Test
   public void testMainMenuImageExists() {
@@ -140,6 +154,7 @@ public class AssetTests {
    * can be found using the texture atlas.
    *
    * @author Jack Vickers
+   * @date 17/04/2023
    */
   @Test
   public void testPlayButtonImagesExist() {
@@ -155,6 +170,7 @@ public class AssetTests {
    * texture atlas.
    *
    * @author Jack Vickers
+   * @date 17/04/2023
    */
   @Test
   public void testScenarioModeButtonImagesExist() {
@@ -171,6 +187,7 @@ public class AssetTests {
    * Tests that the images for the exit button can be found using the texture atlas.
    *
    * @author Jack Vickers
+   * @date 17/04/2023
    */
   @Test
   public void testExitButtonImagesExist() {
@@ -185,6 +202,7 @@ public class AssetTests {
    * Tests that the image for the main menu background can be found using the texture atlas.
    *
    * @author Jack Vickers
+   * @date 17/04/2023
    */
   @Test
   public void testMainMenuBackgroundExists() {
@@ -198,6 +216,7 @@ public class AssetTests {
    * screen.
    *
    * @author Jack Vickers
+   * @date 17/04/2023
    */
   @Test
   public void testPauseButtonImagesExist() {
@@ -211,6 +230,7 @@ public class AssetTests {
    * pause screen.
    *
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
   @Test
   public void testResumeButtonImagesExist() {
@@ -224,6 +244,7 @@ public class AssetTests {
    * main menu screen.
    *
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
   @Test
   public void testDifficultyButtonsImagesExist() {
@@ -247,6 +268,7 @@ public class AssetTests {
    * main menu screen.
    *
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
   @Test
   public void testHighScoresButtonImagesExist(){
@@ -260,6 +282,7 @@ public class AssetTests {
    * game screen.
    *
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
   @Test
   public void testHowToPlayButtonImagesExist(){
@@ -273,6 +296,7 @@ public class AssetTests {
    * end game screen.
    *
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
   @Test
   public void testSaveExitButtonImagesExist(){
@@ -285,6 +309,7 @@ public class AssetTests {
    * Tests that the assets for the piazza panic game map are present.
    *
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
   @Test
   public void testPiazzaPanicMapExists(){
@@ -296,6 +321,7 @@ public class AssetTests {
    * Tests that all assets in the Items folder exist.
    *
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
   @Test
   public void testItemsAssetsExist(){
@@ -391,6 +417,7 @@ public class AssetTests {
    * Tests that all assets in the Recipes folder exists
    *
    * @author Azzam Amirul Bahri
+   * @date 01/05/2023
    */
 
   @Test

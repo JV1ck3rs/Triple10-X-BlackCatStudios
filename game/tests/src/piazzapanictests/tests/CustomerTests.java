@@ -166,7 +166,7 @@ public class CustomerTests extends MasterTestClass {
 
 
   /**
-   * If this test fails rerun it, theres a 1% chance it fails due to probability.
+   * If this test fails rerun it, there's a 1% chance it fails due to probability.
    */
   @Test
   public void TestDishCreation() {
@@ -287,7 +287,8 @@ public class CustomerTests extends MasterTestClass {
    * Tests that the customer orientation updates correctly when given a new input.
    *
    * @author Jack Vickers
-   * @date 29/04/2023
+   * @author Felix Seanor
+   * @date 01/05/2023
    */
   @Test
   public void testUpdateSpriteFromInput() {
@@ -307,6 +308,9 @@ public class CustomerTests extends MasterTestClass {
 
   /**
    * Tests the behaviour of the customer update function by spying on the Customer class.
+   *
+   * @author Jack Vickers
+   * @date 30/04/2023
    */
   @Test
   public void testCustomerUpdate() {

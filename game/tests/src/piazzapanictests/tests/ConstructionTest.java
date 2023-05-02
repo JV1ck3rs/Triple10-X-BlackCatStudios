@@ -1,6 +1,5 @@
 package piazzapanictests.tests;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -13,7 +12,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Tests that the assets are present.
+ * Tests that the assets are present and that they can be constructed.
+ *
+ * @author Felix Seanor
+ * @date 01/05/2023
  */
 @RunWith(GdxTestRunner.class)
 public class ConstructionTest extends MasterTestClass

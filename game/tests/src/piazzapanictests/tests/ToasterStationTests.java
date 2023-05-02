@@ -1,27 +1,9 @@
 package piazzapanictests.tests;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.Chef;
-import com.badlogic.gdx.maps.MapLayer;
-import com.mygdx.game.Core.BlackSprite;
-import com.mygdx.game.Core.GameObject;
-
 import com.mygdx.game.Core.GameObjectManager;
 import com.mygdx.game.Core.GameState.GameState;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.RecipeAndComb.RecipeDict;
-import com.mygdx.game.Stations.ChopStation;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.runner.RunWith;
@@ -39,6 +21,7 @@ import static org.junit.Assert.*;
  * Satisfies requirements for UR_PREP, UR_WORKSTATIONS and UR_INTERACTIONS
  *
  * @author Hubert Solecki
+ * @date 01/05/2023
  */
 
 @RunWith(GdxTestRunner.class)
@@ -67,6 +50,8 @@ public class ToasterStationTests extends MasterTestClass {
   /**
    * Tests that the toaster station can burn an item if maximum progress for cooking and/or interaction is reached.
    *
+   * THIS TEST IS NOT NEEDED SINCE WE USE A POP UP TOASTER THAT CANNOT BURN
+   *
    * @author Hubert Solecki
    * @date 23/04/2023
    */
@@ -75,7 +60,7 @@ public class ToasterStationTests extends MasterTestClass {
    * Tests that incorrect items cannot be toasted by checking that the current recipe on the toaster is null when incorrect items are placed on it.
    *
    * @author Hubert Solecki
-   * @date 23/04/2023
+   * @date 30/04/2023
    */
 
   @Test

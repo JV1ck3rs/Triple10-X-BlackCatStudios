@@ -9,6 +9,13 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the CustomerCounter Class
+ *
+ * @author Azzam Amirul
+ * @author Jack Vickers
+ * @date 02/05/2023
+ */
 @RunWith(GdxTestRunner.class)
 
 public class CustomerCounterTests extends MasterTestClass {
@@ -42,6 +49,8 @@ public class CustomerCounterTests extends MasterTestClass {
   /**
    * Tests that a customer does not take the food if it does not match their order.
    *
+   * @author Jack Vickers
+   * @author Azzam Amirul
    * @date 01/05/2023
    */
   @Test
@@ -63,6 +72,13 @@ public class CustomerCounterTests extends MasterTestClass {
         customerController.getCurrentWaitingCustomerGroup().MembersInLine.size());
   }
 
+  /**
+   * Tests that items can be placed and taken off the customer counter by checking if items are already on the counter.
+   *
+   * @author Azzam Amirul
+   * @author Jack Vickers
+   * @date 02/05/2023
+   */
   @Test
   public void TestCustomerCounterCanGiveCanRetrieve() {
     instantiateCustomerScripts();
@@ -76,6 +92,13 @@ public class CustomerCounterTests extends MasterTestClass {
     assertEquals("Item is in inventory", item, customerCounter.RetrieveItem());
   }
 
+  /**
+   * Tests that a chef can interact with the counter depending on whether there is a customer present.
+   *
+   * @author Azzam Amirul
+   * @author  Felix Seanor
+   * @date 01/05/2023
+   */
   @Test
   public void TestInteractCustomerCounter() {
     instantiateWorldAndCustomerCounter();
