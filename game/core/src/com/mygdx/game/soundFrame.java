@@ -17,7 +17,7 @@ public class soundFrame {
 
 
    public enum soundsEnum {
-    CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved,end;
+    CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved,BuyItem,end;
   }
 
   public static soundFrame SoundEngine;

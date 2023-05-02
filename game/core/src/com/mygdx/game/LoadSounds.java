@@ -22,6 +22,7 @@ public class LoadSounds {
     sounds.add(new SoundDataLoad("ItemEquip.mp3",soundFrame.soundsEnum.EquipItem));
     sounds.add(new SoundDataLoad("knife_chop.wav",soundFrame.soundsEnum.KnifeChop));
     sounds.add(new SoundDataLoad("step_achieved.wav",soundFrame.soundsEnum.StepAchieved));
+    sounds.add(new SoundDataLoad("CoinJingle.wav",soundFrame.soundsEnum.BuyItem));
 
     for (SoundDataLoad sound:sounds)
       frame.addSound("Sound/"+sound.Path,sound.name);

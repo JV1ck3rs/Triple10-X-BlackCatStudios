@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import com.mygdx.game.Core.BlackSprite;
+import com.mygdx.game.Core.CustomerController;
 import com.mygdx.game.Core.Customers.CustomerGroups;
 import com.mygdx.game.Core.Customers.OrderMenu;
 import com.mygdx.game.Core.Customers.Randomisation;
@@ -188,6 +189,8 @@ public class CustomerTests extends MasterTestClass {
     assertEquals("A member must be trying to sit down now", group.MembersSeatedOrWalking.size(), 1);
     assertEquals("That member must have the correct dish to be able to sit down", dish,
         group.MembersSeatedOrWalking.get(0).dish);
+
+    assertTrue("Money must have increased", CustomerController.Money>0);
 
 
   }

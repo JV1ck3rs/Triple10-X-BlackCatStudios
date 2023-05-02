@@ -14,6 +14,8 @@ import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Customer;
 import com.mygdx.game.Items.Item;
 
+import com.mygdx.game.soundFrame;
+import com.mygdx.game.soundFrame.soundsEnum;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -348,6 +350,7 @@ public class CustomerController extends Scriptable
 
     if (Money - DM >= 0) {
       Money += DM;
+      soundFrame.SoundEngine.playSound(soundsEnum.BuyItem);
       return true;
     }
 
@@ -359,6 +362,7 @@ public class CustomerController extends Scriptable
   public boolean decreaseMoney(float dm){
     if(Money-dm >= 0){
       Money -= dm;
+      soundFrame.SoundEngine.playSound(soundsEnum.BuyItem);
       return true;
     }else{
       return false;
