@@ -12,7 +12,6 @@ extra_css:
 nav:
     - Home: index.md
     - Files: files.md
-    - Game: game.md
     - Weekly Updates: weeklyUpdates.md
     - Assessment 2 Weekly Gantt Chart Snapshots: GanttChart.md
     - Assessment 2 Testing Material & Javadocs: Testing.md
