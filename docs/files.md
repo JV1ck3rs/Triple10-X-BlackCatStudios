@@ -10,6 +10,6 @@
 | Method Selection and Planning | [Plan1](Plan1.pdf) |
 | Risk Assessment | [Risk1](Risk1.pdf) |
 | Implementation | [Impl1](Impl1.pdf) |
-| GitHub Repository (Assessment 2) | [Repo](https://github.com/JV1ck3rs/Triple10-X-BlackCatStudios) |
+| GitHub Repository (Assessment 1) | [Repo](https://github.com/RGraham006/ENG1Triple10) |
 
 ##Assessment 2

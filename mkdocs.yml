@@ -15,7 +15,9 @@ nav:
     - Game: game.md
     - Weekly Updates: weeklyUpdates.md
     - Assessment 2 Weekly Gantt Chart Snapshots: GanttChart.md
-    - Assessment 2 Testing Material: Testing.md
+    - Assessment 2 Testing Material & Javadocs: Testing.md
+    - CRC Cards: CRCCards.md
+    - Licences: Licenses.md
     - Meet the Teams: meetTheTeam.md
 markdown_extensions:
     - def_list
