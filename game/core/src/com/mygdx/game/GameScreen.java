@@ -56,6 +56,7 @@ import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.Station;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This is the main class of the game which runs all the logic and rendering Here all the outside
@@ -385,8 +386,12 @@ public class GameScreen implements Screen {
     scaleY = Gdx.graphics.getHeight() / 480f;
     if (loadSave) { // if the game is being loaded from a save
       loadGame("SavedData.ser");
+      if (!Objects.isNull(customerController.getCustomersPerScenarioWave())) {
+        isEndlessMode = !(customerController.getCustomersPerScenarioWave().size() > 0);
+      } else {
+        isEndlessMode = CCParams.noCustomers == -1;
+      }
     }
-    isEndlessMode = CCParams.noCustomers == -1;
     setupPauseMenu();
     setupGameUI();
   }
