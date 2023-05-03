@@ -62,10 +62,10 @@ public class DifficultyMaster {
     CCParams.orderTypePermissable.add(ItemEnum.Burger);
     CCParams.orderTypePermissable.add(ItemEnum.CheesePizza);
 
-    chefParams.moveSpeed = 200;
+    chefParams.moveSpeed = 150;
 
-    cookingParams.cookSpeed = 2;
-    cookingParams.chopSpeed = 2f;
+    cookingParams.cookSpeed = 1.75f;
+    cookingParams.chopSpeed = 1.75f;
     cookingParams.burnSpeed = 1.5f;
 
     diff.cookingParams = cookingParams;
@@ -102,7 +102,7 @@ public class DifficultyMaster {
     CCParams.orderTypePermissable.add(ItemEnum.TomatoOnionLettuceSalad);
     CCParams.orderTypePermissable.add(ItemEnum.Burger);
 
-    chefParams.moveSpeed = 250;
+    chefParams.moveSpeed = 225;
 
     cookingParams.cookSpeed = 1;
     cookingParams.chopSpeed = 1f;
@@ -140,7 +140,7 @@ public class DifficultyMaster {
     CCParams.orderTypePermissable.add(ItemEnum.BakedPotato);
     CCParams.orderTypePermissable.add(ItemEnum.Burger);
 
-    chefParams.moveSpeed = 280;
+    chefParams.moveSpeed = 255;
 
     cookingParams.cookSpeed = .75f;
     cookingParams.chopSpeed = .75f;

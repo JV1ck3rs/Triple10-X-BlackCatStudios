@@ -896,6 +896,7 @@ public class CustomerController extends Scriptable {
       setCustomerTarget(currentWaitingCustomer.membersSeatedOrWalking.get(
               currentWaitingCustomer.membersSeatedOrWalking.size() - 1),
           currentWaitingCustomer.table.GetNextSeat());
+      numCustomersServed += 1;
       setWaitingForOrderTarget();
       changeMoney(moneyPerCustomer);
     }
