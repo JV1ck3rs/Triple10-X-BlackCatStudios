@@ -734,6 +734,8 @@ public class GameScreen implements Screen {
    * @param values the values
    */
   public void endGame(EndOfGameValues values) {
+
+    SoundFrame.SoundEngine.stopAllSounds();
     if (!isEndlessMode) {
       endScreen = new EndScreen(game, this, timer, values, -1);
     } else {

@@ -218,6 +218,23 @@ public class SoundFrame {
   }
 
   /**
+   * Stop all sounds from being played
+   * @author Felix Seanor
+   */
+  public void stopAllSounds() {
+
+
+    for (soundsEnum key : soundIDsMap.keySet()) {
+      LinkedList<Long> value = soundIDsMap.get(key);
+      Sound currentSound = sounds[key.ordinal()];
+      for (int i = 0; i < value.size(); i++) {
+        currentSound.stop();
+      }
+    }
+  }
+
+
+  /**
    * Runs setSystemVolume with a sound of 0
    *
    * @author Sam Toner
