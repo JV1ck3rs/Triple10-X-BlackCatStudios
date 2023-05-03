@@ -24,6 +24,8 @@ public class GameState implements Serializable {
    */
   public int maxMoney;
 
+  public int customerNo;
+
   /**
    * The Customer group states.
    */

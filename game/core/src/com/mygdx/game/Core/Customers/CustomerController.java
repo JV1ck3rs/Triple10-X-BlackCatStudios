@@ -964,6 +964,13 @@ public class CustomerController extends Scriptable {
     currentWave = state.wave;
     waves = state.maxWave;
     groupSize = state.groupSize;
+
+
+    if(waves==-1)
+       numCustomersServed = state.customerNo;
+    else
+      customersRemaining = state.customerNo;
+
     //Reputation
     reputation = state.reputation;
     maxReputation = state.maxReputation;
@@ -1053,9 +1060,14 @@ public class CustomerController extends Scriptable {
 
     // List of number of customers per wave
     state.customersPerWave = customersPerWave;
-
     state.maxWave = waves;
     state.groupSize = groupSize;
+
+    if(waves==-1)
+      state.customerNo= numCustomersServed;
+    else
+      state.customerNo = customersRemaining;
+
     //Reputation
     state.reputation = reputation;
     state.maxReputation = maxReputation;
