@@ -511,7 +511,7 @@ public class CustomerController extends Scriptable {
 
     frustrationCheck(dt);
 
-    removeCustomerTest();
+    //removeCustomerTest();
     seeIfCustomersShouldLeave(dt);
     canAcceptNewCustomer();
 
@@ -798,7 +798,8 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   void removeCustomerTest() {
-    if (currentWaitingCustomer !=null) {
+    if (Gdx.input.isKeyJustPressed(
+            Keys.S) &&currentWaitingCustomer != null) {
       Customer customer = currentWaitingCustomer.removeFirstCustomer();
       numCustomersServed += 1;
       setCustomerTarget(customer, currentWaitingCustomer.table.GetNextSeat());
