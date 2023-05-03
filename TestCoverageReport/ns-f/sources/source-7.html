@@ -1,0 +1,403 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Station</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Stations</a>
+</div>
+
+<h1>Coverage Summary for Class: Station (com.mygdx.game.Stations)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Station</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (8/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (52/56)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Stations;
+&nbsp;
+&nbsp;import com.mygdx.game.Core.Customers.CustomerController;
+&nbsp;import com.mygdx.game.Core.GameState.CookingParams;
+&nbsp;import com.mygdx.game.Core.GameState.ItemState;
+&nbsp;import com.mygdx.game.Core.Interactions.Interactable;
+&nbsp;import com.mygdx.game.Core.Rendering.BlackTexture;
+&nbsp;import com.mygdx.game.Core.Rendering.GameObject;
+&nbsp;import com.mygdx.game.Core.Scriptable;
+&nbsp;import com.mygdx.game.Items.Item;
+&nbsp;import com.mygdx.game.Items.ItemEnum;
+&nbsp;import com.mygdx.game.RecipeAndComb.CombinationDict;
+&nbsp;import com.mygdx.game.RecipeAndComb.Recipe;
+&nbsp;import com.mygdx.game.RecipeAndComb.RecipeDict;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Defines a station object with its given name and attributes we also have the ability to &quot;lock&quot; a
+&nbsp; * station so it can only interact with one item at a time
+&nbsp; *
+&nbsp; * @author Jack Hinton
+&nbsp; * @author Robin Graham
+&nbsp; * @date 01 /05/23
+&nbsp; */
+&nbsp;public abstract class Station extends Scriptable implements Interactable {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The Item.
+&nbsp;   */
+&nbsp;  public Item item;
+&nbsp;  /**
+&nbsp;   * The Return item.
+&nbsp;   */
+&nbsp;  public Item returnItem;
+&nbsp;  /**
+&nbsp;   * The Recipes.
+&nbsp;   */
+&nbsp;  public RecipeDict recipes;
+&nbsp;  /**
+&nbsp;   * The Combinations.
+&nbsp;   */
+&nbsp;  public CombinationDict combinations;
+&nbsp;  private boolean locked;
+&nbsp;  /**
+&nbsp;   * The Current recipe.
+&nbsp;   */
+&nbsp;  public Recipe currentRecipe;
+&nbsp;  /**
+&nbsp;   * The Held item.
+&nbsp;   */
+&nbsp;  GameObject heldItem;
+&nbsp;  /**
+&nbsp;   * The Image size.
+&nbsp;   */
+<b class="fc">&nbsp;  public int imageSize = 18;</b>
+&nbsp;  /**
+&nbsp;   * The Timer.
+&nbsp;   */
+&nbsp;  GameObject timer, /**
+&nbsp;   * The Warning icon.
+&nbsp;   */
+&nbsp;  warningIcon, /**
+&nbsp;   * The Repair bubble.
+&nbsp;   */
+&nbsp;  repairBubble, /**
+&nbsp;   * The Ready bubble.
+&nbsp;   */
+&nbsp;  readyBubble;
+&nbsp;  /**
+&nbsp;   * The Animation.
+&nbsp;   */
+&nbsp;  GameObject animation;
+&nbsp;  /**
+&nbsp;   * The Station time decrease.
+&nbsp;   */
+&nbsp;  public float stationTimeDecrease;
+&nbsp;  /**
+&nbsp;   * The Price.
+&nbsp;   */
+<b class="fc">&nbsp;  public int price = 100;</b>
+&nbsp;  private float burnSpeed;
+&nbsp;  /**
+&nbsp;   * The Cooking speed.
+&nbsp;   */
+&nbsp;  float cookingSpeed;
+&nbsp;  /**
+&nbsp;   * The constant numOvens.
+&nbsp;   */
+&nbsp;  public static int numOvens;
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a station
+&nbsp;   *
+&nbsp;   * @param params Cooking parameters i.e. cooking speed, burning speed etc.
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Sam Toner
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+<b class="fc">&nbsp;  public Station(CookingParams params) {</b>
+<b class="fc">&nbsp;    item = null;</b>
+<b class="fc">&nbsp;    locked = false;</b>
+<b class="fc">&nbsp;    recipes = RecipeDict.recipes;</b>
+<b class="fc">&nbsp;    combinations = CombinationDict.combinations;</b>
+<b class="fc">&nbsp;    currentRecipe = null;</b>
+<b class="fc">&nbsp;    stationTimeDecrease = 0;</b>
+<b class="fc">&nbsp;    burnSpeed = params.burnSpeed;</b>
+<b class="fc">&nbsp;    cookingSpeed = params.cookSpeed;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Initialises the bubbles
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Jack Vickers
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void init() {
+&nbsp;
+<b class="fc">&nbsp;    timer = new GameObject(new BlackTexture(&quot;Timer/01.png&quot;));</b>
+<b class="fc">&nbsp;    timer.setPosition(</b>
+<b class="fc">&nbsp;        gameObject.position.x + (gameObject.getWidth() / 2) - (timer.getWidth() / 2),</b>
+<b class="fc">&nbsp;        gameObject.position.y + (gameObject.getHeight()) + 2);</b>
+<b class="fc">&nbsp;    timer.isVisible = false;</b>
+<b class="fc">&nbsp;    timer.image.layer = 1;</b>
+<b class="fc">&nbsp;    warningIcon = new GameObject(new BlackTexture(&quot;Timer/Warning.png&quot;));</b>
+<b class="fc">&nbsp;    warningIcon.setPosition(timer.position.x, timer.position.y + timer.getHeight());</b>
+<b class="fc">&nbsp;    warningIcon.isVisible = false;</b>
+<b class="fc">&nbsp;    warningIcon.image.layer = 1;</b>
+&nbsp;
+<b class="fc">&nbsp;    repairBubble = new GameObject(new BlackTexture(&quot;Timer/RepairBubble.png&quot;));</b>
+<b class="fc">&nbsp;    repairBubble.setPosition(</b>
+<b class="fc">&nbsp;        gameObject.position.x + gameObject.getWidth() / 2 - repairBubble.getWidth() / 2,</b>
+<b class="fc">&nbsp;        gameObject.position.y + gameObject.getHeight() / 2 - repairBubble.getHeight() / 2);</b>
+<b class="fc">&nbsp;    repairBubble.isVisible = false;</b>
+<b class="fc">&nbsp;    repairBubble.image.layer = 1;</b>
+&nbsp;
+<b class="fc">&nbsp;    readyBubble = new GameObject(new BlackTexture(&quot;Timer/Ready.png&quot;));</b>
+<b class="fc">&nbsp;    readyBubble.setPosition(timer.position.x, timer.position.y + timer.getHeight() / 2);</b>
+<b class="fc">&nbsp;    readyBubble.isVisible = false;</b>
+<b class="fc">&nbsp;    readyBubble.image.layer = 1;</b>
+&nbsp;
+<b class="fc">&nbsp;    if (animation != null) {</b>
+<b class="fc">&nbsp;      moveAnimation();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gives the item to a station
+&nbsp;   *
+&nbsp;   * @param item The item you want to give
+&nbsp;   * @return boolean
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public abstract boolean giveItem(Item item);
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the item to the chef
+&nbsp;   *
+&nbsp;   * @return Item
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public abstract Item retrieveItem();
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Updates the pictures of the items currently in the station
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public abstract void updatePictures();
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Moves the animation
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public abstract void moveAnimation();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the station to a &quot;locked&quot; state
+&nbsp;   *
+&nbsp;   * @param locked assigns variable to either true or false
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public void setLocked(boolean locked) {
+<b class="fc">&nbsp;    if (repairBubble != null) {</b>
+<b class="fc">&nbsp;      repairBubble.isVisible = locked;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    this.locked = locked;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * return the boolean value of locked for the station
+&nbsp;   *
+&nbsp;   * @return boolean locked
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public boolean getLocked() {
+<b class="fc">&nbsp;    return locked;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the given item is a repair tool, if yes it unlocks the station and charges the
+&nbsp;   * player
+&nbsp;   *
+&nbsp;   * @param item the item the player has given
+&nbsp;   * @return boolean boolean
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public boolean checkRepairTool(Item item) {
+<b class="fc">&nbsp;    if (item.name == ItemEnum.RepairTool &amp;&amp; CustomerController.money &gt;= price) {</b>
+<b class="fc">&nbsp;      setLocked(false);</b>
+<b class="fc">&nbsp;      CustomerController.money = CustomerController.money - price;</b>
+<b class="fc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Changes the current item to the new item
+&nbsp;   *
+&nbsp;   * @param item item you want to give to the station
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public void changeItem(Item item) {
+<b class="fc">&nbsp;    this.item = item;</b>
+<b class="fc">&nbsp;    updatePictures();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Deletes the current held item
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public void deleteItem() {
+<b class="fc">&nbsp;    item = null;</b>
+<b class="fc">&nbsp;    updatePictures();</b>
+<b class="fc">&nbsp;    if (animation != null) {</b>
+<b class="fc">&nbsp;      animation.isVisible = false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Loads the state of the station from a save file
+&nbsp;   *
+&nbsp;   * @param state  The items the station has when saved
+&nbsp;   * @param locked The locked state of the station when saved
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public void loadState(List&lt;ItemState&gt; state, Boolean locked) {
+&nbsp;
+<b class="fc">&nbsp;    setLocked(locked);</b>
+<b class="fc">&nbsp;    if (state.get(0) == null || state.get(0).item == null) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    item = new Item(state.get(0));</b>
+<b class="fc">&nbsp;    updatePictures();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Decreases cook time
+&nbsp;   *
+&nbsp;   * @author Sam Toner
+&nbsp;   */
+&nbsp;  public void decreaseCookTime() {
+<b class="nc">&nbsp;    stationTimeDecrease += 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Saves the state of the station
+&nbsp;   *
+&nbsp;   * @return List&lt;ItemState&gt; list
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public List&lt;ItemState&gt; saveState() {
+&nbsp;
+<b class="nc">&nbsp;    LinkedList&lt;ItemState&gt; states = new LinkedList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    states.add(new ItemState(item));</b>
+<b class="nc">&nbsp;    return states;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-03 05:12</div>
+</div>
+</body>
+</html>

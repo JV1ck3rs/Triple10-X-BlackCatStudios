@@ -1,0 +1,15 @@
+com.mygdx.game
+com.mygdx.game.Core
+com.mygdx.game.Core.Chef
+com.mygdx.game.Core.Customers
+com.mygdx.game.Core.GameState
+com.mygdx.game.Core.Interactions
+com.mygdx.game.Core.Leaderboard
+com.mygdx.game.Core.PathFinder
+com.mygdx.game.Core.Powerups
+com.mygdx.game.Core.Rendering
+com.mygdx.game.Core.SFX
+com.mygdx.game.Core.ValueStructures
+com.mygdx.game.Items
+com.mygdx.game.RecipeAndComb
+com.mygdx.game.Stations

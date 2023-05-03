@@ -1,0 +1,334 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > OrderMenu</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Core.Customers</a>
+</div>
+
+<h1>Coverage Summary for Class: OrderMenu (com.mygdx.game.Core.Customers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OrderMenu</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.1%
+  </span>
+  <span class="absValue">
+    (57/67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core.Customers;
+&nbsp;
+&nbsp;import com.mygdx.game.Items.Item;
+&nbsp;import com.mygdx.game.Items.ItemEnum;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;/**
+&nbsp; * This manages the foods that can be given and offers different randomisation patterns
+&nbsp; * BlackCatStudio&#39;s Code
+&nbsp; *
+&nbsp; * @author Felix Seanor
+&nbsp; * @date 23 /04/23
+&nbsp; */
+&nbsp;public class OrderMenu {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The Order catagories.
+&nbsp;   */
+<b class="fc">&nbsp;  List&lt;OrderType&gt; orderCatagories = new LinkedList&lt;&gt;();</b>
+&nbsp;  /**
+&nbsp;   * The Rand.
+&nbsp;   */
+&nbsp;  Random rand;
+&nbsp;  /**
+&nbsp;   * The Min stock.
+&nbsp;   */
+&nbsp;  int minStock;
+&nbsp;  /**
+&nbsp;   * The Burgers.
+&nbsp;   */
+&nbsp;  OrderType burgers;
+&nbsp;  /**
+&nbsp;   * The Salads.
+&nbsp;   */
+&nbsp;  OrderType salads;
+&nbsp;  /**
+&nbsp;   * The Potato.
+&nbsp;   */
+&nbsp;  OrderType potato;
+&nbsp;  /**
+&nbsp;   * The Pizza.
+&nbsp;   */
+&nbsp;  OrderType pizza;
+&nbsp;  /**
+&nbsp;   * The Completed recipes.
+&nbsp;   */
+&nbsp;  LinkedList&lt;ItemEnum&gt; completedRecipes;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create an order menu with certain specification
+&nbsp;   *
+&nbsp;   * @param defaultStock         Salad and Burger probability
+&nbsp;   * @param rareStock            Potato and Pizza Probability
+&nbsp;   * @param minStock             Lowest probability allowed
+&nbsp;   * @param OrderTypePerishables What types are allowed
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public OrderMenu(int defaultStock, int rareStock, int minStock,
+<b class="fc">&nbsp;      List&lt;ItemEnum&gt; OrderTypePerishables) {</b>
+<b class="fc">&nbsp;    rand = new Random();</b>
+<b class="fc">&nbsp;    this.minStock = minStock;</b>
+&nbsp;
+<b class="fc">&nbsp;    burgers = new OrderType(defaultStock, minStock, ItemEnum.Burger, ItemEnum.CheeseBurger);</b>
+<b class="fc">&nbsp;    salads = new OrderType(defaultStock, minStock, ItemEnum.LettuceOnionSalad,</b>
+&nbsp;        ItemEnum.LettuceTomatoSalad, ItemEnum.TomatoOnionLettuceSalad);
+<b class="fc">&nbsp;    potato = new OrderType(rareStock, minStock, ItemEnum.BakedPotato, ItemEnum.MeatBake,</b>
+&nbsp;        ItemEnum.CheeseBake);
+<b class="fc">&nbsp;    pizza = new OrderType(rareStock, minStock, ItemEnum.CheesePizzaCooked, ItemEnum.MeatPizzaCooked,</b>
+&nbsp;        ItemEnum.VegPizzaCooked);
+&nbsp;
+<b class="fc">&nbsp;    if (OrderTypePerishables.contains(ItemEnum.Burger)) {</b>
+<b class="fc">&nbsp;      orderCatagories.add(burgers);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (OrderTypePerishables.contains(ItemEnum.TomatoOnionLettuceSalad)) {</b>
+<b class="fc">&nbsp;      orderCatagories.add(salads);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (OrderTypePerishables.contains(ItemEnum.BakedPotato)) {</b>
+<b class="fc">&nbsp;      orderCatagories.add(potato);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (OrderTypePerishables.contains(ItemEnum.CheesePizza)) {</b>
+<b class="fc">&nbsp;      orderCatagories.add(pizza);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to add potatoes and pizzas to the order menu when an oven has been added
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public void ovenAdded() {
+<b class="fc">&nbsp;    orderCatagories.add(potato);</b>
+<b class="fc">&nbsp;    orderCatagories.add(pizza);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a new order for new customers
+&nbsp;   *
+&nbsp;   * @param count  Number of orders (customer no generally)
+&nbsp;   * @param random Randomisation spec, Uniform generally produces a better noise pattern
+&nbsp;   * @return List of item orders
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public List&lt;ItemEnum&gt; createNewOrder(int count, Randomisation random) {
+<b class="fc">&nbsp;    if (Randomisation.TrueRandom == random) {</b>
+<b class="fc">&nbsp;      return createTrueRandomOrder(count);</b>
+<b class="fc">&nbsp;    } else if (Randomisation.Normalised == random) {</b>
+<b class="fc">&nbsp;      return createNormalisedOrder(count);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return new LinkedList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a true random order, each order has no knowledge of previous ones
+&nbsp;   *
+&nbsp;   * @param count no orders
+&nbsp;   * @return list
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  List&lt;ItemEnum&gt; createTrueRandomOrder(int count) {
+<b class="fc">&nbsp;    List&lt;ItemEnum&gt; orders = new LinkedList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; count; i++) {</b>
+<b class="fc">&nbsp;      int catagory = rand.nextInt(orderCatagories.size());</b>
+<b class="fc">&nbsp;      orders.add(orderCatagories.get(catagory).getOrder(rand));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return orders;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create a normalised random order. This has knowledge about previous orders and randomly chooses
+&nbsp;   * the next order with a higher likelyhood of lower picked foods.
+&nbsp;   *
+&nbsp;   * @param count no orders
+&nbsp;   * @return list
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  List&lt;ItemEnum&gt; createNormalisedOrder(int count) {
+&nbsp;
+<b class="fc">&nbsp;    List&lt;ItemEnum&gt; orders = new LinkedList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (int j = 0; j &lt; count; j++) {</b>
+&nbsp;
+<b class="fc">&nbsp;      int totalStock = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;      for (OrderType catagory : orderCatagories</b>
+&nbsp;      ) {
+<b class="fc">&nbsp;        totalStock += catagory.stock;</b>
+<b class="fc">&nbsp;      }</b>
+<b class="fc">&nbsp;      int catagoryID = rand.nextInt(totalStock - 1);</b>
+<b class="fc">&nbsp;      for (OrderType catagory : orderCatagories</b>
+&nbsp;      ) {
+<b class="fc">&nbsp;        catagoryID -= catagory.stock;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (catagoryID &lt;= 0) {</b>
+<b class="fc">&nbsp;          orders.add(catagory.getOrder(rand));</b>
+<b class="fc">&nbsp;          break;</b>
+&nbsp;        }
+<b class="fc">&nbsp;      }</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return orders;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Restocks the order and resets the probability
+&nbsp;   *
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void restock() {
+<b class="fc">&nbsp;    for (OrderType type : orderCatagories</b>
+&nbsp;    ) {
+<b class="fc">&nbsp;      type.restock();</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets all order types.
+&nbsp;   *
+&nbsp;   * @return the all order types
+&nbsp;   */
+&nbsp;  public LinkedList&lt;OrderType&gt; getAllOrderTypes() {
+<b class="fc">&nbsp;    LinkedList&lt;OrderType&gt; orderTypes = new LinkedList&lt;&gt;();</b>
+<b class="fc">&nbsp;    orderTypes.add(burgers);</b>
+<b class="fc">&nbsp;    orderTypes.add(salads);</b>
+<b class="fc">&nbsp;    orderTypes.add(potato);</b>
+<b class="fc">&nbsp;    orderTypes.add(pizza);</b>
+<b class="fc">&nbsp;    return orderTypes;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets super from dish.
+&nbsp;   *
+&nbsp;   * @param dish the dish
+&nbsp;   * @return the super from dish
+&nbsp;   */
+&nbsp;  public Item getSuperFromDish(ItemEnum dish) {
+<b class="fc">&nbsp;    if (burgers.orderables.contains(dish)) {</b>
+<b class="nc">&nbsp;      return new Item(ItemEnum.SuperBurger);</b>
+<b class="fc">&nbsp;    } else if (salads.orderables.contains(dish)) {</b>
+<b class="nc">&nbsp;      return new Item(ItemEnum.SuperSalad);</b>
+<b class="fc">&nbsp;    } else if (pizza.orderables.contains(dish)) {</b>
+<b class="nc">&nbsp;      return new Item(ItemEnum.SuperPizza);</b>
+<b class="fc">&nbsp;    } else if (potato.orderables.contains(dish)) {</b>
+<b class="nc">&nbsp;      return new Item(ItemEnum.SuperPotato);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      return new Item(ItemEnum.valueOf(dish.name()));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets order type from super.
+&nbsp;   *
+&nbsp;   * @param item the item
+&nbsp;   * @return the order type from super
+&nbsp;   */
+&nbsp;  public OrderType getOrderTypeFromSuper(Item item) {
+<b class="fc">&nbsp;    if (item.name == ItemEnum.SuperBurger) {</b>
+<b class="fc">&nbsp;      return burgers;</b>
+<b class="nc">&nbsp;    } else if (item.name == ItemEnum.SuperSalad) {</b>
+<b class="nc">&nbsp;      return salads;</b>
+<b class="nc">&nbsp;    } else if (item.name == ItemEnum.SuperPotato) {</b>
+<b class="nc">&nbsp;      return potato;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return pizza;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-03 05:12</div>
+</div>
+</body>
+</html>
