@@ -691,8 +691,18 @@ public class CustomerController extends Scriptable {
    */
   void createNewCustomer() {
     Table table = getTable();
-
     int customerAmount = calculateCustomerAmount();
+
+    if(numCustomersServed >12 && waves == -1){
+      customerAmount = 4;
+    }
+
+    if(numCustomersServed % 10 == 0)
+    {
+
+      menu.restock();
+    }
+
     customersRemaining -= customerAmount;
 
     currentWaitingCustomer = new CustomerGroups(customerAmount, currentCustomer, doorTarget,
