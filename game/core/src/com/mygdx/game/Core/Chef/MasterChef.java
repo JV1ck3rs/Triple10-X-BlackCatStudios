@@ -402,7 +402,7 @@ public class MasterChef extends Scriptable {
       Vector3 touchpos = new Vector3();
       touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
       touchpos = camera.unproject(touchpos);
-      if (touchpos.y < 520
+      if (touchpos.y < 500
           && touchpos.x < 940) { // if the ui at the top of the screen is not clicked
         List<Vector2> path = pathfinder.findPath((int) getCurrentChef().gameObject.position.x,
             (int) getCurrentChef().gameObject.position.y, (int) touchpos.x, (int) touchpos.y,

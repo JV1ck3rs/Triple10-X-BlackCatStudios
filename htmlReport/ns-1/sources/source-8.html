@@ -1,0 +1,469 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ScenarioModeConfigScreen</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game</a>
+</div>
+
+<h1>Coverage Summary for Class: ScenarioModeConfigScreen (com.mygdx.game)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ScenarioModeConfigScreen</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/97)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ScenarioModeConfigScreen$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ScenarioModeConfigScreen$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ScenarioModeConfigScreen$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/103)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game;
+&nbsp;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.Screen;
+&nbsp;import com.badlogic.gdx.graphics.Color;
+&nbsp;import com.badlogic.gdx.graphics.GL20;
+&nbsp;import com.badlogic.gdx.graphics.Texture;
+&nbsp;import com.badlogic.gdx.graphics.g2d.BitmapFont;
+&nbsp;import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+&nbsp;import com.badlogic.gdx.graphics.g2d.TextureRegion;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.InputEvent;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.Stage;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.ui.Button;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.ui.Image;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.ui.Label;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.ui.Table;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+&nbsp;import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+&nbsp;import com.badlogic.gdx.utils.Align;
+&nbsp;import com.mygdx.game.Core.GameState.Difficulty;
+&nbsp;
+&nbsp;/**
+&nbsp; * Implements the screen that the allows the user to configure the number of customers for the
+&nbsp; * scenario mode. BlackCatStudios
+&nbsp; *
+&nbsp; * @author Jack Vickers
+&nbsp; * @date 04 /04/2023
+&nbsp; */
+&nbsp;public class ScenarioModeConfigScreen implements Screen {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The Game.
+&nbsp;   */
+&nbsp;  final MyGdxGame game;
+&nbsp;  /**
+&nbsp;   * The Game screen.
+&nbsp;   */
+&nbsp;  GameScreen gameScreen;
+&nbsp;  /**
+&nbsp;   * The Scenario config texture.
+&nbsp;   */
+&nbsp;  Texture scenarioConfigTexture;
+&nbsp;  /**
+&nbsp;   * The Stage.
+&nbsp;   */
+&nbsp;  Stage stage;
+&nbsp;  /**
+&nbsp;   * The Table.
+&nbsp;   */
+&nbsp;  Table table;
+&nbsp;  /**
+&nbsp;   * The Text field.
+&nbsp;   */
+&nbsp;  TextField textField;
+&nbsp;  /**
+&nbsp;   * The Scenario config atlas.
+&nbsp;   */
+&nbsp;  TextureAtlas scenarioConfigAtlas;
+&nbsp;  /**
+&nbsp;   * The Error message.
+&nbsp;   */
+&nbsp;  Label errorMessage;
+&nbsp;  /**
+&nbsp;   * The Hard btn.
+&nbsp;   */
+&nbsp;  Button hardBtn;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Constructor for the scenario mode config screen.
+&nbsp;   *
+&nbsp;   * @param game The MyGdxGame object
+&nbsp;   * @author Jack Vickers
+&nbsp;   * @date 04 /04/2023
+&nbsp;   */
+<b class="nc">&nbsp;  public ScenarioModeConfigScreen(MyGdxGame game) {</b>
+&nbsp;    float scaleX;
+&nbsp;    float scaleY;
+&nbsp;
+&nbsp;    // Calculates the scale of the screen to the original size of the game
+<b class="nc">&nbsp;    scaleX = Gdx.graphics.getWidth() / 640f;</b>
+<b class="nc">&nbsp;    scaleY = Gdx.graphics.getHeight() / 480f;</b>
+<b class="nc">&nbsp;    this.game = game;</b>
+&nbsp;
+&nbsp;    // Load the scenario mode config screen assets
+<b class="nc">&nbsp;    scenarioConfigAtlas = new TextureAtlas(Gdx.files.internal(&quot;mainMenu.atlas&quot;));</b>
+<b class="nc">&nbsp;    scenarioConfigTexture = new Texture(Gdx.files.internal(&quot;mainMenu.png&quot;));</b>
+<b class="nc">&nbsp;    Image image = new Image(scenarioConfigTexture);</b>
+&nbsp;
+&nbsp;    // Create the stage and add the background image
+<b class="nc">&nbsp;    stage = new Stage();</b>
+<b class="nc">&nbsp;    image.setSize(stage.getWidth(), stage.getHeight());</b>
+<b class="nc">&nbsp;    image.setPosition(0, 0);</b>
+<b class="nc">&nbsp;    stage.addActor(image);</b>
+<b class="nc">&nbsp;    Gdx.input.setInputProcessor(stage); // Make the stage consume events</b>
+<b class="nc">&nbsp;    table = new Table(); // Create a table that fills the screen. Everything will go inside this table.</b>
+<b class="nc">&nbsp;    stage.addActor(table);</b>
+<b class="nc">&nbsp;    table.setFillParent(true);</b>
+<b class="nc">&nbsp;    table.align(Align.center);</b>
+&nbsp;
+&nbsp;    // Creates the title and instructions for the scenario mode config screen
+<b class="nc">&nbsp;    Label title = new Label(&quot;Scenario Mode Options&quot;, new LabelStyle(new BitmapFont(), Color.WHITE));</b>
+<b class="nc">&nbsp;    title.setFontScale(1.50f * (scaleX + scaleY) / 2);</b>
+<b class="nc">&nbsp;    table.add(title).padBottom(30 * scaleY).padTop(70 * scaleY)</b>
+<b class="nc">&nbsp;        .colspan(3); // Adds the title to the table</b>
+<b class="nc">&nbsp;    table.row(); // Adds a new row to the table</b>
+<b class="nc">&nbsp;    Label instructions = new Label(</b>
+&nbsp;        &quot;Enter the number of customers for the scenario mode: \n The maximum number of customers is 100&quot;,
+&nbsp;        new LabelStyle(new BitmapFont(), Color.WHITE));
+<b class="nc">&nbsp;    instructions.setFontScale(1.10f * (scaleX + scaleY) / 2);</b>
+<b class="nc">&nbsp;    instructions.setAlignment(Align.center);</b>
+<b class="nc">&nbsp;    table.add(instructions).padBottom(20 * scaleY).colspan(3);</b>
+<b class="nc">&nbsp;    table.row();</b>
+&nbsp;
+&nbsp;    // Sets the background using a section of the background image used on the main menu screen
+<b class="nc">&nbsp;    table.setBackground(new TextureRegionDrawable(scenarioConfigAtlas.findRegion(&quot;menuPP&quot;)));</b>
+&nbsp;
+&nbsp;    // Creates a skin for the text field using the clean-crispy-ui.json file
+<b class="nc">&nbsp;    Skin skin = new Skin(Gdx.files.internal(&quot;clean-crispy-ui.json&quot;));</b>
+<b class="nc">&nbsp;    textField = new TextField(&quot;5&quot;, skin);</b>
+<b class="nc">&nbsp;    textField.getStyle().font.getData().setScale(1.50f * (scaleX + scaleY) / 2);</b>
+<b class="nc">&nbsp;    textField.setAlignment(Align.center);</b>
+<b class="nc">&nbsp;    stage.addActor(textField); // Adds the text field to the stage</b>
+<b class="nc">&nbsp;    table.add(textField).width(250 * scaleX).height(50 * scaleY)</b>
+<b class="nc">&nbsp;        .colspan(3); // Adds the text field to the table</b>
+<b class="nc">&nbsp;    table.row();</b>
+&nbsp;
+&nbsp;    // Creates the error message label which will be used to tell
+&nbsp;    // the user if they have entered an invalid number of customers.
+<b class="nc">&nbsp;    errorMessage = new Label(&quot;&quot;,</b>
+&nbsp;        new LabelStyle(new BitmapFont(), Color.WHITE));
+<b class="nc">&nbsp;    errorMessage.setFontScale(1.10f * (scaleX + scaleY) / 2);</b>
+<b class="nc">&nbsp;    errorMessage.setAlignment(Align.left);</b>
+<b class="nc">&nbsp;    table.add(errorMessage).padBottom(20 * scaleY).colspan(3);</b>
+<b class="nc">&nbsp;    table.row();</b>
+&nbsp;
+&nbsp;    // Create the easy (relaxing mode) button and add it to the table
+<b class="nc">&nbsp;    TextureRegion easyBtnTexture = new TextureRegion(new Texture(&quot;RelaxingUp.png&quot;));</b>
+<b class="nc">&nbsp;    TextureRegion easyBtnDownTexture = new TextureRegion(new Texture(&quot;RelaxingDown.png&quot;));</b>
+<b class="nc">&nbsp;    Drawable drawableEasyBtnUp = new TextureRegionDrawable(easyBtnTexture);</b>
+<b class="nc">&nbsp;    Drawable drawableEasyBtnDown = new TextureRegionDrawable(easyBtnDownTexture);</b>
+<b class="nc">&nbsp;    Button.ButtonStyle easyBtnStyle = new Button.ButtonStyle();</b>
+<b class="nc">&nbsp;    Button easyBtn = new Button();</b>
+<b class="nc">&nbsp;    easyBtn.setStyle(easyBtnStyle);</b>
+<b class="nc">&nbsp;    easyBtnStyle.up = drawableEasyBtnUp;</b>
+<b class="nc">&nbsp;    easyBtnStyle.down = drawableEasyBtnDown;</b>
+<b class="nc">&nbsp;    easyBtn.align(Align.left);</b>
+<b class="nc">&nbsp;    table.add(easyBtn).width(125 * scaleX).height(50 * scaleY).padBottom(25 * scaleY)</b>
+<b class="nc">&nbsp;        .padRight(10 * scaleY);</b>
+&nbsp;
+&nbsp;    // Adds a click listener to the easy button
+<b class="nc">&nbsp;    easyBtn.addListener(new ClickListener() {</b>
+&nbsp;      @Override
+&nbsp;      public void clicked(InputEvent event, float x, float y) {
+<b class="nc">&nbsp;        checkInput(Difficulty.Relaxing);</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;
+&nbsp;    // Create the medium (stressful mode) button and add it to the table
+<b class="nc">&nbsp;    TextureRegion mediumBtnTexture = new TextureRegion(new Texture(&quot;StressfulUp.png&quot;));</b>
+<b class="nc">&nbsp;    TextureRegion mediumBtnDownTexture = new TextureRegion(new Texture(&quot;StressfulDown.png&quot;));</b>
+<b class="nc">&nbsp;    Drawable drawableMediumBtnUp = new TextureRegionDrawable(mediumBtnTexture);</b>
+<b class="nc">&nbsp;    Drawable drawableMediumBtnDown = new TextureRegionDrawable(mediumBtnDownTexture);</b>
+<b class="nc">&nbsp;    Button.ButtonStyle mediumBtnStyle = new Button.ButtonStyle();</b>
+<b class="nc">&nbsp;    Button mediumBtn = new Button();</b>
+<b class="nc">&nbsp;    mediumBtn.setStyle(mediumBtnStyle);</b>
+<b class="nc">&nbsp;    mediumBtnStyle.up = drawableMediumBtnUp;</b>
+<b class="nc">&nbsp;    mediumBtnStyle.down = drawableMediumBtnDown;</b>
+<b class="nc">&nbsp;    mediumBtn.align(Align.center);</b>
+&nbsp;    // The button is added to the same row of the table as the easy button so that they
+&nbsp;    // are side by side
+<b class="nc">&nbsp;    table.add(mediumBtn).width(125 * scaleX).height(50 * scaleY).padBottom(25 * scaleY)</b>
+<b class="nc">&nbsp;        .padRight(10 * scaleY);</b>
+&nbsp;
+&nbsp;    // Adds a click listener to the medium button
+<b class="nc">&nbsp;    mediumBtn.addListener(new ClickListener() {</b>
+&nbsp;      @Override
+&nbsp;      public void clicked(InputEvent event, float x, float y) {
+<b class="nc">&nbsp;        checkInput(Difficulty.Stressful);</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;
+&nbsp;    // Create the hard (extreme mode) button and add it to the table
+<b class="nc">&nbsp;    TextureRegion hardBtnTexture = new TextureRegion(new Texture(&quot;ExtremeUp.png&quot;));</b>
+<b class="nc">&nbsp;    TextureRegion hardBtnDownTexture = new TextureRegion(new Texture(&quot;ExtremeDown.png&quot;));</b>
+<b class="nc">&nbsp;    Drawable drawableHardBtnUp = new TextureRegionDrawable(hardBtnTexture);</b>
+<b class="nc">&nbsp;    Drawable drawableHardBtnDown = new TextureRegionDrawable(hardBtnDownTexture);</b>
+<b class="nc">&nbsp;    Button.ButtonStyle hardBtnStyle = new Button.ButtonStyle();</b>
+<b class="nc">&nbsp;    hardBtn = new Button();</b>
+<b class="nc">&nbsp;    hardBtn.setStyle(hardBtnStyle);</b>
+<b class="nc">&nbsp;    hardBtnStyle.up = drawableHardBtnUp;</b>
+<b class="nc">&nbsp;    hardBtnStyle.down = drawableHardBtnDown;</b>
+<b class="nc">&nbsp;    hardBtn.align(Align.right);</b>
+&nbsp;    // The button is added to the same row of the table as the easy &amp; medium buttons so that they
+&nbsp;    // are side by side
+<b class="nc">&nbsp;    table.add(hardBtn).width(125 * scaleX).height(50 * scaleY).padBottom(25 * scaleY).row();</b>
+&nbsp;
+&nbsp;    // Adds a click listener to the hard button
+<b class="nc">&nbsp;    hardBtn.addListener(new ClickListener() {</b>
+&nbsp;      @Override
+&nbsp;      public void clicked(InputEvent event, float x, float y) {
+<b class="nc">&nbsp;        checkInput(Difficulty.Mindbreaking);</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets hard btn.
+&nbsp;   *
+&nbsp;   * @return the hard btn
+&nbsp;   */
+&nbsp;  public Button getHardBtn() {
+<b class="nc">&nbsp;    return hardBtn;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks the user text input and sets the number of customers in the game.
+&nbsp;   *
+&nbsp;   * @param difficultyLevel The difficulty level of the game.
+&nbsp;   * @author Jack Vickers
+&nbsp;   * @date 19 /04/2023
+&nbsp;   */
+&nbsp;  public void checkInput(Difficulty difficultyLevel) {
+<b class="nc">&nbsp;    int numCustomers = 5;</b>
+<b class="nc">&nbsp;    if (InputChecker.checkCustomerNumberInput(textField.getText())) {</b>
+<b class="nc">&nbsp;      numCustomers = Integer.parseInt(textField.getText());</b>
+<b class="nc">&nbsp;      gameScreen = new GameScreen(game, game.map, numCustomers, difficultyLevel, false);</b>
+<b class="nc">&nbsp;      game.setScreen(gameScreen);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      errorMessage.setText(&quot;Please enter a positive number which is less than 100&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Called when this screen becomes the current screen.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void show() {
+&nbsp;
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Called when the screen should render itself.
+&nbsp;   *
+&nbsp;   * @param delta The time in seconds since the last render.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void render(float delta) {
+<b class="nc">&nbsp;    Gdx.gl.glClearColor(0, 0, 0, 1);</b>
+<b class="nc">&nbsp;    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);</b>
+<b class="nc">&nbsp;    stage.act(Gdx.graphics.getDeltaTime());</b>
+<b class="nc">&nbsp;    stage.draw();</b>
+<b class="nc">&nbsp;    game.batch.begin();</b>
+<b class="nc">&nbsp;    game.batch.end();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Resize the screen.
+&nbsp;   *
+&nbsp;   * @param width  the new width
+&nbsp;   * @param height the new height
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void resize(int width, int height) {
+<b class="nc">&nbsp;    stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   *
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void pause() {
+&nbsp;
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   *
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void resume() {
+&nbsp;
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Called when this screen is no longer the current screen.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void hide() {
+&nbsp;
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Called when this screen should release all resources.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void dispose() {
+&nbsp;
+<b class="nc">&nbsp;  }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-03 02:34</div>
+</div>
+</body>
+</html>

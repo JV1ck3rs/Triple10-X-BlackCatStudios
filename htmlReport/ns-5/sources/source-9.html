@@ -1,0 +1,258 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SaveState</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Core.GameState</a>
+</div>
+
+<h1>Coverage Summary for Class: SaveState (com.mygdx.game.Core.GameState)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SaveState</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    65.4%
+  </span>
+  <span class="absValue">
+    (34/52)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core.GameState;
+&nbsp;
+&nbsp;
+&nbsp;import com.mygdx.game.Core.Chef.MasterChef;
+&nbsp;import com.mygdx.game.Core.Customers.CustomerController;
+&nbsp;import com.mygdx.game.Core.Rendering.GameObject;
+&nbsp;import com.mygdx.game.Core.Scriptable;
+&nbsp;import com.mygdx.game.Stations.Station;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.io.FileOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.ObjectInputStream;
+&nbsp;import java.io.ObjectOutputStream;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Loads or saves states of the game to or from the disk BlackCatStudio&#39;s Code
+&nbsp; *
+&nbsp; * @author Felix Seanor
+&nbsp; * @author Jack Vickers
+&nbsp; * @date 25 /04/23
+&nbsp; */
+<b class="fc">&nbsp;public class SaveState {</b>
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Save the state of the game without the need for a GameScreen.
+&nbsp;   *
+&nbsp;   * @param path               File path
+&nbsp;   * @param masterChef         chef controller
+&nbsp;   * @param customerController customer controller class
+&nbsp;   * @param difficultyLevel    the games current difficulty level
+&nbsp;   * @param timer              minute state of the timer
+&nbsp;   * @param seconds            second state of the timer
+&nbsp;   * @param Stations           List of station
+&nbsp;   * @param customerCounters   List of customercounters
+&nbsp;   * @param assemblyStations   List of assembly stations
+&nbsp;   * @return The created game state
+&nbsp;   * @author Jack Vickers
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public GameState saveState(String path, MasterChef masterChef,
+&nbsp;      CustomerController customerController, Difficulty difficultyLevel, int timer, float seconds,
+&nbsp;      List&lt;GameObject&gt; Stations, List&lt;GameObject&gt; customerCounters,
+&nbsp;      List&lt;GameObject&gt; assemblyStations) {
+<b class="fc">&nbsp;    GameState state = new GameState();</b>
+<b class="fc">&nbsp;    masterChef.SaveState(state);</b>
+<b class="fc">&nbsp;    customerController.saveState(state);</b>
+<b class="fc">&nbsp;    saveGameScreen(state, difficultyLevel, timer, seconds, Stations, customerCounters,</b>
+&nbsp;        assemblyStations);
+&nbsp;
+<b class="fc">&nbsp;    saveState(state, path);</b>
+<b class="fc">&nbsp;    return state;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Saves a game state to disk under the given path
+&nbsp;   *
+&nbsp;   * @param state GameState variables that the game has been saved under
+&nbsp;   * @param path  File path
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  public void saveState(GameState state, String path) {
+&nbsp;    try {
+<b class="fc">&nbsp;      FileOutputStream fileOut = new FileOutputStream(path);</b>
+<b class="fc">&nbsp;      ObjectOutputStream stream = new ObjectOutputStream(fileOut);</b>
+<b class="fc">&nbsp;      stream.writeObject(state);</b>
+<b class="fc">&nbsp;      stream.close();</b>
+<b class="fc">&nbsp;      fileOut.close();</b>
+&nbsp;//    System.out.println(&quot;Game state printed to: &quot; + path);
+&nbsp;
+<b class="nc">&nbsp;    } catch (FileNotFoundException e) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;    } catch (IOException e) {</b>
+<b class="nc">&nbsp;      e.printStackTrace();</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Saves the state of the game screen.
+&nbsp;   *
+&nbsp;   * @param state            The state to save to
+&nbsp;   * @param difficultyLevel  The difficulty level of the game
+&nbsp;   * @param timer            The timer of the game
+&nbsp;   * @param seconds          The number of seconds the game has been running for (used for the
+&nbsp;   *                         timer)
+&nbsp;   * @param Stations         The stations in the game
+&nbsp;   * @param customerCounters The customer counters in the game
+&nbsp;   * @param assemblyStations The assembly stations in the game
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  public void saveGameScreen(GameState state, Difficulty difficultyLevel, int timer, float seconds,
+&nbsp;      List&lt;GameObject&gt; Stations, List&lt;GameObject&gt; customerCounters,
+&nbsp;      List&lt;GameObject&gt; assemblyStations) {
+<b class="fc">&nbsp;    List&lt;List&lt;ItemState&gt;&gt; itemsOnCounters = new LinkedList&lt;&gt;();</b>
+<b class="fc">&nbsp;    List&lt;Boolean&gt; broken = new LinkedList&lt;&gt;();</b>
+<b class="fc">&nbsp;    state.difficulty = difficultyLevel;</b>
+<b class="fc">&nbsp;    state.timer = timer;</b>
+<b class="fc">&nbsp;    state.seconds = seconds;</b>
+<b class="fc">&nbsp;    for (GameObject station : Stations) {</b>
+<b class="nc">&nbsp;      Scriptable scriptable = station.getScript(0);</b>
+&nbsp;
+<b class="nc">&nbsp;      if (scriptable instanceof Station) {</b>
+<b class="nc">&nbsp;        itemsOnCounters.add(((Station) scriptable).saveState());</b>
+<b class="nc">&nbsp;        broken.add(((Station) scriptable).getLocked());</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="fc">&nbsp;    for (GameObject station : customerCounters) {</b>
+<b class="nc">&nbsp;      itemsOnCounters.add(((Station) station.getScript(0)).saveState());</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="fc">&nbsp;    for (GameObject station : assemblyStations) {</b>
+<b class="fc">&nbsp;      itemsOnCounters.add(((Station) station.getScript(0)).saveState());</b>
+<b class="fc">&nbsp;    }</b>
+<b class="fc">&nbsp;    state.foodOnCounters = itemsOnCounters;</b>
+<b class="fc">&nbsp;    state.repairState = broken;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Load the current state into a GameState variable
+&nbsp;   *
+&nbsp;   * @param ID file path
+&nbsp;   * @return GameState loaded in from disk
+&nbsp;   */
+&nbsp;  public GameState loadState(String ID) {
+<b class="fc">&nbsp;    GameState state = null;</b>
+&nbsp;
+<b class="fc">&nbsp;    FileInputStream fileIn = null;</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      fileIn = new FileInputStream(ID);</b>
+<b class="fc">&nbsp;      ObjectInputStream in = new ObjectInputStream(fileIn);</b>
+<b class="fc">&nbsp;      state = (GameState) in.readObject();</b>
+<b class="fc">&nbsp;      in.close();</b>
+<b class="fc">&nbsp;      fileIn.close();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    } catch (FileNotFoundException e) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;    } catch (IOException e) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;    } catch (ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+<b class="fc">&nbsp;    return state;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-03 02:34</div>
+</div>
+</body>
+</html>

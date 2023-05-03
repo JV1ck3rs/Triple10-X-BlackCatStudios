@@ -1,6 +1,7 @@
 package com.mygdx.game.Core.Customers;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Core.PathFinder.PathfindingAgent;
@@ -103,17 +104,23 @@ public class Customer extends PathfindingAgent implements Person {
     HeldItem.isVisible = false;
 
     BlackTexture closeButtonTex = new BlackTexture("Items/CloseButton.png");
+    closeButtonTex.layer = 30;
     closeButtonTex.setSize(20, 20);
-    closeButtonTex.layer = 10;
     recipeCloseButton = new GameObject(closeButtonTex);
-    recipeCloseButton.setPosition(470, 470);
+    recipeCloseButton.setPosition(770, 475);
     recipeCloseButton.isVisible = false;
 
     foodIcon.isVisible = false;
     try {
-      foodRecipe = new GameObject(new BlackTexture(Item.GetRecipePath(this.dish)));
+      BlackTexture foodRecipeText = new BlackTexture(Item.GetRecipePath(this.dish));
+      foodRecipeText.layer = 29;
+      foodRecipe = new GameObject(foodRecipeText);
+      foodRecipe.setPosition(300, 100);
     } catch (Exception e) {
-      foodRecipe = new GameObject(new BlackTexture(Item.getItemPath(this.dish)));
+      BlackTexture foodRecipeText = new BlackTexture("emptyImage.jpg");
+      foodRecipeText.layer = 29;
+      foodRecipe = new GameObject(foodRecipeText);
+      foodRecipe.setPosition(300, 100);
     }
 
     foodRecipe.isVisible = false;

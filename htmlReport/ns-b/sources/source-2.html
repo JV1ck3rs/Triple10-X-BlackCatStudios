@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > LoadSounds</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Core.SFX</a>
+</div>
+
+<h1>Coverage Summary for Class: LoadSounds (com.mygdx.game.Core.SFX)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LoadSounds</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (13/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core.SFX;
+&nbsp;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Loads in sound into the game BlackCatStudios code
+&nbsp; *
+&nbsp; * @author Felix Seanor Last Modified 18/04/23
+&nbsp; */
+<b class="nc">&nbsp;public class LoadSounds {</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Load.
+&nbsp;   *
+&nbsp;   * @param frame the frame
+&nbsp;   */
+&nbsp;  public static void load(SoundFrame frame) {
+<b class="fc">&nbsp;    List&lt;SoundDataLoad&gt; sounds = new LinkedList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;    sounds.add(</b>
+&nbsp;        new SoundDataLoad(&quot;customer_arrived_bell.wav&quot;, SoundFrame.soundsEnum.CustomerArrivedBell));
+<b class="fc">&nbsp;    sounds.add(new SoundDataLoad(&quot;food_ready_bell.wav&quot;, SoundFrame.soundsEnum.FoodReadyBell));</b>
+<b class="fc">&nbsp;    sounds.add(new SoundDataLoad(&quot;frying.wav&quot;, SoundFrame.soundsEnum.Frying));</b>
+<b class="fc">&nbsp;    sounds.add(new SoundDataLoad(&quot;gas_cooker.wav&quot;, SoundFrame.soundsEnum.GasCooker));</b>
+<b class="fc">&nbsp;    sounds.add(new SoundDataLoad(&quot;ItemDrop.wav&quot;, SoundFrame.soundsEnum.DropItem));</b>
+<b class="fc">&nbsp;    sounds.add(new SoundDataLoad(&quot;ItemEquip.mp3&quot;, SoundFrame.soundsEnum.EquipItem));</b>
+<b class="fc">&nbsp;    sounds.add(new SoundDataLoad(&quot;knife_chop.wav&quot;, SoundFrame.soundsEnum.KnifeChop));</b>
+<b class="fc">&nbsp;    sounds.add(new SoundDataLoad(&quot;step_achieved.wav&quot;, SoundFrame.soundsEnum.StepAchieved));</b>
+<b class="fc">&nbsp;    sounds.add(new SoundDataLoad(&quot;CoinJingle.wav&quot;, SoundFrame.soundsEnum.BuyItem));</b>
+&nbsp;
+<b class="fc">&nbsp;    for (SoundDataLoad sound : sounds) {</b>
+<b class="fc">&nbsp;      frame.addSound(&quot;Sound/&quot; + sound.path, sound.name);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-03 02:34</div>
+</div>
+</body>
+</html>
