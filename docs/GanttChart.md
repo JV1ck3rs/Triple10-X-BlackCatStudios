@@ -9,10 +9,31 @@ Right-click images and open in new tab to zoom in
 ##Spring Week 4
 ![Gantt1](images/gantt/Week1WP0.png)
 
+- At this point in the project, we were deciding what code base to take over for assessment 2.
+- We spent most of the week researching and testing other games to decide on which would be the easiest to take over
+and the easiest to implement our desired requirements into.
+- At this point everyone was present and a plan was being formed for the team by Hubert to have a general idea of timelines and 
+tasks that had to be done before the project started properly. The gantt chart was created and minutes had started to be taken to
+later verify what had been completed. The plan consisted of a base timeline for when aspects of assessment 2 were to be completed; this 
+was further developed in the following weeks becoming more sophisticated after a specific code base was selected and the tasks were adjusted to the needs of the project.
+- No risks were encountered since everyone was present and the risks had not yet been properly identified and analysed. The risk identification, analysis 
+and mitigation would come in the following weeks after project selection. 
+- At this point we completed our first work package and reached our first project milestone.
+
 <hr>
 
 ##Spring week 5
 ![Gantt1](images/gantt/Week2.png)
+
+- In this week we focused on analysing the project that we selected, Team Triple10.
+- After taking over the project, we managed to communicate with Triple10 to fully take over their documents since not all were easily accessible on their website.
+	- Having the risk documentation being updated early in the project as mentioned in the base plan meant that we were able to identify, assign ownership and mitigate such risks and
+ prevent them from hurting our project. This risk was R2.19, having difficulties in taking over Triple10's website. We were able to mitigate this by changing the style of the website from HTML to MKDocs to better suit our experience, 
+and liasing with the previous team to retrieve all their previous documentation to continue our work and prevent our project from becoming stagnant.
+-  We continued to otherwise become familair with Triple10's documentation, which allowed us to analyse their methods and adjust them where needed to fit our needs and experience from our previous assessment.
+- Additonally, we created a change log that allowed us to log our changes and justifications as required by the brief, also giving us a history of our updates to look back on when needed.
+- After this, we were able to accelerate with out project since we implemented the infrastructure to take over the project smoothly as if it was our own.
+- No further risks were encountered since everyone was present and it was too early in the project to encounter any other risks that were associated with adjusting methods and changing documentation.
 
 <hr>
 
@@ -20,8 +41,8 @@ Right-click images and open in new tab to zoom in
 ![Gantt1](images/gantt/Week3a.png)
 ![Gantt1](images/gantt/Week3b.png)
 
-Sam Toner was not present for the meetings during this week. 
-To mitigate risk R2.1 we took meeting minutes (which are accessible by all team members) 
+- Sam Toner was not present for the meetings during this week. 
+	- To mitigate risk R2.1 we took meeting minutes (which are accessible by all team members) 
 and updated him on what happened at the end of the week.
 
 <hr>

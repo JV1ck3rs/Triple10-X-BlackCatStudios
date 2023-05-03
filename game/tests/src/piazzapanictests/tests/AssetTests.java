@@ -436,8 +436,8 @@ public class AssetTests {
             Gdx.files.internal("Recipes/LettuceOnionSaladRecipe.png").exists());
     assertTrue("This test will only pass when the LettuceTomatoSaladRecipe.png asset exists.",
             Gdx.files.internal("Recipes/LettuceTomatoSaladRecipe.png").exists());
-    assertTrue("This test will only pass when the MeatPotatoRecipe.png asset exists.",
-            Gdx.files.internal("Recipes/MeatPotatoRecipe.png").exists());
+    assertTrue("This test will only pass when the MeatBakeRecipe.png asset exists.",
+            Gdx.files.internal("Recipes/MeatBakeRecipe.png").exists());
     assertTrue("This test will only pass when the TomatoOnionLettuceSaladRecipe.png asset exists.",
             Gdx.files.internal("Recipes/TomatoOnionLettuceSaladRecipe.png").exists());
   }

@@ -15,6 +15,7 @@ nav:
     - Game: game.md
     - Weekly Updates: weeklyUpdates.md
     - Assessment 2 Weekly Gantt Chart Snapshots: GanttChart.md
+    - Assessment 2 Testing Material: Testing.md
     - Meet the Teams: meetTheTeam.md
 markdown_extensions:
     - def_list
