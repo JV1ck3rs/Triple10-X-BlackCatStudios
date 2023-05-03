@@ -238,6 +238,15 @@ public class GameScreen implements Screen {
     this.game = game;
     camera = new OrthographicCamera();
     recipeScreen = new ShowRecipeInstructions();
+    GameState savedData = new GameState();
+    if (loadSave) { // if the game is being loaded from a save
+      savedData = loadGameState("SavedData.ser");
+      difficulty = savedData.difficulty;
+    } else {
+      difficulty = difficultyLevel;
+
+    }
+
     //recipeScreen.showRecipeInstruction();
     //BlackCatStudios
     CameraFunctions camera1 = CameraFunctions.camera;
@@ -262,7 +271,7 @@ public class GameScreen implements Screen {
     mapRenderer = new OrthogonalTiledMapRenderer(map);
     mapRenderer.setView(camera);
 
-    difficultyState = DifficultyMaster.getDifficulty(difficultyLevel);
+    difficultyState = DifficultyMaster.getDifficulty(difficulty);
 
     pathfinding = new Pathfinding(TILE_WIDTH / 4, viewportWidth, viewportWidth);
 
@@ -385,12 +394,14 @@ public class GameScreen implements Screen {
     scaleX = Gdx.graphics.getWidth() / 640f;
     scaleY = Gdx.graphics.getHeight() / 480f;
     if (loadSave) { // if the game is being loaded from a save
-      loadGame("SavedData.ser");
-      if (!Objects.isNull(customerController.getCustomersPerScenarioWave())) {
-        isEndlessMode = !(customerController.getCustomersPerScenarioWave().size() > 0);
-      } else {
-        isEndlessMode = CCParams.noCustomers == -1;
-      }
+      loadGame(savedData);
+
+    }
+
+    if (!Objects.isNull(customerController.getCustomersPerScenarioWave())) {
+      isEndlessMode = !(customerController.getCustomersPerScenarioWave().size() > 0);
+    } else {
+      isEndlessMode = CCParams.noCustomers == -1;
     }
     setupPauseMenu();
     setupGameUI();
@@ -885,11 +896,24 @@ public class GameScreen implements Screen {
 
     GameState state = saving.loadState(path);
 
+    loadGame(state);
+
+  }
+
+  public GameState loadGameState(String path){
+    SaveState saving = new SaveState();
+
+    return saving.loadState(path);
+  }
+
+  public void loadGame(GameState state) {
+
     loadState(state);
     masterChef.LoadState(state);
     customerController.loadState(state);
 
   }
+
 
   /**
    * Loads the state of a previous state of the world, all LoadGame to a full sweep. BlackCatStudios
