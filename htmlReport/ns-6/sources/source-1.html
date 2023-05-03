@@ -1,0 +1,300 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Interaction</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Core.Interactions</a>
+</div>
+
+<h1>Coverage Summary for Class: Interaction (com.mygdx.game.Core.Interactions)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Interaction</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.8%
+  </span>
+  <span class="absValue">
+    (36/41)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Interaction$InteractionType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.9%
+  </span>
+  <span class="absValue">
+    (40/45)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core.Interactions;
+&nbsp;
+&nbsp;import com.badlogic.gdx.math.Vector2;
+&nbsp;import com.mygdx.game.Core.Rendering.BlackTexture;
+&nbsp;import com.mygdx.game.Core.Rendering.GameObject;
+&nbsp;import com.mygdx.game.Core.Rendering.GameObjectManager;
+&nbsp;import com.mygdx.game.Core.Scriptable;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * The interaction class that returns the closest applicable interactable script BlackCatStudio&#39;s
+&nbsp; * Code
+&nbsp; *
+&nbsp; * @author Felix Seanor
+&nbsp; * @author Jack Hinton
+&nbsp; * @author Jack Vickers
+&nbsp; * @date 1 /05/23
+&nbsp; */
+<b class="nc">&nbsp;public class Interaction {</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The enum Interaction type.
+&nbsp;   */
+<b class="fc">&nbsp;  public enum InteractionType {</b>
+&nbsp;    /**
+&nbsp;     * Fetch interaction type.
+&nbsp;     */
+<b class="fc">&nbsp;    Fetch,</b>
+&nbsp;    /**
+&nbsp;     * Give interaction type.
+&nbsp;     */
+<b class="fc">&nbsp;    Give,</b>
+&nbsp;    /**
+&nbsp;     * Interact interaction type.
+&nbsp;     */
+<b class="fc">&nbsp;    Interact</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static final boolean DEBUG = false;
+&nbsp;  /**
+&nbsp;   * The constant debugVision.
+&nbsp;   */
+<b class="fc">&nbsp;  public static List&lt;GameObject&gt; debugVision = new LinkedList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Find the closest acceptable interactable object. Will not return an object that cannot be
+&nbsp;   * interacted given the type
+&nbsp;   *
+&nbsp;   * @param pos      position to scan from
+&nbsp;   * @param type     type of position
+&nbsp;   * @param maxRange max interaction range
+&nbsp;   * @return Scriptable to interact with
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  public static Scriptable findClosetInteractable(Vector2 pos, InteractionType type,
+&nbsp;      float maxRange) {
+&nbsp;
+&nbsp;    if (DEBUG) {
+&nbsp;      for (GameObject gameObject : debugVision
+&nbsp;      ) {
+&nbsp;        gameObject.destroy();
+&nbsp;      }
+&nbsp;
+&nbsp;      debugVision.clear();
+&nbsp;    }
+&nbsp;    BlackTexture tex;
+&nbsp;    if (DEBUG) {
+&nbsp;      tex = new BlackTexture(&quot;Black.png&quot;);
+&nbsp;      tex.setSize(10, 10);
+&nbsp;
+&nbsp;      GameObject co = new GameObject(tex);
+&nbsp;      co.setPosition(pos.x, pos.y);
+&nbsp;
+&nbsp;      debugVision.add(co);
+&nbsp;    }
+&nbsp;
+&nbsp;    //Gets every class with an interface implemented or a superclass with an interface
+<b class="fc">&nbsp;    List&lt;Scriptable&gt; interactables = GameObjectManager.objManager.returnObjectsWithInterface(</b>
+&nbsp;        Interactable.class);
+&nbsp;
+<b class="fc">&nbsp;    float distance = maxRange * maxRange * maxRange;</b>
+<b class="fc">&nbsp;    Vector2 vector = new Vector2();</b>
+<b class="fc">&nbsp;    Scriptable currentClosestScript = null;</b>
+<b class="fc">&nbsp;    Vector2 temporary = Vector2.Zero;</b>
+&nbsp;    Vector2 ScriptPos;
+&nbsp;
+&nbsp;//For all script check if it&#39;s valid for this type of interaction.
+&nbsp;    // E.g. if your putting food down you cant put down on a full station
+&nbsp;    // or a food station as it cannot receive
+<b class="fc">&nbsp;    for (Scriptable script : interactables</b>
+&nbsp;    ) {
+<b class="fc">&nbsp;      temporary.set(pos);</b>
+<b class="fc">&nbsp;      ScriptPos = script.gameObject.position;</b>
+&nbsp;
+<b class="fc">&nbsp;      if (type == InteractionType.Fetch) {</b>
+<b class="fc">&nbsp;        if (!((Interactable) script).canRetrieve()) {</b>
+<b class="nc">&nbsp;          continue;</b>
+&nbsp;        }
+<b class="fc">&nbsp;      } else if (type == InteractionType.Give) {</b>
+<b class="fc">&nbsp;        if (!((Interactable) script).canGive()) {</b>
+<b class="fc">&nbsp;          continue;</b>
+&nbsp;        }
+<b class="fc">&nbsp;      } else if (type == InteractionType.Interact) {</b>
+<b class="fc">&nbsp;        if (!((Interactable) script).canInteract()) {</b>
+<b class="nc">&nbsp;          continue;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;      //2D separating Axis theorem with no rotation
+&nbsp;      //Checks if the XY distance is smaller than the two sizes
+&nbsp;
+&nbsp;      // case 1 X axis
+&nbsp;
+<b class="fc">&nbsp;      Vector2 L = new Vector2(1, 0);</b>
+&nbsp;
+<b class="fc">&nbsp;      float bWidth = script.gameObject.getWidth() / 2f;</b>
+<b class="fc">&nbsp;      float bHeight = script.gameObject.getHeight() / 2f;</b>
+&nbsp;
+<b class="fc">&nbsp;      ScriptPos = new Vector2(ScriptPos);</b>
+&nbsp;
+<b class="fc">&nbsp;      ScriptPos.add(bWidth, bHeight);</b>
+&nbsp;
+<b class="fc">&nbsp;      vector.set(pos).sub(ScriptPos);</b>
+&nbsp;
+&nbsp;      //Case 2 Y axis
+&nbsp;
+<b class="fc">&nbsp;      float bound = Math.abs(L.dot(vector));</b>
+<b class="fc">&nbsp;      float lower = maxRange + Math.abs(bWidth);</b>
+&nbsp;
+&nbsp;      float minVector;
+<b class="fc">&nbsp;      if (bound &gt; lower) {</b>
+&nbsp;        //separating axis
+<b class="nc">&nbsp;        continue;</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        minVector = bound;</b>
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      L.set(0, 1);</b>
+<b class="fc">&nbsp;      bound = Math.abs(L.dot(vector));</b>
+<b class="fc">&nbsp;      lower = maxRange + Math.abs(bHeight);</b>
+&nbsp;
+<b class="fc">&nbsp;      if (bound &gt; lower) {</b>
+&nbsp;        //seperating axis
+<b class="nc">&nbsp;        continue;</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        minVector = Math.min(bound, minVector);</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      if (DEBUG) {
+&nbsp;        GameObject obj = new GameObject(tex);
+&nbsp;        obj.setPosition(ScriptPos.x, ScriptPos.y);
+&nbsp;
+&nbsp;        debugVision.add(obj);
+&nbsp;      }
+&nbsp;      //If the minimum vector is smaller than the current distance then accept this as the closest
+<b class="fc">&nbsp;      if (minVector &lt; distance) {</b>
+<b class="fc">&nbsp;        distance = minVector;</b>
+&nbsp;
+<b class="fc">&nbsp;        currentClosestScript = script;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+<b class="fc">&nbsp;    return currentClosestScript;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-03 05:12</div>
+</div>
+</body>
+</html>
