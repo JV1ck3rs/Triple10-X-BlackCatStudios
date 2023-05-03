@@ -798,8 +798,7 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   void removeCustomerTest() {
-    if (Gdx.input.isKeyJustPressed(
-        Keys.S) && currentWaitingCustomer != null) {
+    if (currentWaitingCustomer != null) {
       Customer customer = currentWaitingCustomer.removeFirstCustomer();
       numCustomersServed += 1;
       setCustomerTarget(customer, currentWaitingCustomer.table.GetNextSeat());
