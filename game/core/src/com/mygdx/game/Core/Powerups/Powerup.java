@@ -9,7 +9,7 @@ import com.mygdx.game.Items.ItemEnum;
  * Class containing procedures to execute powerups BlackCatStudio's Code
  *
  * @author Sam Toner
- * @date 02 /05/23
+ * @date 03/05/23
  */
 public class Powerup {
 
@@ -27,6 +27,9 @@ public class Powerup {
    *
    * @param mc the mc
    * @param cc the cc
+   *
+   * @author Sam Toner
+   * @date 01/05/2023
    */
   public Powerup(MasterChef mc, CustomerController cc) {
     this.mc = mc;
@@ -35,6 +38,9 @@ public class Powerup {
 
   /**
    * Do speed powerup.
+   *
+   * @author Sam Toner
+   * @date 01/05/2023
    */
   public void doSpeedPowerup() {
     mc.upgradeSpeed();

@@ -173,6 +173,9 @@ public class CustomerGroups {
 
   /**
    * Check clicks.
+   *
+   * @auther Sam Toner
+   * @date 01/05/2003
    */
   public void checkClicks() {
     for (int i = 0; i < members.size(); i++) {
@@ -212,6 +215,9 @@ public class CustomerGroups {
    *
    * @param customerToRemove the customer to remove
    * @return the customer
+   *
+   * @author Sam Toner
+   * @date 01/05/2023
    */
   public Customer removeAnyCustomer(Integer customerToRemove) {
     Customer customer = null;
@@ -266,6 +272,8 @@ public class CustomerGroups {
    *
    * @param i the
    * @return the customer
+   *
+   * @author Sam Toner and Felix Seanor
    */
   public Customer feedSpecificCustomer(int i) {
     Customer customer = membersInLine.remove(i);

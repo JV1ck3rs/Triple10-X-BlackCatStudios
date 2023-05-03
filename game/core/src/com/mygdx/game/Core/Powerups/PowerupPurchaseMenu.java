@@ -100,23 +100,23 @@ public class PowerupPurchaseMenu extends Scriptable {
 
 
   /**
-   * The Speed text text.
+   * The Speed text texture.
    */
   BlackTexture speedTextText = new BlackTexture("PowerupAssets/SpeedText.png");
   /**
-   * The Reputation text text.
+   * The Reputation text texture.
    */
   BlackTexture reputationTextText = new BlackTexture("PowerupAssets/ReputationText.png");
   /**
-   * The Super food text text.
+   * The Super food text texture.
    */
   BlackTexture SuperFoodTextText = new BlackTexture("PowerupAssets/SuperFoodText.png");
   /**
-   * The Frustration text text.
+   * The Frustration text texture.
    */
   BlackTexture frustrationTextText = new BlackTexture("PowerupAssets/FrustrationText.png");
   /**
-   * The Mega food text text.
+   * The Mega food text texture.
    */
   BlackTexture megaFoodTextText = new BlackTexture("PowerupAssets/MegaFoodText.png");
 
@@ -154,10 +154,7 @@ public class PowerupPurchaseMenu extends Scriptable {
    * The Prices.
    */
   HashMap<String, Integer> prices = new HashMap<>();
-  /**
-   * The Sb.
-   */
-  SpriteBatch sb;
+
   /**
    * The Mc.
    */
@@ -174,6 +171,9 @@ public class PowerupPurchaseMenu extends Scriptable {
    * @param cc      the cc
    * @param powerup the powerup
    * @param mc      the mc
+   *
+   * @author Sam Toner
+   * @date 03/05/2023
    */
   public PowerupPurchaseMenu(CustomerController cc, Powerup powerup, MasterChef mc) {
     this.cc = cc;
@@ -196,7 +196,6 @@ public class PowerupPurchaseMenu extends Scriptable {
     fontBit = gen.generateFont(font);
     Label.LabelStyle fontStyle = new Label.LabelStyle();
     fontStyle.font = fontBit;
-    sb = new SpriteBatch();
     this.mc = mc;
     completedRecipes = new LinkedList<>();
     completedRecipes.add(ItemEnum.Burger);
@@ -226,6 +225,9 @@ public class PowerupPurchaseMenu extends Scriptable {
 
   /**
    * Initialise state.
+   *
+   * @author Sam Toner
+   * @date 03/05/2023
    */
   public void initialiseState() {
     hidePowerMenu();
@@ -256,6 +258,9 @@ public class PowerupPurchaseMenu extends Scriptable {
 
   /**
    * Show power up menu.
+   *
+   * @author Sam Toner
+   * @date 03/05/2023
    */
   public void showPowerUpMenu() {
     background.isVisible = true;
