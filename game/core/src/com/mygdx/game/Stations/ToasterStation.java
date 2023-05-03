@@ -15,14 +15,29 @@ import java.util.Arrays;
  * Toasts items such as bun
  *
  * @author Jack Hinton
- * @date 01/05/23
+ * @date 01 /05/23
  */
 public class ToasterStation extends Station {
 
+  /**
+   * The Interacted.
+   */
   boolean interacted;
+  /**
+   * The Ready.
+   */
   boolean ready;
+  /**
+   * The Max progress.
+   */
   public float maxProgress;
+  /**
+   * The Progress.
+   */
   public float progress;
+  /**
+   * The Item white list.
+   */
   public static ArrayList<ItemEnum> itemWhiteList;
 
 
@@ -78,7 +93,7 @@ public class ToasterStation extends Station {
    *
    * @return Item
    * @author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Vickers
    */
   @Override
   public Item retrieveItem() {
@@ -97,7 +112,7 @@ public class ToasterStation extends Station {
    * Checks if the chef can retrieve an item
    *
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean canRetrieve() {
@@ -109,7 +124,7 @@ public class ToasterStation extends Station {
    * Check if the chef can give the station an item
    *
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean canGive() {
@@ -121,7 +136,7 @@ public class ToasterStation extends Station {
    * Check if the chef can interact with a station
    *
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean canInteract() {
@@ -133,7 +148,7 @@ public class ToasterStation extends Station {
    * Interact with the station
    *
    * @return float
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public float interact() {
@@ -144,8 +159,8 @@ public class ToasterStation extends Station {
   /**
    * Checks if the item is in the whitelist, if yes it gets the item's recipe
    *
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   public void checkItem() {
     if (itemWhiteList.contains(item.name)) {
@@ -162,9 +177,9 @@ public class ToasterStation extends Station {
    * Cooks the current item and checks if it is ready
    *
    * @param dt delta time
-   * @Author Jack Hinton
-   * @Author Felix Seanor
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Felix Seanor
+   * @author Jack Vickers
    */
   public void Cook(float dt) {
     ready = currentRecipe.recipeSteps.get(item.step)
@@ -184,7 +199,7 @@ public class ToasterStation extends Station {
   /**
    * Updates the progress bubble
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void progressBar() {
     timer.image = new BlackTexture("Timer/0" + getProgress() + ".png");
@@ -194,7 +209,7 @@ public class ToasterStation extends Station {
   /**
    * Gets the progress of the item currently held
    *
-   * @return int
+   * @return int progress
    */
   public int getProgress() {
     progress = item.progress / maxProgress;
@@ -205,8 +220,8 @@ public class ToasterStation extends Station {
   /**
    * Gets the items progress
    *
-   * @return float
-   * @Author Hubert Solecki
+   * @return float cooking time
+   * @author Hubert Solecki
    */
   public float getCookingTime() {
     return item.progress;
@@ -227,7 +242,7 @@ public class ToasterStation extends Station {
   /**
    * Move the animation
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void moveAnimation() {
@@ -240,7 +255,7 @@ public class ToasterStation extends Station {
    * Update the chopping station
    *
    * @param dt delta time
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void update(float dt) {

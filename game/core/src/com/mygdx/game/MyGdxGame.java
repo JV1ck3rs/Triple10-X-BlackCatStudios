@@ -16,16 +16,37 @@ import com.mygdx.game.Core.SFX.SoundFrame;
  * @author Robin Graham
  * @author Riko Puusepp
  * @author Amy Cross
- * @date 28/04/23
+ * @date 28 /04/23
  */
 public class MyGdxGame extends Game {
 
+  /**
+   * The Batch.
+   */
   public SpriteBatch batch;
+  /**
+   * The Menu.
+   */
   public MenuScreen menu;
+  /**
+   * The Map.
+   */
   public TiledMap map;
+  /**
+   * The Leader board.
+   */
   public LeaderBoard leaderBoard;
+  /**
+   * The Sound frame.
+   */
   public SoundFrame soundFrame;
+  /**
+   * The Texture dictionary.
+   */
   public TextureDictionary textureDictionary;
+  /**
+   * The Camera functions.
+   */
   public CameraFunctions cameraFunctions = new CameraFunctions();
 
   /**

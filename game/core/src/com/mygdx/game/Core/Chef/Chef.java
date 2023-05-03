@@ -32,13 +32,22 @@ import java.util.Stack;
  * @author Labib Zabeneh
  * @author Riko Puusepp
  * @author Felix Seanor
- * @date 01/05/23
+ * @date 01 /05/23
  */
 public class Chef extends PathfindingAgent implements Person {
 
 
+  /**
+   * The Held items.
+   */
   Stack<Item> heldItems = new Stack<>();
+  /**
+   * The Held item game objects.
+   */
   List<GameObject> HeldItemGameObjects = new LinkedList<>();
+  /**
+   * The constant CarryCapacity.
+   */
   public static int CarryCapacity = 3;
 
   private float oldSpeed;
@@ -47,23 +56,36 @@ public class Chef extends PathfindingAgent implements Person {
   private final int MAX_ANIMATION = 4;
   private float stateTime = 0;
   private TextureAtlas chefAtlas;
+  /**
+   * The Is frozen.
+   */
   public boolean isFrozen;
   private String lastOrientation;
   private float lockTime;
   private float lockProgress = 0;
   private boolean ModifiedStack = false;
+  /**
+   * The Path.
+   */
   List<Vector2> path;
 
   private final int id;
 
+  /**
+   * The Timer atlas.
+   */
   TextureAtlas timerAtlas;
+  /**
+   * The Timer sprite.
+   */
   Sprite timerSprite;
 
 
   /**
    * Initialise the chef object and sets its spawn position. Black cat studios code
    *
-   * @param id the individual id of each chef i.e 0,1,2....
+   * @param id        the individual id of each chef i.e 0,1,2....
+   * @param chefAtlas the chef atlas
    * @author Felix Seanor
    */
   public Chef(int id, TextureAtlas chefAtlas) {
@@ -159,6 +181,11 @@ public class Chef extends PathfindingAgent implements Person {
     ModifiedStack = false;
   }
 
+  /**
+   * Gets top item.
+   *
+   * @return the top item
+   */
   public Item getTopItem() {
     if (heldItems.size() == 0) {
       return null;
@@ -233,6 +260,11 @@ public class Chef extends PathfindingAgent implements Person {
     spriteOrientation = newOrientation;
   }
 
+  /**
+   * Gets sprite orientation.
+   *
+   * @return the sprite orientation
+   */
   public String getSpriteOrientation() {
     return spriteOrientation;
   }
@@ -354,6 +386,12 @@ public class Chef extends PathfindingAgent implements Person {
     isFrozen = false;
   }
 
+  /**
+   * Freeze timer boolean.
+   *
+   * @param dt the dt
+   * @return the boolean
+   */
   public boolean freezeTimer(float dt) {
     lockProgress = min(lockProgress + dt, lockTime);
     if (lockProgress == lockTime) {
@@ -411,7 +449,7 @@ public class Chef extends PathfindingAgent implements Person {
   /**
    * Can an item be given to the chef BlackCatStudios Code
    *
-   * @return
+   * @return boolean
    * @author Felix Seanor
    */
   public boolean CanGiveItem() {
@@ -422,7 +460,7 @@ public class Chef extends PathfindingAgent implements Person {
   /**
    * Take item from chef
    *
-   * @return
+   * @return optional
    * @author Felix Seanor
    */
   public Optional<Item> FetchItem() {
@@ -437,6 +475,9 @@ public class Chef extends PathfindingAgent implements Person {
     return Optional.ofNullable(heldItems.peek());
   }
 
+  /**
+   * Pop item.
+   */
   public void popItem() {
     heldItems.pop();
   }
@@ -444,8 +485,8 @@ public class Chef extends PathfindingAgent implements Person {
   /**
    * Give item to chef BlackCatStudios Code
    *
-   * @param item
-   * @return
+   * @param item the item
+   * @return boolean
    * @author Felix Seanor
    */
   public Boolean GiveItem(Item item) {
@@ -460,6 +501,12 @@ public class Chef extends PathfindingAgent implements Person {
     return false;
   }
 
+  /**
+   * Give chef item boolean.
+   *
+   * @param item the item
+   * @return the boolean
+   */
   public Boolean GiveChefItem(Item item) {
     if (CanGiveItem()) {
       heldItems.add(item);
@@ -506,7 +553,7 @@ public class Chef extends PathfindingAgent implements Person {
    * Clears the inventory of the chef. BlackCatStudios Code
    *
    * @author Hubert Solecki
-   * @date 21/04/2023
+   * @date 21 /04/2023
    */
   public void ClearInventory() {
     heldItems.clear();

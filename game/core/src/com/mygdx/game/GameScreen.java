@@ -72,7 +72,7 @@ import java.util.List;
  * @author Jack Vickers
  * @author Jack Hinton
  * @author Sam Toner
- * @date 01/05/23
+ * @date 01 /05/23
  */
 public class GameScreen implements Screen {
 
@@ -82,21 +82,45 @@ public class GameScreen implements Screen {
   // camera
   private final OrthographicCamera camera;
   private Pathfinding pathfinding;
+  /**
+   * The constant TILE_WIDTH.
+   */
   public static final int TILE_WIDTH = 32;
+  /**
+   * The constant TILE_HEIGHT.
+   */
   public static final int TILE_HEIGHT = 32;
 
+  /**
+   * The Customer controller.
+   */
   public CustomerController customerController;
 
+  /**
+   * The Powerup.
+   */
   public Powerup powerup;
+  /**
+   * The Powerup purchase menu.
+   */
   public PowerupPurchaseMenu powerupPurchaseMenu;
 
 
   // map
   private final TiledMapRenderer mapRenderer;
 
+  /**
+   * The Master chef.
+   */
   public MasterChef masterChef;
 
+  /**
+   * The Num ovens.
+   */
   public int numOvens = 0;
+  /**
+   * The Exit logo.
+   */
   public GameObject exitLogo = new GameObject(new BlackTexture("Exit.png"));
 
 
@@ -107,28 +131,88 @@ public class GameScreen implements Screen {
   private final Label moneyLabel;
   private final BitmapFont timerFont;
 
+  /**
+   * The Paused.
+   */
   boolean paused = false;
+  /**
+   * The Difficulty state.
+   */
   DifficultyState difficultyState;
 
+  /**
+   * The Construct machines.
+   */
   ConstructMachines constructMachines;
+  /**
+   * The Difficulty.
+   */
   Difficulty difficulty;
+  /**
+   * The constant viewportWidth.
+   */
   public static final int viewportWidth = 32 * TILE_WIDTH;
+  /**
+   * The constant viewportHeight.
+   */
   public static final int viewportHeight = 18 * TILE_HEIGHT;
+  /**
+   * The Game music.
+   */
   Music gameMusic;
 
+  /**
+   * The Recipe screen.
+   */
   public ShowRecipeInstructions recipeScreen;
+  /**
+   * The Mode label.
+   */
   Label modeLabel;
 
+  /**
+   * The Pause stage.
+   */
   Stage pauseStage; // stage for the pause menu
+  /**
+   * The Game ui stage.
+   */
   Stage gameUIStage; // stage for the game UI
+  /**
+   * The Instructions stage.
+   */
   Stage instructionsStage; // stage for the instructions
+  /**
+   * The Scale x.
+   */
   float scaleX;
+  /**
+   * The Scale y.
+   */
   float scaleY;
+  /**
+   * The Is endless mode.
+   */
   boolean isEndlessMode;
+  /**
+   * The Viewport.
+   */
   FitViewport viewport;
+  /**
+   * The End screen.
+   */
   EndScreen endScreen;
+  /**
+   * The Is instructions visible.
+   */
   boolean isInstructionsVisible;
+  /**
+   * The Resume button.
+   */
   Button resumeButton;
+  /**
+   * The Instructions resume button.
+   */
   Button instructionsResumeButton;
 
   /**
@@ -136,7 +220,11 @@ public class GameScreen implements Screen {
    * manage the logic of the render as well as setting the camera and map Mixture of BlackCatStudios
    * and TeamTriple10
    *
-   * @param game base Object which is used to draw on
+   * @param game            base Object which is used to draw on
+   * @param map             the map
+   * @param numCustomers    the num customers
+   * @param difficultyLevel the difficulty level
+   * @param loadSave        the load save
    * @author Amy Cross
    * @author Felix Seanor
    * @author Sam Toner
@@ -627,7 +715,7 @@ public class GameScreen implements Screen {
   /**
    * End game sequence BlackCatStudio's code
    *
-   * @param values
+   * @param values the values
    */
   public void endGame(EndOfGameValues values) {
     if (!isEndlessMode) {
@@ -784,6 +872,7 @@ public class GameScreen implements Screen {
   /**
    * Load the game from save BlackCatStudios Code
    *
+   * @param path the path
    * @author Felix Seanor
    */
   public void loadGame(String path) {
@@ -801,7 +890,7 @@ public class GameScreen implements Screen {
    * Loads the state of a previous state of the world, all LoadGame to a full sweep. BlackCatStudios
    * Code
    *
-   * @param state
+   * @param state the state
    * @author Felix Seanor
    */
   public void loadState(GameState state) {
@@ -829,26 +918,56 @@ public class GameScreen implements Screen {
   }
 
 
+  /**
+   * Gets difficulty.
+   *
+   * @return the difficulty
+   */
   public Difficulty getDifficulty() {
     return difficulty;
   }
 
+  /**
+   * Gets timer.
+   *
+   * @return the timer
+   */
   public int getTimer() {
     return timer;
   }
 
+  /**
+   * Gets seconds.
+   *
+   * @return the seconds
+   */
   public float getSeconds() {
     return seconds;
   }
 
+  /**
+   * Gets stations.
+   *
+   * @return the stations
+   */
   public List<GameObject> getStations() {
     return constructMachines.stations;
   }
 
+  /**
+   * Gets customer counters.
+   *
+   * @return the customer counters
+   */
   public List<GameObject> getCustomerCounters() {
     return constructMachines.customerCounters;
   }
 
+  /**
+   * Gets assembly stations.
+   *
+   * @return the assembly stations
+   */
   public List<GameObject> getAssemblyStations() {
     return constructMachines.assemblyStations;
   }

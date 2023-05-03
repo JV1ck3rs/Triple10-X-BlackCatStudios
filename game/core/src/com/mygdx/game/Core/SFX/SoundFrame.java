@@ -12,29 +12,91 @@ import java.util.LinkedList;
  *
  * @author Sam Toner
  * @author Felix Seanor
- * @date 18/04/23
+ * @date 18 /04/23
  */
 public class SoundFrame {
 
 
+  /**
+   * The enum Sounds enum.
+   */
   public enum soundsEnum {
-    CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved, BuyItem, end;
+    /**
+     * Customer arrived bell sounds enum.
+     */
+    CustomerArrivedBell,
+    /**
+     * Food ready bell sounds enum.
+     */
+    FoodReadyBell,
+    /**
+     * Frying sounds enum.
+     */
+    Frying,
+    /**
+     * Gas cooker sounds enum.
+     */
+    GasCooker,
+    /**
+     * Drop item sounds enum.
+     */
+    DropItem,
+    /**
+     * Equip item sounds enum.
+     */
+    EquipItem,
+    /**
+     * Knife chop sounds enum.
+     */
+    KnifeChop,
+    /**
+     * Step achieved sounds enum.
+     */
+    StepAchieved,
+    /**
+     * Buy item sounds enum.
+     */
+    BuyItem,
+    /**
+     * End sounds enum.
+     */
+    end;
   }
 
+  /**
+   * The constant SoundEngine.
+   */
   public static SoundFrame SoundEngine;
+  /**
+   * The Sounds.
+   */
   Sound[] sounds = new Sound[soundsEnum.end.ordinal()];
 
+  /**
+   * The Sound i ds map.
+   */
   HashMap<soundsEnum, LinkedList<Long>> soundIDsMap = new HashMap<>();
+  /**
+   * The Current system volume.
+   */
   public float currentSystemVolume = 1.0f;
+  /**
+   * The Volume.
+   */
   public float volume = 1.0f;
 
 
+  /**
+   * Instantiates a new Sound frame.
+   */
   public SoundFrame() {
     LoadSounds.load(this);
     SoundEngine = this;
   }
 
   /**
+   * Play sound long.
+   *
    * @param ring - Enum value as the name of the sound
    * @return Returns the ID given when a sound is played Retrieves the sound from the array based on
    * the enum Plays the sound getting the ID If the sound already has previous IDs, add the ID to
@@ -60,9 +122,10 @@ public class SoundFrame {
 
 
   /**
+   * Pause sound.
+   *
    * @param ring - Enum value of the name of the sound
-   * @param ID   - The ID required to interact with the sound instance
-   *             <p>
+   * @param ID   - The ID required to interact with the sound instance             <p>
    *             Find the sound from the enum, and pause it using the sound instance ID
    * @author Sam Toner
    */
@@ -71,23 +134,24 @@ public class SoundFrame {
   }
 
   /**
+   * Resume sound.
+   *
    * @param ring - Enum value of the name of the sound
-   * @param ID   - The ID required to interact with the sound instance
-   *             <p>
+   * @param ID   - The ID required to interact with the sound instance             <p>
    *             Find the sound from the enum, and resume it using the sound instance ID
    * @author Sam Toner
    */
-
   public void resumeSound(soundsEnum ring, long ID) {
     sounds[ring.ordinal()].resume(ID);
   }
 
 
   /**
+   * Sets looping.
+   *
    * @param ring  - Enum value of the name of the sound
    * @param ID    - The ID required to interact with the sound instance
-   * @param state - The looping state, True = loop - False = stop looping
-   *              <p>
+   * @param state - The looping state, True = loop - False = stop looping              <p>
    *              Find the sound from the enum, and set it to loop using the sound instance ID
    * @author Sam Toner
    */
@@ -97,9 +161,10 @@ public class SoundFrame {
 
 
   /**
+   * Add sound.
+   *
    * @param filepath - The filepath of the sound wanted to be played
-   * @param ring     - Enum value of the name of the sound
-   *                 <p>
+   * @param ring     - Enum value of the name of the sound                 <p>
    *                 Checks if the sound doesnt exist in the Sound array If it doesnt, create a
    *                 sound and add it to the array
    * @author Sam Toner
@@ -112,9 +177,10 @@ public class SoundFrame {
   }
 
   /**
-   * @param ring - Enum value of the name of the sound
-   *             <p>
-   *             Removes the sound from the Sound array in the position of the enum value
+   * Remove sound.
+   *
+   * @param ring - Enum value of the name of the sound             <p>             Removes the sound
+   *             from the Sound array in the position of the enum value
    * @author Sam Toner
    */
   public void removeSound(soundsEnum ring) {
@@ -123,6 +189,11 @@ public class SoundFrame {
     }
   }
 
+  /**
+   * Sets system volume.
+   *
+   * @param volume the volume
+   */
   public void setSystemVolume(float volume) {
     /**
      * @param volume - The volume wanted to set all the sounds to

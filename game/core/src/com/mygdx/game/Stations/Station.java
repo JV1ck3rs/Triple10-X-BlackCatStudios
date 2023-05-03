@@ -22,24 +22,72 @@ import java.util.List;
  *
  * @author Jack Hinton
  * @author Robin Graham
- * @date 01/05/23
+ * @date 01 /05/23
  */
 public abstract class Station extends Scriptable implements Interactable {
 
+  /**
+   * The Item.
+   */
   public Item item;
+  /**
+   * The Return item.
+   */
   public Item returnItem;
+  /**
+   * The Recipes.
+   */
   public RecipeDict recipes;
+  /**
+   * The Combinations.
+   */
   public CombinationDict combinations;
   private boolean locked;
+  /**
+   * The Current recipe.
+   */
   public Recipe currentRecipe;
+  /**
+   * The Held item.
+   */
   GameObject heldItem;
+  /**
+   * The Image size.
+   */
   public int imageSize = 18;
-  GameObject timer, warningIcon, repairBubble, readyBubble;
+  /**
+   * The Timer.
+   */
+  GameObject timer, /**
+   * The Warning icon.
+   */
+  warningIcon, /**
+   * The Repair bubble.
+   */
+  repairBubble, /**
+   * The Ready bubble.
+   */
+  readyBubble;
+  /**
+   * The Animation.
+   */
   GameObject animation;
+  /**
+   * The Station time decrease.
+   */
   public float stationTimeDecrease;
+  /**
+   * The Price.
+   */
   public int price = 100;
   private float burnSpeed;
+  /**
+   * The Cooking speed.
+   */
   float cookingSpeed;
+  /**
+   * The constant numOvens.
+   */
   public static int numOvens;
 
 
@@ -84,7 +132,8 @@ public abstract class Station extends Scriptable implements Interactable {
     warningIcon.image.layer = 1;
 
     repairBubble = new GameObject(new BlackTexture("Timer/RepairBubble.png"));
-    repairBubble.setPosition(gameObject.position.x + gameObject.getWidth() / 2 - repairBubble.getWidth() / 2,
+    repairBubble.setPosition(
+        gameObject.position.x + gameObject.getWidth() / 2 - repairBubble.getWidth() / 2,
         gameObject.position.y + gameObject.getHeight() / 2 - repairBubble.getHeight() / 2);
     repairBubble.isVisible = false;
     repairBubble.image.layer = 1;
@@ -164,8 +213,8 @@ public abstract class Station extends Scriptable implements Interactable {
    * player
    *
    * @param item the item the player has given
-   * @return boolean
-   * @Author Jack Hinton
+   * @return boolean boolean
+   * @author Jack Hinton
    */
   public boolean checkRepairTool(Item item) {
     if (item.name == ItemEnum.RepairTool && CustomerController.money >= price) {
@@ -181,7 +230,7 @@ public abstract class Station extends Scriptable implements Interactable {
    * Changes the current item to the new item
    *
    * @param item item you want to give to the station
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void changeItem(Item item) {
     this.item = item;
@@ -192,7 +241,7 @@ public abstract class Station extends Scriptable implements Interactable {
   /**
    * Deletes the current held item
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void deleteItem() {
     item = null;
@@ -208,7 +257,7 @@ public abstract class Station extends Scriptable implements Interactable {
    *
    * @param state  The items the station has when saved
    * @param locked The locked state of the station when saved
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void loadState(List<ItemState> state, Boolean locked) {
 
@@ -225,7 +274,7 @@ public abstract class Station extends Scriptable implements Interactable {
   /**
    * Decreases cook time
    *
-   * @Author Sam Toner
+   * @author Sam Toner
    */
   public void decreaseCookTime() {
     stationTimeDecrease += 1;
@@ -235,8 +284,8 @@ public abstract class Station extends Scriptable implements Interactable {
   /**
    * Saves the state of the station
    *
-   * @return List<ItemState>
-   * @Author Felix Seanor
+   * @return List<ItemState> list
+   * @author Felix Seanor
    */
   public List<ItemState> saveState() {
 

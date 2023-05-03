@@ -15,17 +15,32 @@ import java.util.List;
  * @author Felix Seanor
  * @author Jack Hinton
  * @author Jack Vickers
- * @date 1/05/23
+ * @date 1 /05/23
  */
 public class Interaction {
 
+  /**
+   * The enum Interaction type.
+   */
   public enum InteractionType {
+    /**
+     * Fetch interaction type.
+     */
     Fetch,
+    /**
+     * Give interaction type.
+     */
     Give,
+    /**
+     * Interact interaction type.
+     */
     Interact
   }
 
   private static final boolean DEBUG = false;
+  /**
+   * The constant debugVision.
+   */
   public static List<GameObject> debugVision = new LinkedList<>();
 
   /**

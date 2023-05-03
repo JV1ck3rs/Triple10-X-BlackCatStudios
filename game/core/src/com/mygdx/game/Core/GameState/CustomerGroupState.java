@@ -9,20 +9,44 @@ import java.io.Serializable;
  *
  * @author Felix Seanor
  * @author Jack Vickers
- * @date 25/04/23
+ * @date 25 /04/23
  */
 public class CustomerGroupState implements Serializable {
 
+  /**
+   * The Orders.
+   */
   public ItemEnum[] orders;
+  /**
+   * The Table.
+   */
   public int table;
+  /**
+   * The Customer start id.
+   */
   public int CustomerStartID;
+  /**
+   * The Frustration.
+   */
   public float frustration;
+  /**
+   * The Customer positions.
+   */
   public Vector2[] customerPositions;
+  /**
+   * The Customers in group ordering.
+   */
   public int[] customersInGroupOrdering;
 
+  /**
+   * The Leaving.
+   */
   public boolean leaving;
 
-  // Saves the following instead of the actual customer objects because they are not serializable
+  /**
+   * The Num customers walking to table.
+   */
+// Saves the following instead of the actual customer objects because they are not serializable
   public int numCustomersWalkingToTable;
 
 

@@ -9,11 +9,17 @@ import java.util.Map;
  *
  * @author Jack Hinton
  * @author Jack Vickers
- * @date 01/05/23
+ * @date 01 /05/23
  */
 public class CombinationDict {
 
+  /**
+   * The constant combinations.
+   */
   public static CombinationDict combinations;
+  /**
+   * The Combination map.
+   */
   public Map<String, ItemEnum> combinationMap = new HashMap<>();
 
   /**

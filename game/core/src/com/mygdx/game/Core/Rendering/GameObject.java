@@ -18,7 +18,7 @@ import java.util.List;
  * @author Jack Hinton
  * @author Jack Vickers
  * @author Sam Toner
- * @date 23/04/23
+ * @date 23 /04/23
  */
 public class GameObject {
 
@@ -31,6 +31,9 @@ public class GameObject {
    * position of the gameobject
    */
   public Vector2 position;
+  /**
+   * The Destroyed.
+   */
   public Boolean destroyed = false;
 
   /**
@@ -46,7 +49,6 @@ public class GameObject {
   /**
    * is the gameobject visible currently
    */
-
   public Boolean isVisible = true;
 
   /**
@@ -62,7 +64,7 @@ public class GameObject {
   /**
    * Create a new gameobject with a renderable
    *
-   * @param renderable
+   * @param renderable the renderable
    * @author Felix Seanor
    * @author Jack Hinton
    */
@@ -81,7 +83,7 @@ public class GameObject {
   /**
    * Attach a scriptable to be executed on this gameobject
    *
-   * @param script
+   * @param script the script
    * @author Felix Seanor
    */
   public void attachScript(Scriptable script) {
@@ -94,7 +96,7 @@ public class GameObject {
    * returns scriptable at i
    *
    * @param i index
-   * @return
+   * @return script
    * @author Felix Seanor
    */
   public Scriptable getScript(int i) {
@@ -114,7 +116,7 @@ public class GameObject {
   /**
    * Sets the Unique ID of this gameobject cannot be called more than once per gameobject
    *
-   * @param ID
+   * @param ID the id
    * @author Felix Seanor
    */
   public void setUID(int ID) {
@@ -128,7 +130,7 @@ public class GameObject {
   /**
    * Runs update method on all scriptables
    *
-   * @param dt
+   * @param dt the dt
    */
   public void doUpdate(float dt) {
     for (Scriptable script : scripts
@@ -140,7 +142,7 @@ public class GameObject {
   /**
    * run fixed update on each scipt
    *
-   * @param dt
+   * @param dt the dt
    * @author Felix Seanor
    */
   public void doFixedUpdate(float dt) {
@@ -167,7 +169,7 @@ public class GameObject {
    *
    * @param batch batch to render with
    * @author Felix Seanor
-   * @date 18/04/23
+   * @date 18 /04/23
    */
   public void render(SpriteBatch batch) {
 
@@ -187,7 +189,7 @@ public class GameObject {
   /**
    * Returns the sprite if there is one
    *
-   * @return
+   * @return sprite
    * @author Felix Seanor
    */
   public BlackSprite getSprite() {
@@ -197,7 +199,7 @@ public class GameObject {
   /**
    * get the black texture if there is one
    *
-   * @return
+   * @return black texture
    * @author Felix Seanor
    */
   public BlackTexture getBlackTexture() {
@@ -207,8 +209,8 @@ public class GameObject {
   /**
    * sets the current position
    *
-   * @param x
-   * @param y
+   * @param x the x
+   * @param y the y
    * @author Felix Seanor
    */
   public void setPosition(float x, float y) {
@@ -240,8 +242,8 @@ public class GameObject {
   /**
    * Sets the Physical width and height of the gameobject, for object with no actual image size
    *
-   * @param width
-   * @param height
+   * @param width  the width
+   * @param height the height
    * @author Jack Hinton
    */
   public void setWidthAndHeight(float width, float height) {
@@ -252,7 +254,7 @@ public class GameObject {
   /**
    * Get the width, default to imageWidth if no physical width
    *
-   * @return
+   * @return width
    * @author Jack Hinton
    */
   public float getWidth() {
@@ -265,7 +267,7 @@ public class GameObject {
   /**
    * Get the height, default to imageHeight if no physical height
    *
-   * @return
+   * @return height
    * @author Jack Hinton
    */
   public float getHeight() {

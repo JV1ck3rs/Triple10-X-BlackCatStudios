@@ -12,21 +12,33 @@ import java.util.Random;
  *
  * @author Felix Seanor
  * @author Jack Hinton
- * @date 01/04/23
+ * @date 01 /04/23
  */
 public class GameObjectManager {
 
 
+  /**
+   * The Game object hash.
+   */
   public Hashtable<Integer, GameObject> gameObjectHash = new Hashtable<>();
 
+  /**
+   * The Loose scripts.
+   */
   public List<Scriptable> looseScripts = new LinkedList<>();
+  /**
+   * The constant objManager.
+   */
   public static GameObjectManager objManager;
+  /**
+   * The Rand.
+   */
   Random rand;
 
   /**
    * Attaches a script to the world update sequence.
    *
-   * @param scriptable
+   * @param scriptable the scriptable
    * @author Felix Seanor
    */
   public void appendLooseScript(Scriptable scriptable) {
@@ -37,7 +49,7 @@ public class GameObjectManager {
   /**
    * Returns objects with an interface. Limited to one superclass
    *
-   * @param scriptType
+   * @param scriptType the script type
    * @return all valid objects
    * @author Felix Seanor
    * @author Jack Hinton
@@ -95,7 +107,7 @@ public class GameObjectManager {
   /**
    * Submits a new gameobject to this manager
    *
-   * @param obj
+   * @param obj the obj
    * @author Felix Seanor
    */
   public void submitGameObject(GameObject obj) {
@@ -111,7 +123,7 @@ public class GameObjectManager {
   /**
    * run updates on objects
    *
-   * @param dt
+   * @param dt the dt
    * @author Felix Seanor
    */
   public void doUpdate(float dt) {
@@ -126,6 +138,11 @@ public class GameObjectManager {
     }
   }
 
+  /**
+   * Do fixed update.
+   *
+   * @param dt the dt
+   */
   public void doFixedUpdate(float dt) {
 
     for (Scriptable scr : looseScripts) {
@@ -141,6 +158,11 @@ public class GameObjectManager {
   }
 
 
+  /**
+   * Render.
+   *
+   * @param batch the batch
+   */
   public void render(SpriteBatch batch) {
 
     for (GameObject obj :
@@ -150,6 +172,11 @@ public class GameObjectManager {
 
   }
 
+  /**
+   * Destroy game object.
+   *
+   * @param obj the obj
+   */
   public void destroyGameObject(GameObject obj) {
     obj.destroyed = true;
 
@@ -159,7 +186,7 @@ public class GameObjectManager {
   /**
    * Creates a unique ID for an object
    *
-   * @return
+   * @return int
    * @author Felix Seanor
    */
   public int createUID() {
@@ -173,6 +200,9 @@ public class GameObjectManager {
 
   }
 
+  /**
+   * Reset.
+   */
   public void reset() {
     for (GameObject obj : gameObjectHash.values()
     ) {

@@ -25,18 +25,52 @@ import java.util.function.Consumer;
  *
  * @author Jack Hinton
  * @author Amy Cross
- * @date 01/05/23
+ * @date 01 /05/23
  */
 public class ConstructMachines {
 
+  /**
+   * The Stations.
+   */
   public List<GameObject> stations = new LinkedList();
+  /**
+   * The Customer counters.
+   */
   public List<GameObject> customerCounters = new LinkedList();
+  /**
+   * The Assembly stations.
+   */
   public List<GameObject> assemblyStations = new LinkedList();
+  /**
+   * The Difficulty state.
+   */
   DifficultyState difficultyState;
+  /**
+   * The Customer controller.
+   */
   CustomerController customerController;
-  int numHobs, numChopping, numOven;
+  /**
+   * The Num hobs.
+   */
+  int numHobs, /**
+   * The Num chopping.
+   */
+  numChopping, /**
+   * The Num oven.
+   */
+  numOven;
+  /**
+   * The Pathfinding.
+   */
   Pathfinding pathfinding;
 
+  /**
+   * Instantiates a new Construct machines.
+   *
+   * @param customerController the customer controller
+   * @param state              the state
+   * @param pathfinding        the pathfinding
+   */
   public ConstructMachines(CustomerController customerController, DifficultyState state,
       Pathfinding pathfinding) {
     difficultyState = state;
@@ -49,7 +83,7 @@ public class ConstructMachines {
   /**
    * Create a bin given a rectangle
    *
-   * @param rect
+   * @param rect the rect
    * @author Jack Hinton
    */
   public void createBin(Rectangle rect) {
@@ -64,7 +98,7 @@ public class ConstructMachines {
   /**
    * Create a hob
    *
-   * @param rect
+   * @param rect the rect
    * @author Jack Hinton
    */
   public void createHobs(Rectangle rect) {
@@ -84,7 +118,7 @@ public class ConstructMachines {
   /**
    * Create a toaster
    *
-   * @param rect
+   * @param rect the rect
    * @author Jack Hinton
    */
   public void createToaster(Rectangle rect) {
@@ -100,7 +134,7 @@ public class ConstructMachines {
   /**
    * Create chopping station
    *
-   * @param rect
+   * @param rect the rect
    * @author Jack Hinton
    */
   public void createChopping(Rectangle rect) {
@@ -120,7 +154,8 @@ public class ConstructMachines {
   /**
    * Create an oven
    *
-   * @param rect
+   * @param rect               the rect
+   * @param customerController the customer controller
    * @author Jack Hinton
    */
   public void createOven(Rectangle rect, CustomerController customerController) {
@@ -140,8 +175,8 @@ public class ConstructMachines {
   /**
    * Create a food create with an item inside
    *
-   * @param rect
-   * @param item
+   * @param rect the rect
+   * @param item the item
    * @author Jack Hinton
    */
   public void createFoodCrates(Rectangle rect, ItemEnum item) {
@@ -156,7 +191,7 @@ public class ConstructMachines {
   /**
    * Create an assembly station
    *
-   * @param rect
+   * @param rect the rect
    * @author Jack Hinton
    */
   public void createAssembly(Rectangle rect) {
@@ -172,7 +207,7 @@ public class ConstructMachines {
   /**
    * Create a customer counter
    *
-   * @param rect
+   * @param rect the rect
    * @author Jack Hinton
    */
   public void createCustomerCounters(Rectangle rect) {

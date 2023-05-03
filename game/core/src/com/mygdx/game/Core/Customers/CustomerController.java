@@ -33,11 +33,8 @@ import java.util.function.Consumer;
  * BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @author Jack Vickers
- * <p>
- * Last modified: 23/04/2023
+ * @author Jack Vickers <p> Last modified: 23/04/2023
  */
-
 public class CustomerController extends Scriptable {
 
   /**
@@ -67,20 +64,50 @@ public class CustomerController extends Scriptable {
    */
   Consumer<EndOfGameValues> callEndGame;
 
+  /**
+   * The Reputation.
+   */
   public int reputation;
+  /**
+   * The constant money.
+   */
   public static int money;
+  /**
+   * The Max money.
+   */
   int maxMoney;
+  /**
+   * The Max reputation.
+   */
   int maxReputation;
+  /**
+   * The Money per customer.
+   */
   int moneyPerCustomer;
 
+  /**
+   * The Waves.
+   */
   int waves = -1;
+  /**
+   * The Menu.
+   */
   public OrderMenu menu;
+  /**
+   * The Current customer.
+   */
   int currentCustomer = 0;
+  /**
+   * The Current wave.
+   */
   int currentWave = 0;
   private float eatingTime = 7;
   private int timerWidth = 50;
   private int timerHeight = 10;
 
+  /**
+   * The Ovens added.
+   */
   Boolean OvensAdded = false;
 
   /**
@@ -103,8 +130,17 @@ public class CustomerController extends Scriptable {
    * timer defining when the next eating customer will leave
    */
   float timeToNextCustomerLeaving = eatingTime;
+  /**
+   * The Max customers.
+   */
   int maxCustomers;
+  /**
+   * The Customers remaining.
+   */
   int customersRemaining;
+  /**
+   * The Customers per wave.
+   */
   ArrayList<Integer> customersPerWave;
   /**
    * this is call back for customer groups who get too frustrated so they need to leave
@@ -130,7 +166,13 @@ public class CustomerController extends Scriptable {
    */
   private int customerFrustrationStart;
 
+  /**
+   * The Update frustration.
+   */
   public boolean updateFrustration = true;
+  /**
+   * The Num customers served.
+   */
   int numCustomersServed = 0;
 
   /**
@@ -217,11 +259,21 @@ public class CustomerController extends Scriptable {
     return numCustomersPerWave;
   }
 
+  /**
+   * Gets money.
+   *
+   * @return the money
+   */
   public int getMoney() {
     return money;
   }
 
 
+  /**
+   * Sets tables.
+   *
+   * @param tab the tab
+   */
   public void setTables(Vector2... tab) {
     int ID = 0;
     tables = new LinkedList<>();
@@ -232,6 +284,11 @@ public class CustomerController extends Scriptable {
 
   }
 
+  /**
+   * Calculate waves from no customers.
+   *
+   * @param NoCustomers the no customers
+   */
   public void calculateWavesFromNoCustomers(int NoCustomers) {
     maxCustomers = NoCustomers;
     customersRemaining = NoCustomers;
@@ -270,10 +327,20 @@ public class CustomerController extends Scriptable {
     setWaveAmount(waves);
   }
 
+  /**
+   * Sitting customer count int.
+   *
+   * @return the int
+   */
   public int sittingCustomerCount() {
     return sittingCustomers.size();
   }
 
+  /**
+   * Gets menu.
+   *
+   * @return the menu
+   */
   public OrderMenu getMenu() {
     return menu;
   }
@@ -281,6 +348,7 @@ public class CustomerController extends Scriptable {
   /**
    * Used to update the ordermenu when an oven has been bought
    *
+   * @param a the a
    * @author Jack Hinton
    */
   public void updateMenu(boolean a) {
@@ -294,13 +362,18 @@ public class CustomerController extends Scriptable {
     OvensAdded = a;
   }
 
+  /**
+   * Gets customers per scenario wave.
+   *
+   * @return the customers per scenario wave
+   */
   public ArrayList<Integer> getCustomersPerScenarioWave() {
     return customersPerWave;
   }
 
   /***
    * Set the maximum number of waves to do, exclusively. Resets currentWave to 0.
-   * @param amount
+   * @param amount the amount
    * @author Felix Seanor
    */
   public void setWaveAmount(int amount) {
@@ -329,7 +402,7 @@ public class CustomerController extends Scriptable {
   /**
    * Updates all customers in groups to update their animation.
    *
-   * @param customers
+   * @param customers the customers
    * @author Felix Seanor
    */
   public void updateCustomerMovements(List<CustomerGroups> customers) {
@@ -338,18 +411,38 @@ public class CustomerController extends Scriptable {
     }
   }
 
+  /**
+   * Gets current waiting customer group.
+   *
+   * @return the current waiting customer group
+   */
   public CustomerGroups getCurrentWaitingCustomerGroup() {
     return currentWaitingCustomer;
   }
 
+  /**
+   * Sets current waiting customer group.
+   *
+   * @param group the group
+   */
   public void setCurrentWaitingCustomerGroup(CustomerGroups group) {
     currentWaitingCustomer = group;
   }
 
+  /**
+   * Gets number of customers served.
+   *
+   * @return the number of customers served
+   */
   public int getNumberOfCustomersServed() {
     return numCustomersServed;
   }
 
+  /**
+   * Gets remaining number of customers.
+   *
+   * @return the remaining number of customers
+   */
   public int getRemainingNumberOfCustomers() {
     if (currentWaitingCustomer != null) {
       return customersRemaining + currentWaitingCustomer.membersInLine.size();
@@ -444,6 +537,9 @@ public class CustomerController extends Scriptable {
   }
 
 
+  /**
+   * Change frustration timer.
+   */
   public void changeFrustrationTimer() {
 
     float TT = 0;
@@ -475,7 +571,7 @@ public class CustomerController extends Scriptable {
   /**
    * See if a currently seated customer should leave to make space for a new customer to enter.
    *
-   * @param dt
+   * @param dt the dt
    * @author Felix Seanor
    */
   public void seeIfCustomersShouldLeave(float dt) {
@@ -545,6 +641,11 @@ public class CustomerController extends Scriptable {
     }
   }
 
+  /**
+   * Waves left int.
+   *
+   * @return the int
+   */
   int wavesLeft() {
     return waves - currentWave;
   }
@@ -552,6 +653,7 @@ public class CustomerController extends Scriptable {
   /**
    * Creates a new customer group of a random size, and gives them a list of foods to order.
    *
+   * @return the int
    * @author Felix Seanor
    * @author Jack Vickers
    */
@@ -571,6 +673,11 @@ public class CustomerController extends Scriptable {
 
   }
 
+  /**
+   * Gets customers remaining.
+   *
+   * @return the customers remaining
+   */
   public int getCustomersRemaining() {
     return customersRemaining;
   }
@@ -623,7 +730,6 @@ public class CustomerController extends Scriptable {
    *
    * @author Felix Seanor
    */
-
   public void canAcceptNewCustomer() {
     if (doSatisfactionCheck()) {
       sittingCustomers.add(currentWaitingCustomer);
@@ -659,8 +765,8 @@ public class CustomerController extends Scriptable {
   /**
    * Sets the pathfinding target of an entire group, making them walk to the location.
    *
-   * @param group
-   * @param target
+   * @param group  the group
+   * @param target the target
    * @author Felix Seanor
    */
   public void setCustomerGroupTarget(CustomerGroups group, Vector2 target) {
@@ -673,11 +779,10 @@ public class CustomerController extends Scriptable {
   /**
    * Sets an individual customers pathfinding target. Begins pathfinding
    *
-   * @param customer
-   * @param target
+   * @param customer the customer
+   * @param target   the target
    * @author Felix Seanor
    */
-
   public void setCustomerTarget(Customer customer, Vector2 target) {
     customer.givePath(pathfinding.findPath((int) customer.gameObject.position.x,
         (int) customer.gameObject.position.y, (int) target.x, (int) target.y,
@@ -703,6 +808,9 @@ public class CustomerController extends Scriptable {
     }
   }
 
+  /**
+   * Super food upgrade.
+   */
   public void superFoodUpgrade() {
     Customer customer = currentWaitingCustomer.removeFirstCustomer();
     numCustomersServed += 1;
@@ -711,6 +819,11 @@ public class CustomerController extends Scriptable {
     setWaitingForOrderTarget();
   }
 
+  /**
+   * Remove any customer.
+   *
+   * @param customerToRemove the customer to remove
+   */
   void removeAnyCustomer(Integer customerToRemove) {
     Customer customer = currentWaitingCustomer.removeAnyCustomer(customerToRemove);
     if (customer != null) {
@@ -737,6 +850,12 @@ public class CustomerController extends Scriptable {
     callEndGame.accept(values);
   }
 
+  /**
+   * Tetris super food action boolean.
+   *
+   * @param dish the dish
+   * @return the boolean
+   */
   public boolean tetrisSuperFoodAction(Item dish) {
     Boolean anyCustomer = false;
     LinkedList<OrderType> orderTypes = menu.getAllOrderTypes();
@@ -746,7 +865,8 @@ public class CustomerController extends Scriptable {
     for (int i = currentWaitingCustomer.membersInLine.size() - 1; i >= 0; i--) {
       Customer current = currentWaitingCustomer.membersInLine.get(i);
       if (toClear.contains(current.getDish())) {
-        setCustomerTarget(currentWaitingCustomer.membersInLine.get(i), currentWaitingCustomer.table.GetNextSeat());
+        setCustomerTarget(currentWaitingCustomer.membersInLine.get(i),
+            currentWaitingCustomer.table.GetNextSeat());
         //currentWaiting.MembersSeatedOrWalking.add(currentWaiting.MembersInLine.get(i));
         currentWaitingCustomer.feedSpecificCustomer(i);
         numCustomersServed += 1;
@@ -761,7 +881,7 @@ public class CustomerController extends Scriptable {
    * Interface with the customer from the chefs via customer counters. Checks to see if the given
    * food is an ordered food Makes customer sit down if so
    *
-   * @param item
+   * @param item the item
    * @return True if accepted, otherwise false
    * @author Felix Seanor
    */
@@ -774,13 +894,19 @@ public class CustomerController extends Scriptable {
     if (success != -1) {
       currentWaitingCustomer.feedSpecificCustomer(success);
       setCustomerTarget(currentWaitingCustomer.membersSeatedOrWalking.get(
-          currentWaitingCustomer.membersSeatedOrWalking.size() - 1), currentWaitingCustomer.table.GetNextSeat());
+              currentWaitingCustomer.membersSeatedOrWalking.size() - 1),
+          currentWaitingCustomer.table.GetNextSeat());
       setWaitingForOrderTarget();
       changeMoney(moneyPerCustomer);
     }
     return success != -1;
   }
 
+  /**
+   * Gets member seated or walking.
+   *
+   * @return the member seated or walking
+   */
   public List<Customer> getMemberSeatedOrWalking() {
     return currentWaitingCustomer.membersSeatedOrWalking;
   }
@@ -795,6 +921,9 @@ public class CustomerController extends Scriptable {
     return currentWaitingCustomer != null && currentWaitingCustomer.membersInLine.size() == 0;
   }
 
+  /**
+   * Delete all customers.
+   */
   public void deleteAllCustomers() {
     if (currentWaitingCustomer != null) {
       currentWaitingCustomer.destroy();
@@ -903,6 +1032,11 @@ public class CustomerController extends Scriptable {
 
   }
 
+  /**
+   * Save state.
+   *
+   * @param state the state
+   */
   public void saveState(GameState state) {
     state.wave = currentWave;
 
@@ -940,10 +1074,20 @@ public class CustomerController extends Scriptable {
     state.customerGroupStates = savedGroups.toArray(new CustomerGroupState[0]);
   }
 
+  /**
+   * Leaving customer count int.
+   *
+   * @return the int
+   */
   public int leavingCustomerCount() {
     return walkingBackCustomers.size();
   }
 
+  /**
+   * Sets money.
+   *
+   * @param i the
+   */
   public void setMoney(int i) {
     money = i;
   }

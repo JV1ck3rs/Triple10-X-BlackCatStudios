@@ -12,14 +12,26 @@ import java.util.PriorityQueue;
  * A* Pathfinding module BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 14/03/23
+ * @date 14 /03/23
  */
 public class Pathfinding {
 
+  /**
+   * The Grid x.
+   */
   int gridX;
+  /**
+   * The Grid y.
+   */
   int gridY;
+  /**
+   * The Grid size.
+   */
   int gridSize;
 
+  /**
+   * The Cells.
+   */
   OccupationID[] cells;
 
 
@@ -113,6 +125,14 @@ public class Pathfinding {
     return manhatten(ix, iy, jx, jy);
   }
 
+  /**
+   * Add static object.
+   *
+   * @param x      the x
+   * @param y      the y
+   * @param width  the width
+   * @param height the height
+   */
   public void addStaticObject(int x, int y, int width, int height) {
     int _x = x;
     int _y = y;

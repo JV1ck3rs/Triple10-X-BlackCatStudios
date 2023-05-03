@@ -35,33 +35,62 @@ import java.util.Optional;
  * @author Jack Vickers
  * @author Jack Hinton
  * @author Sam Toner
- * @date 01/05/23
+ * @date 01 /05/23
  */
 public class MasterChef extends Scriptable {
 
+  /**
+   * The constant MaxChefs.
+   */
   public static final int MaxChefs = 5;
+  /**
+   * The Max range.
+   */
   public float maxRange = 18;
+  /**
+   * The Current controlled chef.
+   */
   public int currentControlledChef = 0;
   private static ArrayList<TextureAtlas> chefAtlasArray;
   private Camera camera;
+  /**
+   * The Chefs.
+   */
   List<Chef> chefs;
 
+  /**
+   * The Chef params.
+   */
   ChefParams chefParams;
+  /**
+   * The Cooking params.
+   */
   CookingParams cookingParams;
   private final Pathfinding pathfinder;
 
   private GameObject SelectionArrow;
 
+  /**
+   * Return chef count int.
+   *
+   * @return the int
+   */
   public int returnChefCount() {
     return chefs.size();
   }
 
+  /**
+   * Upgrade speed.
+   */
   public void upgradeSpeed() {
     for (int i = 0; i < chefs.size(); i++) {
       chefs.get(i).changeSpeed();
     }
   }
 
+  /**
+   * Downgrade speed.
+   */
   public void downgradeSpeed() {
     for (int i = 0; i < chefs.size(); i++) {
       chefs.get(i).decreaseSpeed();
@@ -69,10 +98,21 @@ public class MasterChef extends Scriptable {
   }
 
 
+  /**
+   * Gets chef.
+   *
+   * @param i the
+   * @return the chef
+   */
   public Chef getChef(int i) {
     return chefs.get(i);
   }
 
+  /**
+   * Gets current chef.
+   *
+   * @return the current chef
+   */
   public Chef getCurrentChef() {
 
     return chefs.get(currentControlledChef);
@@ -97,7 +137,7 @@ public class MasterChef extends Scriptable {
   /**
    * Returns the chef array that's been created
    *
-   * @return ArrayList<TextureAtlas> chefAtlasArray;
+   * @return ArrayList<TextureAtlas>  chefAtlasArray;
    * @author Felix Seanor
    */
   public static ArrayList<TextureAtlas> getChefAtlasArray() {
@@ -107,9 +147,11 @@ public class MasterChef extends Scriptable {
   /**
    * Creates a Chef controller class, handling inputs
    *
-   * @param count
-   * @param camera
+   * @param count       the count
+   * @param camera      the camera
    * @param pathfinding pathfinding module
+   * @param params      the params
+   * @param cookParams  the cook params
    * @author Felix Seanor
    */
   public MasterChef(int count, Camera camera, Pathfinding pathfinding, ChefParams params,
@@ -140,8 +182,8 @@ public class MasterChef extends Scriptable {
   /**
    * Create a new chef given a position and iD
    *
-   * @param position
-   * @param i
+   * @param position the position
+   * @param i        the
    * @author Felix Seanor
    */
   void CreateNewChef(Vector2 position, int i) {
@@ -159,7 +201,7 @@ public class MasterChef extends Scriptable {
   /**
    * Select a chef
    *
-   * @param i
+   * @param i the
    * @author Felix Seanor
    */
   void SelectChef(int i) {
@@ -167,6 +209,9 @@ public class MasterChef extends Scriptable {
 
   }
 
+  /**
+   * Move arrow.
+   */
   void MoveArrow() {
     SelectionArrow.position.set(getCurrentChef().gameObject.position).add(new Vector2(0, 45));
   }
@@ -237,6 +282,9 @@ public class MasterChef extends Scriptable {
 
   }
 
+  /**
+   * Cycle item stack.
+   */
   void CycleItemStack() {
     getCurrentChef().CycleStack();
   }
@@ -286,6 +334,11 @@ public class MasterChef extends Scriptable {
     }
   }
 
+  /**
+   * Check frozen.
+   *
+   * @param dt the dt
+   */
   void checkFrozen(float dt) {
     for (Chef chef : chefs) {
       if (chef.isFrozen) {
@@ -297,6 +350,12 @@ public class MasterChef extends Scriptable {
     }
   }
 
+  /**
+   * Key pressed now boolean.
+   *
+   * @param key the key
+   * @return the boolean
+   */
   boolean KeyPressedNow(int key) {
     return Gdx.input.isKeyJustPressed(key);
   }
@@ -358,6 +417,7 @@ public class MasterChef extends Scriptable {
   /**
    * Adds in a new chef up to max
    *
+   * @return the boolean
    * @author Felix Seanor
    */
   public boolean AddNewChefIn() {
@@ -373,10 +433,20 @@ public class MasterChef extends Scriptable {
     }
   }
 
+  /**
+   * Gets chef list.
+   *
+   * @return the chef list
+   */
   public List<Chef> getChefList() {
     return chefs;
   }
 
+  /**
+   * Load state.
+   *
+   * @param state the state
+   */
   public void LoadState(GameState state) {
     for (int i = 0; i < state.chefPositions.length; i++) {
       if (i < chefs.size()) {
@@ -400,7 +470,7 @@ public class MasterChef extends Scriptable {
   /**
    * Creates or modifies chefs from a save state.
    *
-   * @param state
+   * @param state the state
    * @author Felix Seanor
    */
   void GiveBackFromState(GameState state) {
@@ -426,7 +496,7 @@ public class MasterChef extends Scriptable {
   /**
    * Save the current state of the chefs into GameState
    *
-   * @param state
+   * @param state the state
    * @author Felix Seanor
    */
   public void SaveState(GameState state) {

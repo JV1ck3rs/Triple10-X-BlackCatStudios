@@ -11,23 +11,38 @@ import java.util.Random;
  * BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 23/04/23
+ * @date 23 /04/23
  */
 public class OrderType {
 
-  //Order class burger salad ect
+  /**
+   * The Order class.
+   */
+//Order class burger salad ect
   public ItemEnum orderClass;
 
-  // List of all orderable types in the class
+  /**
+   * The Orderables.
+   */
+// List of all orderable types in the class
   public List<ItemEnum> orderables;
 
-  //Probability counter for this class to be picked next
+  /**
+   * The Stock.
+   */
+//Probability counter for this class to be picked next
   public int stock;
 
-  //Default stock for restocking
+  /**
+   * The Def stock.
+   */
+//Default stock for restocking
   int defStock;
 
-  //Lowest "probability allowed"
+  /**
+   * The Min stock.
+   */
+//Lowest "probability allowed"
   int minStock;
 
 
@@ -49,7 +64,7 @@ public class OrderType {
   /**
    * Reduce the probability after an order
    *
-   * @param count
+   * @param count the count
    * @author Felix Seanor
    */
   public void takeStock(int count) {

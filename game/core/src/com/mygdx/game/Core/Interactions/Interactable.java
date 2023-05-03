@@ -8,45 +8,44 @@ import com.mygdx.game.Items.Item;
  *
  * @author Felix Seanor
  * @author Jack Hinton
- * @date 23/04/23
+ * @date 23 /04/23
  */
 public interface Interactable {
 
   /**
    * Can this object be retrieved from
    *
-   * @return
+   * @return boolean
    */
   public boolean canRetrieve();
 
   /**
    * Can this object be given to
    *
-   * @return
+   * @return boolean
    */
   public boolean canGive();
 
   /**
    * Can this object be given to
    *
-   * @return
+   * @return boolean
    */
   public boolean canInteract();
 
   /**
    * Retrieve the item
    *
-   * @return
+   * @return item
    * @author Jack Hinton
    */
-
   public Item retrieveItem();
 
   /**
    * Give item to object
    *
-   * @param item
-   * @return
+   * @param item the item
+   * @return boolean
    * @author Felix Seanor
    */
   public boolean giveItem(Item item);

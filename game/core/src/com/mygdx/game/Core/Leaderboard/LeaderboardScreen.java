@@ -33,18 +33,44 @@ import java.util.List;
  *
  * @author Azzam Amirul Bahri
  * @author Jack Vickers
- * @date 28/04/23
+ * @date 28 /04/23
  */
 public class LeaderboardScreen implements Screen {
 
+  /**
+   * The Game.
+   */
   final MyGdxGame game;
+  /**
+   * The Scale x.
+   */
   float scaleX;
+  /**
+   * The Scale y.
+   */
   float scaleY;
+  /**
+   * The Stage.
+   */
   Stage stage;
+  /**
+   * The Text field.
+   */
   TextField textField;
 
+  /**
+   * The Error message.
+   */
   Label errorMessage;
 
+  /**
+   * Instantiates a new Leaderboard screen.
+   *
+   * @param game                    the game
+   * @param values                  the values
+   * @param numberOfCustomersServed the number of customers served
+   * @throws IOException the io exception
+   */
   public LeaderboardScreen(MyGdxGame game, EndOfGameValues values, int numberOfCustomersServed)
       throws IOException {
     // Calculates the scale of the screen to the original size of the game
@@ -209,6 +235,7 @@ public class LeaderboardScreen implements Screen {
   }
 
   /**
+   *
    */
   @Override
   public void pause() {
@@ -216,6 +243,7 @@ public class LeaderboardScreen implements Screen {
   }
 
   /**
+   *
    */
   @Override
   public void resume() {

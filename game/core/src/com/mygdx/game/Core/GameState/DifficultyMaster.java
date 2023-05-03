@@ -17,10 +17,10 @@ public class DifficultyMaster {
   /**
    * return a difficulty settings
    *
-   * @param difficaulty
-   * @return
+   * @param difficaulty the difficaulty
+   * @return difficulty
    * @author Felix Seanor
-   * @date 29/04/23
+   * @date 29 /04/23
    */
   public static DifficultyState getDifficulty(Difficulty difficaulty) {
     switch (difficaulty) {
@@ -36,6 +36,11 @@ public class DifficultyMaster {
   }
 
 
+  /**
+   * Gets mind breaking.
+   *
+   * @return the mind breaking
+   */
   public static DifficultyState getMindBreaking() {//Hard
     DifficultyState diff = new DifficultyState();
     CustomerControllerParams CCParams = new CustomerControllerParams();
@@ -72,6 +77,11 @@ public class DifficultyMaster {
 
   }
 
+  /**
+   * Gets stressful.
+   *
+   * @return the stressful
+   */
   public static DifficultyState getStressful() {//Medium
     DifficultyState diff = new DifficultyState();
     CustomerControllerParams CCParams = new CustomerControllerParams();
@@ -106,6 +116,11 @@ public class DifficultyMaster {
 
   }
 
+  /**
+   * Gets relaxing.
+   *
+   * @return the relaxing
+   */
   public static DifficultyState getRelaxing() {//Easy
     DifficultyState diff = new DifficultyState();
     CustomerControllerParams CCParams = new CustomerControllerParams();

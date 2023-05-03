@@ -5,9 +5,15 @@ package com.mygdx.game.Core.PathFinder;
  * BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 03/03/23
+ * @date 03 /03/23
  */
 public enum OccupationID {
+  /**
+   * Empty occupation id.
+   */
   Empty,
+  /**
+   * Filled occupation id.
+   */
   Filled
 }

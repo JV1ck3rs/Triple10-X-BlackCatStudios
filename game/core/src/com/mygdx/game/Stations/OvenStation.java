@@ -16,15 +16,33 @@ import java.util.function.Consumer;
  * Bakes potatoes and pizzas BlackCatStudio's Code
  *
  * @author Jack Hinton
- * @date 30/04/23
+ * @date 30 /04/23
  */
 public class OvenStation extends Station {
 
+  /**
+   * The Interacted.
+   */
   boolean interacted;
+  /**
+   * The Ready.
+   */
   boolean ready;
+  /**
+   * The Max progress.
+   */
   public float maxProgress;
+  /**
+   * The Progress.
+   */
   public float progress;
+  /**
+   * The Item white list.
+   */
   public static ArrayList<ItemEnum> itemWhiteList;
+  /**
+   * The Oven made.
+   */
   Consumer<Boolean> ovenMade;
 
 
@@ -182,8 +200,8 @@ public class OvenStation extends Station {
    *
    * @param dt delta time
    * @author Jack Hinton
-   * @Author Felix Seanor
-   * @Author Jack Vickers
+   * @author Felix Seanor
+   * @author Jack Vickers
    */
   public void cook(float dt) {
     ready = currentRecipe.recipeSteps.get(item.step)
@@ -202,7 +220,7 @@ public class OvenStation extends Station {
   /**
    * Updates the progress bubble
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void progressBar() {
     timer.image = new BlackTexture("Timer/0" + getProgress() + ".png");
@@ -212,7 +230,7 @@ public class OvenStation extends Station {
   /**
    * Gets the progress of the item currently held
    *
-   * @return int
+   * @return int progress
    */
   public int getProgress() {
     progress = item.progress / maxProgress;
@@ -234,7 +252,7 @@ public class OvenStation extends Station {
   /**
    * Move the animation
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void moveAnimation() {
@@ -246,7 +264,7 @@ public class OvenStation extends Station {
    * Update the chopping station
    *
    * @param dt delta time
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void update(float dt) {

@@ -200,7 +200,7 @@ public class ChopStationTests extends MasterTestClass {
   /**
    * Tests that the chopping station can be used when it is unlocked.
    * @Satisfies UR_INTERACTION
-   * @Author Jack Vickers
+   * @author Jack Vickers
    * @date 02/05/2023
    */
   @Test

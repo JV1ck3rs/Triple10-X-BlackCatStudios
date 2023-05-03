@@ -19,17 +19,23 @@ import java.util.List;
  *
  * @author Robin Graham
  * @author Jack Hinton
- * @date 01/05/23
+ * @date 01 /05/23
  */
 public class AssemblyStation extends Station {
 
   private ArrayList<Item> ingredients;
   private ArrayList<ItemEnum> tempIngredients; // A temporary list to hold Item Enums to not disturb the Item list in case of failure to combine
+  /**
+   * The Held items.
+   */
   public ArrayList<GameObject> heldItems = new ArrayList<>(); // Pictures of items currently on the station
   private ItemEnum temp;
   private boolean assembled;
   private Item dish;
   private Item tempDish;
+  /**
+   * The Ingredient size.
+   */
   public int ingredientSize = 12;
 
 
@@ -204,7 +210,7 @@ public class AssemblyStation extends Station {
   /**
    * Clears the temporary arraylist
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   private void clearTempIngredients() {
     tempIngredients = new ArrayList<ItemEnum>();
@@ -214,10 +220,10 @@ public class AssemblyStation extends Station {
   /**
    * Assembles the dish into the final one when we have all the correct ingredients
    *
-   * @return boolean
-   * @Author Jack Hinton
-   * @Author Jack Vickers
-   * @Author Felix Seanor
+   * @return boolean boolean
+   * @author Jack Hinton
+   * @author Jack Vickers
+   * @author Felix Seanor
    */
   public boolean combine() {
     for (Item ingredient : ingredients) {
@@ -247,9 +253,9 @@ public class AssemblyStation extends Station {
   /**
    * Gets the current dish
    *
-   * @return Item
-   * @Author Jack Hinton
-   * @Author Jack Vickers
+   * @return Item dish
+   * @author Jack Hinton
+   * @author Jack Vickers
    */
   public Item getDish() {
 //    assembled = false;
@@ -262,7 +268,7 @@ public class AssemblyStation extends Station {
    * Creates a new item and stores in dish using enum passed in the parameter
    *
    * @param item the enum passed in
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void setDish(ItemEnum item) {
     this.dish = new Item(item);
@@ -271,9 +277,9 @@ public class AssemblyStation extends Station {
   /**
    * Updates the pictures currently shown on the station
    *
-   * @Author Jack Hinton
-   * @Author Felix Seanor
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Felix Seanor
+   * @author Jack Vickers
    */
   @Override
   public void updatePictures() {
@@ -324,7 +330,7 @@ public class AssemblyStation extends Station {
   /**
    * Move the animation
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void moveAnimation() {
@@ -336,7 +342,7 @@ public class AssemblyStation extends Station {
    * Updates the assembly station
    *
    * @param dt delta time
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void update(float dt) {
@@ -348,7 +354,7 @@ public class AssemblyStation extends Station {
    *
    * @param state  items stored in save file
    * @param locked lock state
-   * @Author Felix Seanor
+   * @author Felix Seanor
    */
   @Override
   public void loadState(List<ItemState> state, Boolean locked) {
@@ -370,7 +376,7 @@ public class AssemblyStation extends Station {
    * Saves the current state of the station
    *
    * @return List<ItemState>
-   * @Author Felix Seanor
+   * @author Felix Seanor
    */
   @Override
   public List<ItemState> saveState() {

@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @author Jack Vickers
  * @author Amy Cross
  * @author Robin Graham
- * @date 01/05/23
+ * @date 01 /05/23
  */
 public class Customer extends PathfindingAgent implements Person {
 
@@ -30,18 +30,42 @@ public class Customer extends PathfindingAgent implements Person {
   private float stateTime = 0;
 
   private String spriteOrientation, spriteState;
+  /**
+   * The Customer number.
+   */
   public final int customerNumber;
 
   private GameObject HeldItem;
 
+  /**
+   * The Waiting at counter.
+   */
   public boolean waitingAtCounter;   // customer will be waiting at the counter for their dish
+  /**
+   * The Eaten.
+   */
   public boolean eaten;
 
+  /**
+   * The Dish.
+   */
   public ItemEnum dish;
 
+  /**
+   * The Food icon.
+   */
   public GameObject foodIcon;
+  /**
+   * The Food recipe open.
+   */
   public boolean foodRecipeOpen = false;
+  /**
+   * The Food recipe.
+   */
   public GameObject foodRecipe;
+  /**
+   * The Recipe close button.
+   */
   public GameObject recipeCloseButton;
 
   /**
@@ -50,6 +74,8 @@ public class Customer extends PathfindingAgent implements Person {
    * Mixture of BlackCatStudios and Team Triple 10s
    *
    * @param customerNumber the ID of each individual customer which will be interacted with
+   * @param Order          the order
+   * @param texture        the texture
    */
   public Customer(int customerNumber, ItemEnum Order, TextureAtlas texture) {
 
@@ -199,7 +225,7 @@ public class Customer extends PathfindingAgent implements Person {
   /**
    * Black Cat studios Code
    *
-   * @return
+   * @return game object
    */
   public GameObject returnHeldItem() {
     return HeldItem;

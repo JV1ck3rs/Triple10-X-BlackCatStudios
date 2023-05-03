@@ -11,31 +11,88 @@ import java.util.List;
  *
  * @author Felix Seanor
  * @author Jack Vickers
- * @date 25/04/23
+ * @date 25 /04/23
  */
 public class GameState implements Serializable {
 
+  /**
+   * The Money.
+   */
   public int money;
+  /**
+   * The Max money.
+   */
   public int maxMoney;
 
+  /**
+   * The Customer group states.
+   */
   public CustomerGroupState[] customerGroupStates;
+  /**
+   * The Chef positions.
+   */
   public Vector2[] chefPositions;
+  /**
+   * The Chef holding stacks.
+   */
   public ItemState[] chefHoldingStacks;//Must be in format of chefs 1 items (if not holding an item at slot N then null)
+  /**
+   * The Food on counters.
+   */
   public List<List<ItemState>> foodOnCounters;
+  /**
+   * The Repair state.
+   */
   public List<Boolean> repairState;
+  /**
+   * The Group size.
+   */
   public Vector2 groupSize;
+  /**
+   * The Wave.
+   */
   public int wave;
+  /**
+   * The Max wave.
+   */
   public int maxWave;
+  /**
+   * The Max frustration.
+   */
   public int maxFrustration;
 
+  /**
+   * The Timer.
+   */
   public int timer;
+  /**
+   * The Seconds.
+   */
   public float seconds;
+  /**
+   * The Reputation.
+   */
   public int reputation;
+  /**
+   * The Max reputation.
+   */
   public int maxReputation;
+  /**
+   * The Customers per wave.
+   */
   public ArrayList<Integer> customersPerWave;
+  /**
+   * The Difficulty.
+   */
   public Difficulty difficulty;
 
 
+  /**
+   * Is chef part equals boolean.
+   *
+   * @param state the state
+   * @return the boolean
+   */
   public boolean isChefPartEquals(GameState state) {
     boolean eq = true;
 
@@ -53,6 +110,12 @@ public class GameState implements Serializable {
 
   }
 
+  /**
+   * Is customer part equals boolean.
+   *
+   * @param state the state
+   * @return the boolean
+   */
   public boolean isCustomerPartEquals(GameState state) {
     boolean eq = true;
 

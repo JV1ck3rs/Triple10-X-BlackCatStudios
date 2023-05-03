@@ -7,10 +7,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * an abstraction for GDX sprite BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 23/04/23
+ * @date 23 /04/23
  */
 public class BlackSprite extends Renderable {
 
+  /**
+   * The Sprite.
+   */
   public Sprite sprite;
 
 
@@ -56,7 +59,7 @@ public class BlackSprite extends Renderable {
   /**
    * set the sprite to be any GDX sprite
    *
-   * @param sprite
+   * @param sprite the sprite
    * @author Felix Seanor
    */
   public void setSprite(Sprite sprite) {
