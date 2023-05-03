@@ -511,7 +511,7 @@ public class CustomerController extends Scriptable {
 
     frustrationCheck(dt);
 
-    //removeCustomerTest();
+   // removeCustomerTest();
     seeIfCustomersShouldLeave(dt);
     canAcceptNewCustomer();
 
