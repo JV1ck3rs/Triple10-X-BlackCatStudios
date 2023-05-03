@@ -11,7 +11,7 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.Recipe;
-import com.mygdx.game.RecipeAndComb.recipeDict;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public abstract class Station extends Scriptable implements Interactable {
 
   public Item item;
   public Item returnItem;
-  public recipeDict recipes;
+  public RecipeDict recipes;
   public CombinationDict combinations;
   private boolean locked;
   public Recipe currentRecipe;
@@ -54,7 +54,7 @@ public abstract class Station extends Scriptable implements Interactable {
   public Station(CookingParams params) {
     item = null;
     locked = false;
-    recipes = recipeDict.recipes;
+    recipes = RecipeDict.recipes;
     combinations = CombinationDict.combinations;
     currentRecipe = null;
     stationTimeDecrease = 0;
@@ -95,7 +95,7 @@ public abstract class Station extends Scriptable implements Interactable {
     readyBubble.image.layer = 1;
 
     if (animation != null) {
-      moveAnim();
+      moveAnimation();
     }
   }
 
@@ -107,7 +107,7 @@ public abstract class Station extends Scriptable implements Interactable {
    * @return boolean
    * @author Jack Hinton
    */
-  public abstract boolean GiveItem(Item item);
+  public abstract boolean giveItem(Item item);
 
 
   /**
@@ -116,7 +116,7 @@ public abstract class Station extends Scriptable implements Interactable {
    * @return Item
    * @author Jack Hinton
    */
-  public abstract Item RetrieveItem();
+  public abstract Item retrieveItem();
 
 
   /**
@@ -132,7 +132,7 @@ public abstract class Station extends Scriptable implements Interactable {
    *
    * @author Jack Hinton
    */
-  public abstract void moveAnim();
+  public abstract void moveAnimation();
 
   /**
    * Sets the station to a "locked" state
@@ -210,7 +210,7 @@ public abstract class Station extends Scriptable implements Interactable {
    * @param locked The locked state of the station when saved
    * @Author Jack Hinton
    */
-  public void LoadState(List<ItemState> state, Boolean locked) {
+  public void loadState(List<ItemState> state, Boolean locked) {
 
     setLocked(locked);
     if (state.get(0) == null || state.get(0).item == null) {
@@ -238,7 +238,7 @@ public abstract class Station extends Scriptable implements Interactable {
    * @return List<ItemState>
    * @Author Felix Seanor
    */
-  public List<ItemState> SaveState() {
+  public List<ItemState> saveState() {
 
     LinkedList<ItemState> states = new LinkedList<>();
 

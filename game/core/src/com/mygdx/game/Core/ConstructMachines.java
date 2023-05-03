@@ -52,7 +52,7 @@ public class ConstructMachines {
    * @param rect
    * @author Jack Hinton
    */
-  public void CreateBin(Rectangle rect) {
+  public void createBin(Rectangle rect) {
     GameObject bin = new GameObject(null);
     bin.setPosition(rect.getX(), rect.getY());
     bin.setWidthAndHeight(rect.getWidth(), rect.getHeight());
@@ -67,7 +67,7 @@ public class ConstructMachines {
    * @param rect
    * @author Jack Hinton
    */
-  public void CreateHobs(Rectangle rect) {
+  public void createHobs(Rectangle rect) {
     numHobs++;
     GameObject hob = new GameObject(null);
     hob.setPosition(rect.getX(), rect.getY());
@@ -87,7 +87,7 @@ public class ConstructMachines {
    * @param rect
    * @author Jack Hinton
    */
-  public void CreateToaster(Rectangle rect) {
+  public void createToaster(Rectangle rect) {
     GameObject toast = new GameObject(null);
     toast.setPosition(rect.getX(), rect.getY());
     toast.setWidthAndHeight(rect.getWidth(), rect.getHeight());
@@ -103,7 +103,7 @@ public class ConstructMachines {
    * @param rect
    * @author Jack Hinton
    */
-  public void CreateChopping(Rectangle rect) {
+  public void createChopping(Rectangle rect) {
     numChopping++;
     GameObject chop = new GameObject(null);
     chop.setPosition(rect.getX(), rect.getY());
@@ -123,7 +123,7 @@ public class ConstructMachines {
    * @param rect
    * @author Jack Hinton
    */
-  public void CreateOven(Rectangle rect, CustomerController customerController) {
+  public void createOven(Rectangle rect, CustomerController customerController) {
     Consumer<Boolean> updateMenu = (Boolean a) -> customerController.updateMenu(a);
     GameObject oven = new GameObject(null);
     oven.setPosition(rect.getX(), rect.getY());
@@ -144,7 +144,7 @@ public class ConstructMachines {
    * @param item
    * @author Jack Hinton
    */
-  public void CreateFoodCrates(Rectangle rect, ItemEnum item) {
+  public void createFoodCrates(Rectangle rect, ItemEnum item) {
     GameObject crate = new GameObject(null);
     crate.setPosition(rect.getX(), rect.getY());
     crate.setWidthAndHeight(rect.getWidth(), rect.getHeight());
@@ -159,7 +159,7 @@ public class ConstructMachines {
    * @param rect
    * @author Jack Hinton
    */
-  public void CreateAssembly(Rectangle rect) {
+  public void createAssembly(Rectangle rect) {
     GameObject assembly = new GameObject(null);
     assembly.setPosition(rect.getX(), rect.getY());
     assembly.setWidthAndHeight(rect.getWidth(), rect.getHeight());
@@ -175,7 +175,7 @@ public class ConstructMachines {
    * @param rect
    * @author Jack Hinton
    */
-  public void CreateCustomerCounters(Rectangle rect) {
+  public void createCustomerCounters(Rectangle rect) {
     GameObject customer = new GameObject(null);
     customer.setPosition(rect.getX(), rect.getY());
     customer.setWidthAndHeight(rect.getWidth(), rect.getHeight());

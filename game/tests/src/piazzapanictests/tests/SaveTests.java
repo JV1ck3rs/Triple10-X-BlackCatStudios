@@ -22,7 +22,7 @@ import com.mygdx.game.Core.Rendering.TextureDictionary;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Stations.HobStation;
-import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class SaveTests extends MasterTestClass{
 
   public SpriteBatch batch;
   public TiledMap map;
-  public com.mygdx.game.Core.SFX.soundFrame soundFrame;
+  public SoundFrame soundFrame;
   public TextureDictionary textureDictionary;
   public CameraFunctions cameraFunctions = new CameraFunctions();
 
@@ -56,7 +56,7 @@ public class SaveTests extends MasterTestClass{
   //  batch = new SpriteBatch();
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx");
     textureDictionary = new TextureDictionary();
-    soundFrame = new soundFrame();
+    soundFrame = new SoundFrame();
 
 
     if (GameObjectManager.objManager == null) {
@@ -82,7 +82,7 @@ public class SaveTests extends MasterTestClass{
 
 
 
-    GameState gstate = state.LoadState("../assets/TestingData.ser");
+    GameState gstate = state.loadState("../assets/TestingData.ser");
 
     assertNotNull(gstate);
 
@@ -102,15 +102,15 @@ public class SaveTests extends MasterTestClass{
 
 
 
-    GameState gstate = state.LoadState("../assets/TestingData.ser");
+    GameState gstate = state.loadState("../assets/TestingData.ser");
 
-    state.SaveState(gstate,"../assets/TestingData.ser");
+    state.saveState(gstate,"../assets/TestingData.ser");
 
-    GameState lstate = state.LoadState("../assets/TestingData.ser");
+    GameState lstate = state.loadState("../assets/TestingData.ser");
 
 
-    assertTrue("Saved chefs must equals",gstate.IsChefPartEquals(lstate));
-    assertTrue("Saved Customers must equals",gstate.IsCustomerPartEquals(lstate));
+    assertTrue("Saved chefs must equals",gstate.isChefPartEquals(lstate));
+    assertTrue("Saved Customers must equals",gstate.isCustomerPartEquals(lstate));
 
   }
 
@@ -125,7 +125,7 @@ public class SaveTests extends MasterTestClass{
     create();
 
     SaveState state = new SaveState();
-    GameState gstate = state.LoadState("../assets/TestingData.ser");
+    GameState gstate = state.loadState("../assets/TestingData.ser");
 
     instantiateCustomerScripts();
     instantiateMasterChef();
@@ -141,30 +141,30 @@ public class SaveTests extends MasterTestClass{
 
     List<ItemState> states = new LinkedList<>();
     states.add(itemState);
-    station.LoadState(states,false);
+    station.loadState(states,false);
 
 
     assertFalse("Must be unlocked", station.getLocked());
     assertTrue("Must have lettuce on it", station.item.name == ItemEnum.Lettuce);
 
 
-    customerController.LoadState(gstate);
+    customerController.loadState(gstate);
     masterChef.LoadState(gstate);
 
     assertNotNull(customerController.getCurrentWaitingCustomerGroup());
 
     GameState nState = new GameState();
 
-    customerController.SaveState(nState);
+    customerController.saveState(nState);
 
 
 
-    assertTrue("Must have the same customer parameters", nState.IsCustomerPartEquals(gstate));
+    assertTrue("Must have the same customer parameters", nState.isCustomerPartEquals(gstate));
 
     masterChef.SaveState(nState);
 
 
-    assertTrue("Must have the same chef parameters", nState.IsChefPartEquals(gstate));
+    assertTrue("Must have the same chef parameters", nState.isChefPartEquals(gstate));
 
 
 

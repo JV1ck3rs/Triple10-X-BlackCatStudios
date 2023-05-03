@@ -52,7 +52,7 @@ public class OrderType {
    * @param count
    * @author Felix Seanor
    */
-  public void TakeStock(int count) {
+  public void takeStock(int count) {
     stock = Math.max(stock - count, minStock);
 
   }
@@ -64,9 +64,9 @@ public class OrderType {
    * @param rand randomisation class
    * @return new ItemEnum for order
    */
-  public ItemEnum GetOrder(Random rand) {
+  public ItemEnum getOrder(Random rand) {
     int orderID = rand.nextInt(orderables.size());
-    TakeStock(1);
+    takeStock(1);
     return orderables.get(orderID);
 
   }
@@ -76,7 +76,7 @@ public class OrderType {
    *
    * @author Felix Seanor
    */
-  public void Restock() {
+  public void restock() {
     stock = defStock;
   }
 

@@ -37,10 +37,10 @@ public class ToasterStationTests extends MasterTestClass {
       new GameObjectManager();
     }
     instantiateWorldAndToasterStation(); //creates world and toaster station
-    toasterStation.GiveItem(new Item(ItemEnum.Buns)); // gives the toaster the valid bun item
+    toasterStation.giveItem(new Item(ItemEnum.Buns)); // gives the toaster the valid bun item
     assertNotNull("The toaster station should have an item on it", toasterStation.item);
-    toasterStation.RetrieveItem(); //attempts to retrieve the bun from the toaster for testing
-    assertNull("There should be no item on the toaster station", toasterStation.RetrieveItem());
+    toasterStation.retrieveItem(); //attempts to retrieve the bun from the toaster for testing
+    assertNull("There should be no item on the toaster station", toasterStation.retrieveItem());
   }
 
 
@@ -61,14 +61,14 @@ public class ToasterStationTests extends MasterTestClass {
     Item buns = new Item(ItemEnum.Buns); // creates the valid item for testing
     for (ItemEnum test : Arrays.asList(ItemEnum.values())) { // creates a list of all items in the game and steps through them to check which can interact with the toaster
       Item testing = new Item(test);
-      toasterStation.GiveItem(testing); // gives the current test item to the toaster
+      toasterStation.giveItem(testing); // gives the current test item to the toaster
       if (!(testing.equals(buns))) { // if the item currently being tested is not a valid item
         assertNull("Current recipe on toaster should be null if an incorrect item is on the toaster (i.e. not in toaster white list) and therefore cannot be toasted", toasterStation.currentRecipe);
-        assertFalse("False should be returned when invalid item is given to the toaster", toasterStation.GiveItem(testing));
+        assertFalse("False should be returned when invalid item is given to the toaster", toasterStation.giveItem(testing));
       } else {
         assertNotNull("There is a valid item on the toaster (buns) the current recipe should not be null showing it can be toasted", toasterStation.currentRecipe);
       }
-      toasterStation.RetrieveItem(); // items on the toaster must be removed for testing later in the loop
+      toasterStation.retrieveItem(); // items on the toaster must be removed for testing later in the loop
     }
   }
 
@@ -86,8 +86,8 @@ public class ToasterStationTests extends MasterTestClass {
       // creates a game object manager making sure it is not null when needed
     }
     instantiateWorldAndToasterStation();
-    assertFalse("The CanRetrieveItem() method should return false when no item is on the toaster", toasterStation.CanRetrieve());
-    assertNull("The RetrieveItem() method should return null when there is nothing on the toaster", toasterStation.RetrieveItem());
+    assertFalse("The CanRetrieveItem() method should return false when no item is on the toaster", toasterStation.canRetrieve());
+    assertNull("The RetrieveItem() method should return null when there is nothing on the toaster", toasterStation.retrieveItem());
   }
 
   /**
@@ -107,12 +107,12 @@ public class ToasterStationTests extends MasterTestClass {
     instantiateWorldAndToasterStation();
     Item buns = new Item(ItemEnum.Buns);
     Item toastedBuns = new Item(ItemEnum.ToastedBuns);
-    toasterStation.GiveItem(buns);
-    assertFalse("The CanGive() method should return false when there is already an item placed on the toaster", toasterStation.CanGive());
-    toasterStation.GiveItem(toastedBuns);
+    toasterStation.giveItem(buns);
+    assertFalse("The CanGive() method should return false when there is already an item placed on the toaster", toasterStation.canGive());
+    toasterStation.giveItem(toastedBuns);
 //    System.out.println(toastedBuns);
 //    System.out.println(toasterStation.item);
-    assertEquals("The item on the toaster should be unchanged if an item is placed on the toaster when there already was an item on the toaster", buns, toasterStation.RetrieveItem());
+    assertEquals("The item on the toaster should be unchanged if an item is placed on the toaster when there already was an item on the toaster", buns, toasterStation.retrieveItem());
   }
 
   /**
@@ -129,12 +129,12 @@ public class ToasterStationTests extends MasterTestClass {
       new GameObjectManager();
     }
     instantiateWorldAndToasterStation(); // creates world and toaster station
-    toasterStation.GiveItem(new Item(ItemEnum.Buns)); // gives valid item to toaster
+    toasterStation.giveItem(new Item(ItemEnum.Buns)); // gives valid item to toaster
     toasterStation.Cook(5); // toasts item for 5 delta time steps to increase progress but not fully cook item
     Integer testProgress = (int)toasterStation.getCookingTime();
-    Item test = toasterStation.RetrieveItem();
+    Item test = toasterStation.retrieveItem();
     assertNotEquals("The value of the progress of the item should not be 0 when it is removed from the toaster after it has been cooked for some dt", 0, (int)test.progress);
-    assertNull("The toaster should not contain an item when an in progress item is removed from it", toasterStation.RetrieveItem());
+    assertNull("The toaster should not contain an item when an in progress item is removed from it", toasterStation.retrieveItem());
     assertNotEquals("The progress of the item should not be 0 when it has been cooking for some dt and is removed", 0, test.progress);
     assertEquals("The progress of the item being cooked should be the same before and after it is removed from the toaster station", (int)testProgress, (int)test.progress);
   }
@@ -153,11 +153,11 @@ public class ToasterStationTests extends MasterTestClass {
       // creates a game object manager making sure it is not null when needed
     }
     instantiateWorldAndToasterStation();
-    assertFalse("The chef should not be able to interact with the toaster", toasterStation.CanInteract());
-    assertEquals("The chef should not be able to interact with the toaster", 0.0, toasterStation.Interact(), 0.1);
-    toasterStation.GiveItem(new Item(ItemEnum.Buns));
-    toasterStation.Update(4);
-    Item test = toasterStation.RetrieveItem();
+    assertFalse("The chef should not be able to interact with the toaster", toasterStation.canInteract());
+    assertEquals("The chef should not be able to interact with the toaster", 0.0, toasterStation.interact(), 0.1);
+    toasterStation.giveItem(new Item(ItemEnum.Buns));
+    toasterStation.update(4);
+    Item test = toasterStation.retrieveItem();
     assertNotEquals("The progress of the item retrieved from the toaster should not be 0 if the update function works as it will cook the item", 0, test.progress);
 
   }

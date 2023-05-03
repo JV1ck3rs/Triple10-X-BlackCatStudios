@@ -53,14 +53,14 @@ public class EndScreen implements Screen {
    * @param time                    the integer time value set for timer
    * @param numberOfCustomersServed
    */
-  public EndScreen(final MyGdxGame root, GameScreen gscreen, int time, EndOfGameValues values,
+  public EndScreen(final MyGdxGame root, GameScreen gameScreen, int time, EndOfGameValues values,
       int numberOfCustomersServed) {
 
     //Triple 10s
     this.root = root;
 
     //this might cause issues if so, change back to new GameScreen
-    gameScreen = gscreen;
+    this.gameScreen = gameScreen;
 
     //Black cat studios
     if (values.won) {

@@ -60,7 +60,7 @@ public class DifficultyMaster {
     chefParams.moveSpeed = 200;
 
     cookingParams.cookSpeed = 2;
-    cookingParams.chopspeed = 2f;
+    cookingParams.chopSpeed = 2f;
     cookingParams.burnSpeed = 1.5f;
 
     diff.cookingParams = cookingParams;
@@ -95,7 +95,7 @@ public class DifficultyMaster {
     chefParams.moveSpeed = 250;
 
     cookingParams.cookSpeed = 1;
-    cookingParams.chopspeed = 1f;
+    cookingParams.chopSpeed = 1f;
     cookingParams.burnSpeed = 1f;
 
     diff.cookingParams = cookingParams;
@@ -128,7 +128,7 @@ public class DifficultyMaster {
     chefParams.moveSpeed = 280;
 
     cookingParams.cookSpeed = .75f;
-    cookingParams.chopspeed = .75f;
+    cookingParams.chopSpeed = .75f;
     cookingParams.burnSpeed = .75f;
 
     diff.cookingParams = cookingParams;

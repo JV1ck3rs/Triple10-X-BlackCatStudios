@@ -14,22 +14,22 @@ import java.util.LinkedList;
  * @author Felix Seanor
  * @date 18/04/23
  */
-public class soundFrame {
+public class SoundFrame {
 
 
   public enum soundsEnum {
     CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved, BuyItem, end;
   }
 
-  public static soundFrame SoundEngine;
-  Sound[] Sounds = new Sound[soundsEnum.end.ordinal()];
+  public static SoundFrame SoundEngine;
+  Sound[] sounds = new Sound[soundsEnum.end.ordinal()];
 
   HashMap<soundsEnum, LinkedList<Long>> soundIDsMap = new HashMap<>();
   public float currentSystemVolume = 1.0f;
-  public float Volume = 1.0f;
+  public float volume = 1.0f;
 
 
-  public soundFrame() {
+  public SoundFrame() {
     LoadSounds.load(this);
     SoundEngine = this;
   }
@@ -43,8 +43,8 @@ public class soundFrame {
    * @author Sam Toner
    */
   public long playSound(soundsEnum ring) {
-    Sound toPlay = Sounds[ring.ordinal()];
-    long soundID = toPlay.play(Volume);
+    Sound toPlay = sounds[ring.ordinal()];
+    long soundID = toPlay.play(volume);
     LinkedList<Long> soundIDs = new LinkedList<>();
 
     if (soundIDsMap.get(ring) == null) {
@@ -67,7 +67,7 @@ public class soundFrame {
    * @author Sam Toner
    */
   public void pauseSound(soundsEnum ring, long ID) {
-    Sounds[ring.ordinal()].pause(ID);
+    sounds[ring.ordinal()].pause(ID);
   }
 
   /**
@@ -79,7 +79,7 @@ public class soundFrame {
    */
 
   public void resumeSound(soundsEnum ring, long ID) {
-    Sounds[ring.ordinal()].resume(ID);
+    sounds[ring.ordinal()].resume(ID);
   }
 
 
@@ -92,7 +92,7 @@ public class soundFrame {
    * @author Sam Toner
    */
   public void setLooping(soundsEnum ring, long ID, boolean state) {
-    Sounds[ring.ordinal()].setLooping(ID, state);
+    sounds[ring.ordinal()].setLooping(ID, state);
   }
 
 
@@ -105,9 +105,9 @@ public class soundFrame {
    * @author Sam Toner
    */
   public void addSound(String filepath, soundsEnum ring) {
-    if (Sounds[ring.ordinal()] == null) {
+    if (sounds[ring.ordinal()] == null) {
       Sound effect = Gdx.audio.newSound(Gdx.files.internal(filepath));
-      Sounds[ring.ordinal()] = effect;
+      sounds[ring.ordinal()] = effect;
     }
   }
 
@@ -118,8 +118,8 @@ public class soundFrame {
    * @author Sam Toner
    */
   public void removeSound(soundsEnum ring) {
-    if (Sounds[ring.ordinal()] != null) {
-      Sounds[ring.ordinal()] = null;
+    if (sounds[ring.ordinal()] != null) {
+      sounds[ring.ordinal()] = null;
     }
   }
 
@@ -136,10 +136,10 @@ public class soundFrame {
       currentSystemVolume = volume;
     }
 
-    Volume = volume;
+    this.volume = volume;
     for (soundsEnum key : soundIDsMap.keySet()) {
       LinkedList<Long> value = soundIDsMap.get(key);
-      Sound currentSound = Sounds[key.ordinal()];
+      Sound currentSound = sounds[key.ordinal()];
       for (int i = 0; i < value.size(); i++) {
         currentSound.setVolume(value.get(i), volume);
       }

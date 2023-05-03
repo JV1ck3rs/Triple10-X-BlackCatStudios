@@ -4,8 +4,8 @@ import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.GameState.ItemState;
 import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Rendering.GameObject;
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.SoundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import java.util.ArrayList;
@@ -62,8 +62,8 @@ public class AssemblyStation extends Station {
    * @author Jack Vickers
    */
   @Override
-  public boolean GiveItem(Item item) {
-    if (CanGive()) {
+  public boolean giveItem(Item item) {
+    if (canGive()) {
       if (assembled) {
 //        ingredients.add(getDish());
         ingredients.add(item);
@@ -87,11 +87,11 @@ public class AssemblyStation extends Station {
    * @author Jack Vickers
    */
   @Override
-  public Item RetrieveItem() {
+  public Item retrieveItem() {
     if (assembled) {
       tempDish = ingredients.get(ingredients.size() - 1);
       assembled = false;
-      heldItem.Destroy();
+      heldItem.destroy();
       heldItem = null;
       heldItems.remove(heldItems.size() - 1);
       ingredients.remove(ingredients.size() - 1);
@@ -102,10 +102,10 @@ public class AssemblyStation extends Station {
     }
     int index = ingredients.size() - 1;
     if (heldItem != null) {
-      heldItem.Destroy();
+      heldItem.destroy();
     }
     heldItem = null;
-    heldItems.get(index).Destroy();
+    heldItems.get(index).destroy();
     heldItems.remove(index);
     return ingredients.remove(index);
   }
@@ -119,7 +119,7 @@ public class AssemblyStation extends Station {
    * @author Felix Seanor
    */
   @Override
-  public boolean CanRetrieve() {
+  public boolean canRetrieve() {
     return ingredients.size() > 0;
   }
 
@@ -131,7 +131,7 @@ public class AssemblyStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanGive() {
+  public boolean canGive() {
     return ingredients.size() < 4;
   }
 
@@ -142,7 +142,7 @@ public class AssemblyStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanInteract() {
+  public boolean canInteract() {
     return !(ingredients.size() < 2);
   }
 
@@ -154,7 +154,7 @@ public class AssemblyStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public float Interact() {
+  public float interact() {
     combine();
     return 0;
   }
@@ -234,7 +234,7 @@ public class AssemblyStation extends Station {
       tempIngredients.set(x + 1, temp);
       Collections.sort(tempIngredients);
     }
-    soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
+    SoundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
     setDish(tempIngredients.get(tempIngredients.size() - 1));
     clearIngredients();
     clearTempIngredients();
@@ -280,14 +280,14 @@ public class AssemblyStation extends Station {
 
     if (ingredients.isEmpty()) {
       for (GameObject object : heldItems) {
-        object.Destroy();
+        object.destroy();
       }
       heldItems = new ArrayList<>();
 
     }
 
     if (assembled) {
-      heldItem = new GameObject(new BlackTexture(Item.GetItemPath(dish.name)));
+      heldItem = new GameObject(new BlackTexture(Item.getItemPath(dish.name)));
       heldItem.image.setSize(imageSize, imageSize);
       heldItem.setPosition(gameObject.position.x + (gameObject.getWidth() / 2) - 9,
           gameObject.position.y + gameObject.getHeight() - imageSize - 2);
@@ -301,7 +301,7 @@ public class AssemblyStation extends Station {
 
     int index = ingredients.size();
 
-    heldItem = new GameObject(new BlackTexture(Item.GetItemPath(ingredients.get(index - 1).name)));
+    heldItem = new GameObject(new BlackTexture(Item.getItemPath(ingredients.get(index - 1).name)));
     heldItem.image.setSize(ingredientSize, ingredientSize);
     if (index == 1) {
       heldItem.setPosition(gameObject.position.x + 2,
@@ -327,7 +327,7 @@ public class AssemblyStation extends Station {
    * @Author Jack Hinton
    */
   @Override
-  public void moveAnim() {
+  public void moveAnimation() {
     return;
   }
 
@@ -339,7 +339,7 @@ public class AssemblyStation extends Station {
    * @Author Jack Hinton
    */
   @Override
-  public void Update(float dt) {
+  public void update(float dt) {
   }
 
 
@@ -351,7 +351,7 @@ public class AssemblyStation extends Station {
    * @Author Felix Seanor
    */
   @Override
-  public void LoadState(List<ItemState> state, Boolean locked) {
+  public void loadState(List<ItemState> state, Boolean locked) {
 
     ingredients.clear();
     updatePictures();
@@ -373,7 +373,7 @@ public class AssemblyStation extends Station {
    * @Author Felix Seanor
    */
   @Override
-  public List<ItemState> SaveState() {
+  public List<ItemState> saveState() {
     LinkedList<ItemState> states = new LinkedList<>();
 
     for (Item item : ingredients

@@ -1,6 +1,6 @@
 package com.mygdx.game.Core.SFX;
 
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
 
 /**
  * Creates a continous looping sound that contains the logic to start and stop on any frame
@@ -22,19 +22,19 @@ public class ContinousSound {
    *
    * @author Felix Seanor
    */
-  public void DoSoundCheck() {
+  public void doSoundCheck() {
 
     if (!shouldPlay && soundID != -1) {
       //Stop sound
-      soundFrame.SoundEngine.pauseSound(soundToPlay, soundID);
+      SoundFrame.SoundEngine.pauseSound(soundToPlay, soundID);
       stopped = true;
     } else if (shouldPlay && soundID == -1) {
       //Play sound
-      soundID = soundFrame.SoundEngine.playSound(soundToPlay);
+      soundID = SoundFrame.SoundEngine.playSound(soundToPlay);
       stopped = false;
-      soundFrame.SoundEngine.setLooping(soundToPlay, soundID, true);
+      SoundFrame.SoundEngine.setLooping(soundToPlay, soundID, true);
     } else if (soundID != -1 && shouldPlay && stopped) {
-      soundFrame.SoundEngine.resumeSound(soundToPlay, soundID);
+      SoundFrame.SoundEngine.resumeSound(soundToPlay, soundID);
       stopped = false;
     }
 

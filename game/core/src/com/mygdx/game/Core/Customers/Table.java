@@ -51,7 +51,7 @@ public class Table {
    * @param rand  randomisation class
    * @author Felix Seanor
    */
-  public void DesignateSeating(int count, Random rand) {
+  public void designateSeating(int count, Random rand) {
     currentlySeated = 0;
 
     offset = rand.nextInt(count);

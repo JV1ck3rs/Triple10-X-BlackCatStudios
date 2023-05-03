@@ -18,7 +18,7 @@ public class Scriptable {
     gameObject = obj;
   }
 
-  public void Start() {
+  public void start() {
   }
 
   /**
@@ -27,7 +27,7 @@ public class Scriptable {
    * @param dt
    * @author Felix Seanor
    */
-  public void Update(float dt) {
+  public void update(float dt) {
   }
 
   /**
@@ -36,7 +36,7 @@ public class Scriptable {
    * @param dt
    * @author Felix Seanor
    */
-  public void FixedUpdate(float dt) {
+  public void fixedUpdate(float dt) {
   }
 
   /**
@@ -44,7 +44,7 @@ public class Scriptable {
    *
    * @author Felix Seanor
    */
-  public void OnRender() {
+  public void onRender() {
 
   }
 

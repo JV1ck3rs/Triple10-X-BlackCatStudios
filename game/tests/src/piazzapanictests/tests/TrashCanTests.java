@@ -36,16 +36,16 @@ public class TrashCanTests extends MasterTestClass {
         }
 
         instantiateWorldAndTrashCan();
-        assertTrue("Item is now binned", trashCan.GiveItem(new Item(ItemEnum.Buns)));
+        assertTrue("Item is now binned", trashCan.giveItem(new Item(ItemEnum.Buns)));
 
-        assertNull("Cannot pick up item from trashcan", trashCan.RetrieveItem());
+        assertNull("Cannot pick up item from trashcan", trashCan.retrieveItem());
 
-        assertTrue("Can bin item", trashCan.CanGive());
+        assertTrue("Can bin item", trashCan.canGive());
 
-        assertFalse("Cannot take any item from trashcan", trashCan.CanRetrieve());
+        assertFalse("Cannot take any item from trashcan", trashCan.canRetrieve());
 
-        assertFalse("Cannot interact with trashcan", trashCan.CanInteract());
+        assertFalse("Cannot interact with trashcan", trashCan.canInteract());
 
-        assertEquals("Cannot interact with trashcan", 0.0, trashCan.Interact(), 0.1);
+        assertEquals("Cannot interact with trashcan", 0.0, trashCan.interact(), 0.1);
     }
 }

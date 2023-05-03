@@ -32,7 +32,7 @@ public class Item {
   public Item(ItemEnum item) {
     name = item;
     step = 0;
-    tex = new BlackTexture(GetItemPath(item));
+    tex = new BlackTexture(getItemPath(item));
 
     tex.setSize(width, height);
   }
@@ -42,13 +42,13 @@ public class Item {
     name = itemState.item;
     step = itemState.step;
     progress = itemState.progress;
-    tex = new BlackTexture(GetItemPath(name));
+    tex = new BlackTexture(getItemPath(name));
     tex.setSize(width, height);
 
   }
 
 
-  public static String GetItemPath(ItemEnum name) {
+  public static String getItemPath(ItemEnum name) {
     return "Items/" + name.name() + ".png";
   }
 

@@ -67,11 +67,11 @@ public class Customer extends PathfindingAgent implements Person {
 
 //    System.out.println("customer " + customerNumber + ": " + dish);
 
-    BlackTexture iconTex = new BlackTexture(Item.GetItemPath(this.dish));
+    BlackTexture iconTex = new BlackTexture(Item.getItemPath(this.dish));
     iconTex.setSize(20, 20);
     foodIcon = new GameObject(iconTex);
 
-    BlackTexture tex = new BlackTexture(Item.GetItemPath(dish));
+    BlackTexture tex = new BlackTexture(Item.getItemPath(dish));
     tex.setSize(20, 20);
     HeldItem = new GameObject(tex);
     HeldItem.isVisible = false;
@@ -87,7 +87,7 @@ public class Customer extends PathfindingAgent implements Person {
     try {
       foodRecipe = new GameObject(new BlackTexture(Item.GetRecipePath(this.dish)));
     } catch (Exception e) {
-      foodRecipe = new GameObject(new BlackTexture(Item.GetItemPath(this.dish)));
+      foodRecipe = new GameObject(new BlackTexture(Item.getItemPath(this.dish)));
     }
 
     foodRecipe.isVisible = false;
@@ -107,7 +107,7 @@ public class Customer extends PathfindingAgent implements Person {
    * Black Cat studios code
    */
   @Override
-  public void Start() {
+  public void start() {
     gameObject.getSprite().setSprite(customerAtlas.createSprite("north1"));
     gameObject.getSprite().layer = 2;
     gameObject.image.setSize(25, 45);
@@ -170,7 +170,7 @@ public class Customer extends PathfindingAgent implements Person {
    */
   @Override
   public String getMove() {
-    Vector2 dir = GetMoveDir().nor();
+    Vector2 dir = getMoveDir().nor();
     String newOrientation;
     if (dir.dot(dir) <= 0) {
       newOrientation = "idle" + spriteOrientation.replace("idle", "");
@@ -243,15 +243,6 @@ public class Customer extends PathfindingAgent implements Person {
     return atlas;
   }
 
-//  /**
-//   * Checks if the customer is waiting or not.
-//   * Black Cat studios Code
-//   * @return Boolean value for result
-//   * @author Felix Seanor
-//   */
-//  public boolean isWaiting() {
-//    return waitingAtCounter;
-//  }
 
   /**
    * Gets the dish that the customer has. Team Triple 10s code
@@ -288,15 +279,15 @@ public class Customer extends PathfindingAgent implements Person {
     HeldItem.image.layer = gameObject.getSprite().layer + 1;
 
     if (spriteOrientation.contains("north")) {
-      HeldItem.position.y += HeldItem.image.GetHeight();
+      HeldItem.position.y += HeldItem.image.getHeight();
       HeldItem.position.x += 2;
       HeldItem.image.layer -= 2;
     } else if (spriteOrientation.contains("south")) {
-      HeldItem.position.y -= HeldItem.image.GetHeight();
+      HeldItem.position.y -= HeldItem.image.getHeight();
     } else if (spriteOrientation.contains("east")) {
-      HeldItem.position.x += HeldItem.image.GetWidth();
+      HeldItem.position.x += HeldItem.image.getWidth();
     } else if (spriteOrientation.contains("west")) {
-      HeldItem.position.x -= HeldItem.image.GetWidth();
+      HeldItem.position.x -= HeldItem.image.getWidth();
     }
 
 
@@ -320,8 +311,8 @@ public class Customer extends PathfindingAgent implements Person {
    * @author Felix Seanor
    */
   @Override
-  public void Update(float dt) {
-    super.Update(dt);
+  public void update(float dt) {
+    super.update(dt);
 
     if (!eaten && !waitingAtCounter) {
       displayItem();
@@ -336,10 +327,10 @@ public class Customer extends PathfindingAgent implements Person {
    *
    * @author Felix Seanor
    */
-  public void Destroy() {
-    HeldItem.Destroy();
-    foodIcon.Destroy();
-    gameObject.Destroy();
+  public void destroy() {
+    HeldItem.destroy();
+    foodIcon.destroy();
+    gameObject.destroy();
 
   }
 }

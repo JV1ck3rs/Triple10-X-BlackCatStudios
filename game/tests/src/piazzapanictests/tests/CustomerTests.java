@@ -52,16 +52,16 @@ public class CustomerTests extends MasterTestClass {
   public void TestEndGame() {
     instantiateCustomerScripts();
 
-    customerController.SetWaveAmount(0);
-    customerController.ModifyReputation(-10);
+    customerController.setWaveAmount(0);
+    customerController.modifyReputation(-10);
 
     assertNotNull("The game must do an end state call", vals);
 
     vals = null;
 
-    customerController.ModifyReputation(20);
+    customerController.modifyReputation(20);
 
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
     assertNotNull("The game must do an end state call", vals);
 
@@ -77,11 +77,11 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void TestFrustration() {
     instantiateCustomerScripts();
-    customerController.SetWaveAmount(1);
-    customerController.CanAcceptNewCustomer();
+    customerController.setWaveAmount(1);
+    customerController.canAcceptNewCustomer();
     float frustration = customerController.getCurrentWaitingCustomerGroup().frustration;
 
-    customerController.getCurrentWaitingCustomerGroup().CheckFrustration(1, null, true);
+    customerController.getCurrentWaitingCustomerGroup().checkFrustration(1, null, true);
     assertNotEquals(frustration, customerController.getCurrentWaitingCustomerGroup().frustration);
 
   }
@@ -96,32 +96,32 @@ public class CustomerTests extends MasterTestClass {
   public void TestCustomerTransference() {
     instantiateCustomerScripts();
 
-    customerController.SetWaveAmount(-1);
+    customerController.setWaveAmount(-1);
 
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
     assertTrue(group.members.size() == group.membersInLine.size());
 
     for (int i = 0; i < group.members.size(); i++) {
-      assertFalse(customerController.DoSatisfactionCheck());
-      group.RemoveFirstCustomer();
+      assertFalse(customerController.doSatisfactionCheck());
+      group.removeFirstCustomer();
 
 
     }
 
     assertTrue(group.members.size() == group.membersSeatedOrWalking.size());
-    assertTrue(customerController.DoSatisfactionCheck());
+    assertTrue(customerController.doSatisfactionCheck());
 
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
-    assertNotEquals(customerController.SittingCustomerCount(), 0);
+    assertNotEquals(customerController.sittingCustomerCount(), 0);
 
-    customerController.SeeIfCustomersShouldLeave(20);
+    customerController.seeIfCustomersShouldLeave(20);
 
-    assertEquals(customerController.SittingCustomerCount(), 0);
+    assertEquals(customerController.sittingCustomerCount(), 0);
 
-    assertNotEquals(customerController.LeavingCustomerCount(), 0);
+    assertNotEquals(customerController.leavingCustomerCount(), 0);
 
 
   }
@@ -135,11 +135,11 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void TestHeldItems() {
     instantiateCustomerScripts();
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
-    customerController.SetWaveAmount(-1);
+    customerController.setWaveAmount(-1);
 
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
     Customer customer = group.members.get(0);
@@ -170,7 +170,7 @@ public class CustomerTests extends MasterTestClass {
   public void TestCustomerGroups() {
     instantiateCustomerScripts();
 
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
     Customer cust1 = group.members.get(0);
@@ -180,7 +180,7 @@ public class CustomerTests extends MasterTestClass {
     ItemEnum dish = group.members.get(0).dish;
     assertNotNull("Members must have a dish", dish);
 
-    boolean attempt = group.SeeIfDishIsCorrect(dish) != -1;
+    boolean attempt = group.seeIfDishIsCorrect(dish) != -1;
 
     assertTrue("Must be able to remove a customer by their food", attempt);
 
@@ -206,7 +206,7 @@ public class CustomerTests extends MasterTestClass {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
     customerController.updateMenu(true);
 
-    List<ItemEnum> order = customerController.getMenu().CreateNewOrder(1000, Randomisation.TrueRandom);
+    List<ItemEnum> order = customerController.getMenu().createNewOrder(1000, Randomisation.TrueRandom);
 
     OrderMenu menu = customerController.getMenu();
 
@@ -228,7 +228,7 @@ public class CustomerTests extends MasterTestClass {
 
     order.clear();
 
-    order = customerController.getMenu().CreateNewOrder(1000, Randomisation.Normalised);
+    order = customerController.getMenu().createNewOrder(1000, Randomisation.Normalised);
 
     containsBurger = order.contains(ItemEnum.Burger) && order.contains(ItemEnum.CheeseBurger);
     containsSalad = order.contains(ItemEnum.TomatoOnionLettuceSalad) && order.contains(
@@ -269,7 +269,7 @@ public class CustomerTests extends MasterTestClass {
   public void UpdateSpriteTest() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
 
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
 
@@ -293,7 +293,7 @@ public class CustomerTests extends MasterTestClass {
   public void OrientationTest() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
 
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
 
@@ -304,31 +304,31 @@ public class CustomerTests extends MasterTestClass {
     List<Vector2> path = new LinkedList<>();
 
     path.add(new Vector2(0, 0));
-    customer.GivePath(path);
+    customer.givePath(path);
     assertTrue("Must have a move state", customer.getMove().contains("idle"));
 
     path = new LinkedList<>();
 
     path.add(new Vector2(0, 1));
-    customer.GivePath(path);
+    customer.givePath(path);
     assertTrue("Must have a move state", customer.getMove().contains("north"));
 
     path = new LinkedList<>();
 
     path.add(new Vector2(0, -1));
-    customer.GivePath(path);
+    customer.givePath(path);
     assertTrue("Must have a move state", customer.getMove().contains("south"));
 
     path = new LinkedList<>();
 
     path.add(new Vector2(1, 0));
-    customer.GivePath(path);
+    customer.givePath(path);
     assertTrue("Must have a move state", customer.getMove().contains("east"));
 
     path = new LinkedList<>();
 
     path.add(new Vector2(-1, 0));
-    customer.GivePath(path);
+    customer.givePath(path);
     assertTrue("Must have a move state", customer.getMove().contains("west"));
   }
 
@@ -343,7 +343,7 @@ public class CustomerTests extends MasterTestClass {
   @Test
   public void testUpdateSpriteFromInput() {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
     Customer customer = group.members.get(0);
     customer.updateSpriteFromInput("west");
@@ -375,13 +375,13 @@ public class CustomerTests extends MasterTestClass {
     customer.position.set(0, 0);
     customer.attachScript(spyCustomer); // ensures that the customer is attached to the game object
     customer.isVisible = true;
-    spyCustomer.Update(1 / 60.f); // calls the update function
+    spyCustomer.update(1 / 60.f); // calls the update function
     // verifies that the update function was called
-    verify(spyCustomer, times(1)).Update(1 / 60.f);
+    verify(spyCustomer, times(1)).update(1 / 60.f);
     // verifies that the display item function was called
     verify(spyCustomer, times(1)).displayItem();
     spyCustomer.eaten = true;
-    spyCustomer.Update(1 / 60.f);
+    spyCustomer.update(1 / 60.f);
     // verifies that the hide item function was called (because the item has been eaten)
     verify(spyCustomer, times(1)).hideItem();
   }

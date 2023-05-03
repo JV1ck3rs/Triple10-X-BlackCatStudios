@@ -10,8 +10,8 @@ import com.mygdx.game.Core.Inputs;
 import com.mygdx.game.Core.PathFinder.PathfindingAgent;
 import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Rendering.GameObject;
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.SoundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.Person;
@@ -82,7 +82,7 @@ public class Chef extends PathfindingAgent implements Person {
    * @author Felix Seanor
    */
   @Override
-  public void Start() {
+  public void start() {
     //Reorganised to fit work flow and requires access to data not yet created
     //Triple 10s
     gameObject.getSprite().setSprite(chefAtlas.createSprite("south1"));
@@ -98,7 +98,7 @@ public class Chef extends PathfindingAgent implements Person {
     timerSprite = timerAtlas.createSprite("01");
 //Black Cat studios
     for (int i = 0; i < CarryCapacity; i++) {
-      HeldItemGameObjects.add(new GameObject(new BlackTexture(Item.GetItemPath(ItemEnum.Buns))));
+      HeldItemGameObjects.add(new GameObject(new BlackTexture(Item.getItemPath(ItemEnum.Buns))));
       HeldItemGameObjects.get(i).isVisible = false;
 
     }
@@ -144,14 +144,14 @@ public class Chef extends PathfindingAgent implements Person {
       obj.image.layer = 1 + j;
 
       if (spriteOrientation.contains("north")) {
-        obj.position.y += obj.image.GetHeight() / 2;
+        obj.position.y += obj.image.getHeight() / 2;
         obj.image.layer -= CarryCapacity;
       } else if (spriteOrientation.contains("south")) {
-        obj.position.y -= obj.image.GetHeight() / 2;
+        obj.position.y -= obj.image.getHeight() / 2;
       } else if (spriteOrientation.contains("east")) {
-        obj.position.x += obj.image.GetWidth() / 2;
+        obj.position.x += obj.image.getWidth() / 2;
       } else if (spriteOrientation.contains("west")) {
-        obj.position.x -= obj.image.GetWidth() / 2 + 5;
+        obj.position.x -= obj.image.getWidth() / 2 + 5;
       }
 
 
@@ -168,7 +168,7 @@ public class Chef extends PathfindingAgent implements Person {
   }
 
   @Override
-  public void OnRender() {
+  public void onRender() {
 
     changeItemVisibilities();
   }
@@ -181,7 +181,7 @@ public class Chef extends PathfindingAgent implements Person {
   @Override
   public void updateSpriteFromInput(String newOrientation) {
 
-    Vector2 dir = GetMoveDir().nor();
+    Vector2 dir = getMoveDir().nor();
 
     //BlackCatStudios
     if (dir.dot(dir) <= 0) {
@@ -431,7 +431,7 @@ public class Chef extends PathfindingAgent implements Person {
       return Optional.empty();
     }
 
-    soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
+    SoundFrame.SoundEngine.playSound(soundsEnum.DropItem);
     ModifiedStack = true;
 
     return Optional.ofNullable(heldItems.peek());
@@ -451,7 +451,7 @@ public class Chef extends PathfindingAgent implements Person {
   public Boolean GiveItem(Item item) {
     if (CanGiveItem()) {
       heldItems.add(item);
-      soundFrame.SoundEngine.playSound(soundsEnum.EquipItem);
+      SoundFrame.SoundEngine.playSound(soundsEnum.EquipItem);
       ModifiedStack = true;
 
       return true;
@@ -478,7 +478,7 @@ public class Chef extends PathfindingAgent implements Person {
     if (heldItems.size() != 0) {
       heldItems.pop();
     }
-    soundFrame.SoundEngine.playSound(soundsEnum.DropItem);
+    SoundFrame.SoundEngine.playSound(soundsEnum.DropItem);
     ModifiedStack = true;
 
   }
@@ -498,7 +498,7 @@ public class Chef extends PathfindingAgent implements Person {
 
     heldItems.push(bottomItem);
 
-    soundFrame.SoundEngine.playSound(soundsEnum.EquipItem);
+    SoundFrame.SoundEngine.playSound(soundsEnum.EquipItem);
     ModifiedStack = true;
   }
 

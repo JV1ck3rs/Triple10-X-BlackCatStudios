@@ -78,11 +78,11 @@ public class OrderMenu {
    * @return List of item orders
    * @author Felix Seanor
    */
-  public List<ItemEnum> CreateNewOrder(int count, Randomisation random) {
+  public List<ItemEnum> createNewOrder(int count, Randomisation random) {
     if (Randomisation.TrueRandom == random) {
-      return CreateTrueRandomOrder(count);
+      return createTrueRandomOrder(count);
     } else if (Randomisation.Normalised == random) {
-      return CreateNormalisedOrder(count);
+      return createNormalisedOrder(count);
     }
 
     return new LinkedList<>();
@@ -96,11 +96,11 @@ public class OrderMenu {
    * @return
    * @author Felix Seanor
    */
-  List<ItemEnum> CreateTrueRandomOrder(int count) {
+  List<ItemEnum> createTrueRandomOrder(int count) {
     List<ItemEnum> orders = new LinkedList<>();
     for (int i = 0; i < count; i++) {
       int catagory = rand.nextInt(orderCatagories.size());
-      orders.add(orderCatagories.get(catagory).GetOrder(rand));
+      orders.add(orderCatagories.get(catagory).getOrder(rand));
     }
     return orders;
   }
@@ -113,7 +113,7 @@ public class OrderMenu {
    * @return
    * @author Felix Seanor
    */
-  List<ItemEnum> CreateNormalisedOrder(int count) {
+  List<ItemEnum> createNormalisedOrder(int count) {
 
     List<ItemEnum> orders = new LinkedList<>();
     for (int j = 0; j < count; j++) {
@@ -130,7 +130,7 @@ public class OrderMenu {
         catagoryID -= catagory.stock;
 
         if (catagoryID <= 0) {
-          orders.add(catagory.GetOrder(rand));
+          orders.add(catagory.getOrder(rand));
           break;
         }
       }
@@ -143,10 +143,10 @@ public class OrderMenu {
    * Restocks the order and resets the probability
    * @author Felix Seanor
    */
-  public void Restock() {
+  public void restock() {
     for (OrderType type : orderCatagories
     ) {
-      type.Restock();
+      type.restock();
     }
   }
 

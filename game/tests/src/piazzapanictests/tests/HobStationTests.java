@@ -39,17 +39,17 @@ public class HobStationTests extends MasterTestClass {
       new GameObjectManager();
     }
     instantiateWorldAndHobsStation(); // creates hob station
-    hobStation.GiveItem(new Item(ItemEnum.RawPatty)); // gives a raw patty to the frying station
-    hobStation.RetrieveItem(); // attempts to retrieve the raw item from the hob
-    assertNull("There should be no item on the hob station", hobStation.RetrieveItem());
-    hobStation.GiveItem(new Item(
+    hobStation.giveItem(new Item(ItemEnum.RawPatty)); // gives a raw patty to the frying station
+    hobStation.retrieveItem(); // attempts to retrieve the raw item from the hob
+    assertNull("There should be no item on the hob station", hobStation.retrieveItem());
+    hobStation.giveItem(new Item(
         ItemEnum.CookedPatty)); // gives a new raw patty to the hob to check if it can be retrieved when cooked
-    hobStation.RetrieveItem(); // Attempts to retrieve a cooked patty from the hob to check if it can be retrieved
-    assertNull("There should be no item on the hob station", hobStation.RetrieveItem());
-    hobStation.GiveItem(new Item(
+    hobStation.retrieveItem(); // Attempts to retrieve a cooked patty from the hob to check if it can be retrieved
+    assertNull("There should be no item on the hob station", hobStation.retrieveItem());
+    hobStation.giveItem(new Item(
         ItemEnum.Cinder)); // gives a burnt patty to the hob to check if it can be retrieved
-    hobStation.RetrieveItem(); // attempts to retrieve a cooked patty from the hob to heck if it can be retrieved
-    assertNull("There should be no item on the hob station", hobStation.RetrieveItem());
+    hobStation.retrieveItem(); // attempts to retrieve a cooked patty from the hob to heck if it can be retrieved
+    assertNull("There should be no item on the hob station", hobStation.retrieveItem());
     // test that a burnt patty can also be taken off
 
   }
@@ -70,15 +70,15 @@ public class HobStationTests extends MasterTestClass {
       new GameObjectManager();
     }
     instantiateWorldAndHobsStation(); // creates ohb station
-    hobStation.GiveItem(
+    hobStation.giveItem(
         new Item(ItemEnum.RawPatty)); // gives a raw patty to the hob to test if it can be burnt
-    hobStation.Cook(10);
-    hobStation.Interact(); // sets the interaction variable to true and paired with the line below flips the patty
-    hobStation.Cook(5);
-    hobStation.Cook(
+    hobStation.cook(10);
+    hobStation.interact(); // sets the interaction variable to true and paired with the line below flips the patty
+    hobStation.cook(5);
+    hobStation.cook(
         10); // cooks the patty to completion for 10 delta times (final time step) to set progress to 0 afterwards
-    hobStation.Cook(10); // burns the patty after one time step too many
-    Item test = hobStation.RetrieveItem();
+    hobStation.cook(10); // burns the patty after one time step too many
+    Item test = hobStation.retrieveItem();
     assertEquals(
         "Tests that the retrieved burnt patty from the hob is the same as a cinder burnt item",
         test, new Item(ItemEnum.Cinder));
@@ -105,7 +105,7 @@ public class HobStationTests extends MasterTestClass {
     for (ItemEnum test : Arrays.asList(
         ItemEnum.values())) { // creates a list of all items in the game and steps through them to check which can interact with the hob
       Item testing = new Item(test);
-      hobStation.GiveItem(testing);
+      hobStation.giveItem(testing);
       if (!((testing.equals(rawPatty)) || (testing.equals(
           cookedPatty)))) { // if the items are not a raw or cooked patty (i.e. items that can't interact with the hob), the current recipe should be null showing they cannot interact with the hob
         assertNull(
@@ -116,7 +116,7 @@ public class HobStationTests extends MasterTestClass {
             "Tests that if there are raw patties or cooked patties, they can be placed and be processed by the hob as they are in the white list",
             hobStation.currentRecipe);
       }
-      hobStation.RetrieveItem(); // items on the hob must be removed so that the next items can be tested
+      hobStation.retrieveItem(); // items on the hob must be removed so that the next items can be tested
     }
   }
 
@@ -135,9 +135,9 @@ public class HobStationTests extends MasterTestClass {
     }
     instantiateWorldAndHobsStation();
     assertFalse("The CanRetrieveItem() method should return false when there is nothing on the hob",
-        hobStation.CanRetrieve());
+        hobStation.canRetrieve());
     assertNull("The RetrieveItem() method should return null when no item is on the hob",
-        hobStation.RetrieveItem());
+        hobStation.retrieveItem());
   }
 
   /**
@@ -158,15 +158,15 @@ public class HobStationTests extends MasterTestClass {
     instantiateWorldAndHobsStation();
     Item patty = new Item(ItemEnum.RawPatty);
     Item cookedPatty = new Item(ItemEnum.CookedPatty);
-    hobStation.GiveItem(
+    hobStation.giveItem(
         patty); // gives an item to the hob to test if another item can be placed on it
     assertFalse(
         "The CanGive() method should return false when there is already an item placed on the hob",
-        hobStation.CanGive());
-    hobStation.GiveItem(cookedPatty);
+        hobStation.canGive());
+    hobStation.giveItem(cookedPatty);
     assertEquals(
         "The item on the hob should be unchanged if an item is placed on the hob when there already was an item on the hob",
-        patty, hobStation.RetrieveItem());
+        patty, hobStation.retrieveItem());
   }
 
 
@@ -186,15 +186,15 @@ public class HobStationTests extends MasterTestClass {
       new GameObjectManager();
     }
     instantiateWorldAndHobsStation();
-    hobStation.GiveItem(new Item(ItemEnum.RawPatty)); // gives a raw patty to the hob for the test
-    hobStation.Cook(5);
+    hobStation.giveItem(new Item(ItemEnum.RawPatty)); // gives a raw patty to the hob for the test
+    hobStation.cook(5);
     Integer testProgress = hobStation.getProgress();
-    Item test = hobStation.RetrieveItem();
+    Item test = hobStation.retrieveItem();
     assertNotEquals(
         "The value of the progress of the cooking item should not be 0 when it is removed from the hob",
         (int) testProgress, 0);
     assertNull("The hob should not contain an item when an in progress item is removed from it",
-        hobStation.RetrieveItem());
+        hobStation.retrieveItem());
     assertNotEquals(
         "The progress of the item should not be 0 when it has been cooking for some time and is removed",
         test.progress, 0);
@@ -217,16 +217,16 @@ public class HobStationTests extends MasterTestClass {
       new GameObjectManager();
     }
     instantiateWorldAndHobsStation();
-    hobStation.GiveItem(new Item(ItemEnum.RawPatty));
-    hobStation.Update(10);
-    hobStation.Interact();
+    hobStation.giveItem(new Item(ItemEnum.RawPatty));
+    hobStation.update(10);
+    hobStation.interact();
     assertTrue("The interaction attribute is true when interacted with in the update function",
         hobStation.GetInteracted());
     assertNotNull("The recipe on the hob station is not null when there is an item on it",
         hobStation.currentRecipe);
-    hobStation.Cook(5);
-    hobStation.Update(10);
-    Item test = hobStation.RetrieveItem();
+    hobStation.cook(5);
+    hobStation.update(10);
+    Item test = hobStation.retrieveItem();
     assertFalse(
         "The interaction attribute is set to false after the item is retrieved from the hob",
         hobStation.GetInteracted());
@@ -246,9 +246,9 @@ public class HobStationTests extends MasterTestClass {
     instantiateWorldAndHobsStation();
     hobStation.setLocked(true);
     assertFalse("The hob station should not be able to be interacted with when locked",
-        hobStation.GiveItem(new Item(ItemEnum.RawPatty)));
+        hobStation.giveItem(new Item(ItemEnum.RawPatty)));
     assertNull("There should be no item on the hob station when it is locked so retrieve should return null",
-        hobStation.RetrieveItem());
+        hobStation.retrieveItem());
   }
 
   /**
@@ -266,17 +266,17 @@ public class HobStationTests extends MasterTestClass {
     instantiateCustomerScripts(Difficulty.Relaxing);
     // ensures that there is definitely enough money to unlock the oven (100 coins)
     for (int i = 0; i < 100; i++) {
-      customerController.ChangeMoney(100);
+      customerController.changeMoney(100);
     }
     hobStation.setLocked(true);
-    hobStation.GiveItem(
+    hobStation.giveItem(
         new Item(ItemEnum.RepairTool)); // gives the repair tool to the hob station to unlock it
     assertFalse("The hob station should be unlocked", hobStation.getLocked());
     assertTrue("Should be able to give an item to the hob station when it is unlocked",
-        hobStation.GiveItem(new Item(ItemEnum.RawPatty)));
+        hobStation.giveItem(new Item(ItemEnum.RawPatty)));
     assertNotNull(
         "There should be an item on the hob station when it is unlocked so retrieve should not return null",
-        hobStation.RetrieveItem());
+        hobStation.retrieveItem());
   }
 
 }

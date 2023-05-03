@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.mygdx.game.Core.Leaderboard.LeaderBoard;
 import com.mygdx.game.Core.Rendering.TextureDictionary;
-import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame;
 
 /**
  * Creates the initial base layer and main objects such as sprite batches and screens Also declares
@@ -24,7 +24,7 @@ public class MyGdxGame extends Game {
   public MenuScreen menu;
   public TiledMap map;
   public LeaderBoard leaderBoard;
-  public soundFrame soundFrame;
+  public SoundFrame soundFrame;
   public TextureDictionary textureDictionary;
   public CameraFunctions cameraFunctions = new CameraFunctions();
 
@@ -39,7 +39,7 @@ public class MyGdxGame extends Game {
     //BlackCatStudios
     textureDictionary = new TextureDictionary();
     leaderBoard = new LeaderBoard();
-    soundFrame = new soundFrame();
+    soundFrame = new SoundFrame();
     //Triple10s
     menu = new MenuScreen(this);
     setScreen(menu);

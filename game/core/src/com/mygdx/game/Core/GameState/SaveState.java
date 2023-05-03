@@ -41,17 +41,17 @@ public class SaveState {
    * @author Jack Vickers
    * @author Felix Seanor
    */
-  public GameState SaveState(String path, MasterChef masterChef,
+  public GameState saveState(String path, MasterChef masterChef,
       CustomerController customerController, Difficulty difficultyLevel, int timer, float seconds,
       List<GameObject> Stations, List<GameObject> customerCounters,
       List<GameObject> assemblyStations) {
     GameState state = new GameState();
     masterChef.SaveState(state);
-    customerController.SaveState(state);
+    customerController.saveState(state);
     saveGameScreen(state, difficultyLevel, timer, seconds, Stations, customerCounters,
         assemblyStations);
 
-    SaveState(state, path);
+    saveState(state, path);
     return state;
   }
 
@@ -63,7 +63,7 @@ public class SaveState {
    * @author Felix Seanor
    * @author Jack Vickers
    */
-  public void SaveState(GameState state, String path) {
+  public void saveState(GameState state, String path) {
     try {
       FileOutputStream fileOut = new FileOutputStream(path);
       ObjectOutputStream stream = new ObjectOutputStream(fileOut);
@@ -103,21 +103,21 @@ public class SaveState {
     state.timer = timer;
     state.seconds = seconds;
     for (GameObject station : Stations) {
-      Scriptable scriptable = station.GetScript(0);
+      Scriptable scriptable = station.getScript(0);
 
       if (scriptable instanceof Station) {
-        itemsOnCounters.add(((Station) scriptable).SaveState());
+        itemsOnCounters.add(((Station) scriptable).saveState());
         broken.add(((Station) scriptable).getLocked());
       }
 
     }
 
     for (GameObject station : customerCounters) {
-      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
+      itemsOnCounters.add(((Station) station.getScript(0)).saveState());
     }
 
     for (GameObject station : assemblyStations) {
-      itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
+      itemsOnCounters.add(((Station) station.getScript(0)).saveState());
     }
     state.foodOnCounters = itemsOnCounters;
     state.repairState = broken;
@@ -129,7 +129,7 @@ public class SaveState {
    * @param ID file path
    * @return GameState loaded in from disk
    */
-  public GameState LoadState(String ID) {
+  public GameState loadState(String ID) {
     GameState state = null;
 
     FileInputStream fileIn = null;

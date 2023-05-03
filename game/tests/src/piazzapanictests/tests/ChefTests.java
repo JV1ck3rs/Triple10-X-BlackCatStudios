@@ -127,7 +127,7 @@ public class ChefTests extends MasterTestClass {
     assertEquals("The chef should have a tomato at the top of inventory", new Item(ItemEnum.Tomato),
         masterChef.getChef(0).getInventory().peek());
 
-    GameObjectManager.objManager.DestroyGameObject(crate); // Destroys the food crate
+    GameObjectManager.objManager.destroyGameObject(crate); // Destroys the food crate
   }
 
 
@@ -153,12 +153,12 @@ public class ChefTests extends MasterTestClass {
     masterChef.getChef(0).gameObject.position = new Vector2(1, 0);
     Item item = new Item(ItemEnum.Tomato);
     masterChef.getCurrentChef().GiveItem(item);
-    assertFalse("Food crate GiveItem() method should return false", FC.GiveItem(item));
+    assertFalse("Food crate GiveItem() method should return false", FC.giveItem(item));
     masterChef.GiveItem(); // Try to give the tomato to the food crate
     assertEquals("The chef should still have a tomato at the top of inventory",
         item,
         masterChef.getChef(0).getInventory().peek());
-    GameObjectManager.objManager.DestroyGameObject(crate); // Destroys the food crate
+    GameObjectManager.objManager.destroyGameObject(crate); // Destroys the food crate
   }
 
   /**
@@ -171,7 +171,7 @@ public class ChefTests extends MasterTestClass {
   public void testPickUpPantryMince() {
     instantiateWorldAndChefs();
     Item itemToGive = new FoodCrate(
-        ItemEnum.Mince).RetrieveItem(); // Creates a mince food crate and gets the mince from it
+        ItemEnum.Mince).retrieveItem(); // Creates a mince food crate and gets the mince from it
     chef[0].GiveItem(itemToGive); // Gives the mince to the chef
     assertEquals("The chef should have mince at the top of their inventory stack",
         new Item(ItemEnum.Mince),
@@ -188,7 +188,7 @@ public class ChefTests extends MasterTestClass {
   public void testPickupPantryLettuce() {
     instantiateWorldAndChefs();
     Item itemToGive = new FoodCrate(
-        ItemEnum.Lettuce).RetrieveItem(); // Creates a lettuce food crate and gets the lettuce from it
+        ItemEnum.Lettuce).retrieveItem(); // Creates a lettuce food crate and gets the lettuce from it
     chef[0].GiveItem(itemToGive); // Gives the lettuce to the chef
     assertEquals("The chef should have lettuce at the top of their inventory stack",
         new Item(ItemEnum.Lettuce),
@@ -205,7 +205,7 @@ public class ChefTests extends MasterTestClass {
   public void testPickupPantryBread() {
     instantiateWorldAndChefs();
     Item itemToGive = new FoodCrate(
-        ItemEnum.Buns).RetrieveItem(); // Creates a buns food crate and gets the buns from it
+        ItemEnum.Buns).retrieveItem(); // Creates a buns food crate and gets the buns from it
     chef[0].GiveItem(itemToGive); // Gives the buns to the chef
     assertEquals("The chef should have bread at the top of their inventory stack",
         new Item(ItemEnum.Buns),
@@ -222,7 +222,7 @@ public class ChefTests extends MasterTestClass {
   public void testPickupPantryTomato() {
     instantiateWorldAndChefs();
     Item itemToGive = new FoodCrate(
-        ItemEnum.Tomato).RetrieveItem(); // Creates a tomato food crate and gets the tomato from it
+        ItemEnum.Tomato).retrieveItem(); // Creates a tomato food crate and gets the tomato from it
     chef[0].GiveItem(itemToGive); // Gives the tomato to the chef
     assertEquals("The chef should have tomato at the top of their inventory stack",
         new Item(ItemEnum.Tomato),
@@ -239,7 +239,7 @@ public class ChefTests extends MasterTestClass {
   public void testPickupPantryCheese() {
     instantiateWorldAndChefs();
     Item itemToGive = new FoodCrate(
-        ItemEnum.Cheese).RetrieveItem(); // Creates a cheese food crate and gets the cheese from it
+        ItemEnum.Cheese).retrieveItem(); // Creates a cheese food crate and gets the cheese from it
     chef[0].GiveItem(itemToGive); // Gives the cheese to the chef
     assertEquals("The chef should have cheese at the top of their inventory stack",
         new Item(ItemEnum.Cheese),
@@ -256,7 +256,7 @@ public class ChefTests extends MasterTestClass {
   public void testPickupPantryOnion() {
     instantiateWorldAndChefs();
     Item itemToGive = new FoodCrate(
-        ItemEnum.Onion).RetrieveItem(); // Creates an onion food crate and gets the onion from it
+        ItemEnum.Onion).retrieveItem(); // Creates an onion food crate and gets the onion from it
     chef[0].GiveItem(itemToGive); // Gives the onion to the chef
     assertEquals("The chef should have onion at the top of their inventory stack",
         new Item(ItemEnum.Onion),
@@ -273,7 +273,7 @@ public class ChefTests extends MasterTestClass {
   public void testPickupPantryPotato() {
     instantiateWorldAndChefs();
     Item itemToGive = new FoodCrate(
-        ItemEnum.Potato).RetrieveItem(); // Creates a potato food crate and gets the potato from it
+        ItemEnum.Potato).retrieveItem(); // Creates a potato food crate and gets the potato from it
     chef[0].GiveItem(itemToGive); // Gives the potato to the chef
     assertEquals("The chef should have potato at the top of their inventory stack",
         new Item(ItemEnum.Potato),
@@ -290,7 +290,7 @@ public class ChefTests extends MasterTestClass {
   public void testPickupPantryDough() {
     instantiateWorldAndChefs();
     Item itemToGive = new FoodCrate(
-        ItemEnum.Dough).RetrieveItem(); // Creates a dough food crate and gets the dough from it
+        ItemEnum.Dough).retrieveItem(); // Creates a dough food crate and gets the dough from it
     chef[0].GiveItem(itemToGive); // Gives the dough to the chef
     assertEquals("The chef should have dough at the top of their inventory stack",
         new Item(ItemEnum.Dough),
@@ -338,7 +338,7 @@ public class ChefTests extends MasterTestClass {
     assertEquals("The assembly station should have no ingredients on it",
         0, assemblyStation.getIngredients().size());
 
-    assemblyStation.GiveItem(new Item(ItemEnum.Mince));
+    assemblyStation.giveItem(new Item(ItemEnum.Mince));
 
     assertEquals("The assembly station should have mince on it", new Item(ItemEnum.Mince),
         assemblyStation.getIngredients().get(0));
@@ -353,7 +353,7 @@ public class ChefTests extends MasterTestClass {
 
     assertEquals("The assembly station should have no ingredients on it",
         0, assemblyStation.getIngredients().size());
-    GameObjectManager.objManager.DestroyGameObject(assemble);
+    GameObjectManager.objManager.destroyGameObject(assemble);
   }
 
   /**
@@ -389,7 +389,7 @@ public class ChefTests extends MasterTestClass {
 
     assertEquals("The chef should no longer have mince in their inventory",
         0, masterChef.getChef(0).getInventory().size());
-    GameObjectManager.objManager.DestroyGameObject(assemble);
+    GameObjectManager.objManager.destroyGameObject(assemble);
   }
 
   /**
@@ -416,12 +416,12 @@ public class ChefTests extends MasterTestClass {
     masterChef.getChef(0).gameObject.position = new Vector2(1, 0);
     Item item1 = new Item(ItemEnum.CutLettuce);
     Item item2 = new Item(ItemEnum.CutTomato);
-    assemblyStation.GiveItem(item1);
-    assemblyStation.GiveItem(item2);
+    assemblyStation.giveItem(item1);
+    assemblyStation.giveItem(item2);
     masterChef.Interact();
     assertEquals("The lettuce and tomato should be combined into a LettuceTomatoSalad",
         new Item(ItemEnum.LettuceTomatoSalad), assemblyStation.getIngredients().get(0));
-    GameObjectManager.objManager.DestroyGameObject(assemble);
+    GameObjectManager.objManager.destroyGameObject(assemble);
   }
 
   /**
@@ -476,20 +476,20 @@ public class ChefTests extends MasterTestClass {
     masterChef.getChef(0).gameObject.position = new Vector2(1, 0); // sets chef position to that of next to the hob for interaction
     masterChef.getChef(0).GiveItem(new Item(ItemEnum.RawPatty)); // gives a raw patty to the chef to give to the hob
     masterChef.GiveItem(); // gives currently held item to hob
-    hobStation.Cook(10);
+    hobStation.cook(10);
     masterChef.Interact();
-    hobStation.Cook(5);
-    hobStation.Cook(10);
+    hobStation.cook(5);
+    hobStation.cook(10);
     masterChef.FetchItem();
     assertEquals("The item in the chef's inventory should be a cooked patty", new Item(ItemEnum.CookedPatty), masterChef.getChef(0).getInventory().peek());
     masterChef.getChef(0).ClearInventory();
     masterChef.getChef(0).GiveItem(new Item(ItemEnum.RawPatty));
     masterChef.GiveItem();
-    hobStation.Update(10);
-    hobStation.Update(15);
+    hobStation.update(10);
+    hobStation.update(15);
     masterChef.FetchItem();
     assertEquals("The item on top of the chef's inventory stack should be cinder", masterChef.getChef(0).getInventory().peek(), new Item(ItemEnum.Cinder));
-    GameObjectManager.objManager.DestroyGameObject(Fry);
+    GameObjectManager.objManager.destroyGameObject(Fry);
   }
 
   /**
@@ -513,7 +513,7 @@ public class ChefTests extends MasterTestClass {
     toasterStation.Cook(10);
     masterChef.FetchItem();
     assertEquals("The item the chef is holding should be a toasted bun", new Item(ItemEnum.ToastedBuns), masterChef.getChef(0).getInventory().peek());
-    GameObjectManager.objManager.DestroyGameObject(Toast); // must destroy station's game object at the end of the test
+    GameObjectManager.objManager.destroyGameObject(Toast); // must destroy station's game object at the end of the test
   }
 
   /**
@@ -534,10 +534,10 @@ public class ChefTests extends MasterTestClass {
     masterChef.getChef(0).gameObject.position = new Vector2(1, 0); // sets chef position to that of next to the oven station for interaction
     masterChef.getChef(0).GiveItem(new Item(ItemEnum.CheesePizza)); // gives a cheese pizza to the chef for interaction with the oven
     masterChef.GiveItem();
-    ovenStation.Update(10);
+    ovenStation.update(10);
     masterChef.FetchItem();
     assertEquals("The item that the chef should be holding is the cooked version of the item they gave to the oven station", new Item(ItemEnum.CheesePizzaCooked), masterChef.getChef(0).getInventory().peek());
-    GameObjectManager.objManager.DestroyGameObject(Oven);
+    GameObjectManager.objManager.destroyGameObject(Oven);
   }
 
   /**
@@ -557,10 +557,10 @@ public class ChefTests extends MasterTestClass {
     masterChef.getChef(0).gameObject.position = new Vector2(1, 0); // sets chef position to that of next to the chop station for interaction
     masterChef.getChef(0).GiveItem(new Item(ItemEnum.Lettuce)); // gives a lettuce to the chef for interaction with the chop station
     masterChef.GiveItem();
-    chopStation.Cut(10);
+    chopStation.cut(10);
     masterChef.FetchItem();
     assertEquals("The item that the chef should be holding is the chopped version of the item they gave to the chop station", new Item(ItemEnum.CutLettuce), masterChef.getChef(0).getInventory().peek());
-    GameObjectManager.objManager.DestroyGameObject(Chop);
+    GameObjectManager.objManager.destroyGameObject(Chop);
   }
 
   /**
@@ -601,20 +601,20 @@ public class ChefTests extends MasterTestClass {
     instantiateWorldAndChefs();
     SetUpPathfinding();
     int stepSize = GameScreen.TILE_WIDTH/4;
-    List<Vector2> pathA = pathfinding.FindPath(0,0,0,1, DistanceTest.Euclidean);
-    chef[0].GivePath(pathA);
+    List<Vector2> pathA = pathfinding.findPath(0,0,0,1, DistanceTest.Euclidean);
+    chef[0].givePath(pathA);
     chef[0].updateSpriteFromInput("");
     assertEquals("The sprite should be facing north", "north", chef[0].getSpriteOrientation());
-    List<Vector2> pathB = pathfinding.FindPath(0,0,1,0, DistanceTest.Euclidean);
-    chef[0].GivePath(pathB);
+    List<Vector2> pathB = pathfinding.findPath(0,0,1,0, DistanceTest.Euclidean);
+    chef[0].givePath(pathB);
     chef[0].updateSpriteFromInput("");
     assertEquals("The sprite should be facing east", "east", chef[0].getSpriteOrientation());
-    List<Vector2> pathC = pathfinding.FindPath(0,0,0,-1, DistanceTest.Euclidean);
-    chef[0].GivePath(pathC);
+    List<Vector2> pathC = pathfinding.findPath(0,0,0,-1, DistanceTest.Euclidean);
+    chef[0].givePath(pathC);
     chef[0].updateSpriteFromInput("");
     assertEquals("The sprite should be facing south", "south", chef[0].getSpriteOrientation());
-    List<Vector2> pathD = pathfinding.FindPath(0,0,-1,0, DistanceTest.Euclidean);
-    chef[0].GivePath(pathD);
+    List<Vector2> pathD = pathfinding.findPath(0,0,-1,0, DistanceTest.Euclidean);
+    chef[0].givePath(pathD);
     chef[0].updateSpriteFromInput("");
     assertEquals("The sprite should be facing west", "west", chef[0].getSpriteOrientation());
   }

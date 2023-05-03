@@ -1,6 +1,6 @@
 package com.mygdx.game.Core.SFX;
 
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
 
 
 /**
@@ -14,8 +14,8 @@ public class SoundDataLoad {
   public String path;
   public soundsEnum name;
 
-  public SoundDataLoad(String Path, soundsEnum name) {
-    this.path = Path;
+  public SoundDataLoad(String path, soundsEnum name) {
+    this.path = path;
     this.name = name;
   }
 

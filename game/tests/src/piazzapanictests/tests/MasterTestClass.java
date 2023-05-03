@@ -28,14 +28,14 @@ import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.GameScreen;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.RecipeAndComb.recipeDict;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.AssemblyStation;
 import com.mygdx.game.Stations.ChopStation;
 import com.mygdx.game.Stations.HobStation;
 import com.mygdx.game.Stations.TrashCan;
 
 import com.mygdx.game.Stations.*;
-import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -136,7 +136,7 @@ class MasterTestClass {
   void instantiateWorldAndChefs() {
     world = new World(new Vector2(0, 0), true);
     generateChefArray();
-    soundFrame soundFrame = new soundFrame();
+    SoundFrame soundFrame = new SoundFrame();
     chef = new Chef[2];
     int chefControl = 0;
     for (int i = 0; i < chef.length; i++) {
@@ -168,8 +168,8 @@ class MasterTestClass {
     Pathfinding pathfinding = new Pathfinding(32 / 4, 32 * 32, 18 * 32);
     // Instantiates the MasterChef class
     masterChef = new MasterChef(2, camera, pathfinding, difficultyState.chefParams, difficultyState.cookingParams);
-    GameObjectManager.objManager.AppendLooseScript(masterChef);
-    soundFrame sf = new soundFrame();
+    GameObjectManager.objManager.appendLooseScript(masterChef);
+    SoundFrame sf = new SoundFrame();
   }
 
 
@@ -233,7 +233,7 @@ class MasterTestClass {
   void instantiateWorldAndChoppingStation() {
     world = new World(new Vector2(0, 0), true);
     DifficultyState state = DifficultyMaster.getStressful();
-    soundFrame soundFrame = new soundFrame();
+    SoundFrame soundFrame = new SoundFrame();
     TiledMap map;
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer chopping = map.getLayers().get(5); // gets chopping layer
@@ -247,8 +247,8 @@ class MasterTestClass {
         rect.getHeight()); // sets chopping width and height (this must be done to avoid null pointer exception)
     chopStation = new ChopStation(state.cookingParams); // creates chopping station
     Chop.attachScript(chopStation); // attaches chopping station to chopping game object
-    new recipeDict(); // creates recipe dictionary
-    recipeDict.recipes.implementRecipes(); // implements recipes
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
     chopStation.init(); // initialises chopping station
   }
 
@@ -262,7 +262,7 @@ class MasterTestClass {
   AssemblyStation instantiateWorldAndAssemblyStation() {
     world = new World(new Vector2(0, 0), true);
     DifficultyState state = DifficultyMaster.getStressful();
-    soundFrame soundFrame = new soundFrame();
+    SoundFrame soundFrame = new SoundFrame();
     TiledMap map;
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer counter = map.getLayers().get(3); // gets counter layer (layer 3 of the map)
@@ -274,8 +274,8 @@ class MasterTestClass {
     assemble.setWidthAndHeight(rect.getWidth(), rect.getHeight());
     assemblyStation = new AssemblyStation(state.cookingParams);
     assemble.attachScript(assemblyStation);
-    new recipeDict(); // creates recipe dictionary
-    recipeDict.recipes.implementRecipes(); // implements recipes
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
     return assemblyStation;
   }
 
@@ -293,7 +293,7 @@ class MasterTestClass {
     world = new World(new Vector2(0, 0), true);
     TiledMap map;
     DifficultyState state = DifficultyMaster.getStressful();
-    soundFrame soundFrame = new soundFrame();
+    SoundFrame soundFrame = new SoundFrame();
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer frying = map.getLayers().get(4); // gets fryer layer
     MapObject object = frying.getObjects().getByType(RectangleMapObject.class)
@@ -310,8 +310,8 @@ class MasterTestClass {
 
     Fry.attachScript(hobStation); // attaches frying station to frying game object
     hobStation.init();
-    new recipeDict(); // creates recipe dictionary
-    recipeDict.recipes.implementRecipes(); // implements recipes
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
   }
 
   /**
@@ -326,7 +326,7 @@ class MasterTestClass {
     world = new World(new Vector2(0, 0), true);
     TiledMap map;
     DifficultyState state = DifficultyMaster.getStressful();
-    soundFrame soundFrame = new soundFrame();
+    SoundFrame soundFrame = new SoundFrame();
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer toasting = map.getLayers().get(6); // gets toasting layer
     MapObject object = toasting.getObjects().getByType(RectangleMapObject.class)
@@ -339,8 +339,8 @@ class MasterTestClass {
     toasterStation = new ToasterStation(state.cookingParams); // creates toaster station
     Toast.attachScript(toasterStation); // attaches toaster station to toaster game object
     toasterStation.init();
-    new recipeDict(); // creates recipe dictionary
-    recipeDict.recipes.implementRecipes(); // implements recipes
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
     toasterStation.init(); // initialises toaster station
   }
 
@@ -354,7 +354,7 @@ class MasterTestClass {
     world = new World(new Vector2(0, 0), true);
     TiledMap map;
     DifficultyState state = DifficultyMaster.getStressful();
-    soundFrame soundFrame = new soundFrame();
+    SoundFrame soundFrame = new SoundFrame();
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer customerCounterLayer = map.getLayers().get(8); // gets customer counter layer
     MapObject object = customerCounterLayer.getObjects().getByType(RectangleMapObject.class)
@@ -367,8 +367,8 @@ class MasterTestClass {
     customerCounter = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)), state.cookingParams); // creates customer counter station
     CustCount.attachScript(customerCounter); // attaches customer counter station to customer counter game object
     customerCounter.init();
-    new recipeDict(); // creates recipe dictionary
-    recipeDict.recipes.implementRecipes(); // implements recipes
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
     customerCounter.init(); // initialises customer counter
   }
 
@@ -393,8 +393,8 @@ class MasterTestClass {
         rect.getHeight()); // sets frying width and height (this must be done to avoid null pointer exception)
     trashCan = new TrashCan(); // creates trashcan
     Trash.attachScript(trashCan); // attaches trashcan to trashcan game object
-    new recipeDict(); // creates recipe dictionary
-    recipeDict.recipes.implementRecipes(); // implements recipes
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
   }
 
   /**
@@ -407,7 +407,7 @@ class MasterTestClass {
     world = new World(new Vector2(0, 0), true);
     TiledMap map;
     DifficultyState state = DifficultyMaster.getStressful();
-    soundFrame soundFrame = new soundFrame();
+    SoundFrame soundFrame = new SoundFrame();
     map = new TmxMapLoader().load("PiazzaPanicMap.tmx"); // loads map
     MapLayer ovening = map.getLayers().get(7); // gets oven layer
     MapObject object = ovening.getObjects().getByType(RectangleMapObject.class).get(0); // gets oven object
@@ -419,8 +419,8 @@ class MasterTestClass {
     ovenStation = new OvenStation(state.cookingParams, custController); // creates oven station
     Oven.attachScript(ovenStation); // attaches oven station to oven game object
     ovenStation.init();
-    new recipeDict(); // creates recipe dictionary
-    recipeDict.recipes.implementRecipes(); // implements recipes
+    new RecipeDict(); // creates recipe dictionary
+    RecipeDict.recipes.implementRecipes(); // implements recipes
 //    ovenStation.init(); // initialises oven station
   }
 

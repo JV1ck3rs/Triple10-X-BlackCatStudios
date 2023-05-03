@@ -4,11 +4,11 @@ import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.SFX.ContinousSound;
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.SoundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.RecipeAndComb.recipeDict;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,7 +30,7 @@ public class ChopStation extends Station {
 
   private ContinousSound choppingSFX;
 
-  public boolean GetInteracted() {
+  public boolean getInteracted() {
     return interacted;
   }
 
@@ -46,7 +46,7 @@ public class ChopStation extends Station {
 
     super(params);
 
-    cookingSpeed = params.chopspeed;
+    cookingSpeed = params.chopSpeed;
 
     interacted = false;
     ready = false;
@@ -68,7 +68,7 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean GiveItem(Item item) {
+  public boolean giveItem(Item item) {
     if (getLocked()) {
       return checkRepairTool(item);
     }
@@ -88,7 +88,7 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public Item RetrieveItem() {
+  public Item retrieveItem() {
     if (item != null) {
       returnItem = item;
       deleteItem();
@@ -105,7 +105,7 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanRetrieve() {
+  public boolean canRetrieve() {
     return item != null;
   }
 
@@ -117,7 +117,7 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanGive() {
+  public boolean canGive() {
     return item == null;
   }
 
@@ -129,7 +129,7 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanInteract() {
+  public boolean canInteract() {
     return currentRecipe != null;
   }
 
@@ -141,7 +141,7 @@ public class ChopStation extends Station {
    */
   public void checkItem() {
     if (itemWhiteList.contains(item.name)) {
-      currentRecipe = recipeDict.recipes.RecipeMap.get(item.name);
+      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
     } else {
       currentRecipe = null;
     }
@@ -166,7 +166,7 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public float Interact() {
+  public float interact() {
     timer.isVisible = true;
     interacted = true;
     return maxProgress;
@@ -180,14 +180,14 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    * @author Felix Seanor
    */
-  public void Cut(float dt) {
+  public void cut(float dt) {
     ready = currentRecipe.recipeSteps.get(item.step)
         .timeStep(item, dt * cookingSpeed, interacted, maxProgress);
     choppingSFX.shouldPlay = true;
     if (ready) {
       changeItem(new Item(currentRecipe.endItem));
       checkItem();
-      soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
+      SoundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
       interacted = false;
       timer.isVisible = false;
     }
@@ -227,17 +227,17 @@ public class ChopStation extends Station {
       if (heldItem == null) {
         return;
       }
-      heldItem.Destroy();
+      heldItem.destroy();
       heldItem = null;
       return;
     }
     if (heldItem == null) {
-      heldItem = new GameObject(new BlackTexture(Item.GetItemPath(item.name)));
+      heldItem = new GameObject(new BlackTexture(Item.getItemPath(item.name)));
       heldItem.image.setSize(imageSize, imageSize);
       heldItem.setPosition(gameObject.position.x + (gameObject.physicalWidth / 2) - 12,
           gameObject.position.y + (gameObject.getHeight()) - imageSize - 7);
     } else {
-      heldItem.image = new BlackTexture(Item.GetItemPath(item.name));
+      heldItem.image = new BlackTexture(Item.getItemPath(item.name));
       heldItem.image.setSize(imageSize, imageSize);
     }
   }
@@ -249,7 +249,7 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public void moveAnim() {
+  public void moveAnimation() {
     return;
   }
 
@@ -261,10 +261,10 @@ public class ChopStation extends Station {
    * @author Felix Seanor
    */
   @Override
-  public void Update(float dt) {
+  public void update(float dt) {
     if (currentRecipe != null && interacted) {
-      Cut(dt);
+      cut(dt);
     }
-    choppingSFX.DoSoundCheck();
+    choppingSFX.doSoundCheck();
   }
 }

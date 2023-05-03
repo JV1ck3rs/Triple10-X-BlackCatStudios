@@ -29,9 +29,9 @@ public class GameObjectManager {
    * @param scriptable
    * @author Felix Seanor
    */
-  public void AppendLooseScript(Scriptable scriptable) {
+  public void appendLooseScript(Scriptable scriptable) {
     looseScripts.add(scriptable);
-    scriptable.Start();
+    scriptable.start();
   }
 
   /**
@@ -98,9 +98,9 @@ public class GameObjectManager {
    * @param obj
    * @author Felix Seanor
    */
-  public void SubmitGameObject(GameObject obj) {
+  public void submitGameObject(GameObject obj) {
 
-    int UID = CreateUID();
+    int UID = createUID();
 
     gameObjectHash.put(UID, obj);
 
@@ -117,7 +117,7 @@ public class GameObjectManager {
   public void doUpdate(float dt) {
 
     for (Scriptable scr : looseScripts) {
-      scr.Update(dt);
+      scr.update(dt);
 
     }
     for (GameObject obj : gameObjectHash.values()
@@ -129,7 +129,7 @@ public class GameObjectManager {
   public void doFixedUpdate(float dt) {
 
     for (Scriptable scr : looseScripts) {
-      scr.FixedUpdate(dt);
+      scr.fixedUpdate(dt);
 
     }
 
@@ -150,7 +150,7 @@ public class GameObjectManager {
 
   }
 
-  public void DestroyGameObject(GameObject obj) {
+  public void destroyGameObject(GameObject obj) {
     obj.destroyed = true;
 
     gameObjectHash.remove(obj.getUID());
@@ -162,7 +162,7 @@ public class GameObjectManager {
    * @return
    * @author Felix Seanor
    */
-  public int CreateUID() {
+  public int createUID() {
     int UID = 0;
 
     while (gameObjectHash.containsKey(UID)) {

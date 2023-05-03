@@ -177,31 +177,31 @@ public class PowerupPurchaseMenu extends Scriptable {
 
 
   @Override
-  public void Update(float dt) {
+  public void update(float dt) {
     if (background.isVisible) {
       Integer money = cc.money;
       //System.out.println(money);
       if (speedPowerUpButton.isClicked() && money >= prices.get("Speed")) {
-        cc.ChangeMoney(-Float.valueOf(prices.get("Speed")));
+        cc.changeMoney(-Float.valueOf(prices.get("Speed")));
         powerup.doSpeedPowerup();
       } else if (reputationPowerUpButton.isClicked() && money >= prices.get("Reputation")) {
-        cc.ChangeMoney(-Float.valueOf(prices.get("Reputation")));
+        cc.changeMoney(-Float.valueOf(prices.get("Reputation")));
         powerup.buyReputation();
       } else if (superFoodPowerUpButton.isClicked() && money >= prices.get("SuperFood")) {
-        cc.ChangeMoney(-Float.valueOf(prices.get("SuperFood")));
+        cc.changeMoney(-Float.valueOf(prices.get("SuperFood")));
         powerup.superFood();
       } else if (tetrisSuperFoodPowerUpButton.isClicked() && money >= prices.get(
           "TetrisSuperFood")) {
 
         if (mc.getCurrentChef().getTopItem() != null && completedRecipes.contains(
             mc.getCurrentChef().getTopItem().name)) {
-          cc.ChangeMoney(-Float.valueOf(prices.get("TetrisSuperFood")));
+          cc.changeMoney(-Float.valueOf(prices.get("TetrisSuperFood")));
           powerup.tetrisSuperFoodGive();
         } else {
 //          System.out.println("Cant work");
         }
       } else if (stopFrustrationPowerUpButton.isClicked() && money >= prices.get("Frustration")) {
-        cc.ChangeMoney(-Float.valueOf(prices.get("Frustration")));
+        cc.changeMoney(-Float.valueOf(prices.get("Frustration")));
         powerup.stopFrustration(60000);
       } else if (closeMenuButton.isClicked()) {
 //        System.out.println("CLOSING");

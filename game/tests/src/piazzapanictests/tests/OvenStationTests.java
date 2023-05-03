@@ -38,10 +38,10 @@ public class OvenStationTests extends MasterTestClass {
       // creates a game object manager making sure it is not null when needed
     }
     instantiateWorldAndOvenStation(); // creates oven station
-    ovenStation.GiveItem(new Item(ItemEnum.CheesePizza)); // gives the oven station a cheese pizza
-    ovenStation.RetrieveItem(); // attempts to retrieve the uncooked pizza from the oven
+    ovenStation.giveItem(new Item(ItemEnum.CheesePizza)); // gives the oven station a cheese pizza
+    ovenStation.retrieveItem(); // attempts to retrieve the uncooked pizza from the oven
     assertNull("The oven station should return null when attempted to retrieve nothing from it",
-        ovenStation.RetrieveItem());
+        ovenStation.retrieveItem());
   }
 
   /**
@@ -58,10 +58,10 @@ public class OvenStationTests extends MasterTestClass {
       // creates a new game object manager making sure it is not null when needed.
     }
     instantiateWorldAndOvenStation();
-    ovenStation.GiveItem(new Item(ItemEnum.CheesePizza)); // gives a cheese pizza to the oven
-    ovenStation.Cook(10);
-    ovenStation.Cook(10); // cooks item till max progress is exceeded
-    Item test = ovenStation.RetrieveItem(); // retrieves the burnt item from the oven
+    ovenStation.giveItem(new Item(ItemEnum.CheesePizza)); // gives a cheese pizza to the oven
+    ovenStation.cook(10);
+    ovenStation.cook(10); // cooks item till max progress is exceeded
+    Item test = ovenStation.retrieveItem(); // retrieves the burnt item from the oven
     assertEquals("The retrieved item should be equal to cinder signalling burnt",
         new Item(ItemEnum.Cinder), test);
   }
@@ -98,19 +98,19 @@ public class OvenStationTests extends MasterTestClass {
     for (ItemEnum test : Arrays.asList(
         ItemEnum.values())) { // creates a list of all items in the game and steps through them to check which can interact with the oven
       Item testing = new Item(test);
-      ovenStation.GiveItem(testing);
+      ovenStation.giveItem(testing);
       if (!(whitelist.contains(
           testing))) { // if the valid item is not being tested, the current recipe on the oven station should be null
         assertNull("Current recipe should be null if an incorrect item is placed on the oven",
             ovenStation.currentRecipe);
         assertFalse("Giving an invalid item to the oven should return false",
-            ovenStation.GiveItem(testing));
+            ovenStation.giveItem(testing));
       } else {
         assertNotNull(
             "The current recipe on the oven should not be null if there is a correct item in the oven",
             ovenStation.currentRecipe);
       }
-      ovenStation.RetrieveItem();
+      ovenStation.retrieveItem();
     }
   }
 
@@ -130,9 +130,9 @@ public class OvenStationTests extends MasterTestClass {
     }
     instantiateWorldAndOvenStation();
     assertFalse("The CanRetrieve() method should return false if there is nothing in the oven",
-        ovenStation.CanRetrieve());
+        ovenStation.canRetrieve());
     assertNull("The RetrieveItem() method should return null when no item is on the hob",
-        ovenStation.RetrieveItem());
+        ovenStation.retrieveItem());
   }
 
   /**
@@ -153,14 +153,14 @@ public class OvenStationTests extends MasterTestClass {
     instantiateWorldAndOvenStation();
     Item cheesePizza = new Item(ItemEnum.CheesePizza);
     Item cheesePizzaCooked = new Item(ItemEnum.CheesePizzaCooked);
-    ovenStation.GiveItem(cheesePizza);
+    ovenStation.giveItem(cheesePizza);
     assertFalse(
         "The CanGive() method should return false when there is an item already in the oven",
-        ovenStation.CanGive());
-    ovenStation.GiveItem(cheesePizzaCooked);
+        ovenStation.canGive());
+    ovenStation.giveItem(cheesePizzaCooked);
     assertEquals(
         "The item in the oven should be unchanged if an item is placed in the oven when there already was an item in the oven",
-        new Item(ItemEnum.CheesePizza), ovenStation.RetrieveItem());
+        new Item(ItemEnum.CheesePizza), ovenStation.retrieveItem());
   }
 
   /**
@@ -179,17 +179,17 @@ public class OvenStationTests extends MasterTestClass {
     }
     instantiateWorldAndOvenStation();
     Item cheesePizza = new Item(ItemEnum.CheesePizza);
-    ovenStation.GiveItem(cheesePizza); // gives a pizza to the oven for testing
-    ovenStation.Cook(5); // cooks the item halfway for the test
+    ovenStation.giveItem(cheesePizza); // gives a pizza to the oven for testing
+    ovenStation.cook(5); // cooks the item halfway for the test
     assertEquals("The progress of the station and the item should be the same",
         (int) cheesePizza.progress, (int) ovenStation.getProgress());
     Integer testProgress = ovenStation.getProgress();
-    Item test = ovenStation.RetrieveItem();
+    Item test = ovenStation.retrieveItem();
     assertNotEquals(
         "The value of the progress of the cooking item should not be 0 when it is removed from the oven",
         (int) testProgress, 0);
     assertNull("The oven should not contain an item when an in progress item is removed from it",
-        ovenStation.RetrieveItem());
+        ovenStation.retrieveItem());
     assertNotEquals(
         "The progress of the item should not be 0 when it has been cooking for some dt and is removed",
         test.progress, 0);
@@ -212,13 +212,13 @@ public class OvenStationTests extends MasterTestClass {
       // creates a new game object manager making sure it is not null when needed
     }
     instantiateWorldAndOvenStation();
-    ovenStation.GiveItem(new Item(ItemEnum.CheesePizza));
-    ovenStation.Update(10);
-    ovenStation.Interact();
-    assertFalse("The chef should not be able to interact with the oven", ovenStation.CanInteract());
+    ovenStation.giveItem(new Item(ItemEnum.CheesePizza));
+    ovenStation.update(10);
+    ovenStation.interact();
+    assertFalse("The chef should not be able to interact with the oven", ovenStation.canInteract());
     assertEquals("The chef should not be able to interact with the oven", 0.0,
-        ovenStation.Interact(), 0.1);
-    Item test = ovenStation.RetrieveItem();
+        ovenStation.interact(), 0.1);
+    Item test = ovenStation.retrieveItem();
     assertNotEquals(
         "The progress of the item retrieved from the toaster should not be 0 if the update function works as it will cook the item",
         0, test.progress);
@@ -239,8 +239,8 @@ public class OvenStationTests extends MasterTestClass {
     instantiateWorldAndOvenStation();
     ovenStation.setLocked(true);
     assertFalse("You should not be able to give anything to an oven while it is locked",
-        ovenStation.GiveItem(new Item(ItemEnum.CheesePizza)));
-    assertNull("There should be nothing in the oven", ovenStation.RetrieveItem());
+        ovenStation.giveItem(new Item(ItemEnum.CheesePizza)));
+    assertNull("There should be nothing in the oven", ovenStation.retrieveItem());
   }
 
   /**
@@ -260,14 +260,14 @@ public class OvenStationTests extends MasterTestClass {
     instantiateCustomerScripts(Difficulty.Relaxing);
     // ensures that there is enough money to unlock the oven
     for (int i = 0; i < 100; i++) {
-      customerController.ChangeMoney(100);
+      customerController.changeMoney(100);
     }
     ovenStation.setLocked(true);
-    ovenStation.GiveItem(new Item(ItemEnum.RepairTool)); // should unlock the oven
+    ovenStation.giveItem(new Item(ItemEnum.RepairTool)); // should unlock the oven
     assertFalse("The oven should not be locked", ovenStation.getLocked());
     Item itemToGive = new Item(ItemEnum.CheesePizza);
-    assertTrue("The oven should be able to be given an item", ovenStation.GiveItem(itemToGive));
+    assertTrue("The oven should be able to be given an item", ovenStation.giveItem(itemToGive));
     assertEquals("The item in the oven should be the same as the item given", itemToGive,
-        ovenStation.RetrieveItem());
+        ovenStation.retrieveItem());
   }
 }

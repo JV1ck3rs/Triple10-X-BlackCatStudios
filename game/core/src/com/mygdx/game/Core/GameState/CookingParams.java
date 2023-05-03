@@ -10,5 +10,5 @@ public class CookingParams {
 
   public float cookSpeed;
   public float burnSpeed;
-  public float chopspeed;
+  public float chopSpeed;
 }

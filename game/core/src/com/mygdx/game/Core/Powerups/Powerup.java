@@ -35,7 +35,7 @@ public class Powerup {
   }
 
   public void buyReputation() {
-    cc.ModifyReputation(1);
+    cc.modifyReputation(1);
   }
 
 

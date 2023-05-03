@@ -15,9 +15,9 @@ public abstract class Renderable {
    */
   public int layer;
 
-  public abstract void Render(SpriteBatch batch, float x, float y);
+  public abstract void render(SpriteBatch batch, float x, float y);
 
-  public abstract void Destroy();
+  public abstract void destroy();
 
   public abstract void setSize(int x, int y);
 
@@ -42,8 +42,8 @@ public abstract class Renderable {
     return 1;
   }
 
-  public abstract int GetWidth();
+  public abstract int getWidth();
 
-  public abstract int GetHeight();
+  public abstract int getHeight();
 
 }

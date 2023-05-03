@@ -35,7 +35,7 @@ import java.io.IOException;
 public class MenuScreen implements Screen {
 
   GameScreen gameScreen;
-  GameScreen VictoryScreen;
+  GameScreen victoryScreen;
   TextureAtlas mainMenuAtlas;
   final MyGdxGame root;
 

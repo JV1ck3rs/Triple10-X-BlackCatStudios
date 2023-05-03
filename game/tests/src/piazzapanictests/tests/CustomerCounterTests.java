@@ -37,11 +37,11 @@ public class CustomerCounterTests extends MasterTestClass {
 
     instantiateCustomerScripts(Difficulty.Relaxing);
     instantiateWorldAndCustomerCounter();
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
     Item itemToGIve = new Item(customerController.getCurrentWaitingCustomerGroup().orders.get(0));
     Integer numCustomersInLine = customerController.getCurrentWaitingCustomerGroup().getMembers()
         .size();
-    customerCounter.GiveItem(itemToGIve);
+    customerCounter.giveItem(itemToGIve);
     assertEquals("Numbers of customers  seated or walking should be 1", 1,
         customerController.getMemberSeatedOrWalking().size());
     assertEquals("Number of customers in line should be 1 less than before", numCustomersInLine - 1,
@@ -62,11 +62,11 @@ public class CustomerCounterTests extends MasterTestClass {
       new GameObjectManager();
     }
     instantiateCustomerScripts(Difficulty.Relaxing);
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
     instantiateWorldAndCustomerCounter();
     int numCustomersInLine = customerController.getCurrentWaitingCustomerGroup().membersInLine
         .size();
-    customerCounter.GiveItem(new Item(ItemEnum.Buns));
+    customerCounter.giveItem(new Item(ItemEnum.Buns));
     assertNotNull("There should be an item on the counter (because no customers take it)", customerCounter.item);
     assertEquals("Numbers of customers  seated or walking should be 0", 0,
         customerController.getMemberSeatedOrWalking().size());
@@ -85,13 +85,13 @@ public class CustomerCounterTests extends MasterTestClass {
   public void TestCustomerCounterCanGiveCanRetrieve() {
     instantiateCustomerScripts();
     instantiateWorldAndCustomerCounter();
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
     Item item = new Item(ItemEnum.Buns);
     assertTrue(
         "Should be able to give something to the customer counter because it has nothing on it",
-        customerCounter.CanGive());
-    customerCounter.GiveItem(item);
-    assertEquals("Item is in inventory", item, customerCounter.RetrieveItem());
+        customerCounter.canGive());
+    customerCounter.giveItem(item);
+    assertEquals("Item is in inventory", item, customerCounter.retrieveItem());
   }
 
   /**
@@ -105,10 +105,10 @@ public class CustomerCounterTests extends MasterTestClass {
   public void TestInteractCustomerCounter() {
     instantiateWorldAndCustomerCounter();
     instantiateCustomerScripts();
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
-    assertEquals("Can be interacted", 0, 0, customerCounter.Interact());
-    assertFalse(customerCounter.CanInteract());
+    assertEquals("Can be interacted", 0, 0, customerCounter.interact());
+    assertFalse(customerCounter.canInteract());
   }
 
 

@@ -160,7 +160,7 @@ public class LeaderboardScreen implements Screen {
             LeaderboardData data = new LeaderboardData();
             data.score = numberOfCustomersServed;
             data.name = textField.getText();
-            game.leaderBoard.WriteHighscores(data);
+            game.leaderBoard.writeHighscores(data);
             game.setScreen(new MenuScreen(game));
             dispose();
           } else {

@@ -22,7 +22,7 @@ public class TrashCan extends Scriptable implements Interactable {
    * @author Jack Hinton
    */
   @Override
-  public boolean GiveItem(Item item) {
+  public boolean giveItem(Item item) {
     return true;
   }
 
@@ -34,7 +34,7 @@ public class TrashCan extends Scriptable implements Interactable {
    * @author Jack Hinton
    */
   @Override
-  public Item RetrieveItem() {
+  public Item retrieveItem() {
     return null;
   }
 
@@ -46,7 +46,7 @@ public class TrashCan extends Scriptable implements Interactable {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanRetrieve() {
+  public boolean canRetrieve() {
     return false;
   }
 
@@ -58,7 +58,7 @@ public class TrashCan extends Scriptable implements Interactable {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanGive() {
+  public boolean canGive() {
     return true;
   }
 
@@ -70,7 +70,7 @@ public class TrashCan extends Scriptable implements Interactable {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanInteract() {
+  public boolean canInteract() {
     return false;
   }
 
@@ -82,7 +82,7 @@ public class TrashCan extends Scriptable implements Interactable {
    * @author Jack Hinton
    */
   @Override
-  public float Interact() {
+  public float interact() {
     return 0;
   }
 

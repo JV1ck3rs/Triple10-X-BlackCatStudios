@@ -37,7 +37,7 @@ public class LeaderBoardTests {
     data.name = "TestName";
     LeaderBoard leaderBoard = new LeaderBoard();
     leaderBoard.createFSONFile();
-    leaderBoard.WriteHighscores(data);
+    leaderBoard.writeHighscores(data);
     List<LeaderboardData> data2 = leaderBoard.readFSONData();
     assertEquals("The data in the leaderboard should be the same as the data written to it", data,
         data2.get(0));
@@ -59,7 +59,7 @@ public class LeaderBoardTests {
     LeaderBoard leaderBoard = new LeaderBoard();
     leaderBoard.createFSONFile();
     for (int i = 0; i < 5; i++) {
-      leaderBoard.WriteHighscores(data);
+      leaderBoard.writeHighscores(data);
     }
     List<LeaderboardData> leaderBoardRecords = leaderBoard.readFSONData();
     for (int i = 0; i < 5; i++) {
@@ -90,29 +90,29 @@ public class LeaderBoardTests {
     score1.score = 10;
     score1.name = "Jack";
     scoresList.add(score1);
-    leaderBoard.WriteHighscores(score1);
+    leaderBoard.writeHighscores(score1);
     LeaderboardData score2 = new LeaderboardData();
     score2.score = 8;
     score2.name = "Jim";
-    leaderBoard.WriteHighscores(score2);
+    leaderBoard.writeHighscores(score2);
     LeaderboardData score3 = new LeaderboardData();
     score3.score = 7;
     score3.name = "John";
-    leaderBoard.WriteHighscores(score3);
+    leaderBoard.writeHighscores(score3);
     LeaderboardData score4 = new LeaderboardData();
     score4.score = 6;
     score4.name = "James";
-    leaderBoard.WriteHighscores(score4);
+    leaderBoard.writeHighscores(score4);
     LeaderboardData score5 = new LeaderboardData();
     score5.score = 5;
     score5.name = "Jimbo";
-    leaderBoard.WriteHighscores(score5);
+    leaderBoard.writeHighscores(score5);
 
     // Write a score that is higher than the highest score in the leaderboard
     LeaderboardData score6 = new LeaderboardData();
     score6.score = 11;
     score6.name = "New";
-    leaderBoard.WriteHighscores(score6);
+    leaderBoard.writeHighscores(score6);
 
     // Check that the new score is in the leaderboard
     List<LeaderboardData> leaderBoardRecords = leaderBoard.readFSONData();
@@ -135,7 +135,7 @@ public class LeaderBoardTests {
     LeaderboardData score7 = new LeaderboardData();
     score7.score = 9;
     score7.name = "NewP";
-    leaderBoard.WriteHighscores(score7);
+    leaderBoard.writeHighscores(score7);
     leaderBoardRecords = leaderBoard.readFSONData();
 
     assertEquals("The 1st score in the list should be score6", score6,
@@ -151,7 +151,7 @@ public class LeaderBoardTests {
 
     LeaderboardData score8 = new LeaderboardData();
     score8.score = 1;
-    leaderBoard.WriteHighscores(score8);
+    leaderBoard.writeHighscores(score8);
     assertFalse("The leaderboard should not contain score8", leaderBoardRecords.contains(score8));
     leaderboardFile.delete();
   }

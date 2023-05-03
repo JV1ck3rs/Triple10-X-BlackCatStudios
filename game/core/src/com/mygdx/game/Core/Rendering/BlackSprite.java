@@ -24,7 +24,7 @@ public class BlackSprite extends Renderable {
    */
 
   @Override
-  public void Render(SpriteBatch batch, float x, float y) {
+  public void render(SpriteBatch batch, float x, float y) {
     sprite.setPosition(x, y);
     sprite.draw(batch);
 
@@ -37,7 +37,7 @@ public class BlackSprite extends Renderable {
    * @author Felix Seanor
    */
   @Override
-  public void Destroy() {
+  public void destroy() {
     sprite = null;
   }
 
@@ -73,7 +73,7 @@ public class BlackSprite extends Renderable {
    * @return
    * @author Felix Seanor
    */
-  public int GetWidth() {
+  public int getWidth() {
     return (int) (sprite.getWidth());
   }
 
@@ -83,7 +83,7 @@ public class BlackSprite extends Renderable {
    * @return
    * @author Felix Seanor
    */
-  public int GetHeight() {
+  public int getHeight() {
     return (int) (sprite.getHeight());
   }
 

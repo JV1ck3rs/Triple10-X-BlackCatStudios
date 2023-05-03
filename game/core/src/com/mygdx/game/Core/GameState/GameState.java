@@ -36,7 +36,7 @@ public class GameState implements Serializable {
   public Difficulty difficulty;
 
 
-  public boolean IsChefPartEquals(GameState state) {
+  public boolean isChefPartEquals(GameState state) {
     boolean eq = true;
 
     for (int i = 0; i < chefPositions.length; i++) {
@@ -53,7 +53,7 @@ public class GameState implements Serializable {
 
   }
 
-  public boolean IsCustomerPartEquals(GameState state) {
+  public boolean isCustomerPartEquals(GameState state) {
     boolean eq = true;
 
     // eq &= difficulty == state.difficulty; gamescreen

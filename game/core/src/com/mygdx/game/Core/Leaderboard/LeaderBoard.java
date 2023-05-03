@@ -86,10 +86,10 @@ public class LeaderBoard {
   }
 
 
-  public void WriteHighscores(LeaderboardData data) {
+  public void writeHighscores(LeaderboardData data) {
     List<LeaderboardData> highscores = new LinkedList<>();
     try {
-      highscores = AppendData(data);
+      highscores = appendData(data);
     } catch (IOException e) {
 
     }
@@ -114,7 +114,7 @@ public class LeaderBoard {
 
   }
 
-  public List<LeaderboardData> AppendData(LeaderboardData data) throws IOException {
+  public List<LeaderboardData> appendData(LeaderboardData data) throws IOException {
     List<LeaderboardData> highscores = readFSONData();
     Collections.sort(highscores);
     Collections.reverse(highscores);

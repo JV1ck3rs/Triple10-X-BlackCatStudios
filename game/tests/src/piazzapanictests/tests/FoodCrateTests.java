@@ -27,7 +27,7 @@ public class FoodCrateTests extends  MasterTestClass {
   @Test
   public void testCannotInteract() {
     instantiateWorldAndFoodCrate();
-    assertFalse(FC.CanInteract());
-    assertEquals(0.0, FC.Interact(), 0.1);
+    assertFalse(FC.canInteract());
+    assertEquals(0.0, FC.interact(), 0.1);
   }
 }

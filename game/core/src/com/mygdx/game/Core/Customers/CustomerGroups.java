@@ -147,7 +147,7 @@ public class CustomerGroups {
   }
 
 
-  public Customer RemoveFirstCustomer() {
+  public Customer removeFirstCustomer() {
     Customer customer = membersInLine.remove(0);
     addMemberToSitting(customer);
     removeIcons(customer);
@@ -171,7 +171,7 @@ public class CustomerGroups {
    * @return if is able to remove
    * @author Felix Seanor
    */
-  public int SeeIfDishIsCorrect(ItemEnum item) {
+  public int seeIfDishIsCorrect(ItemEnum item) {
     for (int i = 0; i < membersInLine.size(); i++) {
       if (membersInLine.get(i).dish == item) {
         return i;
@@ -189,8 +189,8 @@ public class CustomerGroups {
    * @return
    * @author Felix Seanor
    */
-  public int SeeIfDishIsCorrect(Item item) {
-    return SeeIfDishIsCorrect(item.name);
+  public int seeIfDishIsCorrect(Item item) {
+    return seeIfDishIsCorrect(item.name);
   }
 
   /**
@@ -202,7 +202,7 @@ public class CustomerGroups {
     frustration += recoveryValue;
   }
 
-  public Customer FeedSpecificCustomer(int i) {
+  public Customer feedSpecificCustomer(int i) {
     Customer customer = membersInLine.remove(i);
     addMemberToSitting(customer);
     removeIcons(customer);
@@ -230,7 +230,7 @@ public class CustomerGroups {
    * @param CauseLeave Function causing this customer to leave
    * @author Felix Seanor
    */
-  public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave,
+  public void checkFrustration(float dt, Consumer<CustomerGroups> CauseLeave,
       Boolean updateFrustration) {
     if (updateFrustration) {
       frustration -= dt;
@@ -252,7 +252,7 @@ public class CustomerGroups {
    * @return the current state of this group
    * @author Felix Seanor
    */
-  public CustomerGroupState SaveState(boolean leaving) {
+  public CustomerGroupState saveState(boolean leaving) {
     CustomerGroupState state = new CustomerGroupState();
     state.customerPositions = new Vector2[members.size()];
     state.customersInGroupOrdering = new int[membersInLine.size()];
@@ -290,7 +290,7 @@ public class CustomerGroups {
   public void destroy() {
     for (Customer cust : members
     ) {
-      cust.Destroy();
+      cust.destroy();
     }
   }
 

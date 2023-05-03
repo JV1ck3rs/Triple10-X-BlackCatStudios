@@ -43,9 +43,9 @@ public class CustomerCounters extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean GiveItem(Item item) {
+  public boolean giveItem(Item item) {
     changeItem(item);
-    GiveFood();
+    giveFood();
     return true;
   }
 
@@ -57,7 +57,7 @@ public class CustomerCounters extends Station {
    * @author Jack Hinton
    */
   @Override
-  public Item RetrieveItem() {
+  public Item retrieveItem() {
     returnItem = item;
     deleteItem();
     currentRecipe = null;
@@ -72,7 +72,7 @@ public class CustomerCounters extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanRetrieve() {
+  public boolean canRetrieve() {
     return item != null;
   }
 
@@ -84,7 +84,7 @@ public class CustomerCounters extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanGive() {
+  public boolean canGive() {
     return item == null;
   }
 
@@ -96,7 +96,7 @@ public class CustomerCounters extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanInteract() {
+  public boolean canInteract() {
     return false;
   }
 
@@ -108,7 +108,7 @@ public class CustomerCounters extends Station {
    * @author Jack Hinton
    */
   @Override
-  public float Interact() {
+  public float interact() {
     return 0;
   }
 
@@ -118,7 +118,7 @@ public class CustomerCounters extends Station {
    *
    * @author Jack Hinton
    */
-  public void GiveFood() {
+  public void giveFood() {
     boolean answer = giveItemToCustomer.apply(item);
     if (answer) {
       deleteItem();
@@ -137,17 +137,17 @@ public class CustomerCounters extends Station {
       if (heldItem == null) {
         return;
       }
-      heldItem.Destroy();
+      heldItem.destroy();
       heldItem = null;
       return;
     }
     if (heldItem == null) {
-      heldItem = new GameObject(new BlackTexture(Item.GetItemPath(item.name)));
+      heldItem = new GameObject(new BlackTexture(Item.getItemPath(item.name)));
       heldItem.image.setSize(imageSize, imageSize);
       heldItem.setPosition(gameObject.position.x,
           gameObject.position.y + ((gameObject.getHeight() / 2) - 10));
     } else {
-      heldItem.image = new BlackTexture(Item.GetItemPath(item.name));
+      heldItem.image = new BlackTexture(Item.getItemPath(item.name));
       heldItem.image.setSize(imageSize, imageSize);
     }
   }
@@ -159,7 +159,7 @@ public class CustomerCounters extends Station {
    * @author Jack Hinton
    */
   @Override
-  public void moveAnim() {
+  public void moveAnimation() {
     return;
   }
 
@@ -171,6 +171,6 @@ public class CustomerCounters extends Station {
    * @author Jack Hinton
    */
   @Override
-  public void Update(float dt) {
+  public void update(float dt) {
   }
 }

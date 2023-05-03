@@ -17,21 +17,21 @@ public interface Interactable {
    *
    * @return
    */
-  public boolean CanRetrieve();
+  public boolean canRetrieve();
 
   /**
    * Can this object be given to
    *
    * @return
    */
-  public boolean CanGive();
+  public boolean canGive();
 
   /**
    * Can this object be given to
    *
    * @return
    */
-  public boolean CanInteract();
+  public boolean canInteract();
 
   /**
    * Retrieve the item
@@ -40,7 +40,7 @@ public interface Interactable {
    * @author Jack Hinton
    */
 
-  public Item RetrieveItem();
+  public Item retrieveItem();
 
   /**
    * Give item to object
@@ -49,7 +49,7 @@ public interface Interactable {
    * @return
    * @author Felix Seanor
    */
-  public boolean GiveItem(Item item);
+  public boolean giveItem(Item item);
 
   /**
    * Interact with object
@@ -58,5 +58,5 @@ public interface Interactable {
    * interaction e.g. cutting
    * @author Jack Hinton
    */
-  public float Interact();
+  public float interact();
 }

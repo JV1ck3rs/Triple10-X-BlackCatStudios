@@ -46,13 +46,13 @@ import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.Rendering.GameObjectManager;
 import com.mygdx.game.Core.Rendering.RenderManager;
-import com.mygdx.game.Core.SFX.soundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame;
 import com.mygdx.game.Core.Scriptable;
 import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
-import com.mygdx.game.RecipeAndComb.recipeDict;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import com.mygdx.game.Stations.Station;
 import java.util.LinkedList;
 import java.util.List;
@@ -116,7 +116,7 @@ public class GameScreen implements Screen {
   public static final int viewportHeight = 18 * TILE_HEIGHT;
   Music gameMusic;
 
-  public showRecipeInstructions recipeScreen;
+  public ShowRecipeInstructions recipeScreen;
   Label modeLabel;
 
   Stage pauseStage; // stage for the pause menu
@@ -148,7 +148,7 @@ public class GameScreen implements Screen {
     //Triple10s
     this.game = game;
     camera = new OrthographicCamera();
-    recipeScreen = new showRecipeInstructions();
+    recipeScreen = new ShowRecipeInstructions();
     //recipeScreen.showRecipeInstruction();
     //BlackCatStudios
     CameraFunctions camera1 = CameraFunctions.camera;
@@ -179,7 +179,7 @@ public class GameScreen implements Screen {
 
     masterChef = new MasterChef(3, camera, pathfinding, difficultyState.chefParams,
         difficultyState.cookingParams);
-    GameObjectManager.objManager.AppendLooseScript(masterChef);
+    GameObjectManager.objManager.appendLooseScript(masterChef);
 
     CustomerControllerParams CCParams = difficultyState.ccParams;
 
@@ -195,21 +195,21 @@ public class GameScreen implements Screen {
     }
 
     customerController = new CustomerController(new Vector2(224, 0), new Vector2(360, 180),
-        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, tablePositions);
+        pathfinding, (EndOfGameValues vals) -> endGame(vals), CCParams, tablePositions);
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     powerup = new Powerup(masterChef, customerController); // powerup object
     powerupPurchaseMenu = new PowerupPurchaseMenu(customerController, powerup, masterChef);
     powerupPurchaseMenu.initialiseState();
-    GameObjectManager.objManager.AppendLooseScript(powerupPurchaseMenu);
-    GameObjectManager.objManager.AppendLooseScript(customerController);
+    GameObjectManager.objManager.appendLooseScript(powerupPurchaseMenu);
+    GameObjectManager.objManager.appendLooseScript(customerController);
 
     constructMachines = new ConstructMachines(customerController, difficultyState, pathfinding);
 
     new CombinationDict();
     CombinationDict.combinations.implementItems();
-    new recipeDict();
-    recipeDict.recipes.implementRecipes();
+    new RecipeDict();
+    RecipeDict.recipes.implementRecipes();
 
     int[] objectLayers = {3, 4, 6, 9, 11, 13, 16, 18, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32,
         33, 34, 35, 36, 37, 38, 39};
@@ -231,52 +231,52 @@ public class GameScreen implements Screen {
           case "tables":
             break;
           case "bin":
-            constructMachines.CreateBin(rect);
+            constructMachines.createBin(rect);
             break;
           case "counter":
-            constructMachines.CreateAssembly(rect);
+            constructMachines.createAssembly(rect);
             break;
           case "frying":
-            constructMachines.CreateHobs(rect);
+            constructMachines.createHobs(rect);
             break;
           case "chopping board":
-            constructMachines.CreateChopping(rect);
+            constructMachines.createChopping(rect);
             break;
           case "toaster":
-            constructMachines.CreateToaster(rect);
+            constructMachines.createToaster(rect);
             break;
           case "oven":
-            constructMachines.CreateOven(rect, customerController);
+            constructMachines.createOven(rect, customerController);
             break;
           case "customer counter":
-            constructMachines.CreateCustomerCounters(rect);
+            constructMachines.createCustomerCounters(rect);
             break;
           case "tomato":
-            constructMachines.CreateFoodCrates(rect, ItemEnum.Tomato);
+            constructMachines.createFoodCrates(rect, ItemEnum.Tomato);
             break;
           case "lettuce":
-            constructMachines.CreateFoodCrates(rect, ItemEnum.Lettuce);
+            constructMachines.createFoodCrates(rect, ItemEnum.Lettuce);
             break;
           case "onion":
-            constructMachines.CreateFoodCrates(rect, ItemEnum.Onion);
+            constructMachines.createFoodCrates(rect, ItemEnum.Onion);
             break;
           case "mince":
-            constructMachines.CreateFoodCrates(rect, ItemEnum.Mince);
+            constructMachines.createFoodCrates(rect, ItemEnum.Mince);
             break;
           case "buns":
-            constructMachines.CreateFoodCrates(rect, ItemEnum.Buns);
+            constructMachines.createFoodCrates(rect, ItemEnum.Buns);
             break;
           case "dough":
-            constructMachines.CreateFoodCrates(rect, ItemEnum.Dough);
+            constructMachines.createFoodCrates(rect, ItemEnum.Dough);
             break;
           case "cheese":
-            constructMachines.CreateFoodCrates(rect, ItemEnum.Cheese);
+            constructMachines.createFoodCrates(rect, ItemEnum.Cheese);
             break;
           case "potato":
-            constructMachines.CreateFoodCrates(rect, ItemEnum.Potato);
+            constructMachines.createFoodCrates(rect, ItemEnum.Potato);
             break;
           case "toolbox":
-            constructMachines.CreateFoodCrates(rect, ItemEnum.RepairTool);
+            constructMachines.createFoodCrates(rect, ItemEnum.RepairTool);
         }
       }
 
@@ -296,7 +296,7 @@ public class GameScreen implements Screen {
     scaleX = Gdx.graphics.getWidth() / 640f;
     scaleY = Gdx.graphics.getHeight() / 480f;
     if (loadSave) { // if the game is being loaded from a save
-      LoadGame("SavedData.ser");
+      loadGame("SavedData.ser");
     }
     isEndlessMode = CCParams.noCustomers == -1;
     setupPauseMenu();
@@ -503,7 +503,7 @@ public class GameScreen implements Screen {
       public void clicked(InputEvent event, float x, float y) {
         if (customerController.getMoney() >= 50 && masterChef.getChefList().size() < 5) {
           masterChef.AddNewChefIn();
-          customerController.ChangeMoney(-50);
+          customerController.changeMoney(-50);
           chefError.setText("");
         } else if (masterChef.getChefList().size() >= 5) {
           chefError.setText("You already have the maximum number of chefs");
@@ -596,7 +596,7 @@ public class GameScreen implements Screen {
     saveButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        SaveGame();
+        saveGame();
         saveLabel.setText("Game has successfully been saved");
       }
     });
@@ -629,7 +629,7 @@ public class GameScreen implements Screen {
    *
    * @param values
    */
-  public void EndGame(EndOfGameValues values) {
+  public void endGame(EndOfGameValues values) {
     if (!isEndlessMode) {
       endScreen = new EndScreen(game, this, timer, values, -1);
     } else {
@@ -713,7 +713,7 @@ public class GameScreen implements Screen {
     //Black Cat Studios
 
     if (Gdx.input.isKeyJustPressed(Keys.V)) {
-      LoadGame("SavedData.ser");
+      loadGame("SavedData.ser");
     }
 
     //Removed and simplified logic
@@ -726,10 +726,10 @@ public class GameScreen implements Screen {
     // Mutes or plays the music
     if (Gdx.input.isKeyJustPressed((Input.Keys.M))) {
       if (gameMusic.isPlaying()) {
-        soundFrame.SoundEngine.muteSound();
+        SoundFrame.SoundEngine.muteSound();
         gameMusic.stop();
       } else {
-        soundFrame.SoundEngine.unmuteSound();
+        SoundFrame.SoundEngine.unmuteSound();
         gameMusic.play();
       }
     }
@@ -773,9 +773,9 @@ public class GameScreen implements Screen {
    *
    * @author Felix Seanor
    */
-  public void SaveGame() {
+  public void saveGame() {
     SaveState saving = new SaveState();
-    saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds,
+    saving.saveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds,
         constructMachines.stations, constructMachines.customerCounters,
         constructMachines.assemblyStations);
 
@@ -786,14 +786,14 @@ public class GameScreen implements Screen {
    *
    * @author Felix Seanor
    */
-  public void LoadGame(String path) {
+  public void loadGame(String path) {
     SaveState saving = new SaveState();
 
-    GameState state = saving.LoadState(path);
+    GameState state = saving.loadState(path);
 
-    LoadState(state);
+    loadState(state);
     masterChef.LoadState(state);
-    customerController.LoadState(state);
+    customerController.loadState(state);
 
   }
 
@@ -804,27 +804,27 @@ public class GameScreen implements Screen {
    * @param state
    * @author Felix Seanor
    */
-  public void LoadState(GameState state) {
+  public void loadState(GameState state) {
 
     int i = 0;
     timer = state.timer;
     seconds = state.seconds;
     difficulty = state.difficulty;
     for (GameObject station : constructMachines.stations) {
-      Scriptable scriptable = station.GetScript(0);
+      Scriptable scriptable = station.getScript(0);
       if (scriptable instanceof Station) {
-        ((Station) scriptable).LoadState(state.foodOnCounters.get(i), state.repairState.get(i++));
+        ((Station) scriptable).loadState(state.foodOnCounters.get(i), state.repairState.get(i++));
       }
 
 
     }
 
     for (GameObject station : constructMachines.customerCounters) {
-      ((Station) station.GetScript(0)).LoadState(state.foodOnCounters.get(i++), true);
+      ((Station) station.getScript(0)).loadState(state.foodOnCounters.get(i++), true);
     }
 
     for (GameObject station : constructMachines.assemblyStations) {
-      ((Station) station.GetScript(0)).LoadState(state.foodOnCounters.get(i++), true);
+      ((Station) station.getScript(0)).loadState(state.foodOnCounters.get(i++), true);
     }
   }
 

@@ -55,7 +55,7 @@ public class Pathfinding {
    * @param jy
    * @return sqrt(I ^ 2 - J ^ 2)
    */
-  private float Euclidian(int ix, int iy, int jx, int jy) {
+  private float euclidian(int ix, int iy, int jx, int jy) {
     return (float) Math.sqrt(Math.pow(jx - ix, 2) + Math.pow(jy - iy, 2));
   }
 
@@ -69,7 +69,7 @@ public class Pathfinding {
    * @return |I-J|
    * @author Felix Seanor
    */
-  private float Manhatten(int ix, int iy, int jx, int jy) {
+  private float manhatten(int ix, int iy, int jx, int jy) {
     return Math.abs(ix - jx) + Math.abs(iy - jy);
   }
 
@@ -106,11 +106,11 @@ public class Pathfinding {
    * @return distance
    * @author Felix Seanor
    */
-  private float DistanceTesting(int ix, int iy, int jx, int jy, DistanceTest test) {
+  private float distanceTesting(int ix, int iy, int jx, int jy, DistanceTest test) {
     if (test == DistanceTest.Euclidean) {
-      return Euclidian(ix, iy, jx, jy);
+      return euclidian(ix, iy, jx, jy);
     }
-    return Manhatten(ix, iy, jx, jy);
+    return manhatten(ix, iy, jx, jy);
   }
 
   public void addStaticObject(int x, int y, int width, int height) {
@@ -143,7 +143,7 @@ public class Pathfinding {
    * @return true if legal, false if not
    * @author Felix Seanor
    */
-  private boolean LegalMove(int x, int y, int index) {
+  private boolean legalMove(int x, int y, int index) {
     if (!(x >= 0 && x < gridX)) {
       return false;
     }
@@ -167,7 +167,7 @@ public class Pathfinding {
    * @return a list of points to follow to get to the goal. Empty if no path found.
    * @author Felix Seanor
    */
-  public List<Vector2> FindPath(int x, int y, int goalX, int goalY,
+  public List<Vector2> findPath(int x, int y, int goalX, int goalY,
       final DistanceTest distanceTest) {
     HashMap<Integer, PathfindingCell> ReachedCells = new HashMap<>();
 
@@ -190,7 +190,7 @@ public class Pathfinding {
 
 //    System.out.println("First: " + getIndex(x, y));
     frontier.add(
-        new PathfindingCell(x, y, getIndex(x, y), DistanceTesting(x, y, goalX, goalY, distanceTest),
+        new PathfindingCell(x, y, getIndex(x, y), distanceTesting(x, y, goalX, goalY, distanceTest),
             0));
 
     PathfindingCell cell = null;
@@ -215,7 +215,7 @@ public class Pathfinding {
 
         ndex = getIndex(nx, ny);
         //This has generaly been repeated several times for each axis. Just follows rules of A*
-        if (LegalMove(nx, ny, ndex)) {
+        if (legalMove(nx, ny, ndex)) {
           if (ReachedCells.containsKey(ndex)) {
             ncell = ReachedCells.get(ndex);
             if (cell.pathCost + 1 < ncell.pathCost) {
@@ -225,7 +225,7 @@ public class Pathfinding {
             }
           } else {
             ncell = new PathfindingCell(nx, ny, ndex,
-                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
+                distanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
             ncell.parent = cell;
             frontier.add(ncell);
             ReachedCells.put(ndex, ncell);
@@ -237,7 +237,7 @@ public class Pathfinding {
         ny = cell.y;
 
         ndex = getIndex(nx, ny);
-        if (LegalMove(nx, ny, ndex)) {
+        if (legalMove(nx, ny, ndex)) {
 
           if (ReachedCells.containsKey(ndex)) {
 
@@ -252,7 +252,7 @@ public class Pathfinding {
 
           } else {
             ncell = new PathfindingCell(nx, ny, ndex,
-                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
+                distanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
             ncell.parent = cell;
             frontier.add(ncell);
             ReachedCells.put(ndex, ncell);
@@ -265,7 +265,7 @@ public class Pathfinding {
         ny = cell.y - 1;
 
         ndex = getIndex(nx, ny);
-        if (LegalMove(nx, ny, ndex)) {
+        if (legalMove(nx, ny, ndex)) {
 
           if (ReachedCells.containsKey(ndex)) {
 
@@ -280,7 +280,7 @@ public class Pathfinding {
 
           } else {
             ncell = new PathfindingCell(nx, ny, ndex,
-                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
+                distanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
             ncell.parent = cell;
             frontier.add(ncell);
             ReachedCells.put(ndex, ncell);
@@ -293,7 +293,7 @@ public class Pathfinding {
 
         ndex = getIndex(nx, ny);
 
-        if (LegalMove(nx, ny, ndex)) {
+        if (legalMove(nx, ny, ndex)) {
 
           if (ReachedCells.containsKey(ndex)) {
 
@@ -308,7 +308,7 @@ public class Pathfinding {
 
           } else {
             ncell = new PathfindingCell(nx, ny, ndex,
-                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
+                distanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
             ncell.parent = cell;
             frontier.add(ncell);
             ReachedCells.put(ndex, ncell);
@@ -321,10 +321,10 @@ public class Pathfinding {
     List<Vector2> path = new LinkedList<>();
 
     if (!Found) {
-      float MaxDistance = DistanceTesting(x, y, goalX, goalY, distanceTest) + 1;
+      float MaxDistance = distanceTesting(x, y, goalX, goalY, distanceTest) + 1;
 
       for (PathfindingCell tcell : ReachedCells.values()) {
-        float distance = DistanceTesting(tcell.x, tcell.y, goalX, goalY, distanceTest);
+        float distance = distanceTesting(tcell.x, tcell.y, goalX, goalY, distanceTest);
 
         if (distance < MaxDistance) {
           cell = tcell;

@@ -57,7 +57,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructHob()
   {
     Rectangle rect = construct();
-    machines.CreateHobs(rect);
+    machines.createHobs(rect);
     assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
 
@@ -72,7 +72,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructBins()
   {
     Rectangle rect = construct();
-    machines.CreateBin(rect);
+    machines.createBin(rect);
     assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
   /**
@@ -86,7 +86,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructOven()
   {
     Rectangle rect = construct();
-    machines.CreateOven(rect, customerController);
+    machines.createOven(rect, customerController);
     assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
   /**
@@ -99,7 +99,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructChopping()
   {
     Rectangle rect = construct();
-    machines.CreateChopping(rect);
+    machines.createChopping(rect);
     assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
 
@@ -113,7 +113,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructToaster()
   {
     Rectangle rect = construct();
-    machines.CreateToaster(rect);
+    machines.createToaster(rect);
     assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
   /**
@@ -127,7 +127,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructCustomerCounters()
   {
     Rectangle rect = construct();
-    machines.CreateCustomerCounters(rect);
+    machines.createCustomerCounters(rect);
     assertTrue("Must have constructed stations", machines.customerCounters.size()>0);
   }
 
@@ -141,7 +141,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructFoodCrate()
   {
     Rectangle rect = construct();
-    machines.CreateFoodCrates(rect, ItemEnum.Lettuce);
+    machines.createFoodCrates(rect, ItemEnum.Lettuce);
     assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
   /**
@@ -154,7 +154,7 @@ public class ConstructionTest extends MasterTestClass
   public void ConstructAssembly()
   {
     Rectangle rect = construct();
-    machines.CreateAssembly(rect);
+    machines.createAssembly(rect);
     assertTrue("Must have constructed stations", machines.assemblyStations.size()>0);
   }
 

@@ -76,7 +76,7 @@ public class PowerupsTests extends MasterTestClass {
   public void stopFrustration(){
     instantiateCustomerScripts();
     instantiateMasterChef();
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
     Powerup powerup = new Powerup(masterChef, customerController);
 
@@ -124,7 +124,7 @@ public class PowerupsTests extends MasterTestClass {
     instantiateMasterChef();
 
     Powerup powerup = new Powerup(masterChef, customerController);
-    customerController.CanAcceptNewCustomer();
+    customerController.canAcceptNewCustomer();
 
     Customer firstCustomer = customerController.getCurrentWaitingCustomerGroup().membersInLine.get(0);
     Integer customerWaitingLength = customerController.getCurrentWaitingCustomerGroup().membersInLine.size();
@@ -161,8 +161,8 @@ public class PowerupsTests extends MasterTestClass {
     orders.add(ItemEnum.Burger);
     orders.add(ItemEnum.TomatoOnionSalad);
     CustomerGroups newCustGroup = new CustomerGroups(4, 0, new Vector2(0, 0), 90, orders, customerController.customerAtlas);
-    newCustGroup.table = customerController.GetTable();
-    newCustGroup.table.DesignateSeating(4, new Random());
+    newCustGroup.table = customerController.getTable();
+    newCustGroup.table.designateSeating(4, new Random());
     customerController.setCurrentWaitingCustomerGroup(newCustGroup);
     Integer customerWaitingLength = customerController.getCurrentWaitingCustomerGroup().membersInLine.size();
     Integer served = customerController.getNumberOfCustomersServed();

@@ -1,7 +1,6 @@
 package com.mygdx.game.Core.PathFinder;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.Core.Chef.RayPoint;
 import com.mygdx.game.Core.Scriptable;
 import java.util.LinkedList;
@@ -24,7 +23,7 @@ public class PathfindingAgent extends Scriptable {
    * Give this agent a new path
    * @param newPath
    */
-  public void GivePath(List<Vector2> newPath) {
+  public void givePath(List<Vector2> newPath) {
     prev = new Vector2(gameObject.position);
     path = newPath;
   }
@@ -46,7 +45,7 @@ public class PathfindingAgent extends Scriptable {
    * @return
    * @author Felix Seanor
    */
-  public static RayPoint NearestPointOnLine(Vector2 linePnt, Vector2 lineDir, Vector2 pnt) {
+  public static RayPoint nearestPointOnLine(Vector2 linePnt, Vector2 lineDir, Vector2 pnt) {
 
     lineDir = lineDir.nor();//this needs to be a unit vector
 
@@ -67,7 +66,7 @@ public class PathfindingAgent extends Scriptable {
    * @author Felix Seanor
    * @author Jack Vickers
    */
-  protected Vector2 GetMoveDir() {
+  protected Vector2 getMoveDir() {
     if (path == null || path.size() == 0) {
       return new Vector2(0, 0);
     }
@@ -91,11 +90,11 @@ public class PathfindingAgent extends Scriptable {
       return;
     }
 
-    Vector2 rayDir = GetMoveDir();
+    Vector2 rayDir = getMoveDir();
 
     Vector2 simulatedPosition = new Vector2(gameObject.position);
     Vector2 nextPos = new Vector2(path.get(0));
-    RayPoint point = NearestPointOnLine(nextPos, rayDir, simulatedPosition);
+    RayPoint point = nearestPointOnLine(nextPos, rayDir, simulatedPosition);
     float distT = (float) Math.sqrt(rayDir.dot(rayDir));
 
     //System.out.println(distT + " : " + point.t + point.pos);
@@ -123,7 +122,7 @@ public class PathfindingAgent extends Scriptable {
   }
 
   @Override
-  public void Update(float dt) {
+  public void update(float dt) {
     move(dt);
   }
 

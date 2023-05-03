@@ -4,8 +4,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.mygdx.game.Core.SFX.ContinousSound;
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.SoundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -29,7 +29,7 @@ public class SFXTests {
    */
   @Test
   public void LoadInSounds(){
-    soundFrame frame = new soundFrame();
+    SoundFrame frame = new SoundFrame();
 
     assertNotNull(frame);
   }
@@ -41,7 +41,7 @@ public class SFXTests {
    */
   @Test
   public void PlaySounds(){
-    soundFrame frame = new soundFrame();
+    SoundFrame frame = new SoundFrame();
 
     long id = frame.playSound(soundsEnum.DropItem);
 
@@ -55,7 +55,7 @@ public class SFXTests {
    */
   @Test
   public void PlayLoopingSounds(){
-    soundFrame frame = new soundFrame();
+    SoundFrame frame = new SoundFrame();
 
     ContinousSound sounds = new ContinousSound(soundsEnum.Frying);
     assertTrue("Should start without a reference", sounds.soundID == -1);
@@ -65,17 +65,17 @@ public class SFXTests {
 
     sounds.shouldPlay = true;
 
-    sounds.DoSoundCheck();
+    sounds.doSoundCheck();
     assertTrue("Should have a reference", sounds.soundID >=0);
 
     assertTrue("should be playing", !sounds.getStopped());
-    sounds.DoSoundCheck();
+    sounds.doSoundCheck();
 
-    sounds.DoSoundCheck();
+    sounds.doSoundCheck();
     assertTrue("should be stopped", sounds.getStopped());
 
     sounds.shouldPlay = true;
-    sounds.DoSoundCheck();
+    sounds.doSoundCheck();
     assertTrue("should be playing", !sounds.getStopped());
   }
   /**
@@ -86,7 +86,7 @@ public class SFXTests {
    */
   @Test
   public void changeVolumes(){
-    soundFrame frame = new soundFrame();
+    SoundFrame frame = new SoundFrame();
 
     frame.setSystemVolume(100);
 

@@ -34,7 +34,7 @@ public class BlackTexture extends Renderable {
 
 
   /**
-   * changr the current texture on this texture region
+   * change the current texture on this texture region
    *
    * @param tex
    * @author Sam Toner
@@ -52,7 +52,7 @@ public class BlackTexture extends Renderable {
    */
   public void changeTextureFromPath(String path) {
 
-    texture = TextureDictionary.textures.Get(path);
+    texture = TextureDictionary.textures.get(path);
 
     imageWidth = texture.getWidth();
     imageHeight = texture.getHeight();
@@ -124,7 +124,7 @@ public class BlackTexture extends Renderable {
    * @author Felix Seanor
    */
   @Override
-  public void Render(SpriteBatch batch, float x, float y) {
+  public void render(SpriteBatch batch, float x, float y) {
     batch.draw(textureRegion, x, y, width, height);
   }
 
@@ -134,7 +134,7 @@ public class BlackTexture extends Renderable {
    * @author Felix Seanor
    */
   @Override
-  public void Destroy() {
+  public void destroy() {
     texture = null;
     textureRegion = null;
   }
@@ -143,14 +143,14 @@ public class BlackTexture extends Renderable {
    * @return texture regions width
    * @author Felix Seanor
    */
-  public int GetWidth() {
+  public int getWidth() {
     return width;
   }
 
   /**
    * @return texture region height
    */
-  public int GetHeight() {
+  public int getHeight() {
     return height;
   }
 

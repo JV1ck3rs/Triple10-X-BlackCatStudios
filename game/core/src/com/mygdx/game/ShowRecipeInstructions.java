@@ -11,12 +11,12 @@ import java.util.HashMap;
  * @author Sam Toner
  * @date 21/03/23
  */
-public class showRecipeInstructions {
+public class ShowRecipeInstructions {
 
   HashMap<String, String> recipeMap = new HashMap<>();
   public GameObject imageObject;
 
-  public showRecipeInstructions() {
+  public ShowRecipeInstructions() {
     recipeMap.put("Empty", "Recipes/EmptyRecipe.png");
     recipeMap.put("salad", "speech_dish1.png");
     recipeMap.put("burger", "Recipes/BurgerRecipe.png");
@@ -24,7 +24,7 @@ public class showRecipeInstructions {
 
 
   public void changeInstructionPage(String dish) {
-    Texture tex = TextureDictionary.textures.Get(recipeMap.get(dish));
+    Texture tex = TextureDictionary.textures.get(recipeMap.get(dish));
     imageObject.getBlackTexture().changeTexture(tex);
   }
 

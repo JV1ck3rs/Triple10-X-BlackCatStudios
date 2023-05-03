@@ -186,7 +186,7 @@ public class MasterChef extends Scriptable {
 
     chefPos.add(chefs.get(currentControlledChef).gameObject.getWidth() / 2f, 0);
 
-    Scriptable script = Interaction.FindClosetInteractable(
+    Scriptable script = Interaction.findClosetInteractable(
         chefPos, InteractionType.Give, maxRange);
 
     if (script == null) {
@@ -199,7 +199,7 @@ public class MasterChef extends Scriptable {
       return;
     }
 
-    if (((Interactable) script).GiveItem(itemToGive.get())) {
+    if (((Interactable) script).giveItem(itemToGive.get())) {
       chefs.get(currentControlledChef).popItem();
     }
   }
@@ -219,14 +219,14 @@ public class MasterChef extends Scriptable {
 
     chefPos.add(chefs.get(currentControlledChef).gameObject.getWidth() / 2f, 0);
 
-    Scriptable script = Interaction.FindClosetInteractable(
+    Scriptable script = Interaction.findClosetInteractable(
         chefPos, InteractionType.Fetch, maxRange);
 
     if (script == null) {
       return;
     }
 
-    Item itemToGive = ((Interactable) script).RetrieveItem();
+    Item itemToGive = ((Interactable) script).retrieveItem();
 
     if (itemToGive == null) {
       return;
@@ -252,14 +252,14 @@ public class MasterChef extends Scriptable {
 
     chefPos.add(chefs.get(currentControlledChef).gameObject.getWidth() / 2f, 0);
 
-    Scriptable script = Interaction.FindClosetInteractable(
+    Scriptable script = Interaction.findClosetInteractable(
         chefPos, InteractionType.Interact, maxRange);
 
     if (script == null) {
       return;
     }
 
-    float lockTime = ((Interactable) script).Interact();
+    float lockTime = ((Interactable) script).interact();
     if (lockTime > 0) {
       chefs.get(currentControlledChef).freeze(lockTime);
     }
@@ -289,7 +289,7 @@ public class MasterChef extends Scriptable {
   void checkFrozen(float dt) {
     for (Chef chef : chefs) {
       if (chef.isFrozen) {
-        boolean ready = chef.freezeTimer(dt * cookingParams.chopspeed);
+        boolean ready = chef.freezeTimer(dt * cookingParams.chopSpeed);
         if (ready) {
           chef.unfreeze();
         }
@@ -310,7 +310,7 @@ public class MasterChef extends Scriptable {
    * @author Jack Vickers
    */
   @Override
-  public void Update(float dt) {
+  public void update(float dt) {
     checkFrozen(dt);
     selectChef();
     if (chefs.get(currentControlledChef).isFrozen) {
@@ -345,10 +345,10 @@ public class MasterChef extends Scriptable {
       touchpos = camera.unproject(touchpos);
       if (touchpos.y < 520
           && touchpos.x < 940) { // if the ui at the top of the screen is not clicked
-        List<Vector2> path = pathfinder.FindPath((int) getCurrentChef().gameObject.position.x,
+        List<Vector2> path = pathfinder.findPath((int) getCurrentChef().gameObject.position.x,
             (int) getCurrentChef().gameObject.position.y, (int) touchpos.x, (int) touchpos.y,
             DistanceTest.Euclidean);
-        getCurrentChef().GivePath(path);
+        getCurrentChef().givePath(path);
       }
     }
     MoveArrow();

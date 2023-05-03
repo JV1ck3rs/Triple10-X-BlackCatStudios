@@ -12,9 +12,9 @@ import java.util.Map;
  * @author Jack Hinton
  * @date 29/03/23
  */
-public class recipeDict {
+public class RecipeDict {
 
-  public static recipeDict recipes;
+  public static RecipeDict recipes;
   public Map<ItemEnum, Recipe> RecipeMap = new HashMap<>();
 
   /**
@@ -108,7 +108,7 @@ public class recipeDict {
    *
    * @author Jack Hinton
    */
-  public recipeDict() {
+  public RecipeDict() {
     if (recipes != null) {
       return;
     }

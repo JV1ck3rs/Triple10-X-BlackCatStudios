@@ -202,13 +202,13 @@ public class ScenarioModeTests {
     // Instantiates the customer scripts and sets the number of customers to 1
     InstantiateCustomerScripts(Difficulty.Relaxing, 1, 50);
     // Creates the waiting customer group
-    cust.CanAcceptNewCustomer();
+    cust.canAcceptNewCustomer();
     // Gets the item that the customer wants
     Item itemToGive = new Item(cust.getCurrentWaitingCustomerGroup().getOrders().get(0));
     // Gives the customer the item they want
     cust.tryGiveFood(itemToGive);
     // Checks whether the game has ended
-    cust.CanAcceptNewCustomer();
+    cust.canAcceptNewCustomer();
     assertTrue("The game should have ended as a win", vals.won);
   }
 
@@ -227,9 +227,9 @@ public class ScenarioModeTests {
     // points also gets set to 1.
     InstantiateCustomerScripts(Difficulty.Relaxing, 1, 0);
     // Creates the waiting customer group
-    cust.CanAcceptNewCustomer();
+    cust.canAcceptNewCustomer();
     // Since frustration time is set to
-    cust.FrustrationLeave(cust.getCurrentWaitingCustomerGroup());
+    cust.frustrationLeave(cust.getCurrentWaitingCustomerGroup());
     assertFalse("The game should have ended as a loss", vals.won);
   }
 

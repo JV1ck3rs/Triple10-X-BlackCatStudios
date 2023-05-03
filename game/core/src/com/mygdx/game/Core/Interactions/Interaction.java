@@ -25,7 +25,7 @@ public class Interaction {
     Interact
   }
 
-  private static final boolean Debug = false;
+  private static final boolean DEBUG = false;
   public static List<GameObject> debugVision = new LinkedList<>();
 
   /**
@@ -40,19 +40,19 @@ public class Interaction {
    * @author Jack Hinton
    * @author Jack Vickers
    */
-  public static Scriptable FindClosetInteractable(Vector2 pos, InteractionType type,
+  public static Scriptable findClosetInteractable(Vector2 pos, InteractionType type,
       float maxRange) {
 
-    if (Debug) {
-      for (GameObject ob : debugVision
+    if (DEBUG) {
+      for (GameObject gameObject : debugVision
       ) {
-        ob.Destroy();
+        gameObject.destroy();
       }
 
       debugVision.clear();
     }
     BlackTexture tex;
-    if (Debug) {
+    if (DEBUG) {
       tex = new BlackTexture("Black.png");
       tex.setSize(10, 10);
 
@@ -67,9 +67,9 @@ public class Interaction {
         Interactable.class);
 
     float distance = maxRange * maxRange * maxRange;
-    Vector2 vct = new Vector2();
+    Vector2 vector = new Vector2();
     Scriptable currentClosestScript = null;
-    Vector2 temp = Vector2.Zero;
+    Vector2 temporary = Vector2.Zero;
     Vector2 ScriptPos;
 
 //For all script check if it's valid for this type of interaction.
@@ -77,19 +77,19 @@ public class Interaction {
     // or a food station as it cannot receive
     for (Scriptable script : interactables
     ) {
-      temp.set(pos);
+      temporary.set(pos);
       ScriptPos = script.gameObject.position;
 
       if (type == InteractionType.Fetch) {
-        if (!((Interactable) script).CanRetrieve()) {
+        if (!((Interactable) script).canRetrieve()) {
           continue;
         }
       } else if (type == InteractionType.Give) {
-        if (!((Interactable) script).CanGive()) {
+        if (!((Interactable) script).canGive()) {
           continue;
         }
       } else if (type == InteractionType.Interact) {
-        if (!((Interactable) script).CanInteract()) {
+        if (!((Interactable) script).canInteract()) {
           continue;
         }
       }
@@ -101,48 +101,48 @@ public class Interaction {
 
       Vector2 L = new Vector2(1, 0);
 
-      float BW = script.gameObject.getWidth() / 2f;
-      float BH = script.gameObject.getHeight() / 2f;
+      float bWidth = script.gameObject.getWidth() / 2f;
+      float bHeight = script.gameObject.getHeight() / 2f;
 
       ScriptPos = new Vector2(ScriptPos);
 
-      ScriptPos.add(BW, BH);
+      ScriptPos.add(bWidth, bHeight);
 
-      vct.set(pos).sub(ScriptPos);
+      vector.set(pos).sub(ScriptPos);
 
       //Case 2 Y axis
 
-      float bound = Math.abs(L.dot(vct));
-      float lower = maxRange + Math.abs(BW);
+      float bound = Math.abs(L.dot(vector));
+      float lower = maxRange + Math.abs(bWidth);
 
-      float minVct;
+      float minVector;
       if (bound > lower) {
         //separating axis
         continue;
       } else {
-        minVct = bound;
+        minVector = bound;
       }
 
       L.set(0, 1);
-      bound = Math.abs(L.dot(vct));
-      lower = maxRange + Math.abs(BH);
+      bound = Math.abs(L.dot(vector));
+      lower = maxRange + Math.abs(bHeight);
 
       if (bound > lower) {
         //seperating axis
         continue;
       } else {
-        minVct = Math.min(bound, minVct);
+        minVector = Math.min(bound, minVector);
       }
 
-      if (Debug) {
+      if (DEBUG) {
         GameObject obj = new GameObject(tex);
         obj.setPosition(ScriptPos.x, ScriptPos.y);
 
         debugVision.add(obj);
       }
       //If the minimum vector is smaller than the current distance then accept this as the closest
-      if (minVct < distance) {
-        distance = minVct;
+      if (minVector < distance) {
+        distance = minVector;
 
         currentClosestScript = script;
       }

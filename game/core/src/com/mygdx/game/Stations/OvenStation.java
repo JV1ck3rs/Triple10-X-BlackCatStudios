@@ -3,11 +3,11 @@ package com.mygdx.game.Stations;
 import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Rendering.GameObject;
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.SoundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.RecipeAndComb.recipeDict;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -66,7 +66,7 @@ public class OvenStation extends Station {
    * @author Jack Vickers
    */
   @Override
-  public boolean GiveItem(Item item) {
+  public boolean giveItem(Item item) {
     if (getLocked()) {
       boolean repaired = checkRepairTool(item);
       if (repaired) {
@@ -96,7 +96,7 @@ public class OvenStation extends Station {
    * @author Jack Vickers
    */
   @Override
-  public Item RetrieveItem() {
+  public Item retrieveItem() {
     timer.isVisible = false;
     readyBubble.isVisible = false;
     returnItem = item;
@@ -114,7 +114,7 @@ public class OvenStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanRetrieve() {
+  public boolean canRetrieve() {
     return item != null;
   }
 
@@ -126,7 +126,7 @@ public class OvenStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanGive() {
+  public boolean canGive() {
 
     return item == null;
   }
@@ -139,7 +139,7 @@ public class OvenStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanInteract() {
+  public boolean canInteract() {
     return false;
   }
 
@@ -151,7 +151,7 @@ public class OvenStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public float Interact() {
+  public float interact() {
     return 0;
   }
 
@@ -164,7 +164,7 @@ public class OvenStation extends Station {
    */
   public void checkItem() {
     if (itemWhiteList.contains(item.name)) {
-      currentRecipe = recipeDict.recipes.RecipeMap.get(item.name);
+      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
       timer.isVisible = true;
       if (item.name == ItemEnum.CheesePizzaCooked || item.name == ItemEnum.MeatPizzaCooked
           || item.name == ItemEnum.VegPizzaCooked) {
@@ -185,13 +185,13 @@ public class OvenStation extends Station {
    * @Author Felix Seanor
    * @Author Jack Vickers
    */
-  public void Cook(float dt) {
+  public void cook(float dt) {
     ready = currentRecipe.recipeSteps.get(item.step)
         .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
     if (ready) {
       changeItem(new Item(currentRecipe.endItem));
       readyBubble.isVisible = true;
-      soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
+      SoundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
       checkItem();
       return;
     }
@@ -237,7 +237,7 @@ public class OvenStation extends Station {
    * @Author Jack Hinton
    */
   @Override
-  public void moveAnim() {
+  public void moveAnimation() {
     animation.setPosition(gameObject.position.x, gameObject.position.y);
   }
 
@@ -249,9 +249,9 @@ public class OvenStation extends Station {
    * @Author Jack Hinton
    */
   @Override
-  public void Update(float dt) {
+  public void update(float dt) {
     if (currentRecipe != null) {
-      Cook(dt);
+      cook(dt);
     }
   }
 }

@@ -5,11 +5,11 @@ import com.mygdx.game.Core.GameState.CookingParams;
 import com.mygdx.game.Core.Rendering.BlackTexture;
 import com.mygdx.game.Core.Rendering.GameObject;
 import com.mygdx.game.Core.SFX.ContinousSound;
-import com.mygdx.game.Core.SFX.soundFrame;
-import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
+import com.mygdx.game.Core.SFX.SoundFrame;
+import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.RecipeAndComb.recipeDict;
+import com.mygdx.game.RecipeAndComb.RecipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -75,7 +75,7 @@ public class HobStation extends Station {
    * @author Jack Vickers
    */
   @Override
-  public boolean GiveItem(Item item) {
+  public boolean giveItem(Item item) {
     if (getLocked()) {
       return checkRepairTool(item);
     }
@@ -96,7 +96,7 @@ public class HobStation extends Station {
    * @Authpr Jack Vickers
    */
   @Override
-  public Item RetrieveItem() {
+  public Item retrieveItem() {
     returnItem = item;
     deleteItem();
     currentRecipe = null;
@@ -114,7 +114,7 @@ public class HobStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanRetrieve() {
+  public boolean canRetrieve() {
     return item != null;
   }
 
@@ -126,7 +126,7 @@ public class HobStation extends Station {
    * @author Jack Hinton
    */
   @Override
-  public boolean CanGive() {
+  public boolean canGive() {
     return item == null;
   }
 
@@ -139,7 +139,7 @@ public class HobStation extends Station {
    */
   public void checkItem() {
     if (itemWhiteList.contains(item.name)) {
-      currentRecipe = recipeDict.recipes.RecipeMap.get(item.name);
+      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
       timer.isVisible = true;
       if (item.step == 1 || currentRecipe.recipeSteps.size() == 1) {
         warningIcon.isVisible = true;
@@ -162,7 +162,7 @@ public class HobStation extends Station {
    * @Author Jack Hinton
    */
   @Override
-  public boolean CanInteract() {
+  public boolean canInteract() {
     return currentRecipe != null;
   }
 
@@ -174,7 +174,7 @@ public class HobStation extends Station {
    * @Author Jack Hinton
    */
   @Override
-  public float Interact() {
+  public float interact() {
     interacted = true;
     return 0;
   }
@@ -198,7 +198,7 @@ public class HobStation extends Station {
    * @Author Felix Seanor
    * @Author Jack Vickers
    */
-  public void Cook(float dt) {
+  public void cook(float dt) {
     ready = currentRecipe.recipeSteps.get(item.step)
         .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
     burnersSFX.shouldPlay = true;
@@ -209,11 +209,11 @@ public class HobStation extends Station {
 
       if (item.step == currentRecipe.recipeSteps.size()) {
         changeItem(new Item(currentRecipe.endItem));
-        soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
+        SoundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
         readyBubble.isVisible = true;
         checkItem();
       } else {
-        soundFrame.SoundEngine.playSound(soundsEnum.StepAchieved);
+        SoundFrame.SoundEngine.playSound(soundsEnum.StepAchieved);
       }
       return;
     }
@@ -258,17 +258,17 @@ public class HobStation extends Station {
       if (heldItem == null) {
         return;
       }
-      heldItem.Destroy();
+      heldItem.destroy();
       heldItem = null;
       return;
     }
     if (heldItem == null) {
-      heldItem = new GameObject(new BlackTexture(Item.GetItemPath(item.name)));
+      heldItem = new GameObject(new BlackTexture(Item.getItemPath(item.name)));
       heldItem.image.setSize(imageSize, imageSize);
       heldItem.setPosition(gameObject.position.x + 4,
           gameObject.position.y + (gameObject.getHeight() / 2) + 8);
     } else {
-      heldItem.image = new BlackTexture(Item.GetItemPath(item.name));
+      heldItem.image = new BlackTexture(Item.getItemPath(item.name));
       heldItem.image.setSize(imageSize, imageSize);
     }
 
@@ -281,7 +281,7 @@ public class HobStation extends Station {
    * @Author Jack Hinton
    */
   @Override
-  public void moveAnim() {
+  public void moveAnimation() {
     return;
   }
 
@@ -294,12 +294,12 @@ public class HobStation extends Station {
    * @Author Felix Seanor
    */
   @Override
-  public void Update(float dt) {
+  public void update(float dt) {
     if (currentRecipe != null) {
-      Cook(dt);
+      cook(dt);
     }
-    fryingSFX.DoSoundCheck();
-    burnersSFX.DoSoundCheck();
+    fryingSFX.doSoundCheck();
+    burnersSFX.doSoundCheck();
     interacted = false;
   }
 }

@@ -34,7 +34,7 @@ public class TextureDictionary {
    * @param path
    * @return
    */
-  public Texture Get(String path) {
+  public Texture get(String path) {
 
     if (storedTextures.containsKey(path)) {
       return storedTextures.get(path);

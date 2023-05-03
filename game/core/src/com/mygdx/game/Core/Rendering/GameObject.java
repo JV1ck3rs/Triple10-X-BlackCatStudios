@@ -70,7 +70,7 @@ public class GameObject {
 
     image = renderable;
     if (GameObjectManager.objManager != null) {
-      GameObjectManager.objManager.SubmitGameObject(this);
+      GameObjectManager.objManager.submitGameObject(this);
     }
     position = new Vector2();
     physicalWidth = -1;
@@ -87,7 +87,7 @@ public class GameObject {
   public void attachScript(Scriptable script) {
     scripts.add(script);
     script.setGameObject(this);
-    script.Start();
+    script.start();
   }
 
   /**
@@ -97,7 +97,7 @@ public class GameObject {
    * @return
    * @author Felix Seanor
    */
-  public Scriptable GetScript(int i) {
+  public Scriptable getScript(int i) {
     return scripts.get(i);
   }
 
@@ -133,7 +133,7 @@ public class GameObject {
   public void doUpdate(float dt) {
     for (Scriptable script : scripts
     ) {
-      script.Update(dt);
+      script.update(dt);
     }
   }
 
@@ -146,7 +146,7 @@ public class GameObject {
   public void doFixedUpdate(float dt) {
     for (Scriptable script : scripts
     ) {
-      script.FixedUpdate(dt);
+      script.fixedUpdate(dt);
     }
   }
 
@@ -158,7 +158,7 @@ public class GameObject {
   public void doOnRenderUpdate() {
     for (Scriptable script : scripts
     ) {
-      script.OnRender();
+      script.onRender();
     }
   }
 
@@ -180,7 +180,7 @@ public class GameObject {
 
     doOnRenderUpdate();
 
-    image.Render(batch, position.x, position.y);
+    image.render(batch, position.x, position.y);
 
   }
 
@@ -227,8 +227,8 @@ public class GameObject {
     if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
       touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
       touchPos = camera1.unprojectCamera(touchPos);
-      if (touchPos.x > position.x && touchPos.x < position.x + image.GetWidth()) {
-        if (touchPos.y > position.y && touchPos.y < position.y + image.GetHeight()) {
+      if (touchPos.x > position.x && touchPos.x < position.x + image.getWidth()) {
+        if (touchPos.y > position.y && touchPos.y < position.y + image.getHeight()) {
 //          System.out.println("Clicked");
           return true;
         }
@@ -257,7 +257,7 @@ public class GameObject {
    */
   public float getWidth() {
     if (physicalWidth == -1) {
-      return image.GetWidth();
+      return image.getWidth();
     }
     return physicalWidth;
   }
@@ -270,7 +270,7 @@ public class GameObject {
    */
   public float getHeight() {
     if (physicalHeight == -1) {
-      return image.GetHeight();
+      return image.getHeight();
     }
     return physicalHeight;
   }
@@ -280,8 +280,8 @@ public class GameObject {
    *
    * @author Felix Seanor
    */
-  public void Destroy() {
-    GameObjectManager.objManager.DestroyGameObject(this);
-    image.Destroy();
+  public void destroy() {
+    GameObjectManager.objManager.destroyGameObject(this);
+    image.destroy();
   }
 }
