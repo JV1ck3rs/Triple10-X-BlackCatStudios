@@ -313,10 +313,16 @@ public class MasterChef extends Scriptable {
   public void update(float dt) {
     checkFrozen(dt);
     selectChef();
+
+    for (Chef chef: chefs
+    ) {
+      chef.updateSpriteFromInput("");
+
+    }
+
     if (chefs.get(currentControlledChef).isFrozen) {
       return;
     }
-    chefs.get(currentControlledChef).updateSpriteFromInput("");
     if (KeyPressedNow(Inputs.CYCLE_STACK)) {
       CycleItemStack();
     }
@@ -334,10 +340,10 @@ public class MasterChef extends Scriptable {
     if (Gdx.input.isKeyJustPressed((Inputs.DROP_ITEM))) {
       chefs.get(currentControlledChef).DropItem();
     }
-
+/*
     if (Gdx.input.isKeyJustPressed(Inputs.SPAWN_NEW_CHEF)) {
       AddNewChefIn();
-    }
+    }*/
 
     if (Gdx.input.isButtonJustPressed(0)) {
       Vector3 touchpos = new Vector3();

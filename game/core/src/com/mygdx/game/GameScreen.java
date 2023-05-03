@@ -712,9 +712,9 @@ public class GameScreen implements Screen {
 
     //Black Cat Studios
 
-    if (Gdx.input.isKeyJustPressed(Keys.V)) {
+    /*if (Gdx.input.isKeyJustPressed(Keys.V)) {
       loadGame("SavedData.ser");
-    }
+    }*/
 
     //Removed and simplified logic
 
@@ -742,7 +742,7 @@ public class GameScreen implements Screen {
       updateCustomerLabel();
       //New rendering system
       RenderManager.renderer.onRender(game.batch);
-      if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+    /*  if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
         powerup.doSpeedPowerup();
       }
       if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
@@ -753,7 +753,7 @@ public class GameScreen implements Screen {
       }
       if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
         powerup.tetrisSuperFoodGive();
-      }
+      }*/
     } else if (paused && !isInstructionsVisible) {
       pauseStage.draw();
     } else {
