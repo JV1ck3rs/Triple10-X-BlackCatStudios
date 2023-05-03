@@ -30,13 +30,25 @@ import java.io.IOException;
  * @author Felix Seanor
  * @author Amy Cross
  * @author Jack Vickers
- * @date 27/04/23
+ * @date 27 /04/23
  */
 public class MenuScreen implements Screen {
 
+  /**
+   * The Game screen.
+   */
   GameScreen gameScreen;
+  /**
+   * The Victory screen.
+   */
   GameScreen victoryScreen;
+  /**
+   * The Main menu atlas.
+   */
   TextureAtlas mainMenuAtlas;
+  /**
+   * The Root.
+   */
   final MyGdxGame root;
 
   private final TextureRegion playbtnUp;
@@ -47,12 +59,33 @@ public class MenuScreen implements Screen {
   private final TextureRegion exitbtnDown;
   private final Stage stage;
   private final Table table;
+  /**
+   * The Scale x.
+   */
   float scaleX;
+  /**
+   * The Scale y.
+   */
   float scaleY;
+  /**
+   * The Load button.
+   */
   Button loadButton;
+  /**
+   * The Play btn.
+   */
   Button playBtn;
+  /**
+   * The Scenario btn.
+   */
   Button scenarioBtn;
+  /**
+   * The Exit btn.
+   */
   Button exitBtn;
+  /**
+   * The High scores btn.
+   */
   Button highScoresBtn;
 
   /**

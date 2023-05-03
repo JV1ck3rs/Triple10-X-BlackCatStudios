@@ -28,18 +28,45 @@ import com.mygdx.game.Core.GameState.Difficulty;
  * scenario mode. BlackCatStudios
  *
  * @author Jack Vickers
- * @date 04/04/2023
+ * @date 04 /04/2023
  */
 public class ScenarioModeConfigScreen implements Screen {
 
+  /**
+   * The Game.
+   */
   final MyGdxGame game;
+  /**
+   * The Game screen.
+   */
   GameScreen gameScreen;
+  /**
+   * The Scenario config texture.
+   */
   Texture scenarioConfigTexture;
+  /**
+   * The Stage.
+   */
   Stage stage;
+  /**
+   * The Table.
+   */
   Table table;
+  /**
+   * The Text field.
+   */
   TextField textField;
+  /**
+   * The Scenario config atlas.
+   */
   TextureAtlas scenarioConfigAtlas;
+  /**
+   * The Error message.
+   */
   Label errorMessage;
+  /**
+   * The Hard btn.
+   */
   Button hardBtn;
 
   /**
@@ -47,9 +74,8 @@ public class ScenarioModeConfigScreen implements Screen {
    *
    * @param game The MyGdxGame object
    * @author Jack Vickers
-   * @date 04/04/2023
+   * @date 04 /04/2023
    */
-
   public ScenarioModeConfigScreen(MyGdxGame game) {
     float scaleX;
     float scaleY;
@@ -181,6 +207,11 @@ public class ScenarioModeConfigScreen implements Screen {
     });
   }
 
+  /**
+   * Gets hard btn.
+   *
+   * @return the hard btn
+   */
   public Button getHardBtn() {
     return hardBtn;
   }
@@ -190,7 +221,7 @@ public class ScenarioModeConfigScreen implements Screen {
    *
    * @param difficultyLevel The difficulty level of the game.
    * @author Jack Vickers
-   * @date 19/04/2023
+   * @date 19 /04/2023
    */
   public void checkInput(Difficulty difficultyLevel) {
     int numCustomers = 5;
@@ -238,6 +269,7 @@ public class ScenarioModeConfigScreen implements Screen {
   }
 
   /**
+   *
    */
   @Override
   public void pause() {
@@ -245,6 +277,7 @@ public class ScenarioModeConfigScreen implements Screen {
   }
 
   /**
+   *
    */
   @Override
   public void resume() {

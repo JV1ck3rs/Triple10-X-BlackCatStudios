@@ -5,19 +5,34 @@ package com.mygdx.game.Core.Leaderboard;
  *
  * @author Felix Seanor
  * @author Jack Vickers
- * @date 28/04/23
+ * @date 28 /04/23
  */
 public class LeaderboardData implements
     Comparable<LeaderboardData> {
 
+  /**
+   * The Score.
+   */
   public int score;
+  /**
+   * The Name.
+   */
   public String name;
 
+  /**
+   * Instantiates a new Leaderboard data.
+   */
   public LeaderboardData() {
     score = 0;
     name = "";
   }
 
+  /**
+   * Instantiates a new Leaderboard data.
+   *
+   * @param score the score
+   * @param name  the name
+   */
   public LeaderboardData(int score, String name) {
     this.score = score;
     this.name = name;

@@ -7,13 +7,22 @@ import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
  * BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 18/04/23
+ * @date 18 /04/23
  */
 public class ContinousSound {
 
+  /**
+   * The Sound id.
+   */
   public Long soundID;
+  /**
+   * The Should play.
+   */
   public Boolean shouldPlay;
 
+  /**
+   * The Sound to play.
+   */
   public soundsEnum soundToPlay;
   private boolean stopped = false;
 
@@ -41,6 +50,11 @@ public class ContinousSound {
     shouldPlay = false;
   }
 
+  /**
+   * Gets stopped.
+   *
+   * @return the stopped
+   */
   public boolean getStopped() {
     return stopped;
   }
@@ -48,7 +62,7 @@ public class ContinousSound {
   /**
    * Create a new sound given a sound enum
    *
-   * @param name
+   * @param name the name
    * @author Felix Seanor
    */
   public ContinousSound(soundsEnum name) {

@@ -9,18 +9,39 @@ import com.mygdx.game.Items.ItemEnum;
  * Class containing procedures to execute powerups BlackCatStudio's Code
  *
  * @author Sam Toner
- * @date 02/05/23
+ * @date 03/05/23
  */
 public class Powerup {
 
+  /**
+   * The Mc.
+   */
   MasterChef mc;
+  /**
+   * The Cc.
+   */
   CustomerController cc;
 
+  /**
+   * Instantiates a new Powerup.
+   *
+   * @param mc the mc
+   * @param cc the cc
+   *
+   * @author Sam Toner
+   * @date 01/05/2023
+   */
   public Powerup(MasterChef mc, CustomerController cc) {
     this.mc = mc;
     this.cc = cc;
   }
 
+  /**
+   * Do speed powerup.
+   *
+   * @author Sam Toner
+   * @date 01/05/2023
+   */
   public void doSpeedPowerup() {
     mc.upgradeSpeed();
     new java.util.Timer().schedule(
@@ -34,15 +55,24 @@ public class Powerup {
     );
   }
 
+  /**
+   * Buy reputation.
+   */
   public void buyReputation() {
     cc.modifyReputation(1);
   }
 
 
+  /**
+   * Super food.
+   */
   public void superFood() {
     cc.superFoodUpgrade();
   }
 
+  /**
+   * Tetris super food give.
+   */
   public void tetrisSuperFoodGive() {
     Item dish = mc.getCurrentChef().getTopItem();
     //ItemEnum dish = cc.currentWaiting.MembersInLine.get(0).getDish();
@@ -52,6 +82,11 @@ public class Powerup {
   }
 
 
+  /**
+   * Stop frustration.
+   *
+   * @param delayTime the delay time
+   */
   public void stopFrustration(Integer delayTime) {
     cc.updateFrustration = false;
     new java.util.Timer().schedule(

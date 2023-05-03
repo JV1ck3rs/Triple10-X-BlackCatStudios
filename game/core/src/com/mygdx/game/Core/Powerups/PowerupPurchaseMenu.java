@@ -20,55 +20,161 @@ import java.util.LinkedList;
  * This contains the code for the powerup purchase menu UI BlackCatStudio's Code
  *
  * @author Sam Toner
- * @date 02/05/23
+ * @date 02 /05/23
  */
 public class PowerupPurchaseMenu extends Scriptable {
 
+  /**
+   * The Font.
+   */
   FreeTypeFontGenerator.FreeTypeFontParameter font;
+  /**
+   * The Gen.
+   */
   FreeTypeFontGenerator gen;
+  /**
+   * The Font bit.
+   */
   BitmapFont fontBit;
 
+  /**
+   * The Background texture.
+   */
   BlackTexture backgroundTexture = new BlackTexture("PowerupAssets/BackGround.png");
+  /**
+   * The Speed power up texture.
+   */
   BlackTexture speedPowerUpTexture = new BlackTexture("PowerupAssets/SpeedPowerUp.png");
+  /**
+   * The Reputation power up texture.
+   */
   BlackTexture reputationPowerUpTexture = new BlackTexture("PowerupAssets/ReputationPowerUp.png");
+  /**
+   * The Super food powerup texture.
+   */
   BlackTexture superFoodPowerupTexture = new BlackTexture("PowerupAssets/SuperFoodPowerUp.png");
+  /**
+   * The Tetris super food powerup texture.
+   */
   BlackTexture tetrisSuperFoodPowerupTexture = new BlackTexture(
       "PowerupAssets/TetrisSuperFoodPowerup.png");
+  /**
+   * The Frustration super food power up texture.
+   */
   BlackTexture frustrationSuperFoodPowerUpTexture = new BlackTexture(
       "PowerupAssets/FrustrationPowerup.png");
+  /**
+   * The Close menu texture.
+   */
   BlackTexture closeMenuTexture = new BlackTexture("Items/CloseButton.png");
 
-  // Create objects for the power-up screen
+  /**
+   * The Background.
+   */
+// Create objects for the power-up screen
   public GameObject background = new GameObject(backgroundTexture);
+  /**
+   * The Speed power up button.
+   */
   GameObject speedPowerUpButton = new GameObject(speedPowerUpTexture);
+  /**
+   * The Reputation power up button.
+   */
   GameObject reputationPowerUpButton = new GameObject(reputationPowerUpTexture);
+  /**
+   * The Super food power up button.
+   */
   GameObject superFoodPowerUpButton = new GameObject(superFoodPowerupTexture);
+  /**
+   * The Tetris super food power up button.
+   */
   GameObject tetrisSuperFoodPowerUpButton = new GameObject(tetrisSuperFoodPowerupTexture);
+  /**
+   * The Stop frustration power up button.
+   */
   GameObject stopFrustrationPowerUpButton = new GameObject(frustrationSuperFoodPowerUpTexture);
+  /**
+   * The Close menu button.
+   */
   GameObject closeMenuButton = new GameObject(closeMenuTexture);
 
 
+  /**
+   * The Speed text texture.
+   */
   BlackTexture speedTextText = new BlackTexture("PowerupAssets/SpeedText.png");
+  /**
+   * The Reputation text texture.
+   */
   BlackTexture reputationTextText = new BlackTexture("PowerupAssets/ReputationText.png");
+  /**
+   * The Super food text texture.
+   */
   BlackTexture SuperFoodTextText = new BlackTexture("PowerupAssets/SuperFoodText.png");
+  /**
+   * The Frustration text texture.
+   */
   BlackTexture frustrationTextText = new BlackTexture("PowerupAssets/FrustrationText.png");
+  /**
+   * The Mega food text texture.
+   */
   BlackTexture megaFoodTextText = new BlackTexture("PowerupAssets/MegaFoodText.png");
 
+  /**
+   * The Speed text.
+   */
   GameObject speedText = new GameObject(speedTextText);
+  /**
+   * The Reputation text.
+   */
   GameObject reputationText = new GameObject(reputationTextText);
+  /**
+   * The Super food text.
+   */
   GameObject superFoodText = new GameObject(SuperFoodTextText);
+  /**
+   * The Frustration text.
+   */
   GameObject frustrationText = new GameObject(frustrationTextText);
+  /**
+   * The Mega food text.
+   */
   GameObject megaFoodText = new GameObject(megaFoodTextText);
 
+  /**
+   * The Cc.
+   */
   CustomerController cc;
+  /**
+   * The Powerup.
+   */
   Powerup powerup;
 
+  /**
+   * The Prices.
+   */
   HashMap<String, Integer> prices = new HashMap<>();
-  SpriteBatch sb;
+
+  /**
+   * The Mc.
+   */
   MasterChef mc;
+  /**
+   * The Completed recipes.
+   */
   LinkedList<ItemEnum> completedRecipes;
 
 
+  /**
+   * Instantiates a new Powerup purchase menu.
+   *
+   * @param cc      the cc
+   * @param powerup the powerup
+   * @param mc      the mc
+   *
+   * @author Sam Toner
+   * @date 03/05/2023
+   */
   public PowerupPurchaseMenu(CustomerController cc, Powerup powerup, MasterChef mc) {
     this.cc = cc;
     this.powerup = powerup;
@@ -90,7 +196,6 @@ public class PowerupPurchaseMenu extends Scriptable {
     fontBit = gen.generateFont(font);
     Label.LabelStyle fontStyle = new Label.LabelStyle();
     fontStyle.font = fontBit;
-    sb = new SpriteBatch();
     this.mc = mc;
     completedRecipes = new LinkedList<>();
     completedRecipes.add(ItemEnum.Burger);
@@ -118,6 +223,12 @@ public class PowerupPurchaseMenu extends Scriptable {
     megaFoodTextText.layer = 20;
   }
 
+  /**
+   * Initialise state.
+   *
+   * @author Sam Toner
+   * @date 03/05/2023
+   */
   public void initialiseState() {
     hidePowerMenu();
     backgroundTexture.layer = 19;
@@ -145,6 +256,12 @@ public class PowerupPurchaseMenu extends Scriptable {
   }
 
 
+  /**
+   * Show power up menu.
+   *
+   * @author Sam Toner
+   * @date 03/05/2023
+   */
   public void showPowerUpMenu() {
     background.isVisible = true;
     speedPowerUpButton.isVisible = true;
@@ -160,6 +277,9 @@ public class PowerupPurchaseMenu extends Scriptable {
     megaFoodText.isVisible = true;
   }
 
+  /**
+   * Hide power menu.
+   */
   public void hidePowerMenu() {
     background.isVisible = false;
     speedPowerUpButton.isVisible = false;

@@ -8,23 +8,41 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * an abstraction for texture region BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 24/04/23
+ * @date 24 /04/23
  */
 public class BlackTexture extends Renderable {
 
+  /**
+   * The Texture.
+   */
   public Texture texture;
+  /**
+   * The Texture region.
+   */
   public TextureRegion textureRegion;
 
-  //Width and height of image
-  public int imageWidth, imageHeight;
-  //width and height of texture region
-  public int width, height;
+  /**
+   * The Image width.
+   */
+//Width and height of image
+  public int imageWidth, /**
+   * The Image height.
+   */
+  imageHeight;
+  /**
+   * The Width.
+   */
+//width and height of texture region
+  public int width, /**
+   * The Height.
+   */
+  height;
 
 
   /**
    * Generates a new texture from file path (data safe)
    *
-   * @param tex
+   * @param tex the tex
    * @author Felix Seanor
    */
   public BlackTexture(String tex) {
@@ -36,7 +54,7 @@ public class BlackTexture extends Renderable {
   /**
    * change the current texture on this texture region
    *
-   * @param tex
+   * @param tex the tex
    * @author Sam Toner
    */
   public void changeTexture(Texture tex) {
@@ -47,7 +65,7 @@ public class BlackTexture extends Renderable {
   /**
    * Given a file path set up the texture, tries to reuse textures
    *
-   * @param path
+   * @param path the path
    * @author Felix Seanor
    */
   public void changeTextureFromPath(String path) {
@@ -69,8 +87,8 @@ public class BlackTexture extends Renderable {
   /**
    * sets the images width and height parameters
    *
-   * @param _w
-   * @param _h
+   * @param _w the w
+   * @param _h the h
    * @author Felix Seanor
    */
   public void setImageSize(int _w, int _h) {
@@ -96,8 +114,8 @@ public class BlackTexture extends Renderable {
   /**
    * Sets wraps
    *
-   * @param U
-   * @param V
+   * @param U the u
+   * @param V the v
    * @author Felix Seanor
    */
   public void setWrap(Texture.TextureWrap U, Texture.TextureWrap V) {
@@ -108,7 +126,7 @@ public class BlackTexture extends Renderable {
   /**
    * Set the wraps from TextureWrap
    *
-   * @param UV
+   * @param UV the uv
    * @author Felix Seanor
    */
   public void setWrap(Texture.TextureWrap UV) {

@@ -1,0 +1,681 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Chef</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Core.Chef</a>
+</div>
+
+<h1>Coverage Summary for Class: Chef (com.mygdx.game.Core.Chef)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Chef</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.3%
+  </span>
+  <span class="absValue">
+    (19/31)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55%
+  </span>
+  <span class="absValue">
+    (77/140)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core.Chef;
+&nbsp;
+&nbsp;import static java.lang.Math.min;
+&nbsp;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.graphics.g2d.Sprite;
+&nbsp;import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+&nbsp;import com.badlogic.gdx.math.Vector2;
+&nbsp;import com.mygdx.game.Core.Inputs;
+&nbsp;import com.mygdx.game.Core.PathFinder.PathfindingAgent;
+&nbsp;import com.mygdx.game.Core.Rendering.BlackTexture;
+&nbsp;import com.mygdx.game.Core.Rendering.GameObject;
+&nbsp;import com.mygdx.game.Core.SFX.SoundFrame;
+&nbsp;import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
+&nbsp;import com.mygdx.game.Items.Item;
+&nbsp;import com.mygdx.game.Items.ItemEnum;
+&nbsp;import com.mygdx.game.Person;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.Stack;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Creates the chef object which will interact with every object on the map and assemble dishes to
+&nbsp; * be fed to the customer The class also handles all sprite animations and movement.
+&nbsp; * &lt;p&gt;
+&nbsp; * BlackCatStudio&#39;s Code with a few methods from Team Triple 10
+&nbsp; *
+&nbsp; * @author Robin Graham
+&nbsp; * @author Amy Cross
+&nbsp; * @author Labib Zabeneh
+&nbsp; * @author Riko Puusepp
+&nbsp; * @author Felix Seanor
+&nbsp; * @date 01 /05/23
+&nbsp; */
+&nbsp;public class Chef extends PathfindingAgent implements Person {
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The Held items.
+&nbsp;   */
+<b class="fc">&nbsp;  Stack&lt;Item&gt; heldItems = new Stack&lt;&gt;();</b>
+&nbsp;  /**
+&nbsp;   * The Held item game objects.
+&nbsp;   */
+<b class="fc">&nbsp;  List&lt;GameObject&gt; HeldItemGameObjects = new LinkedList&lt;&gt;();</b>
+&nbsp;  /**
+&nbsp;   * The constant CarryCapacity.
+&nbsp;   */
+<b class="fc">&nbsp;  public static int CarryCapacity = 3;</b>
+&nbsp;
+&nbsp;  private float oldSpeed;
+&nbsp;  private String spriteOrientation, spriteState;
+&nbsp;  private int currentSpriteAnimation;
+<b class="fc">&nbsp;  private final int MAX_ANIMATION = 4;</b>
+<b class="fc">&nbsp;  private float stateTime = 0;</b>
+&nbsp;  private TextureAtlas chefAtlas;
+&nbsp;  /**
+&nbsp;   * The Is frozen.
+&nbsp;   */
+&nbsp;  public boolean isFrozen;
+&nbsp;  private String lastOrientation;
+&nbsp;  private float lockTime;
+<b class="fc">&nbsp;  private float lockProgress = 0;</b>
+<b class="fc">&nbsp;  private boolean ModifiedStack = false;</b>
+&nbsp;  /**
+&nbsp;   * The Path.
+&nbsp;   */
+&nbsp;  List&lt;Vector2&gt; path;
+&nbsp;
+&nbsp;  private final int id;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The Timer atlas.
+&nbsp;   */
+&nbsp;  TextureAtlas timerAtlas;
+&nbsp;  /**
+&nbsp;   * The Timer sprite.
+&nbsp;   */
+&nbsp;  Sprite timerSprite;
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Initialise the chef object and sets its spawn position. Black cat studios code
+&nbsp;   *
+&nbsp;   * @param id        the individual id of each chef i.e 0,1,2....
+&nbsp;   * @param chefAtlas the chef atlas
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public Chef(int id, TextureAtlas chefAtlas) {
+<b class="fc">&nbsp;    super();</b>
+<b class="fc">&nbsp;    this.id = id;</b>
+<b class="fc">&nbsp;    this.chefAtlas = chefAtlas; // chef now takes a texture atlas so</b>
+&nbsp;    // that the chefs can be created in the test files. Originally,
+&nbsp;    // chefs were given a texture atlas from the getChefAtlasArray function in the GameScreen class.
+&nbsp;    // Gamescreen could not be directly used in the test files as it caused an error.
+<b class="fc">&nbsp;    this.path = new LinkedList&lt;&gt;();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Initialised the chefs data Mixture of Triple 10s and BlackCatStudios
+&nbsp;   *
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void start() {
+&nbsp;    //Reorganised to fit work flow and requires access to data not yet created
+&nbsp;    //Triple 10s
+<b class="fc">&nbsp;    gameObject.getSprite().setSprite(chefAtlas.createSprite(&quot;south1&quot;));</b>
+<b class="fc">&nbsp;    currentSpriteAnimation = 1;</b>
+<b class="fc">&nbsp;    spriteOrientation = &quot;south&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;    isFrozen = false;</b>
+&nbsp;    //sprite.setPosition(posX, posY); unnessary now
+&nbsp;    //MyGdxGame.buildObject(world, posX, posY, sprite.getWidth(), sprite.getHeight(), &quot;Dynamic&quot;);
+<b class="fc">&nbsp;    this.lastOrientation = &quot;south&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;    timerAtlas = new TextureAtlas(Gdx.files.internal(&quot;Timer/timer.txt&quot;));</b>
+<b class="fc">&nbsp;    timerSprite = timerAtlas.createSprite(&quot;01&quot;);</b>
+&nbsp;//Black Cat studios
+<b class="fc">&nbsp;    for (int i = 0; i &lt; CarryCapacity; i++) {</b>
+<b class="fc">&nbsp;      HeldItemGameObjects.add(new GameObject(new BlackTexture(Item.getItemPath(ItemEnum.Buns))));</b>
+<b class="fc">&nbsp;      HeldItemGameObjects.get(i).isVisible = false;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Defines all box2d associated variables for the chef and sets its hitbox to be used for
+&nbsp;   * collisions.
+&nbsp;   * This is Team Triple 10s code
+&nbsp;   */
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Makes items in the stack visble and hides stack items that do not have an item
+&nbsp;   *
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  void changeItemVisibilities() {
+&nbsp;
+<b class="nc">&nbsp;    int i = -1;</b>
+<b class="nc">&nbsp;    for (Item item : heldItems</b>
+&nbsp;    ) {
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;
+<b class="nc">&nbsp;      GameObject obj = HeldItemGameObjects.get(i);</b>
+<b class="nc">&nbsp;      if (!obj.isVisible || ModifiedStack) {</b>
+<b class="nc">&nbsp;        obj.image = item.tex;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      obj.isVisible = true;</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int j = i + 1; j &lt; CarryCapacity; j++) {</b>
+<b class="nc">&nbsp;      GameObject obj = HeldItemGameObjects.get(j);</b>
+<b class="nc">&nbsp;      obj.isVisible = false;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    for (int j = 0; j &lt; CarryCapacity; j++) {</b>
+<b class="nc">&nbsp;      GameObject obj = HeldItemGameObjects.get(j);</b>
+<b class="nc">&nbsp;      obj.position.x = gameObject.position.x;</b>
+<b class="nc">&nbsp;      obj.position.y = gameObject.position.y + j * 5;</b>
+<b class="nc">&nbsp;      obj.image.layer = 1 + j;</b>
+&nbsp;
+<b class="nc">&nbsp;      if (spriteOrientation.contains(&quot;north&quot;)) {</b>
+<b class="nc">&nbsp;        obj.position.y += obj.image.getHeight() / 2;</b>
+<b class="nc">&nbsp;        obj.image.layer -= CarryCapacity;</b>
+<b class="nc">&nbsp;      } else if (spriteOrientation.contains(&quot;south&quot;)) {</b>
+<b class="nc">&nbsp;        obj.position.y -= obj.image.getHeight() / 2;</b>
+<b class="nc">&nbsp;      } else if (spriteOrientation.contains(&quot;east&quot;)) {</b>
+<b class="nc">&nbsp;        obj.position.x += obj.image.getWidth() / 2;</b>
+<b class="nc">&nbsp;      } else if (spriteOrientation.contains(&quot;west&quot;)) {</b>
+<b class="nc">&nbsp;        obj.position.x -= obj.image.getWidth() / 2 + 5;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;
+&nbsp;    }
+<b class="nc">&nbsp;    ModifiedStack = false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets top item.
+&nbsp;   *
+&nbsp;   * @return the top item
+&nbsp;   */
+&nbsp;  public Item getTopItem() {
+<b class="fc">&nbsp;    if (heldItems.size() == 0) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return heldItems.peek();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void onRender() {
+&nbsp;
+<b class="nc">&nbsp;    changeItemVisibilities();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Updates the chef position and shows the animation depending on its direction and speed. This is
+&nbsp;   * a mixture of BlackCatStudios and Team Triple10
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void updateSpriteFromInput(String newOrientation) {
+&nbsp;
+<b class="fc">&nbsp;    Vector2 dir = getMoveDir().nor();</b>
+&nbsp;
+&nbsp;    //BlackCatStudios
+<b class="fc">&nbsp;    if (dir.dot(dir) &lt;= 0) {</b>
+<b class="fc">&nbsp;      newOrientation = &quot;idle&quot; + spriteOrientation.replace(&quot;idle&quot;, &quot;&quot;);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      if (Math.abs(dir.dot(new Vector2(1, 0))) &lt; Math.abs(dir.dot(new Vector2(0, 1)))) {</b>
+&nbsp;        //North prefered
+&nbsp;
+<b class="fc">&nbsp;        if (dir.dot(new Vector2(0, 1)) &gt; 0) {</b>
+<b class="fc">&nbsp;          newOrientation = &quot;north&quot;;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          newOrientation = &quot;south&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;
+&nbsp;      } else {
+<b class="fc">&nbsp;        if (dir.dot(new Vector2(1, 0)) &gt; 0) {</b>
+<b class="fc">&nbsp;          newOrientation = &quot;east&quot;;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          newOrientation = &quot;west&quot;;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    //Team Triple 10
+<b class="fc">&nbsp;    if (newOrientation.contains(&quot;idle&quot;)) {</b>
+<b class="fc">&nbsp;      spriteState = newOrientation;</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      if (spriteOrientation != newOrientation) {</b>
+<b class="fc">&nbsp;        currentSpriteAnimation = 1;</b>
+<b class="fc">&nbsp;        stateTime = 0;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (stateTime &gt; 1 / 15.0) { // sprite is updated every 15th of a second</b>
+<b class="nc">&nbsp;          currentSpriteAnimation++;</b>
+<b class="nc">&nbsp;          if (currentSpriteAnimation &gt; MAX_ANIMATION) { // a chef has 4 different animations</b>
+<b class="nc">&nbsp;            currentSpriteAnimation = 1;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          stateTime = 0;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          stateTime += 0.01;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      spriteState = newOrientation + currentSpriteAnimation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Black Cat studios
+<b class="fc">&nbsp;    setTexture(spriteState);</b>
+&nbsp;    //Team Triple 10s
+<b class="fc">&nbsp;    spriteOrientation = newOrientation;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets sprite orientation.
+&nbsp;   *
+&nbsp;   * @return the sprite orientation
+&nbsp;   */
+&nbsp;  public String getSpriteOrientation() {
+<b class="fc">&nbsp;    return spriteOrientation;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the texture of the chef. Black Studios and Triple 10s
+&nbsp;   *
+&nbsp;   * @author Amy Cross
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void setTexture(String texture) {
+&nbsp;    //System.out.println(texture);
+<b class="fc">&nbsp;    gameObject.getSprite().sprite.setRegion(chefAtlas.findRegion(texture));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the x position of the chef. Black Studios and Triple 10s
+&nbsp;   *
+&nbsp;   * @return int posX
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Amy Cross
+&nbsp;   */
+&nbsp;  public float getX() {
+<b class="nc">&nbsp;    return gameObject.position.x;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the y position of the chef. Black Studios and Triple 10s
+&nbsp;   *
+&nbsp;   * @return int posY
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Amy Cross
+&nbsp;   */
+&nbsp;  public float getY() {
+<b class="nc">&nbsp;    return gameObject.position.y;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the width of the chef. Black Studios and Triple 10s
+&nbsp;   *
+&nbsp;   * @return int width
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Amy Cross
+&nbsp;   */
+&nbsp;  public float getWidth() {
+<b class="nc">&nbsp;    return gameObject.getSprite().sprite.getWidth();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the height of the chef. Black Studios and Triple 10s
+&nbsp;   *
+&nbsp;   * @return int height
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Amy Cross
+&nbsp;   */
+&nbsp;  public float getHeight() {
+<b class="nc">&nbsp;    return gameObject.getSprite().sprite.getHeight();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the input from the user and orientates the chef accordingly. Black Studios and Triple 10s
+&nbsp;   *
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Amy Cross
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public String getMove() {
+<b class="nc">&nbsp;    String newOrientation = this.lastOrientation;</b>
+<b class="nc">&nbsp;    if (isFrozen) {</b>
+&nbsp;      //System.out.println(&quot;Frozen&quot;);
+<b class="nc">&nbsp;      return &quot;idle&quot; + this.lastOrientation;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_LEFT)) {</b>
+<b class="nc">&nbsp;        newOrientation = &quot;west&quot;;</b>
+<b class="nc">&nbsp;      } else if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_RIGHT)) {</b>
+<b class="nc">&nbsp;        newOrientation = &quot;east&quot;;</b>
+<b class="nc">&nbsp;      } else if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_UP)) {</b>
+<b class="nc">&nbsp;        newOrientation = &quot;north&quot;;</b>
+<b class="nc">&nbsp;      } else if (Gdx.input.isKeyPressed(Inputs.MOVE_CHEF_DOWN)) {</b>
+<b class="nc">&nbsp;        newOrientation = &quot;south&quot;;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return &quot;idle&quot; + lastOrientation;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      this.lastOrientation = newOrientation;</b>
+<b class="nc">&nbsp;      return newOrientation;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns a boolean value if the user is pressing the ctrl key.
+&nbsp;   * Triple 10s code
+&nbsp;   * @return boolean
+&nbsp;   * @author Amy Cross
+&nbsp;   */
+&nbsp;//  public boolean isCtrl() {
+&nbsp;//    return Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT);
+&nbsp;//  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Freezes the chef for a set period of time. Triple 10 &amp; BlackCatStudios code
+&nbsp;   *
+&nbsp;   * @param lockTime time the chef will be frozen
+&nbsp;   * @author Amy Cross
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public void freeze(float lockTime) {
+<b class="nc">&nbsp;    isFrozen = true;</b>
+<b class="nc">&nbsp;    this.lockTime = lockTime;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Unfreezes the chef. Triple 10 &amp; BlackCatStudios code
+&nbsp;   *
+&nbsp;   * @author Amy Cross
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public void unfreeze() {
+<b class="nc">&nbsp;    isFrozen = false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Freeze timer boolean.
+&nbsp;   *
+&nbsp;   * @param dt the dt
+&nbsp;   * @return the boolean
+&nbsp;   */
+&nbsp;  public boolean freezeTimer(float dt) {
+<b class="nc">&nbsp;    lockProgress = min(lockProgress + dt, lockTime);</b>
+<b class="nc">&nbsp;    if (lockProgress == lockTime) {</b>
+<b class="nc">&nbsp;      lockProgress = 0;</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the inventory of the chef, so the item they are currently holding.
+&nbsp;   *
+&nbsp;   * @return Ingredient ingredient
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  public Stack&lt;Item&gt; getInventory() {
+<b class="fc">&nbsp;    return heldItems;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the inventory count of the chef, so the number of items they are currently holding.
+&nbsp;   * BlackCatStudios Code
+&nbsp;   *
+&nbsp;   * @return The number of items the chef is holding.
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  public int getInventoryCount() {
+<b class="fc">&nbsp;    return heldItems.size();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the inventory of the chef, so the item they are currently holding. BlackCatStudios Code
+&nbsp;   *
+&nbsp;   * @return Ingredient ingredient
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  public int getCarryCapacity() {
+<b class="nc">&nbsp;    return CarryCapacity;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Can fetch (take item from chef) BlackCatStudios Code
+&nbsp;   *
+&nbsp;   * @return heldItems &gt; 0
+&nbsp;   */
+&nbsp;  public boolean CanFetchItem() {
+<b class="fc">&nbsp;    if (heldItems.size() == 0) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return true;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Can an item be given to the chef BlackCatStudios Code
+&nbsp;   *
+&nbsp;   * @return boolean
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public boolean CanGiveItem() {
+<b class="fc">&nbsp;    return heldItems.size() &lt; CarryCapacity;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Take item from chef
+&nbsp;   *
+&nbsp;   * @return optional
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public Optional&lt;Item&gt; FetchItem() {
+&nbsp;
+<b class="fc">&nbsp;    if (!CanFetchItem()) {</b>
+<b class="fc">&nbsp;      return Optional.empty();</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    SoundFrame.SoundEngine.playSound(soundsEnum.DropItem);</b>
+<b class="fc">&nbsp;    ModifiedStack = true;</b>
+&nbsp;
+<b class="fc">&nbsp;    return Optional.ofNullable(heldItems.peek());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Pop item.
+&nbsp;   */
+&nbsp;  public void popItem() {
+<b class="fc">&nbsp;    heldItems.pop();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Give item to chef BlackCatStudios Code
+&nbsp;   *
+&nbsp;   * @param item the item
+&nbsp;   * @return boolean
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public Boolean GiveItem(Item item) {
+<b class="fc">&nbsp;    if (CanGiveItem()) {</b>
+<b class="fc">&nbsp;      heldItems.add(item);</b>
+<b class="fc">&nbsp;      SoundFrame.SoundEngine.playSound(soundsEnum.EquipItem);</b>
+<b class="fc">&nbsp;      ModifiedStack = true;</b>
+&nbsp;
+<b class="fc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Give chef item boolean.
+&nbsp;   *
+&nbsp;   * @param item the item
+&nbsp;   * @return the boolean
+&nbsp;   */
+&nbsp;  public Boolean GiveChefItem(Item item) {
+<b class="fc">&nbsp;    if (CanGiveItem()) {</b>
+<b class="fc">&nbsp;      heldItems.add(item);</b>
+<b class="fc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Drops the item from the top of the chef&#39;s stack. BlackCatStudios Code
+&nbsp;   *
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void DropItem() {
+<b class="fc">&nbsp;    if (heldItems.size() != 0) {</b>
+<b class="fc">&nbsp;      heldItems.pop();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    SoundFrame.SoundEngine.playSound(soundsEnum.DropItem);</b>
+<b class="fc">&nbsp;    ModifiedStack = true;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Brings the item at the bottom of the stack to the top BlackCatStudios Code
+&nbsp;   *
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void CycleStack() {
+<b class="fc">&nbsp;    if (heldItems.size() == 0) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    Item bottomItem = heldItems.elementAt(0);</b>
+<b class="fc">&nbsp;    heldItems.removeElementAt(0);</b>
+&nbsp;
+<b class="fc">&nbsp;    heldItems.push(bottomItem);</b>
+&nbsp;
+<b class="fc">&nbsp;    SoundFrame.SoundEngine.playSound(soundsEnum.EquipItem);</b>
+<b class="fc">&nbsp;    ModifiedStack = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Clears the inventory of the chef. BlackCatStudios Code
+&nbsp;   *
+&nbsp;   * @author Hubert Solecki
+&nbsp;   * @date 21 /04/2023
+&nbsp;   */
+&nbsp;  public void ClearInventory() {
+<b class="fc">&nbsp;    heldItems.clear();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * BlackCatStudios Code
+&nbsp;   */
+&nbsp;  public void changeSpeed() {
+<b class="fc">&nbsp;    oldSpeed = speed;</b>
+<b class="fc">&nbsp;    speed = 2600;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * BlackCatStudios Code
+&nbsp;   */
+&nbsp;  public void decreaseSpeed() {
+<b class="nc">&nbsp;    speed = oldSpeed;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-03 02:34</div>
+</div>
+</body>
+</html>

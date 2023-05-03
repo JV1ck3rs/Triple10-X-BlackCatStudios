@@ -17,15 +17,33 @@ import java.util.Arrays;
  * Converts some items into their fried forms BlackCatStudio's Code
  *
  * @author Jack Hinton
- * @date 18/04/23
+ * @date 18 /04/23
  */
 public class HobStation extends Station {
 
+  /**
+   * The Interacted.
+   */
   boolean interacted;
+  /**
+   * The Ready.
+   */
   boolean ready;
+  /**
+   * The Item white list.
+   */
   public static ArrayList<ItemEnum> itemWhiteList;
+  /**
+   * The Progress.
+   */
   public float progress;
+  /**
+   * The Max progress.
+   */
   public float maxProgress;
+  /**
+   * The Image size.
+   */
   public int imageSize = 14;
 
   private ContinousSound burnersSFX;
@@ -58,7 +76,7 @@ public class HobStation extends Station {
   /**
    * Retrieves the interacted attribute which is private for testing.
    *
-   * @return boolean
+   * @return boolean boolean
    * @author Hubert Solecki
    */
   public boolean GetInteracted() {
@@ -135,7 +153,7 @@ public class HobStation extends Station {
    * Checks if the item is in the whitelist, if yes it gets the item's recipe
    *
    * @author Jack Hinton
-   * @Author Jack Vickers
+   * @author Jack Vickers
    */
   public void checkItem() {
     if (itemWhiteList.contains(item.name)) {
@@ -159,7 +177,7 @@ public class HobStation extends Station {
    * Checks if the chef can interact with the station
    *
    * @return boolean
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public boolean canInteract() {
@@ -171,7 +189,7 @@ public class HobStation extends Station {
    * Interact with the station
    *
    * @return float
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public float interact() {
@@ -183,7 +201,7 @@ public class HobStation extends Station {
   /**
    * Burns the item in the station
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void burnItem() {
     changeItem(new Item(ItemEnum.Cinder));
@@ -194,9 +212,9 @@ public class HobStation extends Station {
    * Cooks the current item and checks if it is ready
    *
    * @param dt delta time
-   * @Author Jack Hinton
-   * @Author Felix Seanor
-   * @Author Jack Vickers
+   * @author Jack Hinton
+   * @author Felix Seanor
+   * @author Jack Vickers
    */
   public void cook(float dt) {
     ready = currentRecipe.recipeSteps.get(item.step)
@@ -229,7 +247,7 @@ public class HobStation extends Station {
   /**
    * Updates the progress bubble
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   public void progressBar() {
     timer.image = new BlackTexture("Timer/0" + getProgress() + ".png");
@@ -239,7 +257,7 @@ public class HobStation extends Station {
   /**
    * Gets the progress of the item currently held
    *
-   * @return int
+   * @return int progress
    */
   public int getProgress() {
     progress = item.progress / maxProgress;
@@ -278,7 +296,7 @@ public class HobStation extends Station {
   /**
    * Move the animation
    *
-   * @Author Jack Hinton
+   * @author Jack Hinton
    */
   @Override
   public void moveAnimation() {
@@ -290,8 +308,8 @@ public class HobStation extends Station {
    * Update the chopping station
    *
    * @param dt delta time
-   * @Author Jack Hinton
-   * @Author Felix Seanor
+   * @author Jack Hinton
+   * @author Felix Seanor
    */
   @Override
   public void update(float dt) {

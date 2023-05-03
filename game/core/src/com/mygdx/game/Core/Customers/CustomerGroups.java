@@ -18,29 +18,51 @@ import java.util.function.Consumer;
  * lining up BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 29/04/23
+ * @date 29 /04/23
  */
 public class CustomerGroups {
 
+  /**
+   * The Members.
+   */
   public List<Customer> members = new LinkedList<>();
+  /**
+   * The Members in line.
+   */
   public List<Customer> membersInLine = new LinkedList<>();
+  /**
+   * The Members seated or walking.
+   */
   public List<Customer> membersSeatedOrWalking = new LinkedList<>();
+  /**
+   * The Orders.
+   */
   public List<ItemEnum> orders = new LinkedList<>();
 
+  /**
+   * The Table.
+   */
   public Table table;
+  /**
+   * The Frustration.
+   */
   public float frustration;
 
   private float recoveryValue;
+  /**
+   * The Frustration recovery.
+   */
   static float frustrationRecovery = .1f;
 
   /**
    * Creates a customer group with given parameters
    *
    * @param MemberCount   number of customers in group
-   * @param CustomerStart
-   * @param Spawn
-   * @param frustration
+   * @param CustomerStart the customer start
+   * @param Spawn         the spawn
+   * @param frustration   the frustration
    * @param OrderMenu     food each member should order
+   * @param customerAtlas the customer atlas
    * @author Felix Seanor
    */
   public CustomerGroups(int MemberCount, int CustomerStart, Vector2 Spawn, int frustration,
@@ -67,11 +89,21 @@ public class CustomerGroups {
   }
 
 
+  /**
+   * Add member to line.
+   *
+   * @param customer the customer
+   */
   void addMemberToLine(Customer customer) {
     membersInLine.add(customer);
     customer.waitingAtCounter = true;
   }
 
+  /**
+   * Add member to sitting.
+   *
+   * @param customer the customer
+   */
   void addMemberToSitting(Customer customer) {
     membersSeatedOrWalking.add(customer);
     updateFrustrationOnSucessfulService();
@@ -81,8 +113,8 @@ public class CustomerGroups {
   /**
    * Create customer group from saved state
    *
-   * @param state
-   * @param customerAtlas
+   * @param state         the state
+   * @param customerAtlas the customer atlas
    * @author Felix Seanor
    */
   public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas) {
@@ -102,10 +134,18 @@ public class CustomerGroups {
     }
   }
 
+  /**
+   * Gets orders.
+   *
+   * @return the orders
+   */
   public List<ItemEnum> getOrders() {
     return orders;
   }
 
+  /**
+   * Show icons.
+   */
   public void showIcons() {
     for (int i = 0; i < membersInLine.size(); i++) {
       //System.out.println(MembersInLine.get(i));
@@ -121,11 +161,22 @@ public class CustomerGroups {
     }
   }
 
+  /**
+   * Remove icons.
+   *
+   * @param customer the customer
+   */
   public void removeIcons(Customer customer) {
     customer.foodIcon.isVisible = false;
   }
 
 
+  /**
+   * Check clicks.
+   *
+   * @auther Sam Toner
+   * @date 01/05/2003
+   */
   public void checkClicks() {
     for (int i = 0; i < members.size(); i++) {
       if (members.get(i).foodIcon.isClicked() && members.get(i).foodIcon.isVisible) {
@@ -147,6 +198,11 @@ public class CustomerGroups {
   }
 
 
+  /**
+   * Remove first customer customer.
+   *
+   * @return the customer
+   */
   public Customer removeFirstCustomer() {
     Customer customer = membersInLine.remove(0);
     addMemberToSitting(customer);
@@ -154,6 +210,15 @@ public class CustomerGroups {
     return membersSeatedOrWalking.get(membersSeatedOrWalking.size() - 1);
   }
 
+  /**
+   * Remove any customer customer.
+   *
+   * @param customerToRemove the customer to remove
+   * @return the customer
+   *
+   * @author Sam Toner
+   * @date 01/05/2023
+   */
   public Customer removeAnyCustomer(Integer customerToRemove) {
     Customer customer = null;
     if (membersInLine.size() >= customerToRemove) {
@@ -167,7 +232,7 @@ public class CustomerGroups {
   /**
    * See if the given dish is correct
    *
-   * @param item
+   * @param item the item
    * @return if is able to remove
    * @author Felix Seanor
    */
@@ -185,8 +250,8 @@ public class CustomerGroups {
   /**
    * Is supplied dish in this group
    *
-   * @param item
-   * @return
+   * @param item the item
+   * @return int
    * @author Felix Seanor
    */
   public int seeIfDishIsCorrect(Item item) {
@@ -202,6 +267,14 @@ public class CustomerGroups {
     frustration += recoveryValue;
   }
 
+  /**
+   * Feed specific customer customer.
+   *
+   * @param i the
+   * @return the customer
+   *
+   * @author Sam Toner and Felix Seanor
+   */
   public Customer feedSpecificCustomer(int i) {
     Customer customer = membersInLine.remove(i);
     addMemberToSitting(customer);
@@ -226,8 +299,9 @@ public class CustomerGroups {
   /**
    * Changes frustration If too frustrated then leave
    *
-   * @param dt
-   * @param CauseLeave Function causing this customer to leave
+   * @param dt                the dt
+   * @param CauseLeave        Function causing this customer to leave
+   * @param updateFrustration the update frustration
    * @author Felix Seanor
    */
   public void checkFrustration(float dt, Consumer<CustomerGroups> CauseLeave,
@@ -277,7 +351,12 @@ public class CustomerGroups {
     return state;
   }
 
-  // get Members
+  /**
+   * Gets members.
+   *
+   * @return the members
+   */
+// get Members
   public List<Customer> getMembers() {
     return members;
   }

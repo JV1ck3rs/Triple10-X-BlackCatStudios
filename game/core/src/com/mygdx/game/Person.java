@@ -9,9 +9,24 @@ package com.mygdx.game;
 @Deprecated
 public interface Person {
 
+  /**
+   * Update sprite from input.
+   *
+   * @param newOrientation the new orientation
+   */
   void updateSpriteFromInput(String newOrientation);
 
+  /**
+   * Sets texture.
+   *
+   * @param spriteState the sprite state
+   */
   void setTexture(String spriteState);
 
+  /**
+   * Gets move.
+   *
+   * @return the move
+   */
   String getMove();
 }

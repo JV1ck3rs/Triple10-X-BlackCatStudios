@@ -10,11 +10,17 @@ import java.util.Map;
  * Recipe dictionary, given an item input return a recipe BlackCatStudio's Code
  *
  * @author Jack Hinton
- * @date 29/03/23
+ * @date 29 /03/23
  */
 public class RecipeDict {
 
+  /**
+   * The constant recipes.
+   */
   public static RecipeDict recipes;
+  /**
+   * The Recipe map.
+   */
   public Map<ItemEnum, Recipe> RecipeMap = new HashMap<>();
 
   /**

@@ -27,21 +27,42 @@ import java.io.IOException;
  * @author Robin Graham
  * @author Felix Seanor
  * @author Jack Vickers
- * @date 30/04/23
+ * @date 30 /04/23
  */
 public class EndScreen implements Screen {
 
+  /**
+   * The Root.
+   */
   final MyGdxGame root;
+  /**
+   * The Game screen.
+   */
   GameScreen gameScreen;
 
+  /**
+   * The Victory screen.
+   */
   Texture victoryScreen;
+  /**
+   * The Stage.
+   */
   Stage stage;
+  /**
+   * The Timer.
+   */
   int timer;
   private final BitmapFont timerFont;
   private final Label timerLabel;
   //  private final Label VictoryOrLoss;
   private final Table table;
+  /**
+   * The Scale x.
+   */
   float scaleX;
+  /**
+   * The Scale y.
+   */
   float scaleY;
 
 
@@ -50,8 +71,10 @@ public class EndScreen implements Screen {
    * image used BlackCat studios and Team Triple 10s
    *
    * @param root                    the base object to interact with
+   * @param gameScreen              the game screen
    * @param time                    the integer time value set for timer
-   * @param numberOfCustomersServed
+   * @param values                  the values
+   * @param numberOfCustomersServed the number of customers served
    */
   public EndScreen(final MyGdxGame root, GameScreen gameScreen, int time, EndOfGameValues values,
       int numberOfCustomersServed) {
@@ -98,7 +121,8 @@ public class EndScreen implements Screen {
     }
 
     Drawable drawableScenariobtnUp = new TextureRegionDrawable(exitButtonUpTexture.textureRegion);
-    Drawable drawableScenariobtnDown = new TextureRegionDrawable(exitButtonDownTexture.textureRegion);
+    Drawable drawableScenariobtnDown = new TextureRegionDrawable(
+        exitButtonDownTexture.textureRegion);
 
     Button scenariobtn = new Button();
     Button.ButtonStyle scenariobtnStyle = new Button.ButtonStyle();

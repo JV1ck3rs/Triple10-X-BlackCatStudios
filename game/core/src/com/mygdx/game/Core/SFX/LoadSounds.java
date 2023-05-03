@@ -10,6 +10,11 @@ import java.util.List;
  */
 public class LoadSounds {
 
+  /**
+   * Load.
+   *
+   * @param frame the frame
+   */
   public static void load(SoundFrame frame) {
     List<SoundDataLoad> sounds = new LinkedList<>();
 

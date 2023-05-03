@@ -1,0 +1,370 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ToasterStation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Stations</a>
+</div>
+
+<h1>Coverage Summary for Class: ToasterStation (com.mygdx.game.Stations)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ToasterStation</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98%
+  </span>
+  <span class="absValue">
+    (50/51)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Stations;
+&nbsp;
+&nbsp;import com.mygdx.game.Core.GameState.CookingParams;
+&nbsp;import com.mygdx.game.Core.Rendering.BlackTexture;
+&nbsp;import com.mygdx.game.Core.Rendering.GameObject;
+&nbsp;import com.mygdx.game.Core.SFX.SoundFrame;
+&nbsp;import com.mygdx.game.Core.SFX.SoundFrame.soundsEnum;
+&nbsp;import com.mygdx.game.Items.Item;
+&nbsp;import com.mygdx.game.Items.ItemEnum;
+&nbsp;import com.mygdx.game.RecipeAndComb.RecipeDict;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;/**
+&nbsp; * Toasts items such as bun
+&nbsp; *
+&nbsp; * @author Jack Hinton
+&nbsp; * @date 01 /05/23
+&nbsp; */
+&nbsp;public class ToasterStation extends Station {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The Interacted.
+&nbsp;   */
+&nbsp;  boolean interacted;
+&nbsp;  /**
+&nbsp;   * The Ready.
+&nbsp;   */
+&nbsp;  boolean ready;
+&nbsp;  /**
+&nbsp;   * The Max progress.
+&nbsp;   */
+&nbsp;  public float maxProgress;
+&nbsp;  /**
+&nbsp;   * The Progress.
+&nbsp;   */
+&nbsp;  public float progress;
+&nbsp;  /**
+&nbsp;   * The Item white list.
+&nbsp;   */
+&nbsp;  public static ArrayList&lt;ItemEnum&gt; itemWhiteList;
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a toaster
+&nbsp;   *
+&nbsp;   * @param params cooking parameters i.e. cooking speed, burning speed
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public ToasterStation(CookingParams params) {
+<b class="fc">&nbsp;    super(params);</b>
+<b class="fc">&nbsp;    ready = false;</b>
+<b class="fc">&nbsp;    maxProgress = 8;</b>
+<b class="fc">&nbsp;    if (itemWhiteList == null) {</b>
+<b class="fc">&nbsp;      itemWhiteList = new ArrayList&lt;&gt;(Arrays.asList(ItemEnum.Buns));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    animation = new GameObject(new BlackTexture(&quot;Items/ToasterActive.png&quot;));</b>
+<b class="fc">&nbsp;    animation.isVisible = false;</b>
+<b class="fc">&nbsp;    animation.image.layer = -1;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Give an item to the station
+&nbsp;   *
+&nbsp;   * @param item The item you want to give
+&nbsp;   * @return boolean
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public boolean giveItem(Item item) {
+<b class="fc">&nbsp;    if (getLocked()) {</b>
+<b class="nc">&nbsp;      return checkRepairTool(item);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (this.item != null) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (itemWhiteList.contains(item.name)) {</b>
+<b class="fc">&nbsp;      animation.isVisible = true;</b>
+<b class="fc">&nbsp;      changeItem(item);</b>
+<b class="fc">&nbsp;      checkItem();</b>
+<b class="fc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Retrieve an item from the station
+&nbsp;   *
+&nbsp;   * @return Item
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public Item retrieveItem() {
+<b class="fc">&nbsp;    returnItem = item;</b>
+<b class="fc">&nbsp;    deleteItem();</b>
+<b class="fc">&nbsp;    currentRecipe = null;</b>
+<b class="fc">&nbsp;    timer.isVisible = false;</b>
+<b class="fc">&nbsp;    readyBubble.isVisible = false;</b>
+<b class="fc">&nbsp;    animation.isVisible = false;</b>
+&nbsp;
+<b class="fc">&nbsp;    return returnItem;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the chef can retrieve an item
+&nbsp;   *
+&nbsp;   * @return boolean
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public boolean canRetrieve() {
+<b class="fc">&nbsp;    return item != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Check if the chef can give the station an item
+&nbsp;   *
+&nbsp;   * @return boolean
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public boolean canGive() {
+<b class="fc">&nbsp;    return item == null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Check if the chef can interact with a station
+&nbsp;   *
+&nbsp;   * @return boolean
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public boolean canInteract() {
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Interact with the station
+&nbsp;   *
+&nbsp;   * @return float
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public float interact() {
+<b class="fc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the item is in the whitelist, if yes it gets the item&#39;s recipe
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  public void checkItem() {
+<b class="fc">&nbsp;    if (itemWhiteList.contains(item.name)) {</b>
+<b class="fc">&nbsp;      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);</b>
+<b class="fc">&nbsp;      timer.isVisible = true;</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      currentRecipe = null;</b>
+<b class="fc">&nbsp;      timer.isVisible = false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Cooks the current item and checks if it is ready
+&nbsp;   *
+&nbsp;   * @param dt delta time
+&nbsp;   * @author Jack Hinton
+&nbsp;   * @author Felix Seanor
+&nbsp;   * @author Jack Vickers
+&nbsp;   */
+&nbsp;  public void Cook(float dt) {
+<b class="fc">&nbsp;    ready = currentRecipe.recipeSteps.get(item.step)</b>
+<b class="fc">&nbsp;        .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);</b>
+&nbsp;
+<b class="fc">&nbsp;    if (ready) {</b>
+<b class="fc">&nbsp;      changeItem(new Item(currentRecipe.endItem));</b>
+<b class="fc">&nbsp;      readyBubble.isVisible = true;</b>
+<b class="fc">&nbsp;      SoundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);</b>
+<b class="fc">&nbsp;      checkItem();</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="fc">&nbsp;    progressBar();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Updates the progress bubble
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  public void progressBar() {
+<b class="fc">&nbsp;    timer.image = new BlackTexture(&quot;Timer/0&quot; + getProgress() + &quot;.png&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the progress of the item currently held
+&nbsp;   *
+&nbsp;   * @return int progress
+&nbsp;   */
+&nbsp;  public int getProgress() {
+<b class="fc">&nbsp;    progress = item.progress / maxProgress;</b>
+<b class="fc">&nbsp;    return (int) (progress / 0.125) + 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the items progress
+&nbsp;   *
+&nbsp;   * @return float cooking time
+&nbsp;   * @author Hubert Solecki
+&nbsp;   */
+&nbsp;  public float getCookingTime() {
+<b class="fc">&nbsp;    return item.progress;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Updates the picture on the station.
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void updatePictures() {
+<b class="fc">&nbsp;    return;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Move the animation
+&nbsp;   *
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void moveAnimation() {
+<b class="fc">&nbsp;    animation.setPosition(gameObject.position.x + 3,</b>
+<b class="fc">&nbsp;        gameObject.position.y + gameObject.getHeight() - animation.getHeight());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Update the chopping station
+&nbsp;   *
+&nbsp;   * @param dt delta time
+&nbsp;   * @author Jack Hinton
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void update(float dt) {
+<b class="fc">&nbsp;    if (currentRecipe != null) {</b>
+<b class="fc">&nbsp;      Cook(dt);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-03 02:34</div>
+</div>
+</body>
+</html>

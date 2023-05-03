@@ -10,10 +10,13 @@ import java.util.List;
  * Abstracts rendering behind a list of sorted GameObjects BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 01/04/23
+ * @date 01 /04/23
  */
 public class RenderManager {
 
+  /**
+   * The constant renderer.
+   */
   public static RenderManager renderer;
 
   /**
@@ -33,7 +36,7 @@ public class RenderManager {
   /**
    * Creates a render call for all gameobjects
    *
-   * @param batch
+   * @param batch the batch
    * @author Felix Seanor
    */
   public void onRender(SpriteBatch batch) {

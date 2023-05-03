@@ -20,13 +20,22 @@ import java.util.regex.Pattern;
  * @author Felix Seanor
  * @author Jack Vickers
  * @author Sam Toner
- * @date 26/04/23
+ * @date 26 /04/23
  */
 public class LeaderBoard {
 
+  /**
+   * The Filepath.
+   */
   static String filepath = Gdx.files.internal("leadboard.Fson").path();
+  /**
+   * The Max highscorers.
+   */
   static int maxHighscorers = 5;
 
+  /**
+   * Create fson file.
+   */
   public void createFSONFile() {
     File jsonFile = new File(filepath);
     try {
@@ -39,6 +48,13 @@ public class LeaderBoard {
   }
 
 
+  /**
+   * Gets data from regex match.
+   *
+   * @param string  the string
+   * @param pattern the pattern
+   * @return the data from regex match
+   */
   public LeaderboardData getDataFromRegexMatch(String string, Pattern pattern) {
     Matcher matcher = pattern.matcher(string);
     boolean match = matcher.find();
@@ -52,6 +68,11 @@ public class LeaderBoard {
     return data;
   }
 
+  /**
+   * Read fson data list.
+   *
+   * @return the list
+   */
   public List<LeaderboardData> readFSONData() {
 
     try {
@@ -86,6 +107,11 @@ public class LeaderBoard {
   }
 
 
+  /**
+   * Write highscores.
+   *
+   * @param data the data
+   */
   public void writeHighscores(LeaderboardData data) {
     List<LeaderboardData> highscores = new LinkedList<>();
     try {
@@ -114,6 +140,13 @@ public class LeaderBoard {
 
   }
 
+  /**
+   * Append data list.
+   *
+   * @param data the data
+   * @return the list
+   * @throws IOException the io exception
+   */
   public List<LeaderboardData> appendData(LeaderboardData data) throws IOException {
     List<LeaderboardData> highscores = readFSONData();
     Collections.sort(highscores);

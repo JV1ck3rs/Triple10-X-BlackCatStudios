@@ -13,12 +13,30 @@ import com.mygdx.game.Core.Rendering.BlackTexture;
  */
 public class Item {
 
+  /**
+   * The Name.
+   */
   public ItemEnum name;
+  /**
+   * The Tex.
+   */
   public BlackTexture tex;
+  /**
+   * The Progress.
+   */
   public float progress;
+  /**
+   * The Step.
+   */
   public int step;
 
+  /**
+   * The Width.
+   */
   int width = 20;
+  /**
+   * The Height.
+   */
   int height = 20;
 
   /**
@@ -37,6 +55,11 @@ public class Item {
     tex.setSize(width, height);
   }
 
+  /**
+   * Instantiates a new Item.
+   *
+   * @param itemState the item state
+   */
   public Item(ItemState itemState) {
 
     name = itemState.item;
@@ -48,6 +71,12 @@ public class Item {
   }
 
 
+  /**
+   * Gets item path.
+   *
+   * @param name the name
+   * @return the item path
+   */
   public static String getItemPath(ItemEnum name) {
     return "Items/" + name.name() + ".png";
   }
@@ -64,11 +93,22 @@ public class Item {
     return obj instanceof Item && ((Item) obj).name == name;
   }
 
+  /**
+   * Get recipe path string.
+   *
+   * @param name the name
+   * @return the string
+   */
   public static String GetRecipePath(ItemEnum name) {
     return "Recipes/" + name.name() + "Recipe.png";
 
   }
 
+  /**
+   * Name string.
+   *
+   * @return the string
+   */
   public String name() {
     return name.name();
   }

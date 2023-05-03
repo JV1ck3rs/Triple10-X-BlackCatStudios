@@ -1,0 +1,279 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BlackTexture</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mygdx.game.Core.Rendering</a>
+</div>
+
+<h1>Coverage Summary for Class: BlackTexture (com.mygdx.game.Core.Rendering)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BlackTexture</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54.5%
+  </span>
+  <span class="absValue">
+    (6/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68.2%
+  </span>
+  <span class="absValue">
+    (15/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mygdx.game.Core.Rendering;
+&nbsp;
+&nbsp;import com.badlogic.gdx.graphics.Texture;
+&nbsp;import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+&nbsp;import com.badlogic.gdx.graphics.g2d.TextureRegion;
+&nbsp;
+&nbsp;/**
+&nbsp; * an abstraction for texture region BlackCatStudio&#39;s Code
+&nbsp; *
+&nbsp; * @author Felix Seanor
+&nbsp; * @date 24 /04/23
+&nbsp; */
+&nbsp;public class BlackTexture extends Renderable {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The Texture.
+&nbsp;   */
+&nbsp;  public Texture texture;
+&nbsp;  /**
+&nbsp;   * The Texture region.
+&nbsp;   */
+&nbsp;  public TextureRegion textureRegion;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The Image width.
+&nbsp;   */
+&nbsp;//Width and height of image
+&nbsp;  public int imageWidth, /**
+&nbsp;   * The Image height.
+&nbsp;   */
+&nbsp;  imageHeight;
+&nbsp;  /**
+&nbsp;   * The Width.
+&nbsp;   */
+&nbsp;//width and height of texture region
+&nbsp;  public int width, /**
+&nbsp;   * The Height.
+&nbsp;   */
+&nbsp;  height;
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Generates a new texture from file path (data safe)
+&nbsp;   *
+&nbsp;   * @param tex the tex
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+<b class="fc">&nbsp;  public BlackTexture(String tex) {</b>
+&nbsp;
+<b class="fc">&nbsp;    changeTextureFromPath(tex);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * change the current texture on this texture region
+&nbsp;   *
+&nbsp;   * @param tex the tex
+&nbsp;   * @author Sam Toner
+&nbsp;   */
+&nbsp;  public void changeTexture(Texture tex) {
+<b class="nc">&nbsp;    texture = tex;</b>
+<b class="nc">&nbsp;    textureRegion.setTexture(texture);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Given a file path set up the texture, tries to reuse textures
+&nbsp;   *
+&nbsp;   * @param path the path
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void changeTextureFromPath(String path) {
+&nbsp;
+<b class="fc">&nbsp;    texture = TextureDictionary.textures.get(path);</b>
+&nbsp;
+<b class="fc">&nbsp;    imageWidth = texture.getWidth();</b>
+<b class="fc">&nbsp;    imageHeight = texture.getHeight();</b>
+&nbsp;
+<b class="fc">&nbsp;    width = imageWidth;</b>
+<b class="fc">&nbsp;    height = imageHeight;</b>
+&nbsp;
+<b class="fc">&nbsp;    if (textureRegion == null) {</b>
+<b class="fc">&nbsp;      textureRegion = new TextureRegion(texture, width, height);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * sets the images width and height parameters
+&nbsp;   *
+&nbsp;   * @param _w the w
+&nbsp;   * @param _h the h
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void setImageSize(int _w, int _h) {
+<b class="nc">&nbsp;    imageWidth = _w;</b>
+<b class="nc">&nbsp;    imageHeight = _h;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * sets the texture regions width and height. If you want to change the size in game use this
+&nbsp;   * one.
+&nbsp;   *
+&nbsp;   * @param _w
+&nbsp;   * @param _h
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void setSize(int _w, int _h) {
+<b class="fc">&nbsp;    width = _w;</b>
+<b class="fc">&nbsp;    height = _h;</b>
+&nbsp;
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets wraps
+&nbsp;   *
+&nbsp;   * @param U the u
+&nbsp;   * @param V the v
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void setWrap(Texture.TextureWrap U, Texture.TextureWrap V) {
+&nbsp;
+<b class="nc">&nbsp;    texture.setWrap(U, V);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the wraps from TextureWrap
+&nbsp;   *
+&nbsp;   * @param UV the uv
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public void setWrap(Texture.TextureWrap UV) {
+<b class="nc">&nbsp;    setWrap(UV, UV);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Render this texture region
+&nbsp;   *
+&nbsp;   * @param batch draw batch
+&nbsp;   * @param x     pos x
+&nbsp;   * @param y     pos y
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void render(SpriteBatch batch, float x, float y) {
+<b class="nc">&nbsp;    batch.draw(textureRegion, x, y, width, height);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Destroy this texture
+&nbsp;   *
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void destroy() {
+<b class="fc">&nbsp;    texture = null;</b>
+<b class="fc">&nbsp;    textureRegion = null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return texture regions width
+&nbsp;   * @author Felix Seanor
+&nbsp;   */
+&nbsp;  public int getWidth() {
+<b class="fc">&nbsp;    return width;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return texture region height
+&nbsp;   */
+&nbsp;  public int getHeight() {
+<b class="fc">&nbsp;    return height;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-03 02:34</div>
+</div>
+</body>
+</html>

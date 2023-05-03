@@ -10,24 +10,42 @@ import java.util.Random;
  * Code
  *
  * @author Felix Seanor
- * @date 29/04/23
+ * @date 29 /04/23
  */
 public class Table {
 
-  //Position of table
+  /**
+   * The Position.
+   */
+//Position of table
   Vector2 position;
 
-  //Tables unique ID
+  /**
+   * The Id.
+   */
+//Tables unique ID
   public int ID;
 
-  //All seats
+  /**
+   * The Seats.
+   */
+//All seats
   List<Vector2> seats = new LinkedList<>();
 
-  //How many sitting
+  /**
+   * The Currently seated.
+   */
+//How many sitting
   int currentlySeated = 0;
-  //seat offset so seating patttern isnt always the same
+  /**
+   * The Offset.
+   */
+//seat offset so seating patttern isnt always the same
   int offset = 0;
-  //Size of table
+  /**
+   * The Radius.
+   */
+//Size of table
   int radius;
 
   /**
@@ -81,7 +99,7 @@ public class Table {
   /**
    * has no group been designated this table
    *
-   * @return
+   * @return boolean
    * @author Felix Seanor
    */
   public boolean isFree() {

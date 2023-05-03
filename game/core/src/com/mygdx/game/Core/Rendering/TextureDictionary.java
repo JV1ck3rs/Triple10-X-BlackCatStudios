@@ -11,6 +11,9 @@ import java.util.HashMap;
  */
 public class TextureDictionary {
 
+  /**
+   * The constant textures.
+   */
   public static TextureDictionary textures;
 
   private HashMap<String, Texture> storedTextures = new HashMap<>();
@@ -31,8 +34,8 @@ public class TextureDictionary {
    * Returns a texture from the given path. No knowledge is given if this was already in disk or not
    * to other scripts
    *
-   * @param path
-   * @return
+   * @param path the path
+   * @return texture
    */
   public Texture get(String path) {
 

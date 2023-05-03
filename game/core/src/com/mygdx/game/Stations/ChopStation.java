@@ -16,20 +16,43 @@ import java.util.Arrays;
  * Chopping station. Turns items into chopped form BlackCatStudio's Code
  *
  * @author Jack Hinton
- * @date 02/05/23
+ * @date 02 /05/23
  */
 public class ChopStation extends Station {
 
 
+  /**
+   * The Interacted.
+   */
   boolean interacted;
+  /**
+   * The Ready.
+   */
   boolean ready;
+  /**
+   * The Item white list.
+   */
   public static ArrayList<ItemEnum> itemWhiteList;
+  /**
+   * The Progress.
+   */
   public float progress;
+  /**
+   * The Max progress.
+   */
   public float maxProgress;
+  /**
+   * The Image size.
+   */
   public int imageSize = 18;
 
   private ContinousSound choppingSFX;
 
+  /**
+   * Gets interacted.
+   *
+   * @return the interacted
+   */
   public boolean getInteracted() {
     return interacted;
   }
@@ -208,7 +231,7 @@ public class ChopStation extends Station {
   /**
    * Gets the progress of the item currently held
    *
-   * @return int
+   * @return int progress
    */
   public int getProgress() {
     progress = item.progress / maxProgress;

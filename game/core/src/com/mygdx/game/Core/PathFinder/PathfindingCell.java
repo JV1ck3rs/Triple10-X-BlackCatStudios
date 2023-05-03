@@ -5,7 +5,7 @@ package com.mygdx.game.Core.PathFinder;
  * Stored A* data for each discorvered cell BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 03/03/23
+ * @date 03 /03/23
  */
 public class PathfindingCell implements Comparable<PathfindingCell> {
 
@@ -63,7 +63,7 @@ public class PathfindingCell implements Comparable<PathfindingCell> {
   /**
    * heuristics + pathcost
    *
-   * @return
+   * @return float
    * @author Felix Seanor
    */
   public float score() {

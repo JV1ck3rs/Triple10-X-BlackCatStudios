@@ -9,7 +9,7 @@ import com.mygdx.game.Items.Item;
  * This is a trash can to remove unwanted items BlackCatStudio's Code
  *
  * @author Jack Hinton
- * @date 29/04/23
+ * @date 29 /04/23
  */
 public class TrashCan extends Scriptable implements Interactable {
 

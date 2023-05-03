@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > soundFrame</title>
+  <title>Coverage Report > SoundFrame</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.mygdx.game.Core.SFX</a>
 </div>
 
-<h1>Coverage Summary for Class: soundFrame (com.mygdx.game.Core.SFX)</h1>
+<h1>Coverage Summary for Class: SoundFrame (com.mygdx.game.Core.SFX)</h1>
 
 <table class="coverageStats">
 
@@ -37,7 +37,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">soundFrame</td>
+  <td class="name">SoundFrame</td>
 <td class="coverageStat">
   <span class="percent">
     90%
@@ -56,7 +56,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 </tr>
   <tr>
-    <td class="name">soundFrame$soundsEnum</td>
+    <td class="name">SoundFrame$soundsEnum</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -70,7 +70,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (2/2)
+    (11/11)
   </span>
 </td>
   </tr>
@@ -86,10 +86,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    81.6%
+    85.1%
   </span>
   <span class="absValue">
-    (31/38)
+    (40/47)
   </span>
 </td>
 </tr>
@@ -108,34 +108,97 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.util.LinkedList;
 &nbsp;
 &nbsp;/**
-&nbsp; * Uses an enum containing all the names of the sound effects Uses an array of all the sounds,
-&nbsp; * must have the same index as the enum Uses a hashmap to store the IDs for each sound
-&nbsp; * BlackCatStudio&#39;s code
+&nbsp; * Uses an enum containing all the names of the sound effects Uses an array of all the sounds, must
+&nbsp; * have the same index as the enum Uses a hashmap to store the IDs for each sound BlackCatStudio&#39;s
+&nbsp; * code
+&nbsp; *
 &nbsp; * @author Sam Toner
 &nbsp; * @author Felix Seanor
-&nbsp; * @date 18/04/23
+&nbsp; * @date 18 /04/23
 &nbsp; */
-&nbsp;public class soundFrame {
+&nbsp;public class SoundFrame {
 &nbsp;
 &nbsp;
-<b class="fc">&nbsp;   public enum soundsEnum {</b>
-<b class="fc">&nbsp;    CustomerArrivedBell, FoodReadyBell, Frying, GasCooker, DropItem, EquipItem, KnifeChop, StepAchieved,BuyItem,end;</b>
+&nbsp;  /**
+&nbsp;   * The enum Sounds enum.
+&nbsp;   */
+<b class="fc">&nbsp;  public enum soundsEnum {</b>
+&nbsp;    /**
+&nbsp;     * Customer arrived bell sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    CustomerArrivedBell,</b>
+&nbsp;    /**
+&nbsp;     * Food ready bell sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    FoodReadyBell,</b>
+&nbsp;    /**
+&nbsp;     * Frying sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    Frying,</b>
+&nbsp;    /**
+&nbsp;     * Gas cooker sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    GasCooker,</b>
+&nbsp;    /**
+&nbsp;     * Drop item sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    DropItem,</b>
+&nbsp;    /**
+&nbsp;     * Equip item sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    EquipItem,</b>
+&nbsp;    /**
+&nbsp;     * Knife chop sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    KnifeChop,</b>
+&nbsp;    /**
+&nbsp;     * Step achieved sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    StepAchieved,</b>
+&nbsp;    /**
+&nbsp;     * Buy item sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    BuyItem,</b>
+&nbsp;    /**
+&nbsp;     * End sounds enum.
+&nbsp;     */
+<b class="fc">&nbsp;    end;</b>
 &nbsp;  }
 &nbsp;
-&nbsp;  public static soundFrame SoundEngine;
-<b class="fc">&nbsp;  Sound[] Sounds = new Sound[soundsEnum.end.ordinal()];</b>
+&nbsp;  /**
+&nbsp;   * The constant SoundEngine.
+&nbsp;   */
+&nbsp;  public static SoundFrame SoundEngine;
+&nbsp;  /**
+&nbsp;   * The Sounds.
+&nbsp;   */
+<b class="fc">&nbsp;  Sound[] sounds = new Sound[soundsEnum.end.ordinal()];</b>
 &nbsp;
+&nbsp;  /**
+&nbsp;   * The Sound i ds map.
+&nbsp;   */
 <b class="fc">&nbsp;  HashMap&lt;soundsEnum, LinkedList&lt;Long&gt;&gt; soundIDsMap = new HashMap&lt;&gt;();</b>
-<b class="fc">&nbsp; public float currentSystemVolume = 1.0f;</b>
-<b class="fc">&nbsp; public float Volume = 1.0f;</b>
+&nbsp;  /**
+&nbsp;   * The Current system volume.
+&nbsp;   */
+<b class="fc">&nbsp;  public float currentSystemVolume = 1.0f;</b>
+&nbsp;  /**
+&nbsp;   * The Volume.
+&nbsp;   */
+<b class="fc">&nbsp;  public float volume = 1.0f;</b>
 &nbsp;
 &nbsp;
-<b class="fc">&nbsp;  public soundFrame(){</b>
+&nbsp;  /**
+&nbsp;   * Instantiates a new Sound frame.
+&nbsp;   */
+<b class="fc">&nbsp;  public SoundFrame() {</b>
 <b class="fc">&nbsp;    LoadSounds.load(this);</b>
 <b class="fc">&nbsp;    SoundEngine = this;</b>
 &nbsp;  }
 &nbsp;
 &nbsp;  /**
+&nbsp;   * Play sound long.
+&nbsp;   *
 &nbsp;   * @param ring - Enum value as the name of the sound
 &nbsp;   * @return Returns the ID given when a sound is played Retrieves the sound from the array based on
 &nbsp;   * the enum Plays the sound getting the ID If the sound already has previous IDs, add the ID to
@@ -144,8 +207,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public long playSound(soundsEnum ring) {
-<b class="fc">&nbsp;    Sound toPlay = Sounds[ring.ordinal()];</b>
-<b class="fc">&nbsp;    long soundID = toPlay.play(Volume);</b>
+<b class="fc">&nbsp;    Sound toPlay = sounds[ring.ordinal()];</b>
+<b class="fc">&nbsp;    long soundID = toPlay.play(volume);</b>
 <b class="fc">&nbsp;    LinkedList&lt;Long&gt; soundIDs = new LinkedList&lt;&gt;();</b>
 &nbsp;
 <b class="fc">&nbsp;    if (soundIDsMap.get(ring) == null) {</b>
@@ -161,69 +224,78 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;
 &nbsp;  /**
+&nbsp;   * Pause sound.
+&nbsp;   *
 &nbsp;   * @param ring - Enum value of the name of the sound
-&nbsp;   * @param ID   - The ID required to interact with the sound instance
-&nbsp;   *             &lt;p&gt;
+&nbsp;   * @param ID   - The ID required to interact with the sound instance             &lt;p&gt;
 &nbsp;   *             Find the sound from the enum, and pause it using the sound instance ID
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public void pauseSound(soundsEnum ring, long ID) {
-<b class="fc">&nbsp;    Sounds[ring.ordinal()].pause(ID);</b>
+<b class="fc">&nbsp;    sounds[ring.ordinal()].pause(ID);</b>
 &nbsp;  }
 &nbsp;
 &nbsp;  /**
+&nbsp;   * Resume sound.
+&nbsp;   *
 &nbsp;   * @param ring - Enum value of the name of the sound
-&nbsp;   * @param ID   - The ID required to interact with the sound instance
-&nbsp;   *             &lt;p&gt;
+&nbsp;   * @param ID   - The ID required to interact with the sound instance             &lt;p&gt;
 &nbsp;   *             Find the sound from the enum, and resume it using the sound instance ID
 &nbsp;   * @author Sam Toner
 &nbsp;   */
-&nbsp;
 &nbsp;  public void resumeSound(soundsEnum ring, long ID) {
-<b class="fc">&nbsp;    Sounds[ring.ordinal()].resume(ID);</b>
+<b class="fc">&nbsp;    sounds[ring.ordinal()].resume(ID);</b>
 &nbsp;  }
 &nbsp;
 &nbsp;
 &nbsp;  /**
+&nbsp;   * Sets looping.
+&nbsp;   *
 &nbsp;   * @param ring  - Enum value of the name of the sound
 &nbsp;   * @param ID    - The ID required to interact with the sound instance
-&nbsp;   * @param state - The looping state, True = loop - False = stop looping
-&nbsp;   *             &lt;p&gt;
-&nbsp;   *             Find the sound from the enum, and set it to loop using the sound instance ID
+&nbsp;   * @param state - The looping state, True = loop - False = stop looping              &lt;p&gt;
+&nbsp;   *              Find the sound from the enum, and set it to loop using the sound instance ID
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public void setLooping(soundsEnum ring, long ID, boolean state) {
-<b class="fc">&nbsp;    Sounds[ring.ordinal()].setLooping(ID, state);</b>
+<b class="fc">&nbsp;    sounds[ring.ordinal()].setLooping(ID, state);</b>
 &nbsp;  }
 &nbsp;
 &nbsp;
 &nbsp;  /**
+&nbsp;   * Add sound.
+&nbsp;   *
 &nbsp;   * @param filepath - The filepath of the sound wanted to be played
-&nbsp;   * @param ring     - Enum value of the name of the sound
-&nbsp;   *                 &lt;p&gt;
+&nbsp;   * @param ring     - Enum value of the name of the sound                 &lt;p&gt;
 &nbsp;   *                 Checks if the sound doesnt exist in the Sound array If it doesnt, create a
 &nbsp;   *                 sound and add it to the array
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public void addSound(String filepath, soundsEnum ring) {
-<b class="fc">&nbsp;    if (Sounds[ring.ordinal()] == null) {</b>
+<b class="fc">&nbsp;    if (sounds[ring.ordinal()] == null) {</b>
 <b class="fc">&nbsp;      Sound effect = Gdx.audio.newSound(Gdx.files.internal(filepath));</b>
-<b class="fc">&nbsp;      Sounds[ring.ordinal()] = effect;</b>
+<b class="fc">&nbsp;      sounds[ring.ordinal()] = effect;</b>
 &nbsp;    }
 &nbsp;  }
 &nbsp;
 &nbsp;  /**
-&nbsp;   * @param ring - Enum value of the name of the sound
+&nbsp;   * Remove sound.
 &nbsp;   *
-&nbsp;   *             Removes the sound from the Sound array in the position of the enum value
+&nbsp;   * @param ring - Enum value of the name of the sound             &lt;p&gt;             Removes the sound
+&nbsp;   *             from the Sound array in the position of the enum value
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public void removeSound(soundsEnum ring) {
-<b class="nc">&nbsp;    if (Sounds[ring.ordinal()] != null) {</b>
-<b class="nc">&nbsp;      Sounds[ring.ordinal()] = null;</b>
+<b class="nc">&nbsp;    if (sounds[ring.ordinal()] != null) {</b>
+<b class="nc">&nbsp;      sounds[ring.ordinal()] = null;</b>
 &nbsp;    }
 &nbsp;  }
 &nbsp;
+&nbsp;  /**
+&nbsp;   * Sets system volume.
+&nbsp;   *
+&nbsp;   * @param volume the volume
+&nbsp;   */
 &nbsp;  public void setSystemVolume(float volume) {
 &nbsp;    /**
 &nbsp;     * @param volume - The volume wanted to set all the sounds to
@@ -237,10 +309,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;      currentSystemVolume = volume;</b>
 &nbsp;    }
 &nbsp;
-<b class="fc">&nbsp;    Volume = volume;</b>
+<b class="fc">&nbsp;    this.volume = volume;</b>
 <b class="fc">&nbsp;    for (soundsEnum key : soundIDsMap.keySet()) {</b>
 <b class="nc">&nbsp;      LinkedList&lt;Long&gt; value = soundIDsMap.get(key);</b>
-<b class="nc">&nbsp;      Sound currentSound = Sounds[key.ordinal()];</b>
+<b class="nc">&nbsp;      Sound currentSound = sounds[key.ordinal()];</b>
 <b class="nc">&nbsp;      for (int i = 0; i &lt; value.size(); i++) {</b>
 <b class="nc">&nbsp;        currentSound.setVolume(value.get(i), volume);</b>
 &nbsp;      }
@@ -249,6 +321,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;  /**
 &nbsp;   * Runs setSystemVolume with a sound of 0
+&nbsp;   *
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public void muteSound() {
@@ -258,6 +331,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;  /**
 &nbsp;   * Sets the volume back to the volume previous to mute, allows return to previous volume after a
 &nbsp;   * mute
+&nbsp;   *
 &nbsp;   * @author Sam Toner
 &nbsp;   */
 &nbsp;  public void unmuteSound() {
@@ -287,7 +361,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-02 23:59</div>
+    <div style="float:right;">generated on 2023-05-03 02:34</div>
 </div>
 </body>
 </html>

@@ -14,24 +14,42 @@ import java.util.List;
  */
 public class PathfindingAgent extends Scriptable {
 
+  /**
+   * The Path.
+   */
   List<Vector2> path;
+  /**
+   * The Speed.
+   */
   public float speed = 100;
 
+  /**
+   * The Prev.
+   */
   Vector2 prev;
 
   /**
    * Give this agent a new path
-   * @param newPath
+   *
+   * @param newPath the new path
    */
   public void givePath(List<Vector2> newPath) {
     prev = new Vector2(gameObject.position);
     path = newPath;
   }
 
+  /**
+   * Gets path.
+   *
+   * @return the path
+   */
   public List<Vector2> getPath() {
     return path;
   }
 
+  /**
+   * Instantiates a new Pathfinding agent.
+   */
   protected PathfindingAgent() {
     path = new LinkedList<>();
   }
@@ -42,7 +60,7 @@ public class PathfindingAgent extends Scriptable {
    * @param linePnt - point the line passes through
    * @param lineDir - unit vector in direction of line, either direction works
    * @param pnt     - the point to find nearest on line for
-   * @return
+   * @return ray point
    * @author Felix Seanor
    */
   public static RayPoint nearestPointOnLine(Vector2 linePnt, Vector2 lineDir, Vector2 pnt) {
@@ -80,7 +98,7 @@ public class PathfindingAgent extends Scriptable {
   /**
    * Moves the chef to the next location
    *
-   * @param dt
+   * @param dt the dt
    * @author Felix Seanor
    * @author Jack Vickers
    */

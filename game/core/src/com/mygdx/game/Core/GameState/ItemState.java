@@ -8,14 +8,28 @@ import com.mygdx.game.Items.ItemEnum;
  *
  * @author Felix Seanor
  * @author Jack Vickers
- * @date 25/04/23
+ * @date 25 /04/23
  */
 public class ItemState implements java.io.Serializable {
 
+  /**
+   * The Item.
+   */
   public ItemEnum item;
+  /**
+   * The Step.
+   */
   public int step;
+  /**
+   * The Progress.
+   */
   public float progress;
 
+  /**
+   * Instantiates a new Item state.
+   *
+   * @param obj the obj
+   */
   public ItemState(Item obj) {
     if (obj == null) {
       item = null;

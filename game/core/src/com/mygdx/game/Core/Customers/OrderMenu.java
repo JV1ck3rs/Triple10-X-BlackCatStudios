@@ -11,17 +11,41 @@ import java.util.Random;
  * BlackCatStudio's Code
  *
  * @author Felix Seanor
- * @date 23/04/23
+ * @date 23 /04/23
  */
 public class OrderMenu {
 
+  /**
+   * The Order catagories.
+   */
   List<OrderType> orderCatagories = new LinkedList<>();
+  /**
+   * The Rand.
+   */
   Random rand;
+  /**
+   * The Min stock.
+   */
   int minStock;
+  /**
+   * The Burgers.
+   */
   OrderType burgers;
+  /**
+   * The Salads.
+   */
   OrderType salads;
+  /**
+   * The Potato.
+   */
   OrderType potato;
+  /**
+   * The Pizza.
+   */
   OrderType pizza;
+  /**
+   * The Completed recipes.
+   */
   LinkedList<ItemEnum> completedRecipes;
 
   /**
@@ -93,7 +117,7 @@ public class OrderMenu {
    * Creates a true random order, each order has no knowledge of previous ones
    *
    * @param count no orders
-   * @return
+   * @return list
    * @author Felix Seanor
    */
   List<ItemEnum> createTrueRandomOrder(int count) {
@@ -110,7 +134,7 @@ public class OrderMenu {
    * the next order with a higher likelyhood of lower picked foods.
    *
    * @param count no orders
-   * @return
+   * @return list
    * @author Felix Seanor
    */
   List<ItemEnum> createNormalisedOrder(int count) {
@@ -141,6 +165,7 @@ public class OrderMenu {
 
   /**
    * Restocks the order and resets the probability
+   *
    * @author Felix Seanor
    */
   public void restock() {
@@ -150,6 +175,11 @@ public class OrderMenu {
     }
   }
 
+  /**
+   * Gets all order types.
+   *
+   * @return the all order types
+   */
   public LinkedList<OrderType> getAllOrderTypes() {
     LinkedList<OrderType> orderTypes = new LinkedList<>();
     orderTypes.add(burgers);
@@ -160,6 +190,12 @@ public class OrderMenu {
   }
 
 
+  /**
+   * Gets super from dish.
+   *
+   * @param dish the dish
+   * @return the super from dish
+   */
   public Item getSuperFromDish(ItemEnum dish) {
     if (burgers.orderables.contains(dish)) {
       return new Item(ItemEnum.SuperBurger);
@@ -174,6 +210,12 @@ public class OrderMenu {
     }
   }
 
+  /**
+   * Gets order type from super.
+   *
+   * @param item the item
+   * @return the order type from super
+   */
   public OrderType getOrderTypeFromSuper(Item item) {
     if (item.name == ItemEnum.SuperBurger) {
       return burgers;
