@@ -28,7 +28,7 @@ public class Table {
   //seat offset so seating patttern isnt always the same
   int offset = 0;
   //Size of table
-  int Radius;
+  int radius;
 
   /**
    * Create a new table
@@ -40,7 +40,7 @@ public class Table {
    */
   public Table(Vector2 pos, int _ID, int Radius) {
     position = pos;
-    this.Radius = Radius;
+    this.radius = Radius;
     ID = _ID;
   }
 
@@ -58,10 +58,10 @@ public class Table {
 
     seats = new LinkedList<>();
 
-    seats.add(new Vector2(1 * Radius, 0));
-    seats.add(new Vector2(-1 * Radius, 0));
-    seats.add(new Vector2(0, 1 * Radius));
-    seats.add(new Vector2(0, -1 * Radius));
+    seats.add(new Vector2(1 * radius, 0));
+    seats.add(new Vector2(-1 * radius, 0));
+    seats.add(new Vector2(0, 1 * radius));
+    seats.add(new Vector2(0, -1 * radius));
 
 
   }

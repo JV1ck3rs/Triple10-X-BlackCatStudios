@@ -18,7 +18,7 @@ public class CustomerCounters extends Station {
   /**
    * Customer Controller, can the item give be accepted
    */
-  Function<Item, Boolean> GiveItemToCustomer;
+  Function<Item, Boolean> giveItemToCustomer;
 
   /**
    * Creates a customer counter
@@ -31,7 +31,7 @@ public class CustomerCounters extends Station {
   public CustomerCounters(Function<Item, Boolean> script, CookingParams params) {
 
     super(params);
-    this.GiveItemToCustomer = script;
+    this.giveItemToCustomer = script;
 
   }
 
@@ -119,7 +119,7 @@ public class CustomerCounters extends Station {
    * @author Jack Hinton
    */
   public void GiveFood() {
-    boolean answer = GiveItemToCustomer.apply(item);
+    boolean answer = giveItemToCustomer.apply(item);
     if (answer) {
       deleteItem();
     }

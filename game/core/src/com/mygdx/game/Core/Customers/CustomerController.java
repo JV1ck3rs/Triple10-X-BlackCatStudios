@@ -43,16 +43,16 @@ public class CustomerController extends Scriptable {
   /**
    * The current customer group waiting in line
    */
-  CustomerGroups currentWaiting = null;
+  CustomerGroups currentWaitingCustomer = null;
 
   /**
    * List of customers sitting down and eating. Groups only enter this when all members are eating
    */
-  List<CustomerGroups> SittingCustomers = new LinkedList<>();
+  List<CustomerGroups> sittingCustomers = new LinkedList<>();
   /**
    * List of all customer groups trying to leave
    */
-  List<CustomerGroups> WalkingBackCustomers = new LinkedList<>();
+  List<CustomerGroups> walkingBackCustomers = new LinkedList<>();
   /**
    * Pathfinding module used
    */
@@ -65,29 +65,29 @@ public class CustomerController extends Scriptable {
   /**
    * Call this to start endge game sequence
    */
-  Consumer<EndOfGameValues> CallEndGame;
+  Consumer<EndOfGameValues> callEndGame;
 
-  public int Reputation;
-  public static int Money;
-  int MaxMoney;
-  int MaxReputation;
-  int MoneyPerCustomer;
+  public int reputation;
+  public static int money;
+  int maxMoney;
+  int maxReputation;
+  int moneyPerCustomer;
 
-  int Waves = -1;
+  int waves = -1;
   public OrderMenu menu;
   int currentCustomer = 0;
   int currentWave = 0;
-  private float EatingTime = 7;
-  private int TimerWidth = 50;
-  private int TimerHeight = 10;
+  private float eatingTime = 7;
+  private int timerWidth = 50;
+  private int timerHeight = 10;
 
   Boolean OvensAdded = false;
 
   /**
    * Frustration Time
    */
-  private GameObject FrustrationTimer;
-  private GameObject FrustrationTimerBackground;
+  private GameObject frustrationTimer;
+  private GameObject frustrationTimerBackground;
 
   /**
    * Creates a new randomisation class based on the current time
@@ -102,33 +102,33 @@ public class CustomerController extends Scriptable {
   /**
    * timer defining when the next eating customer will leave
    */
-  float NextToLeave = EatingTime;
-  int MaxCustomers;
-  int CustomersRemaining;
+  float timeToNextCustomerLeaving = eatingTime;
+  int maxCustomers;
+  int customersRemaining;
   ArrayList<Integer> customersPerWave;
   /**
    * this is call back for customer groups who get too frustrated so they need to leave
    */
-  Consumer<CustomerGroups> FrustrationCallBack;
+  Consumer<CustomerGroups> frustrationCallBack;
 
   /**
    * Door position
    */
-  Vector2 DoorTarget;
+  Vector2 doorTarget;
   /**
    * where ordering queue should start
    */
-  Vector2 OrderAreaTarget;
+  Vector2 orderAreaTarget;
 
   /**
    * All customer texture atlases
    */
-  public ArrayList<TextureAtlas> CustomerAtlas = new ArrayList<>();
+  public ArrayList<TextureAtlas> customerAtlas = new ArrayList<>();
 
   /**
    * how long it takes for a group to be frustrated and leave without being served
    */
-  private int CustomerFrustrationStart = 80;
+  private int customerFrustrationStart;
 
   public boolean updateFrustration = true;
   int numCustomersServed = 0;
@@ -147,43 +147,43 @@ public class CustomerController extends Scriptable {
   public CustomerController(Vector2 DoorPosition, Vector2 OrderArea, Pathfinding path,
       Consumer<EndOfGameValues> CallUpGameFinish, CustomerControllerParams params,
       Vector2... tables) {
-    FrustrationCallBack = (CustomerGroups a) -> FrustrationLeave(a);
-    MoneyPerCustomer = params.MoneyPerCustomer;
-    CallEndGame = CallUpGameFinish;
-    Money = params.MoneyStart;
-    MaxMoney = params.MaxMoney;
-    Reputation = params.Reputation;
-    MaxReputation = 5; // set the max reputation to 5
-    CustomerFrustrationStart = params.FrustrationStart;
-    groupSize.y = Math.min(params.MaxCustomersPerWave, groupSize.y);
-    groupSize.x = Math.max(params.MinCustomersPerWave, groupSize.x);
+    frustrationCallBack = (CustomerGroups a) -> FrustrationLeave(a);
+    moneyPerCustomer = params.moneyPerCustomer;
+    callEndGame = CallUpGameFinish;
+    money = params.moneyStart;
+    maxMoney = params.maxMoney;
+    reputation = params.reputation;
+    maxReputation = 5; // set the max reputation to 5
+    customerFrustrationStart = params.frustrationStart;
+    groupSize.y = Math.min(params.maxCustomersPerWave, groupSize.y);
+    groupSize.x = Math.max(params.minCustomersPerWave, groupSize.x);
 
-    CalculateWavesFromNoCustomers(params.NoCustomers);
+    CalculateWavesFromNoCustomers(params.noCustomers);
 
     BlackTexture Black = new BlackTexture("Black.png");
     BlackTexture FrustBack = new BlackTexture("FrustrationBackground.png");
 
-    FrustrationTimerBackground = new GameObject(FrustBack);
-    FrustrationTimerBackground.position.set(298, 8);
+    frustrationTimerBackground = new GameObject(FrustBack);
+    frustrationTimerBackground.position.set(298, 8);
     FrustBack.layer = -1;
-    FrustBack.setSize(TimerWidth + 4, TimerHeight + 4);
+    FrustBack.setSize(timerWidth + 4, timerHeight + 4);
 
-    FrustrationTimer = new GameObject(Black);
+    frustrationTimer = new GameObject(Black);
 
-    FrustrationTimer.position.set(300, 10);
+    frustrationTimer.position.set(300, 10);
 
     SetTables(tables);
 
-    if (Waves != -1) {
-      Reputation = Math.min(Reputation, Waves);
+    if (waves != -1) {
+      reputation = Math.min(reputation, waves);
     }
     generateCustomerArray();
 
     pathfinding = path;
-    OrderAreaTarget = OrderArea;
-    DoorTarget = DoorPosition;
+    orderAreaTarget = OrderArea;
+    doorTarget = DoorPosition;
 
-    menu = new OrderMenu(10, 7, 3, params.OrderTypePermissable);
+    menu = new OrderMenu(10, 7, 3, params.orderTypePermissable);
   }
 
   /**
@@ -218,7 +218,7 @@ public class CustomerController extends Scriptable {
   }
 
   public int getMoney() {
-    return Money;
+    return money;
   }
 
 
@@ -233,8 +233,8 @@ public class CustomerController extends Scriptable {
   }
 
   public void CalculateWavesFromNoCustomers(int NoCustomers) {
-    MaxCustomers = NoCustomers;
-    CustomersRemaining = NoCustomers;
+    maxCustomers = NoCustomers;
+    customersRemaining = NoCustomers;
 
     if (NoCustomers == -1) {
       SetWaveAmount(-1);
@@ -242,7 +242,7 @@ public class CustomerController extends Scriptable {
     }
 
     customersPerWave = new ArrayList<>();
-    int tempVal = MaxCustomers;
+    int tempVal = maxCustomers;
 
     /* The following block of code calculates the number of customers that should be
      * in each wave of the scenario mode.
@@ -266,12 +266,12 @@ public class CustomerController extends Scriptable {
     // Sorts the arraylist in ascending order so that waves with fewer customers occur first
     Collections.sort(customersPerWave);
 
-    Waves = customersPerWave.size();
-    SetWaveAmount(Waves);
+    waves = customersPerWave.size();
+    SetWaveAmount(waves);
   }
 
   public int SittingCustomerCount() {
-    return SittingCustomers.size();
+    return sittingCustomers.size();
   }
 
   public OrderMenu getMenu() {
@@ -304,7 +304,7 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   public void SetWaveAmount(int amount) {
-    Waves = amount;
+    waves = amount;
     currentWave = 0;
   }
 
@@ -322,7 +322,7 @@ public class CustomerController extends Scriptable {
     for (int i = 1; i < 9; i++) {
       filename = "Customers/Customer" + i + "/customer" + i + ".txt";
       customerAtlas = new TextureAtlas(filename);
-      CustomerAtlas.add(customerAtlas);
+      this.customerAtlas.add(customerAtlas);
     }
   }
 
@@ -339,11 +339,11 @@ public class CustomerController extends Scriptable {
   }
 
   public CustomerGroups getCurrentWaitingCustomerGroup() {
-    return currentWaiting;
+    return currentWaitingCustomer;
   }
 
   public void setCurrentWaitingCustomerGroup(CustomerGroups group) {
-    currentWaiting = group;
+    currentWaitingCustomer = group;
   }
 
   public int getNumberOfCustomersServed() {
@@ -351,10 +351,10 @@ public class CustomerController extends Scriptable {
   }
 
   public int getRemainingNumberOfCustomers() {
-    if (currentWaiting != null) {
-      return CustomersRemaining + currentWaiting.MembersInLine.size();
+    if (currentWaitingCustomer != null) {
+      return customersRemaining + currentWaitingCustomer.membersInLine.size();
     }
-    return CustomersRemaining;
+    return customersRemaining;
   }
 
   /**
@@ -364,9 +364,9 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   public void ModifyReputation(int DR) {
-    Reputation += DR;
-    Reputation = Math.min(Reputation, MaxReputation);
-    if (Reputation <= 0) {
+    reputation += DR;
+    reputation = Math.min(reputation, maxReputation);
+    if (reputation <= 0) {
       EndGame();
     }
   }
@@ -380,13 +380,13 @@ public class CustomerController extends Scriptable {
    */
   public boolean ChangeMoney(float DM) {
     if (DM >= 0) {
-      Money += DM;
-      Money = Math.min(MaxMoney, Money);
+      money += DM;
+      money = Math.min(maxMoney, money);
       return true;
     }
 
-    if (Money - DM >= 0) {
-      Money += DM;
+    if (money - DM >= 0) {
+      money += DM;
       soundFrame.SoundEngine.playSound(soundsEnum.BuyItem);
       return true;
     }
@@ -397,8 +397,8 @@ public class CustomerController extends Scriptable {
   }
 
   public boolean decreaseMoney(float dm) {
-    if (Money - dm >= 0) {
-      Money -= dm;
+    if (money - dm >= 0) {
+      money -= dm;
       soundFrame.SoundEngine.playSound(soundsEnum.BuyItem);
       return true;
     } else {
@@ -412,19 +412,19 @@ public class CustomerController extends Scriptable {
     super.Update(dt);
 
     if (Gdx.input.isKeyJustPressed(Inputs.SELL_RESTURANT)) {
-      Reputation = 0;
+      reputation = 0;
       EndGame();
       ;
     }
 
-    if (currentWaiting != null) {
-      currentWaiting.showIcons();
-      currentWaiting.checkClicks();
-      currentWaiting.updateSpriteFromInput();
+    if (currentWaitingCustomer != null) {
+      currentWaitingCustomer.showIcons();
+      currentWaitingCustomer.checkClicks();
+      currentWaitingCustomer.updateSpriteFromInput();
     }
 
-    UpdateCustomerMovements(SittingCustomers);
-    UpdateCustomerMovements(WalkingBackCustomers);
+    UpdateCustomerMovements(sittingCustomers);
+    UpdateCustomerMovements(walkingBackCustomers);
 
     FrustrationCheck(dt);
 
@@ -457,14 +457,14 @@ public class CustomerController extends Scriptable {
   public void ChangeFrustrationTimer() {
 
     float TT = 0;
-    float Max = CustomerFrustrationStart;
+    float Max = customerFrustrationStart;
 
-    if (currentWaiting != null) {
-      TT = currentWaiting.Frustration;
-      Max *= currentWaiting.Members.size();
+    if (currentWaitingCustomer != null) {
+      TT = currentWaitingCustomer.frustration;
+      Max *= currentWaitingCustomer.members.size();
     }
-    ((BlackTexture) FrustrationTimer.image).setSize(
-        (int) ((TT / Max) * TimerWidth), TimerHeight);
+    ((BlackTexture) frustrationTimer.image).setSize(
+        (int) ((TT / Max) * timerWidth), timerHeight);
 
 
   }
@@ -476,10 +476,10 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   private void FrustrationCheck(float dt) {
-    if (currentWaiting == null) {
+    if (currentWaitingCustomer == null) {
       return;
     }
-    currentWaiting.CheckFrustration(dt, FrustrationCallBack, updateFrustration);
+    currentWaitingCustomer.CheckFrustration(dt, frustrationCallBack, updateFrustration);
   }
 
   /**
@@ -489,11 +489,11 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   public void SeeIfCustomersShouldLeave(float dt) {
-    if (SittingCustomers.size() > 0) {
-      NextToLeave -= dt;
+    if (sittingCustomers.size() > 0) {
+      timeToNextCustomerLeaving -= dt;
     }
 
-    if (NextToLeave <= 0) {
+    if (timeToNextCustomerLeaving <= 0) {
       RemoveCurrentlySeatedCustomers();
     }
 
@@ -507,19 +507,19 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   void RemoveCurrentlySeatedCustomers() {
-    CustomerGroups groups = SittingCustomers.get(0);
+    CustomerGroups groups = sittingCustomers.get(0);
     groups.table.relinquish();
-    WalkingBackCustomers.add(groups);
-    SittingCustomers.remove(0);
+    walkingBackCustomers.add(groups);
+    sittingCustomers.remove(0);
 
-    for (Customer customer : groups.Members
+    for (Customer customer : groups.members
     ) {
       customer.eaten = true;
     }
 
-    SetCustomerGroupTarget(groups, DoorTarget);
+    SetCustomerGroupTarget(groups, doorTarget);
 
-    NextToLeave = EatingTime;
+    timeToNextCustomerLeaving = eatingTime;
 
   }
 
@@ -531,19 +531,19 @@ public class CustomerController extends Scriptable {
   void TryDeleteCustomers() {
     List<Integer> removals = new LinkedList<>();
     int r = 0;
-    for (CustomerGroups group : WalkingBackCustomers
+    for (CustomerGroups group : walkingBackCustomers
     ) {
 
-      for (int i = group.Members.size() - 1; i >= 0; i--) {
+      for (int i = group.members.size() - 1; i >= 0; i--) {
 
-        if (group.Members.get(i).gameObject.position.dst(DoorTarget.x, DoorTarget.y) < 1) {
-          group.Members.get(i).Destroy();
-          group.Members.remove(i);
+        if (group.members.get(i).gameObject.position.dst(doorTarget.x, doorTarget.y) < 1) {
+          group.members.get(i).Destroy();
+          group.members.remove(i);
         }
 
       }
 
-      if (group.Members.size() == 0) {
+      if (group.members.size() == 0) {
         removals.add(r);
       }
 
@@ -551,12 +551,12 @@ public class CustomerController extends Scriptable {
 
     }
     for (Integer i : removals) {
-      WalkingBackCustomers.remove(i);
+      walkingBackCustomers.remove(i);
     }
   }
 
   int WavesLeft() {
-    return Waves - currentWave;
+    return waves - currentWave;
   }
 
   /**
@@ -569,11 +569,11 @@ public class CustomerController extends Scriptable {
 
   public int calculateCustomerAmount() {
 
-    if (Waves == -1) {
+    if (waves == -1) {
       return rand.nextInt((int) groupSize.y - (int) groupSize.x) + (int) groupSize.x;
     }
     if (WavesLeft() == 0) {
-      return CustomersRemaining;
+      return customersRemaining;
     }
 
     // gets the number of customer for the current wave from the list of customers per wave
@@ -582,7 +582,7 @@ public class CustomerController extends Scriptable {
   }
 
   public int getCustomersRemaining() {
-    return CustomersRemaining;
+    return customersRemaining;
   }
 
 
@@ -596,14 +596,14 @@ public class CustomerController extends Scriptable {
     Table table = GetTable();
 
     int customerAmount = calculateCustomerAmount();
-    CustomersRemaining -= customerAmount;
+    customersRemaining -= customerAmount;
 
-    currentWaiting = new CustomerGroups(customerAmount, currentCustomer, DoorTarget,
-        CustomerFrustrationStart, menu.CreateNewOrder(customerAmount, Randomisation.Normalised),
-        CustomerAtlas);
+    currentWaitingCustomer = new CustomerGroups(customerAmount, currentCustomer, doorTarget,
+        customerFrustrationStart, menu.CreateNewOrder(customerAmount, Randomisation.Normalised),
+        customerAtlas);
     currentCustomer += customerAmount;
 
-    currentWaiting.table = table;
+    currentWaitingCustomer.table = table;
     table.DesignateSeating(customerAmount, rand);
 
     SetWaitingForOrderTarget();
@@ -617,13 +617,13 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   void SetWaitingForOrderTarget() {
-    for (int i = 0; i < currentWaiting.MembersInLine.size(); i++) {
-      SetCustomerTarget(currentWaiting.MembersInLine.get(i),
-          new Vector2(0, 40 * i).add(OrderAreaTarget));
+    for (int i = 0; i < currentWaitingCustomer.membersInLine.size(); i++) {
+      SetCustomerTarget(currentWaitingCustomer.membersInLine.get(i),
+          new Vector2(0, 40 * i).add(orderAreaTarget));
 
-      currentWaiting.MembersInLine.get(i).eaten = false;
-      currentWaiting.MembersInLine.get(i).waitingAtCounter = true;
-      currentWaiting.MembersInLine.get(i).hideItem();
+      currentWaitingCustomer.membersInLine.get(i).eaten = false;
+      currentWaitingCustomer.membersInLine.get(i).waitingAtCounter = true;
+      currentWaitingCustomer.membersInLine.get(i).hideItem();
     }
   }
 
@@ -636,12 +636,12 @@ public class CustomerController extends Scriptable {
 
   public void CanAcceptNewCustomer() {
     if (DoSatisfactionCheck()) {
-      SittingCustomers.add(currentWaiting);
-      currentWaiting = null;
+      sittingCustomers.add(currentWaitingCustomer);
+      currentWaitingCustomer = null;
     }
 
-    if (currentWaiting == null && SittingCustomers.size() < tables.size()) {
-      if (Waves != currentWave++) //if not the max number of waves increment
+    if (currentWaitingCustomer == null && sittingCustomers.size() < tables.size()) {
+      if (waves != currentWave++) //if not the max number of waves increment
       {
         CreateNewCustomer();
       } else {
@@ -658,10 +658,10 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   public void FrustrationLeave(CustomerGroups group) {
-    SetCustomerGroupTarget(group, DoorTarget);
+    SetCustomerGroupTarget(group, doorTarget);
     group.table.relinquish();
-    currentWaiting = null;
-    WalkingBackCustomers.add(group);
+    currentWaitingCustomer = null;
+    walkingBackCustomers.add(group);
 
     ModifyReputation(-1);
   }
@@ -674,7 +674,7 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   public void SetCustomerGroupTarget(CustomerGroups group, Vector2 target) {
-    for (Customer customer : group.Members
+    for (Customer customer : group.members
     ) {
       SetCustomerTarget(customer, target);
     }
@@ -704,29 +704,29 @@ public class CustomerController extends Scriptable {
    */
   void RemoveCustomerTest() {
     if (Gdx.input.isKeyJustPressed(
-        Keys.S) && currentWaiting != null) {
-      Customer customer = currentWaiting.RemoveFirstCustomer();
+        Keys.S) && currentWaitingCustomer != null) {
+      Customer customer = currentWaitingCustomer.RemoveFirstCustomer();
       numCustomersServed += 1;
-      SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
-      ChangeMoney(MoneyPerCustomer);
+      SetCustomerTarget(customer, currentWaitingCustomer.table.GetNextSeat());
+      ChangeMoney(moneyPerCustomer);
       SetWaitingForOrderTarget();
     }
   }
 
   public void superFoodUpgrade() {
-    Customer customer = currentWaiting.RemoveFirstCustomer();
+    Customer customer = currentWaitingCustomer.RemoveFirstCustomer();
     numCustomersServed += 1;
-    SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
-    ChangeMoney(MoneyPerCustomer);
+    SetCustomerTarget(customer, currentWaitingCustomer.table.GetNextSeat());
+    ChangeMoney(moneyPerCustomer);
     SetWaitingForOrderTarget();
   }
 
   void removeAnyCustomer(Integer customerToRemove) {
-    Customer customer = currentWaiting.removeAnyCustomer(customerToRemove);
+    Customer customer = currentWaitingCustomer.removeAnyCustomer(customerToRemove);
     if (customer != null) {
       numCustomersServed += 1;
-      SetCustomerTarget(customer, currentWaiting.table.GetNextSeat());
-      ChangeMoney(MoneyPerCustomer);
+      SetCustomerTarget(customer, currentWaitingCustomer.table.GetNextSeat());
+      ChangeMoney(moneyPerCustomer);
       SetWaitingForOrderTarget();
     }
   }
@@ -742,9 +742,9 @@ public class CustomerController extends Scriptable {
 
     //Calculate points
     EndOfGameValues values = new EndOfGameValues();
-    values.score = Money;
-    values.Won = Reputation > 0;
-    CallEndGame.accept(values);
+    values.score = money;
+    values.won = reputation > 0;
+    callEndGame.accept(values);
   }
 
   public boolean tetrisSuperFoodAction(Item dish) {
@@ -753,12 +753,12 @@ public class CustomerController extends Scriptable {
     List<ItemEnum> toClear = null;
     OrderType orderType = menu.getOrderTypeFromSuper(dish);
     toClear = orderType.orderables;
-    for (int i = currentWaiting.MembersInLine.size() - 1; i >= 0; i--) {
-      Customer current = currentWaiting.MembersInLine.get(i);
+    for (int i = currentWaitingCustomer.membersInLine.size() - 1; i >= 0; i--) {
+      Customer current = currentWaitingCustomer.membersInLine.get(i);
       if (toClear.contains(current.getDish())) {
-        SetCustomerTarget(currentWaiting.MembersInLine.get(i), currentWaiting.table.GetNextSeat());
+        SetCustomerTarget(currentWaitingCustomer.membersInLine.get(i), currentWaitingCustomer.table.GetNextSeat());
         //currentWaiting.MembersSeatedOrWalking.add(currentWaiting.MembersInLine.get(i));
-        currentWaiting.FeedSpecificCustomer(i);
+        currentWaitingCustomer.FeedSpecificCustomer(i);
         numCustomersServed += 1;
         anyCustomer = true;
       }
@@ -779,20 +779,20 @@ public class CustomerController extends Scriptable {
     if (item.name().contains("Super")) {
       return tetrisSuperFoodAction(item);
     }
-    int success = currentWaiting.SeeIfDishIsCorrect(item);
+    int success = currentWaitingCustomer.SeeIfDishIsCorrect(item);
 
     if (success != -1) {
-      currentWaiting.FeedSpecificCustomer(success);
-      SetCustomerTarget(currentWaiting.MembersSeatedOrWalking.get(
-          currentWaiting.MembersSeatedOrWalking.size() - 1), currentWaiting.table.GetNextSeat());
+      currentWaitingCustomer.FeedSpecificCustomer(success);
+      SetCustomerTarget(currentWaitingCustomer.membersSeatedOrWalking.get(
+          currentWaitingCustomer.membersSeatedOrWalking.size() - 1), currentWaitingCustomer.table.GetNextSeat());
       SetWaitingForOrderTarget();
-      ChangeMoney(MoneyPerCustomer);
+      ChangeMoney(moneyPerCustomer);
     }
     return success != -1;
   }
 
   public List<Customer> getMemberSeatedOrWalking() {
-    return currentWaiting.MembersSeatedOrWalking;
+    return currentWaitingCustomer.membersSeatedOrWalking;
   }
 
   /**
@@ -802,24 +802,24 @@ public class CustomerController extends Scriptable {
    * @author Felix Seanor
    */
   public boolean DoSatisfactionCheck() {
-    return currentWaiting != null && currentWaiting.MembersInLine.size() == 0;
+    return currentWaitingCustomer != null && currentWaitingCustomer.membersInLine.size() == 0;
   }
 
   public void deleteAllCustomers() {
-    if (currentWaiting != null) {
-      currentWaiting.destroy();
+    if (currentWaitingCustomer != null) {
+      currentWaitingCustomer.destroy();
 
     }
-    for (CustomerGroups group : SittingCustomers) {
+    for (CustomerGroups group : sittingCustomers) {
       group.destroy();
     }
 
-    for (CustomerGroups group : WalkingBackCustomers) {
+    for (CustomerGroups group : walkingBackCustomers) {
       group.destroy();
     }
 
-    SittingCustomers.clear();
-    WalkingBackCustomers.clear();
+    sittingCustomers.clear();
+    walkingBackCustomers.clear();
   }
 
   /**
@@ -831,44 +831,44 @@ public class CustomerController extends Scriptable {
    */
   public void LoadState(GameState state) {
     //Wave State
-    currentWave = state.Wave;
-    Waves = state.MaxWave;
-    groupSize = state.GroupSize;
+    currentWave = state.wave;
+    waves = state.maxWave;
+    groupSize = state.groupSize;
     //Reputation
-    Reputation = state.Reputation;
-    MaxReputation = state.MaxReputation;
-    CustomerFrustrationStart = state.MaxFrustration;
+    reputation = state.reputation;
+    maxReputation = state.maxReputation;
+    customerFrustrationStart = state.maxFrustration;
     //Money
-    MaxMoney = state.MaxMoney;
-    Money = state.Money;
+    maxMoney = state.maxMoney;
+    money = state.money;
 
-    customersPerWave = state.CustomersPerWave;
+    customersPerWave = state.customersPerWave;
     if (!Objects.isNull(customersPerWave)) { // if this is not null, a scenario game is being loaded
       if (customersPerWave.size() > 0) { // this is true for the scenario mode
-        CustomersRemaining = 0;
+        customersRemaining = 0;
       }
       // correctly calculates the number of customers remaining (scenario mode)
       for (int i = currentWave; i < customersPerWave.size(); i++) {
-        CustomersRemaining += customersPerWave.get(i);
+        customersRemaining += customersPerWave.get(i);
       }
     }
     deleteAllCustomers();
 
-    if (state.CustomerGroupsData[0] != null) {
-      currentWaiting = new CustomerGroups(state.CustomerGroupsData[0], CustomerAtlas);
-      Table table = tables.get(state.CustomerGroupsData[0].Table);
-      table.DesignateSeating(state.CustomerGroupsData[0].customerPositions.length, rand);
-      currentWaiting.table = table;
+    if (state.customerGroupStates[0] != null) {
+      currentWaitingCustomer = new CustomerGroups(state.customerGroupStates[0], customerAtlas);
+      Table table = tables.get(state.customerGroupStates[0].table);
+      table.DesignateSeating(state.customerGroupStates[0].customerPositions.length, rand);
+      currentWaitingCustomer.table = table;
 
       // if there are customers walking to the table
-      if (state.CustomerGroupsData[0].NumCustomersWalkingToTable > 0) {
-        for (Customer cust : currentWaiting.Members) {
+      if (state.customerGroupStates[0].numCustomersWalkingToTable > 0) {
+        for (Customer cust : currentWaitingCustomer.members) {
           // If the customer is not at the order point and is not at the entrance (therefore is moving towards a table)
           if ((cust.getX() > 360.0f || cust.getX() < 360.0f) && (cust.getX() != 200
               && cust.getY() != 100)) {
             SetCustomerTarget(cust,
-                currentWaiting.table.GetNextSeat()); // set the customer to walk to the table
-            currentWaiting.MembersInLine.remove(cust); // remove the customer from the line
+                currentWaitingCustomer.table.GetNextSeat()); // set the customer to walk to the table
+            currentWaitingCustomer.membersInLine.remove(cust); // remove the customer from the line
           } else {
             cust.eaten = false;
             cust.waitingAtCounter = true;
@@ -883,28 +883,28 @@ public class CustomerController extends Scriptable {
     }
 
     int i = 0;
-    for (CustomerGroupState groupState : state.CustomerGroupsData
+    for (CustomerGroupState groupState : state.customerGroupStates
     ) {
       if (i == 0) {
         i++;
         continue;
       }
 
-      CustomerGroups customerGroups = new CustomerGroups(groupState, CustomerAtlas);
+      CustomerGroups customerGroups = new CustomerGroups(groupState, customerAtlas);
 
-      Table table = tables.get(state.CustomerGroupsData[i].Table);
+      Table table = tables.get(state.customerGroupStates[i].table);
       if (groupState.leaving) { // customers are leaving
-        SetCustomerGroupTarget(customerGroups, DoorTarget);
-        WalkingBackCustomers.add(customerGroups);
+        SetCustomerGroupTarget(customerGroups, doorTarget);
+        walkingBackCustomers.add(customerGroups);
       } else { // customers are/ should be sitting
         customerGroups.table = table;
-        table.DesignateSeating(state.CustomerGroupsData[i].customerPositions.length, rand);
+        table.DesignateSeating(state.customerGroupStates[i].customerPositions.length, rand);
 
         // ensures that a table target is set for these customers
-        for (Customer cust : customerGroups.Members) {
+        for (Customer cust : customerGroups.members) {
           SetCustomerTarget(cust, table.GetNextSeat());
         }
-        SittingCustomers.add(customerGroups);
+        sittingCustomers.add(customerGroups);
       }
 
       i++;
@@ -914,47 +914,47 @@ public class CustomerController extends Scriptable {
   }
 
   public void SaveState(GameState state) {
-    state.Wave = currentWave;
+    state.wave = currentWave;
 
     // List of number of customers per wave
-    state.CustomersPerWave = customersPerWave;
+    state.customersPerWave = customersPerWave;
 
-    state.MaxWave = Waves;
-    state.GroupSize = groupSize;
+    state.maxWave = waves;
+    state.groupSize = groupSize;
     //Reputation
-    state.Reputation = Reputation;
-    state.MaxReputation = MaxReputation;
-    state.MaxFrustration = CustomerFrustrationStart;
+    state.reputation = reputation;
+    state.maxReputation = maxReputation;
+    state.maxFrustration = customerFrustrationStart;
     //Money
-    state.MaxMoney = MaxMoney;
-    state.Money = Money;
+    state.maxMoney = maxMoney;
+    state.money = money;
 
     //Customers
 
     List<CustomerGroupState> savedGroups = new LinkedList<>();
-    if (currentWaiting == null) {
+    if (currentWaitingCustomer == null) {
       savedGroups.add(null);
     } else {
-      savedGroups.add(currentWaiting.SaveState(false)); // customer groups that are waiting
+      savedGroups.add(currentWaitingCustomer.SaveState(false)); // customer groups that are waiting
 
     }
-    for (CustomerGroups group : SittingCustomers) { // customer groups that are sitting
+    for (CustomerGroups group : sittingCustomers) { // customer groups that are sitting
       savedGroups.add(group.SaveState(false));
     }
 
-    for (CustomerGroups group : WalkingBackCustomers) { // customer groups that are leaving
-      if (group.Members.size() > 0) {
+    for (CustomerGroups group : walkingBackCustomers) { // customer groups that are leaving
+      if (group.members.size() > 0) {
         savedGroups.add(group.SaveState(true));
       }
     }
-    state.CustomerGroupsData = savedGroups.toArray(new CustomerGroupState[0]);
+    state.customerGroupStates = savedGroups.toArray(new CustomerGroupState[0]);
   }
 
   public int LeavingCustomerCount() {
-    return WalkingBackCustomers.size();
+    return walkingBackCustomers.size();
   }
 
   public void setMoney(int i) {
-    Money = i;
+    money = i;
   }
 }

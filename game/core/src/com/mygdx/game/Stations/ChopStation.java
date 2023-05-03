@@ -8,7 +8,7 @@ import com.mygdx.game.Core.SFX.soundFrame;
 import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.RecipeAndComb.recipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,7 +23,7 @@ public class ChopStation extends Station {
 
   boolean interacted;
   boolean ready;
-  public static ArrayList<ItemEnum> ItemWhiteList;
+  public static ArrayList<ItemEnum> itemWhiteList;
   public float progress;
   public float maxProgress;
   public int imageSize = 18;
@@ -46,15 +46,15 @@ public class ChopStation extends Station {
 
     super(params);
 
-    CookingSpeed = params.ChopSpeed;
+    cookingSpeed = params.chopspeed;
 
     interacted = false;
     ready = false;
     maxProgress = 5;
     choppingSFX = new ContinousSound(soundsEnum.KnifeChop);
 
-    if (ItemWhiteList == null) {
-      ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Lettuce, ItemEnum.Tomato,
+    if (itemWhiteList == null) {
+      itemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Lettuce, ItemEnum.Tomato,
           ItemEnum.Onion, ItemEnum.Mince, ItemEnum.CutTomato, ItemEnum.Dough));
     }
   }
@@ -140,8 +140,8 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    */
   public void checkItem() {
-    if (ItemWhiteList.contains(item.name)) {
-      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
+    if (itemWhiteList.contains(item.name)) {
+      currentRecipe = recipeDict.recipes.RecipeMap.get(item.name);
     } else {
       currentRecipe = null;
     }
@@ -167,7 +167,7 @@ public class ChopStation extends Station {
    */
   @Override
   public float Interact() {
-    bubble.isVisible = true;
+    timer.isVisible = true;
     interacted = true;
     return maxProgress;
   }
@@ -181,15 +181,15 @@ public class ChopStation extends Station {
    * @author Felix Seanor
    */
   public void Cut(float dt) {
-    ready = currentRecipe.RecipeSteps.get(item.step)
-        .timeStep(item, dt * CookingSpeed, interacted, maxProgress);
-    choppingSFX.ShouldPlay = true;
+    ready = currentRecipe.recipeSteps.get(item.step)
+        .timeStep(item, dt * cookingSpeed, interacted, maxProgress);
+    choppingSFX.shouldPlay = true;
     if (ready) {
       changeItem(new Item(currentRecipe.endItem));
       checkItem();
       soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
       interacted = false;
-      bubble.isVisible = false;
+      timer.isVisible = false;
     }
     progressBar();
   }
@@ -201,7 +201,7 @@ public class ChopStation extends Station {
    * @author Jack Hinton
    */
   public void progressBar() {
-    bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
+    timer.image = new BlackTexture("Timer/0" + getProgress() + ".png");
   }
 
 
@@ -234,7 +234,7 @@ public class ChopStation extends Station {
     if (heldItem == null) {
       heldItem = new GameObject(new BlackTexture(Item.GetItemPath(item.name)));
       heldItem.image.setSize(imageSize, imageSize);
-      heldItem.setPosition(gameObject.position.x + (gameObject.PhysicalWidth / 2) - 12,
+      heldItem.setPosition(gameObject.position.x + (gameObject.physicalWidth / 2) - 12,
           gameObject.position.y + (gameObject.getHeight()) - imageSize - 7);
     } else {
       heldItem.image = new BlackTexture(Item.GetItemPath(item.name));

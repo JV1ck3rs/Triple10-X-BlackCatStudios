@@ -63,7 +63,7 @@ public class EndScreen implements Screen {
     gameScreen = gscreen;
 
     //Black cat studios
-    if (values.Won) {
+    if (values.won) {
       victoryScreen = new Texture(Gdx.files.internal("SuccessBG.png"));
     } else {
       victoryScreen = new Texture(Gdx.files.internal("FailBG.png"));
@@ -81,10 +81,10 @@ public class EndScreen implements Screen {
     timerFont = new BitmapFont();
     timerLabel = new Label("TIME: " + timer,
         new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-    String VL = (values.Won) ? "won!" : "lost.";
+    String VL = (values.won) ? "won!" : "lost.";
 
-    BlackTexture uptex = new BlackTexture("ExitUp.png");
-    BlackTexture downtex = new BlackTexture("ExitDown.png");
+    BlackTexture exitButtonUpTexture = new BlackTexture("ExitUp.png");
+    BlackTexture exitButtonDownTexture = new BlackTexture("ExitDown.png");
 
     table = new Table();
     table.setFillParent(true);
@@ -97,8 +97,8 @@ public class EndScreen implements Screen {
       table.add(customersServedLabel).pad(50 * scaleY, 25, 25, 25).row();
     }
 
-    Drawable drawableScenariobtnUp = new TextureRegionDrawable(uptex.textureRegion);
-    Drawable drawableScenariobtnDown = new TextureRegionDrawable(downtex.textureRegion);
+    Drawable drawableScenariobtnUp = new TextureRegionDrawable(exitButtonUpTexture.textureRegion);
+    Drawable drawableScenariobtnDown = new TextureRegionDrawable(exitButtonDownTexture.textureRegion);
 
     Button scenariobtn = new Button();
     Button.ButtonStyle scenariobtnStyle = new Button.ButtonStyle();

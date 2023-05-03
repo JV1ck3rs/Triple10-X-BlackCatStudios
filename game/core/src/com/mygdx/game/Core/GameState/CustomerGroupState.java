@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class CustomerGroupState implements Serializable {
 
   public ItemEnum[] orders;
-  public int Table;
+  public int table;
   public int CustomerStartID;
   public float frustration;
   public Vector2[] customerPositions;
@@ -23,7 +23,7 @@ public class CustomerGroupState implements Serializable {
   public boolean leaving;
 
   // Saves the following instead of the actual customer objects because they are not serializable
-  public int NumCustomersWalkingToTable;
+  public int numCustomersWalkingToTable;
 
 
   @Override
@@ -39,7 +39,7 @@ public class CustomerGroupState implements Serializable {
       eq &= orders[i] == ((CustomerGroupState) obj).orders[i];
     }
 
-    eq &= Table == ((CustomerGroupState) obj).Table;
+    eq &= table == ((CustomerGroupState) obj).table;
     eq &= CustomerStartID == ((CustomerGroupState) obj).CustomerStartID;
     eq &= frustration == ((CustomerGroupState) obj).frustration;
 

@@ -11,11 +11,11 @@ import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
  */
 public class SoundDataLoad {
 
-  public String Path;
+  public String path;
   public soundsEnum name;
 
   public SoundDataLoad(String Path, soundsEnum name) {
-    this.Path = Path;
+    this.path = Path;
     this.name = name;
   }
 

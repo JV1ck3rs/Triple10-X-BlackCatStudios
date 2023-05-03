@@ -39,6 +39,7 @@ import java.util.Optional;
  */
 public class MasterChef extends Scriptable {
 
+  public static final int MaxChefs = 5;
   public float maxRange = 18;
   public int currentControlledChef = 0;
   private static ArrayList<TextureAtlas> chefAtlasArray;
@@ -47,7 +48,7 @@ public class MasterChef extends Scriptable {
 
   ChefParams chefParams;
   CookingParams cookingParams;
-  private Pathfinding pathfind;
+  private final Pathfinding pathfinder;
 
   private GameObject SelectionArrow;
 
@@ -118,7 +119,7 @@ public class MasterChef extends Scriptable {
     cookingParams = cookParams;
     chefs = new LinkedList<>();
     chefAtlasArray = new ArrayList<TextureAtlas>();
-    this.pathfind = pathfinding;
+    this.pathfinder = pathfinding;
     generateChefArray();
 
     this.camera = camera;
@@ -150,7 +151,7 @@ public class MasterChef extends Scriptable {
     chefsGameObject.attachScript(chefs.get(i));
     chefsGameObject.image.setSize(18, 40);
     chefsGameObject.position.set(position);
-    chefs.get(chefs.size() - 1).speed = chefParams.MoveSpeed;
+    chefs.get(chefs.size() - 1).speed = chefParams.moveSpeed;
     chefs.get(i).updateSpriteFromInput("idlesouth");
   }
 
@@ -181,12 +182,12 @@ public class MasterChef extends Scriptable {
       return;
     }
 
-    Vector2 interp = new Vector2(chefs.get(currentControlledChef).gameObject.position);
+    Vector2 chefPos = new Vector2(chefs.get(currentControlledChef).gameObject.position);
 
-    interp.add(chefs.get(currentControlledChef).gameObject.getWidth() / 2f, 0);
+    chefPos.add(chefs.get(currentControlledChef).gameObject.getWidth() / 2f, 0);
 
     Scriptable script = Interaction.FindClosetInteractable(
-        interp, InteractionType.Give, maxRange);
+        chefPos, InteractionType.Give, maxRange);
 
     if (script == null) {
       return;
@@ -214,12 +215,12 @@ public class MasterChef extends Scriptable {
       return;
     }
 
-    Vector2 interp = new Vector2(chefs.get(currentControlledChef).gameObject.position);
+    Vector2 chefPos = new Vector2(chefs.get(currentControlledChef).gameObject.position);
 
-    interp.add(chefs.get(currentControlledChef).gameObject.getWidth() / 2f, 0);
+    chefPos.add(chefs.get(currentControlledChef).gameObject.getWidth() / 2f, 0);
 
     Scriptable script = Interaction.FindClosetInteractable(
-        interp, InteractionType.Fetch, maxRange);
+        chefPos, InteractionType.Fetch, maxRange);
 
     if (script == null) {
       return;
@@ -247,20 +248,20 @@ public class MasterChef extends Scriptable {
    * @author Jack Vickers
    */
   public void Interact() {
-    Vector2 interp = new Vector2(chefs.get(currentControlledChef).gameObject.position);
+    Vector2 chefPos = new Vector2(chefs.get(currentControlledChef).gameObject.position);
 
-    interp.add(chefs.get(currentControlledChef).gameObject.getWidth() / 2f, 0);
+    chefPos.add(chefs.get(currentControlledChef).gameObject.getWidth() / 2f, 0);
 
     Scriptable script = Interaction.FindClosetInteractable(
-        interp, InteractionType.Interact, maxRange);
+        chefPos, InteractionType.Interact, maxRange);
 
     if (script == null) {
       return;
     }
 
-    float locktime = ((Interactable) script).Interact();
-    if (locktime > 0) {
-      chefs.get(currentControlledChef).freeze(locktime);
+    float lockTime = ((Interactable) script).Interact();
+    if (lockTime > 0) {
+      chefs.get(currentControlledChef).freeze(lockTime);
     }
   }
 
@@ -288,7 +289,7 @@ public class MasterChef extends Scriptable {
   void checkFrozen(float dt) {
     for (Chef chef : chefs) {
       if (chef.isFrozen) {
-        boolean ready = chef.freezeTimer(dt * cookingParams.ChopSpeed);
+        boolean ready = chef.freezeTimer(dt * cookingParams.chopspeed);
         if (ready) {
           chef.unfreeze();
         }
@@ -344,7 +345,7 @@ public class MasterChef extends Scriptable {
       touchpos = camera.unproject(touchpos);
       if (touchpos.y < 520
           && touchpos.x < 940) { // if the ui at the top of the screen is not clicked
-        List<Vector2> path = pathfind.FindPath((int) getCurrentChef().gameObject.position.x,
+        List<Vector2> path = pathfinder.FindPath((int) getCurrentChef().gameObject.position.x,
             (int) getCurrentChef().gameObject.position.y, (int) touchpos.x, (int) touchpos.y,
             DistanceTest.Euclidean);
         getCurrentChef().GivePath(path);
@@ -360,7 +361,7 @@ public class MasterChef extends Scriptable {
    * @author Felix Seanor
    */
   public boolean AddNewChefIn() {
-    if (chefs.size() < 5) {
+    if (chefs.size() < MaxChefs) {
       if (chefs.size() == 4) { // ensures the chefs are spaced out
         CreateNewChef(new Vector2(550, 232), chefs.size());
         return true;
@@ -377,11 +378,11 @@ public class MasterChef extends Scriptable {
   }
 
   public void LoadState(GameState state) {
-    for (int i = 0; i < state.ChefPositions.length; i++) {
+    for (int i = 0; i < state.chefPositions.length; i++) {
       if (i < chefs.size()) {
-        chefs.get(i).gameObject.position = state.ChefPositions[i];
+        chefs.get(i).gameObject.position = state.chefPositions[i];
       } else {
-        CreateNewChef(state.ChefPositions[i], i);
+        CreateNewChef(state.chefPositions[i], i);
       }
     }
 
@@ -409,7 +410,7 @@ public class MasterChef extends Scriptable {
 
       for (int j = 0; j < Chef.CarryCapacity; j++) {
 
-        ItemState itemState = state.ChefHoldingStacks[i * Chef.CarryCapacity + j];
+        ItemState itemState = state.chefHoldingStacks[i * Chef.CarryCapacity + j];
 
         if (itemState == null || itemState.item == null) {
           continue;
@@ -429,19 +430,19 @@ public class MasterChef extends Scriptable {
    * @author Felix Seanor
    */
   public void SaveState(GameState state) {
-    state.ChefPositions = new Vector2[chefs.size()];
-    state.ChefHoldingStacks = new ItemState[chefs.size() * Chef.CarryCapacity];
+    state.chefPositions = new Vector2[chefs.size()];
+    state.chefHoldingStacks = new ItemState[chefs.size() * Chef.CarryCapacity];
 
     for (int i = 0; i < chefs.size(); i++) {
-      state.ChefPositions[i] = chefs.get(i).gameObject.position;
+      state.chefPositions[i] = chefs.get(i).gameObject.position;
 
       for (int j = Chef.CarryCapacity - 1; j >= 0; j--) {
         Optional<Item> item = chefs.get(i).FetchItem();
 
         if (!item.isPresent()) {
-          state.ChefHoldingStacks[i * Chef.CarryCapacity + j] = null;
+          state.chefHoldingStacks[i * Chef.CarryCapacity + j] = null;
         } else {
-          state.ChefHoldingStacks[i * Chef.CarryCapacity + j] = new ItemState(item.get());
+          state.chefHoldingStacks[i * Chef.CarryCapacity + j] = new ItemState(item.get());
         }
 
 

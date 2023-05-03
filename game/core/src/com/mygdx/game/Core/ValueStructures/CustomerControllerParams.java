@@ -12,24 +12,24 @@ import java.util.List;
  */
 public class CustomerControllerParams {
 
-  public int MoneyStart;
-  public int MaxMoney;
-  public int Reputation;
-  public int MoneyPerCustomer = 10;
+  public int moneyStart;
+  public int maxMoney;
+  public int reputation;
+  public int moneyPerCustomer = 10;
 
   //Number of customers
-  public int NoCustomers;
+  public int noCustomers;
 
   //The maximum number customers per wave (MAX 4)
-  public int MaxCustomersPerWave;
+  public int maxCustomersPerWave;
 
 
   //Min 1
-  public int MinCustomersPerWave;
+  public int minCustomersPerWave;
 
-  public List<ItemEnum> OrderTypePermissable;
-  public int EatingTime = 10;
-  public int Tables = 4;
-  public int FrustrationStart = 90;
+  public List<ItemEnum> orderTypePermissable;
+  public int eatingTime = 10;
+  public int tables = 4;
+  public int frustrationStart = 90;
 
 }

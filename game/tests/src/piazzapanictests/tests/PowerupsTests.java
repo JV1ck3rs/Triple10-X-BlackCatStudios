@@ -57,9 +57,9 @@ public class PowerupsTests extends MasterTestClass {
 
     Powerup powerup = new Powerup(masterChef, customerController);
 
-    int reputation = customerController.Reputation;
+    int reputation = customerController.reputation;
     powerup.buyReputation();
-    int nrep = customerController.Reputation;
+    int nrep = customerController.reputation;
 
     assertTrue("New reputation must greater after the power up", nrep > reputation);
 
@@ -80,7 +80,7 @@ public class PowerupsTests extends MasterTestClass {
 
     Powerup powerup = new Powerup(masterChef, customerController);
 
-    float frustration =  customerController.getCurrentWaitingCustomerGroup().Frustration;
+    float frustration =  customerController.getCurrentWaitingCustomerGroup().frustration;
     powerup.stopFrustration(2000);
     float[] newFrust = {0f};
     float[] afterFrust = {0f};
@@ -88,7 +88,7 @@ public class PowerupsTests extends MasterTestClass {
             new TimerTask() {
               @Override
               public void run() {
-                newFrust[0] = customerController.getCurrentWaitingCustomerGroup().Frustration;
+                newFrust[0] = customerController.getCurrentWaitingCustomerGroup().frustration;
               }
             },
             1900
@@ -97,7 +97,7 @@ public class PowerupsTests extends MasterTestClass {
             new TimerTask() {
               @Override
               public void run() {
-                afterFrust[0] = customerController.getCurrentWaitingCustomerGroup().Frustration;
+                afterFrust[0] = customerController.getCurrentWaitingCustomerGroup().frustration;
               }
             },
             500
@@ -126,15 +126,15 @@ public class PowerupsTests extends MasterTestClass {
     Powerup powerup = new Powerup(masterChef, customerController);
     customerController.CanAcceptNewCustomer();
 
-    Customer firstCustomer = customerController.getCurrentWaitingCustomerGroup().MembersInLine.get(0);
-    Integer customerWaitingLength = customerController.getCurrentWaitingCustomerGroup().MembersInLine.size();
+    Customer firstCustomer = customerController.getCurrentWaitingCustomerGroup().membersInLine.get(0);
+    Integer customerWaitingLength = customerController.getCurrentWaitingCustomerGroup().membersInLine.size();
     Integer served = customerController.getNumberOfCustomersServed();
 
     powerup.superFood();
 
 
-    Customer newFirstCustomer = customerController.getCurrentWaitingCustomerGroup().MembersSeatedOrWalking.get(0);
-    Integer newCustomerWaitingLength = customerController.getCurrentWaitingCustomerGroup().MembersSeatedOrWalking.size();
+    Customer newFirstCustomer = customerController.getCurrentWaitingCustomerGroup().membersSeatedOrWalking.get(0);
+    Integer newCustomerWaitingLength = customerController.getCurrentWaitingCustomerGroup().membersSeatedOrWalking.size();
     Integer newServed = customerController.getNumberOfCustomersServed();
 
 
@@ -160,20 +160,20 @@ public class PowerupsTests extends MasterTestClass {
     orders.add(ItemEnum.Burger);
     orders.add(ItemEnum.Burger);
     orders.add(ItemEnum.TomatoOnionSalad);
-    CustomerGroups newCustGroup = new CustomerGroups(4, 0, new Vector2(0, 0), 90, orders, customerController.CustomerAtlas);
+    CustomerGroups newCustGroup = new CustomerGroups(4, 0, new Vector2(0, 0), 90, orders, customerController.customerAtlas);
     newCustGroup.table = customerController.GetTable();
     newCustGroup.table.DesignateSeating(4, new Random());
     customerController.setCurrentWaitingCustomerGroup(newCustGroup);
-    Integer customerWaitingLength = customerController.getCurrentWaitingCustomerGroup().MembersInLine.size();
+    Integer customerWaitingLength = customerController.getCurrentWaitingCustomerGroup().membersInLine.size();
     Integer served = customerController.getNumberOfCustomersServed();
     Integer NumberWithSameTypeDish = 3;
     LinkedList<Customer> customersMeantToLeave = new LinkedList<>();
 
-    for(int j = 0; j <= customerController.getCurrentWaitingCustomerGroup().MembersInLine.size()-2; j++){
-      customerController.getCurrentWaitingCustomerGroup().MembersInLine.get(j).dish = ItemEnum.Burger;
-      customersMeantToLeave.add(customerController.getCurrentWaitingCustomerGroup().MembersInLine.get(j));
+    for(int j = 0; j <= customerController.getCurrentWaitingCustomerGroup().membersInLine.size()-2; j++){
+      customerController.getCurrentWaitingCustomerGroup().membersInLine.get(j).dish = ItemEnum.Burger;
+      customersMeantToLeave.add(customerController.getCurrentWaitingCustomerGroup().membersInLine.get(j));
     }
-    customerController.getCurrentWaitingCustomerGroup().MembersInLine.get(3).dish = ItemEnum.LettuceOnionSalad;
+    customerController.getCurrentWaitingCustomerGroup().membersInLine.get(3).dish = ItemEnum.LettuceOnionSalad;
 
     Item burgerItem = new Item(ItemEnum.SuperBurger);
     masterChef.getCurrentChef().GiveChefItem(burgerItem);
@@ -181,9 +181,9 @@ public class PowerupsTests extends MasterTestClass {
     powerup.tetrisSuperFoodGive();
     customerController.tetrisSuperFoodAction(burgerItem);
 
-    Integer newCustomerWaitingLength = customerController.getCurrentWaitingCustomerGroup().MembersInLine.size();
+    Integer newCustomerWaitingLength = customerController.getCurrentWaitingCustomerGroup().membersInLine.size();
     Integer newServed = customerController.getNumberOfCustomersServed();
-    List<Customer> customerServed = customerController.getCurrentWaitingCustomerGroup().MembersSeatedOrWalking;
+    List<Customer> customerServed = customerController.getCurrentWaitingCustomerGroup().membersSeatedOrWalking;
     Boolean allRight = true;
     for(int k = 0; k < customerServed.size(); k++){
       if (!customersMeantToLeave.contains(customerServed.get(k))){
@@ -193,7 +193,7 @@ public class PowerupsTests extends MasterTestClass {
     assertTrue("Correct number of customers remain in the line", newCustomerWaitingLength == 1);
     assertTrue("Correct customers left the line", allRight);
     assertTrue("Correct number of customers were served", newServed-served == 3);
-    assertTrue("Correct number of customers left to seating", customerController.getCurrentWaitingCustomerGroup().MembersSeatedOrWalking.size() == NumberWithSameTypeDish && customerController.getCurrentWaitingCustomerGroup().MembersSeatedOrWalking.size() == customersMeantToLeave.size());
+    assertTrue("Correct number of customers left to seating", customerController.getCurrentWaitingCustomerGroup().membersSeatedOrWalking.size() == NumberWithSameTypeDish && customerController.getCurrentWaitingCustomerGroup().membersSeatedOrWalking.size() == customersMeantToLeave.size());
   }
 
 

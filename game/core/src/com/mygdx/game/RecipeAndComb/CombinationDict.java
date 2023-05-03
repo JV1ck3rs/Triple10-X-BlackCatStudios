@@ -14,7 +14,7 @@ import java.util.Map;
 public class CombinationDict {
 
   public static CombinationDict combinations;
-  public Map<String, ItemEnum> CombinationMap = new HashMap<>();
+  public Map<String, ItemEnum> combinationMap = new HashMap<>();
 
   /**
    * Method to implement all the combinations.
@@ -23,39 +23,39 @@ public class CombinationDict {
    */
   public void implementItems() {
     //Salads
-    CombinationMap.put(ItemEnum.CutLettuce.name() + " " + ItemEnum.CutTomato.name(),
+    combinationMap.put(ItemEnum.CutLettuce.name() + " " + ItemEnum.CutTomato.name(),
         ItemEnum.LettuceTomatoSalad);
-    CombinationMap.put(ItemEnum.CutLettuce.name() + " " + ItemEnum.CutOnion.name(),
+    combinationMap.put(ItemEnum.CutLettuce.name() + " " + ItemEnum.CutOnion.name(),
         ItemEnum.LettuceOnionSalad);
-    CombinationMap.put(ItemEnum.CutTomato.name() + " " + ItemEnum.CutOnion.name(),
+    combinationMap.put(ItemEnum.CutTomato.name() + " " + ItemEnum.CutOnion.name(),
         ItemEnum.TomatoOnionSalad);
-    CombinationMap.put(ItemEnum.CutLettuce.name() + " " + ItemEnum.TomatoOnionSalad.name(),
+    combinationMap.put(ItemEnum.CutLettuce.name() + " " + ItemEnum.TomatoOnionSalad.name(),
         ItemEnum.TomatoOnionLettuceSalad);
-    CombinationMap.put(ItemEnum.CutTomato.name() + " " + ItemEnum.LettuceOnionSalad.name(),
+    combinationMap.put(ItemEnum.CutTomato.name() + " " + ItemEnum.LettuceOnionSalad.name(),
         ItemEnum.TomatoOnionLettuceSalad);
-    CombinationMap.put(ItemEnum.LettuceTomatoSalad.name() + " " + ItemEnum.CutOnion.name(),
+    combinationMap.put(ItemEnum.LettuceTomatoSalad.name() + " " + ItemEnum.CutOnion.name(),
         ItemEnum.TomatoOnionLettuceSalad);
 
     //Burgers
-    CombinationMap.put(ItemEnum.CookedPatty.name() + " " + ItemEnum.ToastedBuns.name(),
+    combinationMap.put(ItemEnum.CookedPatty.name() + " " + ItemEnum.ToastedBuns.name(),
         ItemEnum.Burger);
-    CombinationMap.put(ItemEnum.Burger.name() + " " + ItemEnum.Cheese.name(),
+    combinationMap.put(ItemEnum.Burger.name() + " " + ItemEnum.Cheese.name(),
         ItemEnum.CheeseBurger);
 
     //Pizzas
-    CombinationMap.put(ItemEnum.PizzaBase.name() + " " + ItemEnum.TomSauce.name(),
+    combinationMap.put(ItemEnum.PizzaBase.name() + " " + ItemEnum.TomSauce.name(),
         ItemEnum.TomPizza);
-    CombinationMap.put(ItemEnum.TomPizza.name() + " " + ItemEnum.Cheese.name(),
+    combinationMap.put(ItemEnum.TomPizza.name() + " " + ItemEnum.Cheese.name(),
         ItemEnum.CheesePizza);
-    CombinationMap.put(ItemEnum.CheesePizza.name() + " " + ItemEnum.Mince.name(),
+    combinationMap.put(ItemEnum.CheesePizza.name() + " " + ItemEnum.Mince.name(),
         ItemEnum.MeatPizza);
-    CombinationMap.put(ItemEnum.CheesePizza.name() + " " + ItemEnum.CutOnion.name(),
+    combinationMap.put(ItemEnum.CheesePizza.name() + " " + ItemEnum.CutOnion.name(),
         ItemEnum.VegPizza);
 
     //Potatoes
-    CombinationMap.put(ItemEnum.Cheese.name() + " " + ItemEnum.Potato.name(),
+    combinationMap.put(ItemEnum.Cheese.name() + " " + ItemEnum.Potato.name(),
         ItemEnum.CheesePotato);
-    CombinationMap.put(ItemEnum.Mince.name() + " " + ItemEnum.Potato.name(), ItemEnum.MeatPotato);
+    combinationMap.put(ItemEnum.Mince.name() + " " + ItemEnum.Potato.name(), ItemEnum.MeatPotato);
   }
 
   /**

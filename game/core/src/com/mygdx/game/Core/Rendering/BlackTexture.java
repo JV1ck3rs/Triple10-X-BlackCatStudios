@@ -16,7 +16,7 @@ public class BlackTexture extends Renderable {
   public TextureRegion textureRegion;
 
   //Width and height of image
-  public int ImageWidth, ImageHeight;
+  public int imageWidth, imageHeight;
   //width and height of texture region
   public int width, height;
 
@@ -54,11 +54,11 @@ public class BlackTexture extends Renderable {
 
     texture = TextureDictionary.textures.Get(path);
 
-    ImageWidth = texture.getWidth();
-    ImageHeight = texture.getHeight();
+    imageWidth = texture.getWidth();
+    imageHeight = texture.getHeight();
 
-    width = ImageWidth;
-    height = ImageHeight;
+    width = imageWidth;
+    height = imageHeight;
 
     if (textureRegion == null) {
       textureRegion = new TextureRegion(texture, width, height);
@@ -74,8 +74,8 @@ public class BlackTexture extends Renderable {
    * @author Felix Seanor
    */
   public void setImageSize(int _w, int _h) {
-    ImageWidth = _w;
-    ImageHeight = _h;
+    imageWidth = _w;
+    imageHeight = _h;
   }
 
   /**

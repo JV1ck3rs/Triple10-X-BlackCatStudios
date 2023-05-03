@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This manages references to every gameobject and loose scripts BlackCatStudio's Code
+ * This manages references to every GameObject and loose scripts BlackCatStudio's Code
  *
  * @author Felix Seanor
  * @author Jack Hinton
@@ -16,9 +16,10 @@ import java.util.Random;
  */
 public class GameObjectManager {
 
-  public Hashtable<Integer, GameObject> GameObjects = new Hashtable<>();
 
-  public List<Scriptable> LooseScripts = new LinkedList<>();
+  public Hashtable<Integer, GameObject> gameObjectHash = new Hashtable<>();
+
+  public List<Scriptable> looseScripts = new LinkedList<>();
   public static GameObjectManager objManager;
   Random rand;
 
@@ -29,7 +30,7 @@ public class GameObjectManager {
    * @author Felix Seanor
    */
   public void AppendLooseScript(Scriptable scriptable) {
-    LooseScripts.add(scriptable);
+    looseScripts.add(scriptable);
     scriptable.Start();
   }
 
@@ -43,26 +44,26 @@ public class GameObjectManager {
    */
   public List<Scriptable> returnObjectsWithInterface(Class<?> scriptType) {
     List<Scriptable> scripts = new LinkedList<>();
-    for (GameObject obj : GameObjects.values()
+    for (GameObject obj : gameObjectHash.values()
     ) {
-      for (Scriptable script : obj.Scripts
+      for (Scriptable script : obj.scripts
       ) {
 
-        Class<?>[] a = script.getClass().getInterfaces();
-        for (Class<?> interf : a
+        Class<?>[] interfaces = script.getClass().getInterfaces();
+        for (Class<?> scriptInterface : interfaces
         ) {
-          if (scriptType == interf) {
+          if (scriptType == scriptInterface) {
             scripts.add(script);
             break;
           }
         }
 
         if (script.getClass().getSuperclass() != null) {
-          Class<?>[] b = script.getClass().getSuperclass().getInterfaces();
+          Class<?>[] superInterfaces = script.getClass().getSuperclass().getInterfaces();
 
-          for (Class<?> interf : b
+          for (Class<?> superClassInterface : superInterfaces
           ) {
-            if (scriptType == interf) {
+            if (scriptType == superClassInterface) {
               scripts.add(script);
               break;
             }
@@ -101,7 +102,7 @@ public class GameObjectManager {
 
     int UID = CreateUID();
 
-    GameObjects.put(UID, obj);
+    gameObjectHash.put(UID, obj);
 
     obj.setUID(UID);
 
@@ -115,11 +116,11 @@ public class GameObjectManager {
    */
   public void doUpdate(float dt) {
 
-    for (Scriptable scr : LooseScripts) {
+    for (Scriptable scr : looseScripts) {
       scr.Update(dt);
 
     }
-    for (GameObject obj : GameObjects.values()
+    for (GameObject obj : gameObjectHash.values()
     ) {
       obj.doUpdate(dt);
     }
@@ -127,12 +128,12 @@ public class GameObjectManager {
 
   public void doFixedUpdate(float dt) {
 
-    for (Scriptable scr : LooseScripts) {
+    for (Scriptable scr : looseScripts) {
       scr.FixedUpdate(dt);
 
     }
 
-    for (GameObject obj : GameObjects.values()
+    for (GameObject obj : gameObjectHash.values()
     ) {
       obj.doFixedUpdate(dt);
     }
@@ -143,7 +144,7 @@ public class GameObjectManager {
   public void render(SpriteBatch batch) {
 
     for (GameObject obj :
-        GameObjects.values()) {
+        gameObjectHash.values()) {
       obj.render(batch);
     }
 
@@ -152,7 +153,7 @@ public class GameObjectManager {
   public void DestroyGameObject(GameObject obj) {
     obj.destroyed = true;
 
-    GameObjects.remove(obj.getUID());
+    gameObjectHash.remove(obj.getUID());
   }
 
   /**
@@ -164,7 +165,7 @@ public class GameObjectManager {
   public int CreateUID() {
     int UID = 0;
 
-    while (GameObjects.containsKey(UID)) {
+    while (gameObjectHash.containsKey(UID)) {
       UID = rand.nextInt();
     }
 
@@ -173,13 +174,13 @@ public class GameObjectManager {
   }
 
   public void reset() {
-    for (GameObject obj : GameObjects.values()
+    for (GameObject obj : gameObjectHash.values()
     ) {
       obj.destroyed = true;
     }
 
-    GameObjects.clear();
-    LooseScripts.clear();
+    gameObjectHash.clear();
+    looseScripts.clear();
   }
 
 }

@@ -279,7 +279,7 @@ public class AssemblyStationTests extends MasterTestClass {
     CombinationDict.combinations.implementItems(); // creates combination dictionary
     instantiateWorldAndAssemblyStation();
 
-    for (String combination : CombinationDict.combinations.CombinationMap.keySet()) {
+    for (String combination : CombinationDict.combinations.combinationMap.keySet()) {
       indexOfSpace = combination.indexOf(
           " "); // gets the index of the space between the two words in the key of the combination map
       item1 = combination.substring(0, indexOfSpace); // gets the first item in the combination
@@ -293,7 +293,7 @@ public class AssemblyStationTests extends MasterTestClass {
       // checks that the first item on the station is the combined food
       assertTrue("The first item on the station should be the combined food",
           assemblyStation.getIngredients().get(0)
-              .equals(new Item(CombinationDict.combinations.CombinationMap.get(combination))));
+              .equals(new Item(CombinationDict.combinations.combinationMap.get(combination))));
 
       assertTrue("There should only be one item on the station",
           assemblyStation.getIngredients().size() == 1);

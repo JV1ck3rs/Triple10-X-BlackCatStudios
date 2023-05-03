@@ -60,10 +60,10 @@ public class SFXTests {
     ContinousSound sounds = new ContinousSound(soundsEnum.Frying);
     assertTrue("Should start without a reference", sounds.soundID == -1);
 
-    assertTrue("should start off", !sounds.ShouldPlay);
+    assertTrue("should start off", !sounds.shouldPlay);
     assertTrue("should start off", !sounds.getStopped());
 
-    sounds.ShouldPlay = true;
+    sounds.shouldPlay = true;
 
     sounds.DoSoundCheck();
     assertTrue("Should have a reference", sounds.soundID >=0);
@@ -74,7 +74,7 @@ public class SFXTests {
     sounds.DoSoundCheck();
     assertTrue("should be stopped", sounds.getStopped());
 
-    sounds.ShouldPlay = true;
+    sounds.shouldPlay = true;
     sounds.DoSoundCheck();
     assertTrue("should be playing", !sounds.getStopped());
   }

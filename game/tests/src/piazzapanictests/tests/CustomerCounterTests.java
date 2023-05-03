@@ -38,14 +38,14 @@ public class CustomerCounterTests extends MasterTestClass {
     instantiateCustomerScripts(Difficulty.Relaxing);
     instantiateWorldAndCustomerCounter();
     customerController.CanAcceptNewCustomer();
-    Item itemToGIve = new Item(customerController.getCurrentWaitingCustomerGroup().Orders.get(0));
+    Item itemToGIve = new Item(customerController.getCurrentWaitingCustomerGroup().orders.get(0));
     Integer numCustomersInLine = customerController.getCurrentWaitingCustomerGroup().getMembers()
         .size();
     customerCounter.GiveItem(itemToGIve);
     assertEquals("Numbers of customers  seated or walking should be 1", 1,
         customerController.getMemberSeatedOrWalking().size());
     assertEquals("Number of customers in line should be 1 less than before", numCustomersInLine - 1,
-        customerController.getCurrentWaitingCustomerGroup().MembersInLine.size());
+        customerController.getCurrentWaitingCustomerGroup().membersInLine.size());
   }
 
   /**
@@ -64,14 +64,14 @@ public class CustomerCounterTests extends MasterTestClass {
     instantiateCustomerScripts(Difficulty.Relaxing);
     customerController.CanAcceptNewCustomer();
     instantiateWorldAndCustomerCounter();
-    int numCustomersInLine = customerController.getCurrentWaitingCustomerGroup().MembersInLine
+    int numCustomersInLine = customerController.getCurrentWaitingCustomerGroup().membersInLine
         .size();
     customerCounter.GiveItem(new Item(ItemEnum.Buns));
     assertNotNull("There should be an item on the counter (because no customers take it)", customerCounter.item);
     assertEquals("Numbers of customers  seated or walking should be 0", 0,
         customerController.getMemberSeatedOrWalking().size());
     assertEquals("Number of customers in line should be the same as before", numCustomersInLine,
-        customerController.getCurrentWaitingCustomerGroup().MembersInLine.size());
+        customerController.getCurrentWaitingCustomerGroup().membersInLine.size());
   }
 
   /**

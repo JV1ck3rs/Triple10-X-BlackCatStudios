@@ -49,8 +49,8 @@ public class Chef extends PathfindingAgent implements Person {
   private TextureAtlas chefAtlas;
   public boolean isFrozen;
   private String lastOrientation;
-  private float locktime;
-  private float lockprogress = 0;
+  private float lockTime;
+  private float lockProgress = 0;
   private boolean ModifiedStack = false;
   List<Vector2> path;
 
@@ -335,13 +335,13 @@ public class Chef extends PathfindingAgent implements Person {
   /**
    * Freezes the chef for a set period of time. Triple 10 & BlackCatStudios code
    *
-   * @param locktime time the chef will be frozen
+   * @param lockTime time the chef will be frozen
    * @author Amy Cross
    * @author Jack Hinton
    */
-  public void freeze(float locktime) {
+  public void freeze(float lockTime) {
     isFrozen = true;
-    this.locktime = locktime;
+    this.lockTime = lockTime;
   }
 
   /**
@@ -355,24 +355,13 @@ public class Chef extends PathfindingAgent implements Person {
   }
 
   public boolean freezeTimer(float dt) {
-    lockprogress = min(lockprogress + dt, locktime);
-    if (lockprogress == locktime) {
-      lockprogress = 0;
+    lockProgress = min(lockProgress + dt, lockTime);
+    if (lockProgress == lockTime) {
+      lockProgress = 0;
       return true;
     }
     return false;
   }
-
-  /**
-   * Stops the chef from moving and sets sprite animation to "idle".
-   * Triple 10s code
-   *    * @author Amy Cross
-   */
-//  public void stop() {
-//    b2body.setLinearVelocity(0, 0);
-//    spriteState = "idle" + lastOrientation;
-//    setTexture(spriteState);
-//  }
 
   /**
    * Gets the inventory of the chef, so the item they are currently holding.

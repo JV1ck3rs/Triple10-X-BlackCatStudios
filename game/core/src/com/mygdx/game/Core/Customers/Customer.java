@@ -96,7 +96,7 @@ public class Customer extends PathfindingAgent implements Person {
   /**
    * Returns animation frame Team Triple 10s code
    *
-   * @return
+   * @return sprite orientation
    * @author Team Triple 10
    */
   public String getCurrentOrientation() {

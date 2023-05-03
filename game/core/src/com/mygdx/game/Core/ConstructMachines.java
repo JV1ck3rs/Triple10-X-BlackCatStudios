@@ -29,7 +29,7 @@ import java.util.function.Consumer;
  */
 public class ConstructMachines {
 
-  public List<GameObject> Stations = new LinkedList();
+  public List<GameObject> stations = new LinkedList();
   public List<GameObject> customerCounters = new LinkedList();
   public List<GameObject> assemblyStations = new LinkedList();
   DifficultyState difficultyState;
@@ -53,12 +53,12 @@ public class ConstructMachines {
    * @author Jack Hinton
    */
   public void CreateBin(Rectangle rect) {
-    GameObject Bin = new GameObject(null);
-    Bin.setPosition(rect.getX(), rect.getY());
-    Bin.setWidthAndHeight(rect.getWidth(), rect.getHeight());
+    GameObject bin = new GameObject(null);
+    bin.setPosition(rect.getX(), rect.getY());
+    bin.setWidthAndHeight(rect.getWidth(), rect.getHeight());
     TrashCan TC = new TrashCan();
-    Bin.attachScript(TC);
-    Stations.add(Bin);
+    bin.attachScript(TC);
+    stations.add(bin);
   }
 
   /**
@@ -69,12 +69,12 @@ public class ConstructMachines {
    */
   public void CreateHobs(Rectangle rect) {
     numHobs++;
-    GameObject Hob = new GameObject(null);
-    Hob.setPosition(rect.getX(), rect.getY());
-    Hob.setWidthAndHeight(rect.getWidth(), rect.getHeight());
+    GameObject hob = new GameObject(null);
+    hob.setPosition(rect.getX(), rect.getY());
+    hob.setWidthAndHeight(rect.getWidth(), rect.getHeight());
     HobStation HS = new HobStation(difficultyState.cookingParams);
-    Hob.attachScript(HS);
-    Stations.add(Hob);
+    hob.attachScript(HS);
+    stations.add(hob);
     HS.init();
     if (numHobs > 1) {
       HS.setLocked(true);
@@ -88,12 +88,12 @@ public class ConstructMachines {
    * @author Jack Hinton
    */
   public void CreateToaster(Rectangle rect) {
-    GameObject Toast = new GameObject(null);
-    Toast.setPosition(rect.getX(), rect.getY());
-    Toast.setWidthAndHeight(rect.getWidth(), rect.getHeight());
+    GameObject toast = new GameObject(null);
+    toast.setPosition(rect.getX(), rect.getY());
+    toast.setWidthAndHeight(rect.getWidth(), rect.getHeight());
     ToasterStation TS = new ToasterStation(difficultyState.cookingParams);
-    Toast.attachScript(TS);
-    Stations.add(Toast);
+    toast.attachScript(TS);
+    stations.add(toast);
     TS.init();
   }
 
@@ -105,12 +105,12 @@ public class ConstructMachines {
    */
   public void CreateChopping(Rectangle rect) {
     numChopping++;
-    GameObject Chop = new GameObject(null);
-    Chop.setPosition(rect.getX(), rect.getY());
-    Chop.setWidthAndHeight(rect.getWidth(), rect.getHeight());
+    GameObject chop = new GameObject(null);
+    chop.setPosition(rect.getX(), rect.getY());
+    chop.setWidthAndHeight(rect.getWidth(), rect.getHeight());
     ChopStation CS = new ChopStation(difficultyState.cookingParams);
-    Chop.attachScript(CS);
-    Stations.add(Chop);
+    chop.attachScript(CS);
+    stations.add(chop);
     CS.init();
     if (numChopping > 1) {
       CS.setLocked(true);
@@ -124,13 +124,13 @@ public class ConstructMachines {
    * @author Jack Hinton
    */
   public void CreateOven(Rectangle rect, CustomerController customerController) {
-    Consumer<Boolean> custController = (Boolean a) -> customerController.updateMenu(a);
-    GameObject Oven = new GameObject(null);
-    Oven.setPosition(rect.getX(), rect.getY());
-    Oven.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    OvenStation OS = new OvenStation(difficultyState.cookingParams, custController);
-    Oven.attachScript(OS);
-    Stations.add(Oven);
+    Consumer<Boolean> updateMenu = (Boolean a) -> customerController.updateMenu(a);
+    GameObject oven = new GameObject(null);
+    oven.setPosition(rect.getX(), rect.getY());
+    oven.setWidthAndHeight(rect.getWidth(), rect.getHeight());
+    OvenStation OS = new OvenStation(difficultyState.cookingParams, updateMenu);
+    oven.attachScript(OS);
+    stations.add(oven);
     OS.init();
     if (numOven++ >= 1) {
       OS.setLocked(true);
@@ -145,12 +145,12 @@ public class ConstructMachines {
    * @author Jack Hinton
    */
   public void CreateFoodCrates(Rectangle rect, ItemEnum item) {
-    GameObject Crate = new GameObject(null);
-    Crate.setPosition(rect.getX(), rect.getY());
-    Crate.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    FoodCrate FC = new FoodCrate(item);
-    Crate.attachScript(FC);
-    Stations.add(Crate);
+    GameObject crate = new GameObject(null);
+    crate.setPosition(rect.getX(), rect.getY());
+    crate.setWidthAndHeight(rect.getWidth(), rect.getHeight());
+    FoodCrate foodCrate = new FoodCrate(item);
+    crate.attachScript(foodCrate);
+    stations.add(crate);
   }
 
   /**
@@ -160,13 +160,13 @@ public class ConstructMachines {
    * @author Jack Hinton
    */
   public void CreateAssembly(Rectangle rect) {
-    GameObject Ass = new GameObject(null);
-    Ass.setPosition(rect.getX(), rect.getY());
-    Ass.setWidthAndHeight(rect.getWidth(), rect.getHeight());
-    AssemblyStation AS = new AssemblyStation(difficultyState.cookingParams);
-    Ass.attachScript(AS);
-    assemblyStations.add(Ass);
-    Stations.add(Ass);
+    GameObject assembly = new GameObject(null);
+    assembly.setPosition(rect.getX(), rect.getY());
+    assembly.setWidthAndHeight(rect.getWidth(), rect.getHeight());
+    AssemblyStation assemblyStation = new AssemblyStation(difficultyState.cookingParams);
+    assembly.attachScript(assemblyStation);
+    assemblyStations.add(assembly);
+    stations.add(assembly);
   }
 
   /**
@@ -176,14 +176,14 @@ public class ConstructMachines {
    * @author Jack Hinton
    */
   public void CreateCustomerCounters(Rectangle rect) {
-    GameObject Cust = new GameObject(null);
-    Cust.setPosition(rect.getX(), rect.getY());
-    Cust.setWidthAndHeight(rect.getWidth(), rect.getHeight());
+    GameObject customer = new GameObject(null);
+    customer.setPosition(rect.getX(), rect.getY());
+    customer.setWidthAndHeight(rect.getWidth(), rect.getHeight());
     CustomerCounters CC = new CustomerCounters((Item a) -> (customerController.tryGiveFood(a)),
         difficultyState.cookingParams);
-    Cust.attachScript(CC);
-    customerCounters.add(Cust);
-    Stations.add(Cust);
+    customer.attachScript(CC);
+    customerCounters.add(customer);
+    stations.add(customer);
   }
 
 
@@ -204,9 +204,6 @@ public class ConstructMachines {
     if (type == "Static") {
       //BlackCatStudios Extension
       pathfinding.addStaticObject((int) x, (int) y, (int) width, (int) height);
-
-
-    } else if (type == "Dynamic") {
     }
   }
 

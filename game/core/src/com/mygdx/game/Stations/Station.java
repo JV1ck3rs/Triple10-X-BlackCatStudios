@@ -11,7 +11,7 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
 import com.mygdx.game.RecipeAndComb.Recipe;
-import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.RecipeAndComb.recipeDict;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,18 +28,18 @@ public abstract class Station extends Scriptable implements Interactable {
 
   public Item item;
   public Item returnItem;
-  public RecipeDict recipes;
+  public recipeDict recipes;
   public CombinationDict combinations;
   private boolean locked;
   public Recipe currentRecipe;
   GameObject heldItem;
   public int imageSize = 18;
-  GameObject bubble, bubble2, bubble3, bubble4;
+  GameObject timer, warningIcon, repairBubble, readyBubble;
   GameObject animation;
   public float stationTimeDecrease;
   public int price = 100;
-  private float BurnSpeed;
-  float CookingSpeed;
+  private float burnSpeed;
+  float cookingSpeed;
   public static int numOvens;
 
 
@@ -54,12 +54,12 @@ public abstract class Station extends Scriptable implements Interactable {
   public Station(CookingParams params) {
     item = null;
     locked = false;
-    recipes = RecipeDict.recipes;
+    recipes = recipeDict.recipes;
     combinations = CombinationDict.combinations;
     currentRecipe = null;
     stationTimeDecrease = 0;
-    BurnSpeed = params.BurnSpeed;
-    CookingSpeed = params.CookSpeed;
+    burnSpeed = params.burnSpeed;
+    cookingSpeed = params.cookSpeed;
   }
 
 
@@ -72,27 +72,27 @@ public abstract class Station extends Scriptable implements Interactable {
    */
   public void init() {
 
-    bubble = new GameObject(new BlackTexture("Timer/01.png"));
-    bubble.setPosition(
-        gameObject.position.x + (gameObject.getWidth() / 2) - (bubble.getWidth() / 2),
+    timer = new GameObject(new BlackTexture("Timer/01.png"));
+    timer.setPosition(
+        gameObject.position.x + (gameObject.getWidth() / 2) - (timer.getWidth() / 2),
         gameObject.position.y + (gameObject.getHeight()) + 2);
-    bubble.isVisible = false;
-    bubble.image.layer = 1;
-    bubble2 = new GameObject(new BlackTexture("Timer/Warning.png"));
-    bubble2.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight());
-    bubble2.isVisible = false;
-    bubble2.image.layer = 1;
+    timer.isVisible = false;
+    timer.image.layer = 1;
+    warningIcon = new GameObject(new BlackTexture("Timer/Warning.png"));
+    warningIcon.setPosition(timer.position.x, timer.position.y + timer.getHeight());
+    warningIcon.isVisible = false;
+    warningIcon.image.layer = 1;
 
-    bubble3 = new GameObject(new BlackTexture("Timer/RepairBubble.png"));
-    bubble3.setPosition(gameObject.position.x + gameObject.getWidth() / 2 - bubble3.getWidth() / 2,
-        gameObject.position.y + gameObject.getHeight() / 2 - bubble3.getHeight() / 2);
-    bubble3.isVisible = false;
-    bubble3.image.layer = 1;
+    repairBubble = new GameObject(new BlackTexture("Timer/RepairBubble.png"));
+    repairBubble.setPosition(gameObject.position.x + gameObject.getWidth() / 2 - repairBubble.getWidth() / 2,
+        gameObject.position.y + gameObject.getHeight() / 2 - repairBubble.getHeight() / 2);
+    repairBubble.isVisible = false;
+    repairBubble.image.layer = 1;
 
-    bubble4 = new GameObject(new BlackTexture("Timer/Ready.png"));
-    bubble4.setPosition(bubble.position.x, bubble.position.y + bubble.getHeight() / 2);
-    bubble4.isVisible = false;
-    bubble4.image.layer = 1;
+    readyBubble = new GameObject(new BlackTexture("Timer/Ready.png"));
+    readyBubble.setPosition(timer.position.x, timer.position.y + timer.getHeight() / 2);
+    readyBubble.isVisible = false;
+    readyBubble.image.layer = 1;
 
     if (animation != null) {
       moveAnim();
@@ -141,8 +141,8 @@ public abstract class Station extends Scriptable implements Interactable {
    * @author Jack Hinton
    */
   public void setLocked(boolean locked) {
-    if (bubble3 != null) {
-      bubble3.isVisible = locked;
+    if (repairBubble != null) {
+      repairBubble.isVisible = locked;
     }
 
     this.locked = locked;
@@ -168,9 +168,9 @@ public abstract class Station extends Scriptable implements Interactable {
    * @Author Jack Hinton
    */
   public boolean checkRepairTool(Item item) {
-    if (item.name == ItemEnum.RepairTool && CustomerController.Money >= price) {
+    if (item.name == ItemEnum.RepairTool && CustomerController.money >= price) {
       setLocked(false);
-      CustomerController.Money = CustomerController.Money - price;
+      CustomerController.money = CustomerController.money - price;
       return true;
     }
     return false;

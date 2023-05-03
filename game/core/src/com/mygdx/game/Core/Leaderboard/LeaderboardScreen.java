@@ -68,7 +68,7 @@ public class LeaderboardScreen implements Screen {
     List<LeaderboardData> scores = game.leaderBoard.readFSONData();
     Collections.sort(scores);
     Collections.reverse(scores);
-    for (int i = scores.size(); i < LeaderBoard.MaxHighscorers; i++) {
+    for (int i = scores.size(); i < LeaderBoard.maxHighscorers; i++) {
       scores.add(new LeaderboardData(0, "N/A"));
     }
     // Creates the font for the labels
@@ -177,7 +177,7 @@ public class LeaderboardScreen implements Screen {
   }
 
   /**
-   * Called when this screen becomes the current screen for a {@link Game}.
+   * Called when this screen becomes the current screen
    */
   @Override
   public void show() {
@@ -202,7 +202,6 @@ public class LeaderboardScreen implements Screen {
   /**
    * @param width
    * @param height
-   * @see ApplicationListener#resize(int, int)
    */
   @Override
   public void resize(int width, int height) {
@@ -210,7 +209,6 @@ public class LeaderboardScreen implements Screen {
   }
 
   /**
-   * @see ApplicationListener#pause()
    */
   @Override
   public void pause() {
@@ -218,7 +216,6 @@ public class LeaderboardScreen implements Screen {
   }
 
   /**
-   * @see ApplicationListener#resume()
    */
   @Override
   public void resume() {
@@ -226,7 +223,7 @@ public class LeaderboardScreen implements Screen {
   }
 
   /**
-   * Called when this screen is no longer the current screen for a {@link Game}.
+   * Called when this screen is no longer the current screen
    */
   @Override
   public void hide() {

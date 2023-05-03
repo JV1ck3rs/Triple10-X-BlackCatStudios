@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class OrderMenu {
 
-  List<OrderType> OrderCatagories = new LinkedList<>();
+  List<OrderType> orderCatagories = new LinkedList<>();
   Random rand;
   int minStock;
   OrderType burgers;
@@ -47,16 +47,16 @@ public class OrderMenu {
         ItemEnum.VegPizzaCooked);
 
     if (OrderTypePerishables.contains(ItemEnum.Burger)) {
-      OrderCatagories.add(burgers);
+      orderCatagories.add(burgers);
     }
     if (OrderTypePerishables.contains(ItemEnum.TomatoOnionLettuceSalad)) {
-      OrderCatagories.add(salads);
+      orderCatagories.add(salads);
     }
     if (OrderTypePerishables.contains(ItemEnum.BakedPotato)) {
-      OrderCatagories.add(potato);
+      orderCatagories.add(potato);
     }
     if (OrderTypePerishables.contains(ItemEnum.CheesePizza)) {
-      OrderCatagories.add(pizza);
+      orderCatagories.add(pizza);
     }
   }
 
@@ -66,8 +66,8 @@ public class OrderMenu {
    * @author Jack Hinton
    */
   public void ovenAdded() {
-    OrderCatagories.add(potato);
-    OrderCatagories.add(pizza);
+    orderCatagories.add(potato);
+    orderCatagories.add(pizza);
   }
 
   /**
@@ -99,8 +99,8 @@ public class OrderMenu {
   List<ItemEnum> CreateTrueRandomOrder(int count) {
     List<ItemEnum> orders = new LinkedList<>();
     for (int i = 0; i < count; i++) {
-      int catagory = rand.nextInt(OrderCatagories.size());
-      orders.add(OrderCatagories.get(catagory).GetOrder(rand));
+      int catagory = rand.nextInt(orderCatagories.size());
+      orders.add(orderCatagories.get(catagory).GetOrder(rand));
     }
     return orders;
   }
@@ -120,12 +120,12 @@ public class OrderMenu {
 
       int totalStock = 0;
 
-      for (OrderType catagory : OrderCatagories
+      for (OrderType catagory : orderCatagories
       ) {
         totalStock += catagory.stock;
       }
       int catagoryID = rand.nextInt(totalStock - 1);
-      for (OrderType catagory : OrderCatagories
+      for (OrderType catagory : orderCatagories
       ) {
         catagoryID -= catagory.stock;
 
@@ -141,11 +141,10 @@ public class OrderMenu {
 
   /**
    * Restocks the order and resets the probability
-   *
    * @author Felix Seanor
    */
   public void Restock() {
-    for (OrderType type : OrderCatagories
+    for (OrderType type : orderCatagories
     ) {
       type.Restock();
     }

@@ -36,12 +36,12 @@ public class GameObject {
   /**
    * Object with no image width's width e.g. stations
    */
-  public float PhysicalWidth;
+  public float physicalWidth;
 
   /**
    * Objects with no image height's height e.g. stations
    */
-  public float PhysicalHeight;
+  public float physicalHeight;
 
   /**
    * is the gameobject visible currently
@@ -57,7 +57,7 @@ public class GameObject {
   /**
    * list of scriptables to run on the update loop that are attached to this gameobject
    */
-  List<Scriptable> Scripts = new LinkedList<>();
+  List<Scriptable> scripts = new LinkedList<>();
 
   /**
    * Create a new gameobject with a renderable
@@ -73,8 +73,8 @@ public class GameObject {
       GameObjectManager.objManager.SubmitGameObject(this);
     }
     position = new Vector2();
-    PhysicalWidth = -1;
-    PhysicalHeight = -1;
+    physicalWidth = -1;
+    physicalHeight = -1;
 
   }
 
@@ -85,7 +85,7 @@ public class GameObject {
    * @author Felix Seanor
    */
   public void attachScript(Scriptable script) {
-    Scripts.add(script);
+    scripts.add(script);
     script.setGameObject(this);
     script.Start();
   }
@@ -98,7 +98,7 @@ public class GameObject {
    * @author Felix Seanor
    */
   public Scriptable GetScript(int i) {
-    return Scripts.get(i);
+    return scripts.get(i);
   }
 
   /**
@@ -131,7 +131,7 @@ public class GameObject {
    * @param dt
    */
   public void doUpdate(float dt) {
-    for (Scriptable script : Scripts
+    for (Scriptable script : scripts
     ) {
       script.Update(dt);
     }
@@ -144,7 +144,7 @@ public class GameObject {
    * @author Felix Seanor
    */
   public void doFixedUpdate(float dt) {
-    for (Scriptable script : Scripts
+    for (Scriptable script : scripts
     ) {
       script.FixedUpdate(dt);
     }
@@ -156,7 +156,7 @@ public class GameObject {
    * @author Felix Seanor
    */
   public void doOnRenderUpdate() {
-    for (Scriptable script : Scripts
+    for (Scriptable script : scripts
     ) {
       script.OnRender();
     }
@@ -245,8 +245,8 @@ public class GameObject {
    * @author Jack Hinton
    */
   public void setWidthAndHeight(float width, float height) {
-    PhysicalWidth = width;
-    PhysicalHeight = height;
+    physicalWidth = width;
+    physicalHeight = height;
   }
 
   /**
@@ -256,10 +256,10 @@ public class GameObject {
    * @author Jack Hinton
    */
   public float getWidth() {
-    if (PhysicalWidth == -1) {
+    if (physicalWidth == -1) {
       return image.GetWidth();
     }
-    return PhysicalWidth;
+    return physicalWidth;
   }
 
   /**
@@ -269,10 +269,10 @@ public class GameObject {
    * @author Jack Hinton
    */
   public float getHeight() {
-    if (PhysicalHeight == -1) {
+    if (physicalHeight == -1) {
       return image.GetHeight();
     }
-    return PhysicalHeight;
+    return physicalHeight;
   }
 
   /**

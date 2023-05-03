@@ -79,10 +79,10 @@ public class CustomerTests extends MasterTestClass {
     instantiateCustomerScripts();
     customerController.SetWaveAmount(1);
     customerController.CanAcceptNewCustomer();
-    float frustration = customerController.getCurrentWaitingCustomerGroup().Frustration;
+    float frustration = customerController.getCurrentWaitingCustomerGroup().frustration;
 
     customerController.getCurrentWaitingCustomerGroup().CheckFrustration(1, null, true);
-    assertNotEquals(frustration, customerController.getCurrentWaitingCustomerGroup().Frustration);
+    assertNotEquals(frustration, customerController.getCurrentWaitingCustomerGroup().frustration);
 
   }
 
@@ -101,16 +101,16 @@ public class CustomerTests extends MasterTestClass {
     customerController.CanAcceptNewCustomer();
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
-    assertTrue(group.Members.size() == group.MembersInLine.size());
+    assertTrue(group.members.size() == group.membersInLine.size());
 
-    for (int i = 0; i < group.Members.size(); i++) {
+    for (int i = 0; i < group.members.size(); i++) {
       assertFalse(customerController.DoSatisfactionCheck());
       group.RemoveFirstCustomer();
 
 
     }
 
-    assertTrue(group.Members.size() == group.MembersSeatedOrWalking.size());
+    assertTrue(group.members.size() == group.membersSeatedOrWalking.size());
     assertTrue(customerController.DoSatisfactionCheck());
 
     customerController.CanAcceptNewCustomer();
@@ -142,7 +142,7 @@ public class CustomerTests extends MasterTestClass {
     customerController.CanAcceptNewCustomer();
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
-    Customer customer = group.Members.get(0);
+    Customer customer = group.members.get(0);
     assertNotNull(customer.returnHeldItem());
 
     assertTrue(customer.returnHeldItem().position.x == 0);
@@ -173,11 +173,11 @@ public class CustomerTests extends MasterTestClass {
     customerController.CanAcceptNewCustomer();
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
-    Customer cust1 = group.Members.get(0);
+    Customer cust1 = group.members.get(0);
 
-    assertNotEquals("Group must have members", 0, group.Members.size());
+    assertNotEquals("Group must have members", 0, group.members.size());
 
-    ItemEnum dish = group.Members.get(0).dish;
+    ItemEnum dish = group.members.get(0).dish;
     assertNotNull("Members must have a dish", dish);
 
     boolean attempt = group.SeeIfDishIsCorrect(dish) != -1;
@@ -186,11 +186,11 @@ public class CustomerTests extends MasterTestClass {
 
     customerController.tryGiveFood(new Item(dish));
 
-    assertEquals("A member must be trying to sit down now", group.MembersSeatedOrWalking.size(), 1);
+    assertEquals("A member must be trying to sit down now", group.membersSeatedOrWalking.size(), 1);
     assertEquals("That member must have the correct dish to be able to sit down", dish,
-        group.MembersSeatedOrWalking.get(0).dish);
+        group.membersSeatedOrWalking.get(0).dish);
 
-    assertTrue("Money must have increased", CustomerController.Money>0);
+    assertTrue("Money must have increased", CustomerController.money >0);
 
 
   }
@@ -273,7 +273,7 @@ public class CustomerTests extends MasterTestClass {
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
 
-    Customer customer = group.Members.get(0);
+    Customer customer = group.members.get(0);
 
     customer.updateSpriteFromInput("idlewest");
     String currentAnimation = customer.getCurrentOrientation();
@@ -297,7 +297,7 @@ public class CustomerTests extends MasterTestClass {
 
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
 
-    Customer customer = group.Members.get(0);
+    Customer customer = group.members.get(0);
 
     assertNotNull("Must have a move state", customer.getMove());
 
@@ -345,7 +345,7 @@ public class CustomerTests extends MasterTestClass {
     instantiateCustomerScripts(Difficulty.Mindbreaking);
     customerController.CanAcceptNewCustomer();
     CustomerGroups group = customerController.getCurrentWaitingCustomerGroup();
-    Customer customer = group.Members.get(0);
+    Customer customer = group.members.get(0);
     customer.updateSpriteFromInput("west");
     assertEquals("west", customer.getCurrentOrientation());
     customer.updateSpriteFromInput("east");

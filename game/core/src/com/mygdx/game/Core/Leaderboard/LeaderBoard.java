@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public class LeaderBoard {
 
   static String filepath = Gdx.files.internal("leadboard.Fson").path();
-  static int MaxHighscorers = 5;
+  static int maxHighscorers = 5;
 
   public void createFSONFile() {
     File jsonFile = new File(filepath);
@@ -118,7 +118,7 @@ public class LeaderBoard {
     List<LeaderboardData> highscores = readFSONData();
     Collections.sort(highscores);
     Collections.reverse(highscores);
-    if (highscores.size() < MaxHighscorers) {
+    if (highscores.size() < maxHighscorers) {
       highscores.add(data);
       return highscores;
     }

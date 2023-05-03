@@ -238,7 +238,6 @@ public class ScenarioModeConfigScreen implements Screen {
   }
 
   /**
-   * @see ApplicationListener#pause()
    */
   @Override
   public void pause() {
@@ -246,7 +245,6 @@ public class ScenarioModeConfigScreen implements Screen {
   }
 
   /**
-   * @see ApplicationListener#resume()
    */
   @Override
   public void resume() {
@@ -254,7 +252,7 @@ public class ScenarioModeConfigScreen implements Screen {
   }
 
   /**
-   * Called when this screen is no longer the current screen for a {@link Game}.
+   * Called when this screen is no longer the current screen.
    */
   @Override
   public void hide() {

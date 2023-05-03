@@ -59,8 +59,8 @@ public class ScenarioModeTests {
         GameScreen.viewportWidth);
     manager = new GameObjectManager();
     params = difficultyState.ccParams;
-    params.NoCustomers = noCustomers;
-    params.FrustrationStart = frustration;
+    params.noCustomers = noCustomers;
+    params.frustrationStart = frustration;
     cust = new CustomerController(new Vector2(0, 0), new Vector2(32, 0), pathfinding,
         (EndOfGameValues a) -> EndGame(a), params, new Vector2(190, 390), new Vector2(190, 290),
         new Vector2(290, 290));
@@ -209,7 +209,7 @@ public class ScenarioModeTests {
     cust.tryGiveFood(itemToGive);
     // Checks whether the game has ended
     cust.CanAcceptNewCustomer();
-    assertTrue("The game should have ended as a win", vals.Won);
+    assertTrue("The game should have ended as a win", vals.won);
   }
 
   /**
@@ -230,7 +230,7 @@ public class ScenarioModeTests {
     cust.CanAcceptNewCustomer();
     // Since frustration time is set to
     cust.FrustrationLeave(cust.getCurrentWaitingCustomerGroup());
-    assertFalse("The game should have ended as a loss", vals.Won);
+    assertFalse("The game should have ended as a loss", vals.won);
   }
 
 }

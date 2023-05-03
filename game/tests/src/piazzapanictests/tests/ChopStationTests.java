@@ -6,7 +6,7 @@ import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
 
 import com.mygdx.game.RecipeAndComb.Recipe;
-import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.RecipeAndComb.recipeDict;
 
 import java.util.*;
 
@@ -140,7 +140,7 @@ public class ChopStationTests extends MasterTestClass {
   public void testCanInteractChoppingStation() {
     instantiateWorldAndChoppingStation();
     Item item = new Item(ItemEnum.Lettuce);
-    Recipe recipe = RecipeDict.recipes.RecipeMap.get(item.name);
+    Recipe recipe = recipeDict.recipes.RecipeMap.get(item.name);
     if (recipe == null) {
       assertTrue("Item can be interacted with chopping station", chopStation.CanInteract());
 

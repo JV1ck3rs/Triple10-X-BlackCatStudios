@@ -52,7 +52,7 @@ import com.mygdx.game.Core.ValueStructures.CustomerControllerParams;
 import com.mygdx.game.Core.ValueStructures.EndOfGameValues;
 import com.mygdx.game.Items.ItemEnum;
 import com.mygdx.game.RecipeAndComb.CombinationDict;
-import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.RecipeAndComb.recipeDict;
 import com.mygdx.game.Stations.Station;
 import java.util.LinkedList;
 import java.util.List;
@@ -107,7 +107,7 @@ public class GameScreen implements Screen {
   private final Label moneyLabel;
   private final BitmapFont timerFont;
 
-  boolean Paused = false;
+  boolean paused = false;
   DifficultyState difficultyState;
 
   ConstructMachines constructMachines;
@@ -183,19 +183,19 @@ public class GameScreen implements Screen {
 
     CustomerControllerParams CCParams = difficultyState.ccParams;
 
-    CCParams.NoCustomers = numCustomers;
+    CCParams.noCustomers = numCustomers;
     List<Vector2> tables = getTablesDirty(map);
 
-    Vector2[] tabr = new Vector2[tables.size()];
+    Vector2[] tablePositions = new Vector2[tables.size()];
 
     int z = 0;
     for (Vector2 t : tables
     ) {
-      tabr[z++] = t;
+      tablePositions[z++] = t;
     }
 
     customerController = new CustomerController(new Vector2(224, 0), new Vector2(360, 180),
-        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, tabr);
+        pathfinding, (EndOfGameValues vals) -> EndGame(vals), CCParams, tablePositions);
     // customerController.SetWaveAmount(1);//Demonstration on how to do waves, -1 for endless
 
     powerup = new Powerup(masterChef, customerController); // powerup object
@@ -208,8 +208,8 @@ public class GameScreen implements Screen {
 
     new CombinationDict();
     CombinationDict.combinations.implementItems();
-    new RecipeDict();
-    RecipeDict.recipes.implementRecipes();
+    new recipeDict();
+    recipeDict.recipes.implementRecipes();
 
     int[] objectLayers = {3, 4, 6, 9, 11, 13, 16, 18, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32,
         33, 34, 35, 36, 37, 38, 39};
@@ -298,7 +298,7 @@ public class GameScreen implements Screen {
     if (loadSave) { // if the game is being loaded from a save
       LoadGame("SavedData.ser");
     }
-    isEndlessMode = CCParams.NoCustomers == -1;
+    isEndlessMode = CCParams.noCustomers == -1;
     setupPauseMenu();
     setupGameUI();
   }
@@ -464,7 +464,7 @@ public class GameScreen implements Screen {
     pauseButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        Paused = true;
+        paused = true;
         Gdx.input.setInputProcessor(pauseStage); // set the input processor to the pause stage
       }
     });
@@ -566,7 +566,7 @@ public class GameScreen implements Screen {
     resumeButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        Paused = false; // when clicked, the game is no longer paused
+        paused = false; // when clicked, the game is no longer paused
         Gdx.input.setInputProcessor(gameUIStage); // set the input processor to the game UI stage
       }
     });
@@ -674,12 +674,12 @@ public class GameScreen implements Screen {
     timerFont.getData().setScale(1.5f, 1.5f);
     timerLabel.setText(str);
     //BlackCatStudios
-    CharSequence str2 = "Money: ¥" + customerController.Money;
+    CharSequence str2 = "Money: ¥" + customerController.money;
     timerFont.draw(game.batch, str2, 500, 35);
     timerFont.getData().setScale(1.5f, 1.5f);
 
-    if (customerController.Reputation != -1) {
-      CharSequence str3 = "Reputation: " + customerController.Reputation;
+    if (customerController.reputation != -1) {
+      CharSequence str3 = "Reputation: " + customerController.reputation;
       timerFont.draw(game.batch, str3, 650, 35);
       timerFont.getData().setScale(1.5f, 1.5f);
     }
@@ -734,7 +734,7 @@ public class GameScreen implements Screen {
       }
     }
 
-    if (!Paused && !isInstructionsVisible) {
+    if (!paused && !isInstructionsVisible) {
 
       displayTimer();
       //Update Scripts
@@ -754,7 +754,7 @@ public class GameScreen implements Screen {
       if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
         powerup.tetrisSuperFoodGive();
       }
-    } else if (Paused && !isInstructionsVisible) {
+    } else if (paused && !isInstructionsVisible) {
       pauseStage.draw();
     } else {
       instructionsStage.draw();
@@ -763,7 +763,7 @@ public class GameScreen implements Screen {
 
     // The following code must occur after the batch is ended.
     // Otherwise, it causes issues with customer positioning.
-    if (!Paused && !isInstructionsVisible) { // displays the game UI if the game is not paused
+    if (!paused && !isInstructionsVisible) { // displays the game UI if the game is not paused
       gameUIStage.draw();
     }
   }
@@ -774,9 +774,9 @@ public class GameScreen implements Screen {
    * @author Felix Seanor
    */
   public void SaveGame() {
-    SaveState Saving = new SaveState();
-    Saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds,
-        constructMachines.Stations, constructMachines.customerCounters,
+    SaveState saving = new SaveState();
+    saving.SaveState("SavedData.ser", masterChef, customerController, difficulty, timer, seconds,
+        constructMachines.stations, constructMachines.customerCounters,
         constructMachines.assemblyStations);
 
   }
@@ -787,9 +787,9 @@ public class GameScreen implements Screen {
    * @author Felix Seanor
    */
   public void LoadGame(String path) {
-    SaveState Saving = new SaveState();
+    SaveState saving = new SaveState();
 
-    GameState state = Saving.LoadState(path);
+    GameState state = saving.LoadState(path);
 
     LoadState(state);
     masterChef.LoadState(state);
@@ -807,24 +807,24 @@ public class GameScreen implements Screen {
   public void LoadState(GameState state) {
 
     int i = 0;
-    timer = state.Timer;
+    timer = state.timer;
     seconds = state.seconds;
     difficulty = state.difficulty;
-    for (GameObject station : constructMachines.Stations) {
+    for (GameObject station : constructMachines.stations) {
       Scriptable scriptable = station.GetScript(0);
       if (scriptable instanceof Station) {
-        ((Station) scriptable).LoadState(state.FoodOnCounters.get(i), state.RepairState.get(i++));
+        ((Station) scriptable).LoadState(state.foodOnCounters.get(i), state.repairState.get(i++));
       }
 
 
     }
 
     for (GameObject station : constructMachines.customerCounters) {
-      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++), true);
+      ((Station) station.GetScript(0)).LoadState(state.foodOnCounters.get(i++), true);
     }
 
     for (GameObject station : constructMachines.assemblyStations) {
-      ((Station) station.GetScript(0)).LoadState(state.FoodOnCounters.get(i++), true);
+      ((Station) station.GetScript(0)).LoadState(state.foodOnCounters.get(i++), true);
     }
   }
 
@@ -842,7 +842,7 @@ public class GameScreen implements Screen {
   }
 
   public List<GameObject> getStations() {
-    return constructMachines.Stations;
+    return constructMachines.stations;
   }
 
   public List<GameObject> getCustomerCounters() {

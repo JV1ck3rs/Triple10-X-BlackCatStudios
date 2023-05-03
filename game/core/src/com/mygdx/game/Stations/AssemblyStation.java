@@ -225,7 +225,7 @@ public class AssemblyStation extends Station {
     }
     Collections.sort(tempIngredients);
     for (int x = 0; x < tempIngredients.size() - 1; x++) {
-      temp = combinations.CombinationMap.get(
+      temp = combinations.combinationMap.get(
           tempIngredients.get(x).name() + " " + tempIngredients.get(x + 1).name());
       if (temp == null) {
         clearTempIngredients();

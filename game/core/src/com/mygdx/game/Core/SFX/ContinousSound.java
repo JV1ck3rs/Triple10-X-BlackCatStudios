@@ -12,7 +12,7 @@ import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 public class ContinousSound {
 
   public Long soundID;
-  public Boolean ShouldPlay;
+  public Boolean shouldPlay;
 
   public soundsEnum soundToPlay;
   private boolean stopped = false;
@@ -24,21 +24,21 @@ public class ContinousSound {
    */
   public void DoSoundCheck() {
 
-    if (!ShouldPlay && soundID != -1) {
+    if (!shouldPlay && soundID != -1) {
       //Stop sound
       soundFrame.SoundEngine.pauseSound(soundToPlay, soundID);
       stopped = true;
-    } else if (ShouldPlay && soundID == -1) {
+    } else if (shouldPlay && soundID == -1) {
       //Play sound
       soundID = soundFrame.SoundEngine.playSound(soundToPlay);
       stopped = false;
       soundFrame.SoundEngine.setLooping(soundToPlay, soundID, true);
-    } else if (soundID != -1 && ShouldPlay && stopped) {
+    } else if (soundID != -1 && shouldPlay && stopped) {
       soundFrame.SoundEngine.resumeSound(soundToPlay, soundID);
       stopped = false;
     }
 
-    ShouldPlay = false;
+    shouldPlay = false;
   }
 
   public boolean getStopped() {
@@ -54,6 +54,6 @@ public class ContinousSound {
   public ContinousSound(soundsEnum name) {
     soundToPlay = name;
     soundID = Long.valueOf(-1);
-    ShouldPlay = false;
+    shouldPlay = false;
   }
 }

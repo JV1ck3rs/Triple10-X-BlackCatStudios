@@ -8,7 +8,7 @@ package com.mygdx.game.Core.GameState;
  */
 public class CookingParams {
 
-  public float CookSpeed;
-  public float BurnSpeed;
-  public float ChopSpeed;
+  public float cookSpeed;
+  public float burnSpeed;
+  public float chopspeed;
 }

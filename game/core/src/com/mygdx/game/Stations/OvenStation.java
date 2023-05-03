@@ -7,7 +7,7 @@ import com.mygdx.game.Core.SFX.soundFrame;
 import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.RecipeAndComb.recipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -24,8 +24,8 @@ public class OvenStation extends Station {
   boolean ready;
   public float maxProgress;
   public float progress;
-  public static ArrayList<ItemEnum> ItemWhiteList;
-  Consumer<Boolean> OvenMade;
+  public static ArrayList<ItemEnum> itemWhiteList;
+  Consumer<Boolean> ovenMade;
 
 
   /**
@@ -39,14 +39,14 @@ public class OvenStation extends Station {
    */
   public OvenStation(CookingParams params, Consumer<Boolean> customerController) {
     super(params);
-    OvenMade = customerController;
+    ovenMade = customerController;
     ready = false;
     maxProgress = 10;
     animation = new GameObject(new BlackTexture("Items/OvenActive.png"));
     animation.isVisible = false;
     animation.image.layer = -1;
-    if (ItemWhiteList == null) {
-      ItemWhiteList = new ArrayList<>(
+    if (itemWhiteList == null) {
+      itemWhiteList = new ArrayList<>(
           Arrays.asList(ItemEnum.Potato, ItemEnum.CheesePotato, ItemEnum.MeatPotato,
               ItemEnum.CheesePizza, ItemEnum.MeatPizza, ItemEnum.VegPizza,
               ItemEnum.CheesePizzaCooked,
@@ -71,14 +71,14 @@ public class OvenStation extends Station {
       boolean repaired = checkRepairTool(item);
       if (repaired) {
         if (numOvens < 1) {
-          OvenMade.accept(true);
+          ovenMade.accept(true);
           numOvens++;
         }
         deleteItem();
       }
       return repaired;
     }
-    if (this.item != null || !ItemWhiteList.contains(item.name)) {
+    if (this.item != null || !itemWhiteList.contains(item.name)) {
       return false;
     }
     changeItem(item);
@@ -97,8 +97,8 @@ public class OvenStation extends Station {
    */
   @Override
   public Item RetrieveItem() {
-    bubble.isVisible = false;
-    bubble4.isVisible = false;
+    timer.isVisible = false;
+    readyBubble.isVisible = false;
     returnItem = item;
     deleteItem();
     currentRecipe = null;
@@ -163,16 +163,16 @@ public class OvenStation extends Station {
    * @author Jack Vickers
    */
   public void checkItem() {
-    if (ItemWhiteList.contains(item.name)) {
-      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-      bubble.isVisible = true;
+    if (itemWhiteList.contains(item.name)) {
+      currentRecipe = recipeDict.recipes.RecipeMap.get(item.name);
+      timer.isVisible = true;
       if (item.name == ItemEnum.CheesePizzaCooked || item.name == ItemEnum.MeatPizzaCooked
           || item.name == ItemEnum.VegPizzaCooked) {
-        bubble4.isVisible = true;
+        readyBubble.isVisible = true;
       }
     } else {
       currentRecipe = null;
-      bubble.isVisible = false;
+      timer.isVisible = false;
     }
   }
 
@@ -186,11 +186,11 @@ public class OvenStation extends Station {
    * @Author Jack Vickers
    */
   public void Cook(float dt) {
-    ready = currentRecipe.RecipeSteps.get(item.step)
+    ready = currentRecipe.recipeSteps.get(item.step)
         .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
     if (ready) {
       changeItem(new Item(currentRecipe.endItem));
-      bubble4.isVisible = true;
+      readyBubble.isVisible = true;
       soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
       checkItem();
       return;
@@ -205,7 +205,7 @@ public class OvenStation extends Station {
    * @Author Jack Hinton
    */
   public void progressBar() {
-    bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
+    timer.image = new BlackTexture("Timer/0" + getProgress() + ".png");
   }
 
 

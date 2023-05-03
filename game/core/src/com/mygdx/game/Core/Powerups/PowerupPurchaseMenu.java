@@ -179,7 +179,7 @@ public class PowerupPurchaseMenu extends Scriptable {
   @Override
   public void Update(float dt) {
     if (background.isVisible) {
-      Integer money = cc.Money;
+      Integer money = cc.money;
       //System.out.println(money);
       if (speedPowerUpButton.isClicked() && money >= prices.get("Speed")) {
         cc.ChangeMoney(-Float.valueOf(prices.get("Speed")));

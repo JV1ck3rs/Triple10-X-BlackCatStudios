@@ -58,7 +58,7 @@ public class ConstructionTest extends MasterTestClass
   {
     Rectangle rect = construct();
     machines.CreateHobs(rect);
-    assertTrue("Must have constructed stations", machines.Stations.size()>0);
+    assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
 
   /**
@@ -73,7 +73,7 @@ public class ConstructionTest extends MasterTestClass
   {
     Rectangle rect = construct();
     machines.CreateBin(rect);
-    assertTrue("Must have constructed stations", machines.Stations.size()>0);
+    assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
   /**
    * Test if the oven can be constructed
@@ -87,7 +87,7 @@ public class ConstructionTest extends MasterTestClass
   {
     Rectangle rect = construct();
     machines.CreateOven(rect, customerController);
-    assertTrue("Must have constructed stations", machines.Stations.size()>0);
+    assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
   /**
    * Test if the chopping can be constructed
@@ -100,7 +100,7 @@ public class ConstructionTest extends MasterTestClass
   {
     Rectangle rect = construct();
     machines.CreateChopping(rect);
-    assertTrue("Must have constructed stations", machines.Stations.size()>0);
+    assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
 
   /**
@@ -114,7 +114,7 @@ public class ConstructionTest extends MasterTestClass
   {
     Rectangle rect = construct();
     machines.CreateToaster(rect);
-    assertTrue("Must have constructed stations", machines.Stations.size()>0);
+    assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
   /**
    * Test if the customerCounter can be constructed
@@ -142,7 +142,7 @@ public class ConstructionTest extends MasterTestClass
   {
     Rectangle rect = construct();
     machines.CreateFoodCrates(rect, ItemEnum.Lettuce);
-    assertTrue("Must have constructed stations", machines.Stations.size()>0);
+    assertTrue("Must have constructed stations", machines.stations.size()>0);
   }
   /**
    * Test if the hob can be constructed

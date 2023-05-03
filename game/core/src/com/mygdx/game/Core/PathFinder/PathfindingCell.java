@@ -12,12 +12,12 @@ public class PathfindingCell implements Comparable<PathfindingCell> {
   /**
    * cost to goal
    */
-  public float Heuristic;
+  public float heuristic;
 
   /**
    * cost along path
    */
-  public float PathCost;
+  public float pathCost;
 
   /**
    * x position
@@ -31,7 +31,7 @@ public class PathfindingCell implements Comparable<PathfindingCell> {
   /**
    * index
    */
-  public int Index;
+  public int index;
 
 
   /**
@@ -53,21 +53,21 @@ public class PathfindingCell implements Comparable<PathfindingCell> {
     this.x = x;
     this.y = y;
 
-    Heuristic = heuristic;
-    PathCost = path;
-    Index = index;
+    this.heuristic = heuristic;
+    pathCost = path;
+    this.index = index;
 
 
   }
 
   /**
-   * Heuristics + Pathcost
+   * heuristics + pathcost
    *
    * @return
    * @author Felix Seanor
    */
   public float score() {
-    return Heuristic + PathCost;
+    return heuristic + pathCost;
   }
 
   /**

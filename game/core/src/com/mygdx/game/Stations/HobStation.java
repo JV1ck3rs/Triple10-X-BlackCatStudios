@@ -9,7 +9,7 @@ import com.mygdx.game.Core.SFX.soundFrame;
 import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.RecipeAndComb.recipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,13 +23,13 @@ public class HobStation extends Station {
 
   boolean interacted;
   boolean ready;
-  public static ArrayList<ItemEnum> ItemWhiteList;
+  public static ArrayList<ItemEnum> itemWhiteList;
   public float progress;
   public float maxProgress;
   public int imageSize = 14;
 
-  private ContinousSound BurnersSFX;
-  private ContinousSound FryingSFX;
+  private ContinousSound burnersSFX;
+  private ContinousSound fryingSFX;
 
 
   /**
@@ -47,10 +47,10 @@ public class HobStation extends Station {
     interacted = false;
     ready = false;
     maxProgress = 10;
-    BurnersSFX = new ContinousSound(soundsEnum.GasCooker);
-    FryingSFX = new ContinousSound(soundsEnum.Frying);
-    if (ItemWhiteList == null) {
-      ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.RawPatty, ItemEnum.CookedPatty));
+    burnersSFX = new ContinousSound(soundsEnum.GasCooker);
+    fryingSFX = new ContinousSound(soundsEnum.Frying);
+    if (itemWhiteList == null) {
+      itemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.RawPatty, ItemEnum.CookedPatty));
     }
   }
 
@@ -100,9 +100,9 @@ public class HobStation extends Station {
     returnItem = item;
     deleteItem();
     currentRecipe = null;
-    bubble.isVisible = false;
-    bubble2.isVisible = false;
-    bubble4.isVisible = false;
+    timer.isVisible = false;
+    warningIcon.isVisible = false;
+    readyBubble.isVisible = false;
     return returnItem;
   }
 
@@ -138,19 +138,19 @@ public class HobStation extends Station {
    * @Author Jack Vickers
    */
   public void checkItem() {
-    if (ItemWhiteList.contains(item.name)) {
-      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-      bubble.isVisible = true;
-      if (item.step == 1 || currentRecipe.RecipeSteps.size() == 1) {
-        bubble2.isVisible = true;
+    if (itemWhiteList.contains(item.name)) {
+      currentRecipe = recipeDict.recipes.RecipeMap.get(item.name);
+      timer.isVisible = true;
+      if (item.step == 1 || currentRecipe.recipeSteps.size() == 1) {
+        warningIcon.isVisible = true;
       }
-      if (currentRecipe.RecipeSteps.size() == 1 && item.name == ItemEnum.CookedPatty) {
-        bubble4.isVisible = true;
+      if (currentRecipe.recipeSteps.size() == 1 && item.name == ItemEnum.CookedPatty) {
+        readyBubble.isVisible = true;
       }
     } else {
       currentRecipe = null;
-      bubble.isVisible = false;
-      bubble4.isVisible = false;
+      timer.isVisible = false;
+      readyBubble.isVisible = false;
     }
   }
 
@@ -199,18 +199,18 @@ public class HobStation extends Station {
    * @Author Jack Vickers
    */
   public void Cook(float dt) {
-    ready = currentRecipe.RecipeSteps.get(item.step)
+    ready = currentRecipe.recipeSteps.get(item.step)
         .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
-    BurnersSFX.ShouldPlay = true;
-    FryingSFX.ShouldPlay = !ready;
+    burnersSFX.shouldPlay = true;
+    fryingSFX.shouldPlay = !ready;
     if (ready && item.progress == 0) {
       item.step++;
-      bubble2.isVisible = item.step == 1;
+      warningIcon.isVisible = item.step == 1;
 
-      if (item.step == currentRecipe.RecipeSteps.size()) {
+      if (item.step == currentRecipe.recipeSteps.size()) {
         changeItem(new Item(currentRecipe.endItem));
         soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
-        bubble4.isVisible = true;
+        readyBubble.isVisible = true;
         checkItem();
       } else {
         soundFrame.SoundEngine.playSound(soundsEnum.StepAchieved);
@@ -232,7 +232,7 @@ public class HobStation extends Station {
    * @Author Jack Hinton
    */
   public void progressBar() {
-    bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
+    timer.image = new BlackTexture("Timer/0" + getProgress() + ".png");
   }
 
 
@@ -298,8 +298,8 @@ public class HobStation extends Station {
     if (currentRecipe != null) {
       Cook(dt);
     }
-    FryingSFX.DoSoundCheck();
-    BurnersSFX.DoSoundCheck();
+    fryingSFX.DoSoundCheck();
+    burnersSFX.DoSoundCheck();
     interacted = false;
   }
 }

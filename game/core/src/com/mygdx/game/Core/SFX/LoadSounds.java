@@ -25,7 +25,7 @@ public class LoadSounds {
     sounds.add(new SoundDataLoad("CoinJingle.wav", soundFrame.soundsEnum.BuyItem));
 
     for (SoundDataLoad sound : sounds) {
-      frame.addSound("Sound/" + sound.Path, sound.name);
+      frame.addSound("Sound/" + sound.path, sound.name);
     }
 
   }

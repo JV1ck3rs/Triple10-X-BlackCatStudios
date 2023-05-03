@@ -22,16 +22,16 @@ import java.util.function.Consumer;
  */
 public class CustomerGroups {
 
-  public List<Customer> Members = new LinkedList<>();
-  public List<Customer> MembersInLine = new LinkedList<>();
-  public List<Customer> MembersSeatedOrWalking = new LinkedList<>();
-  public List<ItemEnum> Orders = new LinkedList<>();
+  public List<Customer> members = new LinkedList<>();
+  public List<Customer> membersInLine = new LinkedList<>();
+  public List<Customer> membersSeatedOrWalking = new LinkedList<>();
+  public List<ItemEnum> orders = new LinkedList<>();
 
   public Table table;
-  public float Frustration;
+  public float frustration;
 
-  private float RecoveryValue;
-  static float FrustrationRecovery = .1f;
+  private float recoveryValue;
+  static float frustrationRecovery = .1f;
 
   /**
    * Creates a customer group with given parameters
@@ -45,9 +45,9 @@ public class CustomerGroups {
    */
   public CustomerGroups(int MemberCount, int CustomerStart, Vector2 Spawn, int frustration,
       List<ItemEnum> OrderMenu, ArrayList<TextureAtlas> customerAtlas) {
-    Orders = OrderMenu;
-    Frustration = frustration * MemberCount;
-    RecoveryValue = FrustrationRecovery * Frustration;
+    orders = OrderMenu;
+    this.frustration = frustration * MemberCount;
+    recoveryValue = frustrationRecovery * this.frustration;
     for (int i = 0; i < MemberCount; i++) {
       if (OrderMenu.size() < MemberCount) {
         i = i;
@@ -60,7 +60,7 @@ public class CustomerGroups {
       customer.attachScript(custLogic);
       customer.isVisible = true;
 
-      Members.add(custLogic);
+      members.add(custLogic);
       addMemberToLine(custLogic);
     }
 
@@ -68,12 +68,13 @@ public class CustomerGroups {
 
 
   void addMemberToLine(Customer customer) {
-    MembersInLine.add(customer);
+    membersInLine.add(customer);
     customer.waitingAtCounter = true;
   }
 
   void addMemberToSitting(Customer customer) {
-    MembersSeatedOrWalking.add(customer);
+    membersSeatedOrWalking.add(customer);
+    updateFrustrationOnSucessfulService();
     customer.waitingAtCounter = false;
   }
 
@@ -85,37 +86,37 @@ public class CustomerGroups {
    * @author Felix Seanor
    */
   public CustomerGroups(CustomerGroupState state, ArrayList<TextureAtlas> customerAtlas) {
-    Orders = Arrays.asList(state.orders);
-    Frustration = state.frustration;
-    RecoveryValue = FrustrationRecovery * Frustration;
+    orders = Arrays.asList(state.orders);
+    frustration = state.frustration;
+    recoveryValue = frustrationRecovery * frustration;
     for (int i = 0; i < state.customerPositions.length; i++) {
 
-      Customer custLogic = new Customer(state.CustomerStartID + i, state.orders[i],
+      Customer customerLogic = new Customer(state.CustomerStartID + i, state.orders[i],
           Customer.getCustomerAtlas(customerAtlas));
       GameObject customer = new GameObject(new BlackSprite());
       customer.position.set(state.customerPositions[i]);
-      customer.attachScript(custLogic);
+      customer.attachScript(customerLogic);
       customer.isVisible = true;
-      Members.add(custLogic);
-      MembersInLine.add(custLogic);
+      members.add(customerLogic);
+      membersInLine.add(customerLogic);
     }
   }
 
   public List<ItemEnum> getOrders() {
-    return Orders;
+    return orders;
   }
 
   public void showIcons() {
-    for (int i = 0; i < MembersInLine.size(); i++) {
+    for (int i = 0; i < membersInLine.size(); i++) {
       //System.out.println(MembersInLine.get(i));
-      List<Vector2> path = MembersInLine.get(i).getPath();
-      MembersInLine.get(i).foodIcon.getBlackTexture().height = 25;
-      MembersInLine.get(i).foodIcon.getBlackTexture().width = 25;
-      MembersInLine.get(i).foodIcon.setPosition(MembersInLine.get(i).getX() + 15,
-          MembersInLine.get(i).getY() + 20);
-      MembersInLine.get(i).foodIcon.image.layer = 10;
+      List<Vector2> path = membersInLine.get(i).getPath();
+      membersInLine.get(i).foodIcon.getBlackTexture().height = 25;
+      membersInLine.get(i).foodIcon.getBlackTexture().width = 25;
+      membersInLine.get(i).foodIcon.setPosition(membersInLine.get(i).getX() + 15,
+          membersInLine.get(i).getY() + 20);
+      membersInLine.get(i).foodIcon.image.layer = 10;
       if (path.isEmpty()) {
-        MembersInLine.get(i).foodIcon.isVisible = true;
+        membersInLine.get(i).foodIcon.isVisible = true;
       }
     }
   }
@@ -126,19 +127,19 @@ public class CustomerGroups {
 
 
   public void checkClicks() {
-    for (int i = 0; i < Members.size(); i++) {
-      if (Members.get(i).foodIcon.isClicked() && Members.get(i).foodIcon.isVisible) {
-        Members.get(i).foodRecipe.isVisible = true;
-        Members.get(i).recipeCloseButton.isVisible = true;
-        Members.get(i).foodRecipeOpen = true;
+    for (int i = 0; i < members.size(); i++) {
+      if (members.get(i).foodIcon.isClicked() && members.get(i).foodIcon.isVisible) {
+        members.get(i).foodRecipe.isVisible = true;
+        members.get(i).recipeCloseButton.isVisible = true;
+        members.get(i).foodRecipeOpen = true;
       }
     }
 
-    for (int i = 0; i < Members.size(); i++) {
-      if (Members.get(i).foodRecipeOpen) {
-        if (Members.get(i).recipeCloseButton.isClicked()) {
-          Members.get(i).foodRecipe.isVisible = false;
-          Members.get(i).recipeCloseButton.isVisible = false;
+    for (int i = 0; i < members.size(); i++) {
+      if (members.get(i).foodRecipeOpen) {
+        if (members.get(i).recipeCloseButton.isClicked()) {
+          members.get(i).foodRecipe.isVisible = false;
+          members.get(i).recipeCloseButton.isVisible = false;
         }
       }
     }
@@ -147,17 +148,17 @@ public class CustomerGroups {
 
 
   public Customer RemoveFirstCustomer() {
-    Customer customer = MembersInLine.remove(0);
+    Customer customer = membersInLine.remove(0);
     addMemberToSitting(customer);
     removeIcons(customer);
-    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size() - 1);
+    return membersSeatedOrWalking.get(membersSeatedOrWalking.size() - 1);
   }
 
   public Customer removeAnyCustomer(Integer customerToRemove) {
     Customer customer = null;
-    if (MembersInLine.size() >= customerToRemove) {
-      customer = MembersInLine.get(customerToRemove);
-      MembersInLine.remove(customerToRemove);
+    if (membersInLine.size() >= customerToRemove) {
+      customer = membersInLine.get(customerToRemove);
+      membersInLine.remove(customerToRemove);
       addMemberToSitting(customer);
     }
     return customer;
@@ -171,8 +172,8 @@ public class CustomerGroups {
    * @author Felix Seanor
    */
   public int SeeIfDishIsCorrect(ItemEnum item) {
-    for (int i = 0; i < MembersInLine.size(); i++) {
-      if (MembersInLine.get(i).dish == item) {
+    for (int i = 0; i < membersInLine.size(); i++) {
+      if (membersInLine.get(i).dish == item) {
         return i;
       }
     }
@@ -198,15 +199,15 @@ public class CustomerGroups {
    * @author Felix Seanor
    */
   public void updateFrustrationOnSucessfulService() {
-    Frustration += RecoveryValue;
+    frustration += recoveryValue;
   }
 
   public Customer FeedSpecificCustomer(int i) {
-    Customer customer = MembersInLine.remove(i);
+    Customer customer = membersInLine.remove(i);
     addMemberToSitting(customer);
     removeIcons(customer);
 
-    return MembersSeatedOrWalking.get(MembersSeatedOrWalking.size() - 1);
+    return membersSeatedOrWalking.get(membersSeatedOrWalking.size() - 1);
   }
 
   /**
@@ -215,7 +216,7 @@ public class CustomerGroups {
    * @author Felix Seanor
    */
   public void updateSpriteFromInput() {
-    for (Customer customer : Members) {
+    for (Customer customer : members) {
       customer.updateSpriteFromInput(customer.getMove());
     }
 
@@ -232,9 +233,9 @@ public class CustomerGroups {
   public void CheckFrustration(float dt, Consumer<CustomerGroups> CauseLeave,
       Boolean updateFrustration) {
     if (updateFrustration) {
-      Frustration -= dt;
-      if (Frustration <= 0) {
-        for (Customer customer : Members
+      frustration -= dt;
+      if (frustration <= 0) {
+        for (Customer customer : members
         ) {
           customer.foodIcon.isVisible = false;
         }
@@ -253,21 +254,21 @@ public class CustomerGroups {
    */
   public CustomerGroupState SaveState(boolean leaving) {
     CustomerGroupState state = new CustomerGroupState();
-    state.customerPositions = new Vector2[Members.size()];
-    state.customersInGroupOrdering = new int[MembersInLine.size()];
-    state.orders = new ItemEnum[Members.size()];
-    state.Table = table.ID;
-    state.frustration = Frustration;
-    state.CustomerStartID = Members.get(0).customerNumber;
-    state.NumCustomersWalkingToTable = MembersSeatedOrWalking.size();
+    state.customerPositions = new Vector2[members.size()];
+    state.customersInGroupOrdering = new int[membersInLine.size()];
+    state.orders = new ItemEnum[members.size()];
+    state.table = table.ID;
+    state.frustration = frustration;
+    state.CustomerStartID = members.get(0).customerNumber;
+    state.numCustomersWalkingToTable = membersSeatedOrWalking.size();
 
-    for (int i = 0; i < Members.size(); i++) {
-      state.customerPositions[i] = Members.get(i).gameObject.position;
-      state.orders[i] = Members.get(i).dish;
+    for (int i = 0; i < members.size(); i++) {
+      state.customerPositions[i] = members.get(i).gameObject.position;
+      state.orders[i] = members.get(i).dish;
 
     }
 
-    for (int i = 0; i < MembersInLine.size(); i++) {
+    for (int i = 0; i < membersInLine.size(); i++) {
       state.customersInGroupOrdering[i] = i;
     }
 
@@ -278,7 +279,7 @@ public class CustomerGroups {
 
   // get Members
   public List<Customer> getMembers() {
-    return Members;
+    return members;
   }
 
   /**
@@ -287,7 +288,7 @@ public class CustomerGroups {
    * @author Felix Seanor
    */
   public void destroy() {
-    for (Customer cust : Members
+    for (Customer cust : members
     ) {
       cust.Destroy();
     }

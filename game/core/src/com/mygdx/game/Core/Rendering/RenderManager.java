@@ -37,16 +37,16 @@ public class RenderManager {
    * @author Felix Seanor
    */
   public void onRender(SpriteBatch batch) {
-    List<GameObject> LayerOrderedRenderables = new LinkedList<>();
+    List<GameObject> layerOrderedRenderables = new LinkedList<>();
 
-    for (GameObject obj : GameObjectManager.objManager.GameObjects.values()
+    for (GameObject obj : GameObjectManager.objManager.gameObjectHash.values()
     ) {
       if (obj.image != null) {
-        LayerOrderedRenderables.add(obj);
+        layerOrderedRenderables.add(obj);
       }
     }
 
-    Collections.sort(LayerOrderedRenderables, new Comparator<GameObject>() {
+    Collections.sort(layerOrderedRenderables, new Comparator<GameObject>() {
       @Override
       public int compare(GameObject o1, GameObject o2) {
 
@@ -54,7 +54,7 @@ public class RenderManager {
       }
     });
 
-    for (GameObject obj : LayerOrderedRenderables
+    for (GameObject obj : layerOrderedRenderables
     ) {
       obj.render(batch);
     }

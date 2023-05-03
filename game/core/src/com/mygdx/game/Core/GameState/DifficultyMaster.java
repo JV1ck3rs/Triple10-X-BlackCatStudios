@@ -42,26 +42,26 @@ public class DifficultyMaster {
     ChefParams chefParams = new ChefParams();
     CookingParams cookingParams = new CookingParams();
 
-    CCParams.MaxMoney = 1000;
-    CCParams.Reputation = 2;
-    CCParams.MoneyStart = 0;
-    CCParams.MaxCustomersPerWave = 4;
-    CCParams.MinCustomersPerWave = 3;
-    CCParams.MoneyPerCustomer = 10;
-    CCParams.EatingTime = 5;
-    CCParams.OrderTypePermissable = new LinkedList<>();
-    CCParams.FrustrationStart = 60;
+    CCParams.maxMoney = 1000;
+    CCParams.reputation = 2;
+    CCParams.moneyStart = 0;
+    CCParams.maxCustomersPerWave = 4;
+    CCParams.minCustomersPerWave = 3;
+    CCParams.moneyPerCustomer = 10;
+    CCParams.eatingTime = 5;
+    CCParams.orderTypePermissable = new LinkedList<>();
+    CCParams.frustrationStart = 60;
 
-    CCParams.OrderTypePermissable.add(ItemEnum.BakedPotato);
-    CCParams.OrderTypePermissable.add(ItemEnum.TomatoOnionLettuceSalad);
-    CCParams.OrderTypePermissable.add(ItemEnum.Burger);
-    CCParams.OrderTypePermissable.add(ItemEnum.CheesePizza);
+    CCParams.orderTypePermissable.add(ItemEnum.BakedPotato);
+    CCParams.orderTypePermissable.add(ItemEnum.TomatoOnionLettuceSalad);
+    CCParams.orderTypePermissable.add(ItemEnum.Burger);
+    CCParams.orderTypePermissable.add(ItemEnum.CheesePizza);
 
-    chefParams.MoveSpeed = 200;
+    chefParams.moveSpeed = 200;
 
-    cookingParams.CookSpeed = 2;
-    cookingParams.ChopSpeed = 2f;
-    cookingParams.BurnSpeed = 1.5f;
+    cookingParams.cookSpeed = 2;
+    cookingParams.chopspeed = 2f;
+    cookingParams.burnSpeed = 1.5f;
 
     diff.cookingParams = cookingParams;
     diff.ccParams = CCParams;
@@ -78,25 +78,25 @@ public class DifficultyMaster {
     ChefParams chefParams = new ChefParams();
     CookingParams cookingParams = new CookingParams();
 
-    CCParams.MaxMoney = 2000;
-    CCParams.Reputation = 3;
-    CCParams.MoneyStart = 20;
-    CCParams.MaxCustomersPerWave = 4;
-    CCParams.MinCustomersPerWave = 2;
-    CCParams.MoneyPerCustomer = 20;
-    CCParams.EatingTime = 15;
-    CCParams.OrderTypePermissable = new LinkedList<>();
-    CCParams.FrustrationStart = 90;
+    CCParams.maxMoney = 2000;
+    CCParams.reputation = 3;
+    CCParams.moneyStart = 20;
+    CCParams.maxCustomersPerWave = 4;
+    CCParams.minCustomersPerWave = 2;
+    CCParams.moneyPerCustomer = 20;
+    CCParams.eatingTime = 15;
+    CCParams.orderTypePermissable = new LinkedList<>();
+    CCParams.frustrationStart = 90;
 
-    CCParams.OrderTypePermissable.add(ItemEnum.BakedPotato);
-    CCParams.OrderTypePermissable.add(ItemEnum.TomatoOnionLettuceSalad);
-    CCParams.OrderTypePermissable.add(ItemEnum.Burger);
+    CCParams.orderTypePermissable.add(ItemEnum.BakedPotato);
+    CCParams.orderTypePermissable.add(ItemEnum.TomatoOnionLettuceSalad);
+    CCParams.orderTypePermissable.add(ItemEnum.Burger);
 
-    chefParams.MoveSpeed = 250;
+    chefParams.moveSpeed = 250;
 
-    cookingParams.CookSpeed = 1;
-    cookingParams.ChopSpeed = 1f;
-    cookingParams.BurnSpeed = 1f;
+    cookingParams.cookSpeed = 1;
+    cookingParams.chopspeed = 1f;
+    cookingParams.burnSpeed = 1f;
 
     diff.cookingParams = cookingParams;
     diff.ccParams = CCParams;
@@ -112,24 +112,24 @@ public class DifficultyMaster {
     ChefParams chefParams = new ChefParams();
     CookingParams cookingParams = new CookingParams();
 
-    CCParams.MaxMoney = 2000;
-    CCParams.Reputation = 5;
-    CCParams.MoneyStart = 50;
-    CCParams.MaxCustomersPerWave = 2;
-    CCParams.MinCustomersPerWave = 1;
-    CCParams.MoneyPerCustomer = 25;
-    CCParams.EatingTime = 15;
-    CCParams.OrderTypePermissable = new LinkedList<>();
-    CCParams.FrustrationStart = 120;
+    CCParams.maxMoney = 2000;
+    CCParams.reputation = 5;
+    CCParams.moneyStart = 50;
+    CCParams.maxCustomersPerWave = 2;
+    CCParams.minCustomersPerWave = 1;
+    CCParams.moneyPerCustomer = 25;
+    CCParams.eatingTime = 15;
+    CCParams.orderTypePermissable = new LinkedList<>();
+    CCParams.frustrationStart = 120;
 
-    CCParams.OrderTypePermissable.add(ItemEnum.BakedPotato);
-    CCParams.OrderTypePermissable.add(ItemEnum.Burger);
+    CCParams.orderTypePermissable.add(ItemEnum.BakedPotato);
+    CCParams.orderTypePermissable.add(ItemEnum.Burger);
 
-    chefParams.MoveSpeed = 280;
+    chefParams.moveSpeed = 280;
 
-    cookingParams.CookSpeed = .75f;
-    cookingParams.ChopSpeed = .75f;
-    cookingParams.BurnSpeed = .75f;
+    cookingParams.cookSpeed = .75f;
+    cookingParams.chopspeed = .75f;
+    cookingParams.burnSpeed = .75f;
 
     diff.cookingParams = cookingParams;
     diff.ccParams = CCParams;

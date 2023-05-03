@@ -7,7 +7,7 @@ import com.mygdx.game.Core.SFX.soundFrame;
 import com.mygdx.game.Core.SFX.soundFrame.soundsEnum;
 import com.mygdx.game.Items.Item;
 import com.mygdx.game.Items.ItemEnum;
-import com.mygdx.game.RecipeAndComb.RecipeDict;
+import com.mygdx.game.RecipeAndComb.recipeDict;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,7 +23,7 @@ public class ToasterStation extends Station {
   boolean ready;
   public float maxProgress;
   public float progress;
-  public static ArrayList<ItemEnum> ItemWhiteList;
+  public static ArrayList<ItemEnum> itemWhiteList;
 
 
   /**
@@ -37,8 +37,8 @@ public class ToasterStation extends Station {
     super(params);
     ready = false;
     maxProgress = 8;
-    if (ItemWhiteList == null) {
-      ItemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Buns));
+    if (itemWhiteList == null) {
+      itemWhiteList = new ArrayList<>(Arrays.asList(ItemEnum.Buns));
     }
     animation = new GameObject(new BlackTexture("Items/ToasterActive.png"));
     animation.isVisible = false;
@@ -63,7 +63,7 @@ public class ToasterStation extends Station {
     if (this.item != null) {
       return false;
     }
-    if (ItemWhiteList.contains(item.name)) {
+    if (itemWhiteList.contains(item.name)) {
       animation.isVisible = true;
       changeItem(item);
       checkItem();
@@ -85,8 +85,8 @@ public class ToasterStation extends Station {
     returnItem = item;
     deleteItem();
     currentRecipe = null;
-    bubble.isVisible = false;
-    bubble4.isVisible = false;
+    timer.isVisible = false;
+    readyBubble.isVisible = false;
     animation.isVisible = false;
 
     return returnItem;
@@ -148,12 +148,12 @@ public class ToasterStation extends Station {
    * @Author Jack Vickers
    */
   public void checkItem() {
-    if (ItemWhiteList.contains(item.name)) {
-      currentRecipe = RecipeDict.recipes.RecipeMap.get(item.name);
-      bubble.isVisible = true;
+    if (itemWhiteList.contains(item.name)) {
+      currentRecipe = recipeDict.recipes.RecipeMap.get(item.name);
+      timer.isVisible = true;
     } else {
       currentRecipe = null;
-      bubble.isVisible = false;
+      timer.isVisible = false;
     }
   }
 
@@ -167,12 +167,12 @@ public class ToasterStation extends Station {
    * @Author Jack Vickers
    */
   public void Cook(float dt) {
-    ready = currentRecipe.RecipeSteps.get(item.step)
+    ready = currentRecipe.recipeSteps.get(item.step)
         .timeStep(item, dt - stationTimeDecrease, interacted, maxProgress);
 
     if (ready) {
       changeItem(new Item(currentRecipe.endItem));
-      bubble4.isVisible = true;
+      readyBubble.isVisible = true;
       soundFrame.SoundEngine.playSound(soundsEnum.FoodReadyBell);
       checkItem();
       return;
@@ -187,7 +187,7 @@ public class ToasterStation extends Station {
    * @Author Jack Hinton
    */
   public void progressBar() {
-    bubble.image = new BlackTexture("Timer/0" + getProgress() + ".png");
+    timer.image = new BlackTexture("Timer/0" + getProgress() + ".png");
   }
 
 

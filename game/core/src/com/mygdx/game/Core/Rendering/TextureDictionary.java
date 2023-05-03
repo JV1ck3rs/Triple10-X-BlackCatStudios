@@ -13,7 +13,7 @@ public class TextureDictionary {
 
   public static TextureDictionary textures;
 
-  private HashMap<String, Texture> HeldTextures = new HashMap<>();
+  private HashMap<String, Texture> storedTextures = new HashMap<>();
 
 
   /**
@@ -36,13 +36,13 @@ public class TextureDictionary {
    */
   public Texture Get(String path) {
 
-    if (HeldTextures.containsKey(path)) {
-      return HeldTextures.get(path);
+    if (storedTextures.containsKey(path)) {
+      return storedTextures.get(path);
     }
 
     Texture tex = new Texture(path);
 
-    HeldTextures.put(path, tex);
+    storedTextures.put(path, tex);
     return tex;
   }
 

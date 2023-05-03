@@ -11,12 +11,12 @@ import java.util.ArrayList;
  */
 public class Recipe {
 
-  public ArrayList<Step> RecipeSteps = new ArrayList<>();
+  public ArrayList<Step> recipeSteps = new ArrayList<>();
   public ItemEnum endItem;
 
   public Recipe(ItemEnum endItem, ArrayList<Step> stepList) {
     this.endItem = endItem;
-    RecipeSteps.addAll(stepList);
+    recipeSteps.addAll(stepList);
   }
 
 

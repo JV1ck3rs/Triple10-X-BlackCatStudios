@@ -16,11 +16,11 @@ import java.util.PriorityQueue;
  */
 public class Pathfinding {
 
-  int GridX;
-  int GridY;
+  int gridX;
+  int gridY;
   int gridSize;
 
-  OccupationID[] Cells;
+  OccupationID[] cells;
 
 
   /**
@@ -32,7 +32,7 @@ public class Pathfinding {
    * @author Felix Seanor
    */
   private int getIndex(int x, int y) {
-    return x + y * GridX;
+    return x + y * gridX;
   }
 
 
@@ -45,7 +45,7 @@ public class Pathfinding {
    * @author Felix Seanor
    */
   private OccupationID getOccupation(int x, int y) {
-    return Cells[getIndex(x, y)];
+    return cells[getIndex(x, y)];
   }
 
   /**
@@ -83,14 +83,14 @@ public class Pathfinding {
    */
   public Pathfinding(int gridSize, int GridX, int GridY) {
 
-    this.GridX = GridX / gridSize;
-    this.GridY = GridY / gridSize;
+    this.gridX = GridX / gridSize;
+    this.gridY = GridY / gridSize;
     this.gridSize = gridSize;
 
-    Cells = new OccupationID[GridX * GridY];
+    cells = new OccupationID[GridX * GridY];
 
-    for (int i = 0; i < Cells.length; i++) {
-      Cells[i] = OccupationID.Empty;
+    for (int i = 0; i < cells.length; i++) {
+      cells[i] = OccupationID.Empty;
     }
 
   }
@@ -128,7 +128,7 @@ public class Pathfinding {
 
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
-        Cells[getIndex(x + i, y + j)] = OccupationID.Filled;
+        cells[getIndex(x + i, y + j)] = OccupationID.Filled;
       }
     }
 
@@ -144,20 +144,20 @@ public class Pathfinding {
    * @author Felix Seanor
    */
   private boolean LegalMove(int x, int y, int index) {
-    if (!(x >= 0 && x < GridX)) {
+    if (!(x >= 0 && x < gridX)) {
       return false;
     }
-    if (!(y >= 0 && y < GridY)) {
+    if (!(y >= 0 && y < gridY)) {
       return false;
     }
 
-    return Cells[index] == OccupationID.Empty;
+    return cells[index] == OccupationID.Empty;
 
 
   }
 
   /**
-   * Finds a path from x,y to goalX, goalY
+   * Finds a path from x,y to goalX, goalY using A* Pathfinding
    *
    * @param x            x coordinate
    * @param y            y coordinate
@@ -200,6 +200,7 @@ public class Pathfinding {
     float nDist = 0;
     PathfindingCell ncell;
     boolean Found = false;
+    //Expand the frontier and update the found tiles
     while (frontier.size() > 0) {
       cell = frontier.remove();
 
@@ -213,25 +214,25 @@ public class Pathfinding {
         ny = cell.y;
 
         ndex = getIndex(nx, ny);
-
+        //This has generaly been repeated several times for each axis. Just follows rules of A*
         if (LegalMove(nx, ny, ndex)) {
           if (ReachedCells.containsKey(ndex)) {
             ncell = ReachedCells.get(ndex);
-            if (cell.PathCost + 1 < ncell.PathCost) {
+            if (cell.pathCost + 1 < ncell.pathCost) {
               //swap
               ncell.parent = cell;
-              ncell.PathCost = cell.PathCost + 1;
+              ncell.pathCost = cell.pathCost + 1;
             }
           } else {
             ncell = new PathfindingCell(nx, ny, ndex,
-                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.PathCost + 1);
+                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
             ncell.parent = cell;
             frontier.add(ncell);
             ReachedCells.put(ndex, ncell);
           }
         }
       }
-      if (cell.x + 1 < GridX) { // right
+      if (cell.x + 1 < gridX) { // right
         nx = cell.x + 1;
         ny = cell.y;
 
@@ -242,16 +243,16 @@ public class Pathfinding {
 
             ncell = ReachedCells.get(ndex);
 
-            if (cell.PathCost + 1 < ncell.PathCost) {
+            if (cell.pathCost + 1 < ncell.pathCost) {
               //swap
               ncell.parent = cell;
-              ncell.PathCost = cell.PathCost + 1;
+              ncell.pathCost = cell.pathCost + 1;
             }
 
 
           } else {
             ncell = new PathfindingCell(nx, ny, ndex,
-                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.PathCost + 1);
+                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
             ncell.parent = cell;
             frontier.add(ncell);
             ReachedCells.put(ndex, ncell);
@@ -270,23 +271,23 @@ public class Pathfinding {
 
             ncell = ReachedCells.get(ndex);
 
-            if (cell.PathCost + 1 < ncell.PathCost) {
+            if (cell.pathCost + 1 < ncell.pathCost) {
               //swap
               ncell.parent = cell;
-              ncell.PathCost = cell.PathCost + 1;
+              ncell.pathCost = cell.pathCost + 1;
             }
 
 
           } else {
             ncell = new PathfindingCell(nx, ny, ndex,
-                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.PathCost + 1);
+                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
             ncell.parent = cell;
             frontier.add(ncell);
             ReachedCells.put(ndex, ncell);
           }
         }
       }
-      if (cell.y + 1 < GridY) { // up
+      if (cell.y + 1 < gridY) { // up
         nx = cell.x;
         ny = cell.y + 1;
 
@@ -298,16 +299,16 @@ public class Pathfinding {
 
             ncell = ReachedCells.get(ndex);
 
-            if (cell.PathCost + 1 < ncell.PathCost) {
+            if (cell.pathCost + 1 < ncell.pathCost) {
               //swap
               ncell.parent = cell;
-              ncell.PathCost = cell.PathCost + 1;
+              ncell.pathCost = cell.pathCost + 1;
             }
 
 
           } else {
             ncell = new PathfindingCell(nx, ny, ndex,
-                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.PathCost + 1);
+                DistanceTesting(nx, ny, goalX, goalY, distanceTest), cell.pathCost + 1);
             ncell.parent = cell;
             frontier.add(ncell);
             ReachedCells.put(ndex, ncell);

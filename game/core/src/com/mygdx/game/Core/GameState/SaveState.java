@@ -98,16 +98,16 @@ public class SaveState {
       List<GameObject> Stations, List<GameObject> customerCounters,
       List<GameObject> assemblyStations) {
     List<List<ItemState>> itemsOnCounters = new LinkedList<>();
-    List<Boolean> repaired = new LinkedList<>();
+    List<Boolean> broken = new LinkedList<>();
     state.difficulty = difficultyLevel;
-    state.Timer = timer;
+    state.timer = timer;
     state.seconds = seconds;
     for (GameObject station : Stations) {
       Scriptable scriptable = station.GetScript(0);
 
       if (scriptable instanceof Station) {
         itemsOnCounters.add(((Station) scriptable).SaveState());
-        repaired.add(((Station) scriptable).getLocked());
+        broken.add(((Station) scriptable).getLocked());
       }
 
     }
@@ -119,8 +119,8 @@ public class SaveState {
     for (GameObject station : assemblyStations) {
       itemsOnCounters.add(((Station) station.GetScript(0)).SaveState());
     }
-    state.FoodOnCounters = itemsOnCounters;
-    state.RepairState = repaired;
+    state.foodOnCounters = itemsOnCounters;
+    state.repairState = broken;
   }
 
   /**

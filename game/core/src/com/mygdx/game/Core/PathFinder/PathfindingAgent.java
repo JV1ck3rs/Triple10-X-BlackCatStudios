@@ -19,11 +19,9 @@ public class PathfindingAgent extends Scriptable {
   public float speed = 100;
 
   Vector2 prev;
-  public Body b2body;
 
   /**
    * Give this agent a new path
-   *
    * @param newPath
    */
   public void GivePath(List<Vector2> newPath) {
@@ -95,14 +93,14 @@ public class PathfindingAgent extends Scriptable {
 
     Vector2 rayDir = GetMoveDir();
 
-    Vector2 SimulatedPosition = new Vector2(gameObject.position);
-    Vector2 NextPos = new Vector2(path.get(0));
-    RayPoint point = NearestPointOnLine(NextPos, rayDir, SimulatedPosition);
+    Vector2 simulatedPosition = new Vector2(gameObject.position);
+    Vector2 nextPos = new Vector2(path.get(0));
+    RayPoint point = NearestPointOnLine(nextPos, rayDir, simulatedPosition);
     float distT = (float) Math.sqrt(rayDir.dot(rayDir));
 
     //System.out.println(distT + " : " + point.t + point.pos);
     if (Math.floor(point.t * 100) / 100.0 >= Math.floor(distT * 100) / 100.0
-        || NextPos.epsilonEquals(gameObject.position)) {
+        || nextPos.epsilonEquals(gameObject.position)) {
       prev = new Vector2(path.get(0));
       path.remove(0);
     }
@@ -111,15 +109,15 @@ public class PathfindingAgent extends Scriptable {
       return;
     }
 
-    Vector2 Move = new Vector2(path.get(0));
+    Vector2 currentMove = new Vector2(path.get(0));
 
-    Move.sub(gameObject.position);
+    currentMove.sub(gameObject.position);
 
-    if (Move.dot(Move) > speed * dt * speed * dt) {
-      Move = Move.nor().scl(dt * speed);
+    if (currentMove.dot(currentMove) > speed * dt * speed * dt) {
+      currentMove = currentMove.nor().scl(dt * speed);
     }
 
-    gameObject.position.add(Move);
+    gameObject.position.add(currentMove);
     // b2body.setTransform(gameObject.position.x,gameObject.position.y,b2body.getAngle());
 
   }
